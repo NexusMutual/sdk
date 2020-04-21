@@ -3,156 +3,182 @@
     "name": "MakerDAO",
     "address": "0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B",
     "ens": "makerdaomcd.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/makerdao.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/makerdao.png",
+    "github": "https://github.com/makerdao"
   },
   {
     "name": "Uniswap",
     "address": "0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95",
     "ens": "uniswap.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/uniswap.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/uniswap.png",
+    "github": "https://github.com/Uniswap"
   },
   {
     "name": "Compound v2",
     "address": "0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B",
     "ens": "compoundv2.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/compoundv2.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/compoundv2.png",
+    "github": "https://github.com/compound-finance/"
   },
   {
     "name": "Moloch DAO",
     "address": "0x1fd169A4f5c59ACf79d0Fd5d91D1201EF1Bce9f1",
     "ens": "moloch.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/melon.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/melon.png",
+    "github": "https://github.com/MolochVentures"
   },
   {
     "name": "Argent",
     "address": "0xB1dD690Cc9AF7BB1a906A9B5A94F94191cc553Ce",
     "ens": "argent.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/argent.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/argent.png",
+    "github": "https://github.com/argentlabs"
   },
   {
     "name": "Nuo",
     "address": "0x802275979B020F0ec871c5eC1db6e412b72fF20b",
     "ens": "nuo.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/nuo.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/nuo.png",
+    "github": "https://github.com/NuoNetwork"
   },
   {
     "name": "dydx",
     "address": "0x1E0447b19BB6EcFdAe1e4AE1694b0C3659614e4e",
     "ens": "dydx.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/dydx.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/dydx.png",
+    "github": "https://github.com/dydxprotocol"
   },
   {
     "name": "IDEX",
     "address": "0x2a0c0DBEcC7E4D658f48E01e3fA353F44050c208",
     "ens": "idex.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/idex.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/idex.png",
+    "github": "https://github.com/idexio"
   },
   {
     "name": "Gnosis Multi-Sig",
     "address": "0x6e95C8E8557AbC08b46F3c347bA06F8dC012763f",
     "ens": "gnosismultisig.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/gnosis-multisig.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/gnosis-multisig.png",
+    "github": "https://github.com/gnosis/MultiSigWallet"
   },
   {
     "name": "Set Protocol",
     "address": "0x5B67871C3a857dE81A1ca0f9F7945e5670D986Dc",
     "ens": "tokensets.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/tokensets.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/tokensets.png",
+    "github": "https://github.com/SetProtocol"
   },
   {
     "name": "0x v3",
     "address": "0xB27F1DB0a7e473304A5a06E54bdf035F671400C0",
     "ens": "0x.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/0x.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/0x.png",
+    "github": "https://github.com/0xProject"
   },
   {
     "name": "DDEX",
     "address": "0x241e82C79452F51fbfc89Fac6d912e021dB1a3B7",
     "ens": "ddex.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/ddex.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/ddex.png",
+    "github": "https://github.com/HydroProtocol"
   },
   {
     "name": "Tornado Cash",
     "address": "0x12D66f87A04A9E220743712cE6d9bB1B5616B8Fc",
     "ens": "tornado.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/tornado.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/tornado.png",
+    "github": "https://github.com/tornadocash"
   },
   {
     "name": "Gnosis Safe",
     "address": "0x34CfAC646f301356fAa8B21e94227e3583Fe3F5F",
     "ens": "gnosissafe.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/gnosis-safe.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/gnosis-safe.png",
+    "github": "https://github.com/gnosis/safe-contracts"
   },
   {
     "name": "Aave",
     "address": "0xc1D2819CE78f3E15Ee69c6738eB1B400A26e632A",
     "ens": "aave.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/aave.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/aave.png",
+    "github": "https://github.com/aave"
   },
   {
     "name": "PoolTogether",
     "address": "0x932773aE4B661029704e731722CF8129e1B32494",
     "ens": "pooltogether.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/pooltogether.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/pooltogether.png",
+    "github": "https://github.com/pooltogether"
   },
   {
     "name": "Curve",
     "address": "0x79a8C46DeA5aDa233ABaFFD40F3A0A2B1e5A4F27",
     "ens": "curvev2.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/curvev2.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/curvev2.png",
+    "github": "https://github.com/curvefi"
   },
   {
     "name": "iEarn Finance",
     "address": "0x9D25057e62939D3408406975aD75Ffe834DA4cDd",
     "ens": "iearn.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/iearn.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/iearn.png",
+    "github": "https://github.com/iearn-finance"
   },
   {
     "name": "Totle",
     "address": "0x77208a6000691e440026bed1b178ef4661d37426",
     "ens": "",
-    "logo": "https://api.nexusmutual.io/coverables/images/totle.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/totle.png",
+    "github": "https://github.com/TotlePlatform"
   },
   {
     "name": "Paraswap",
     "address": "0xF92C1ad75005E6436B4EE84e88cB23Ed8A290988",
     "ens": "",
-    "logo": "https://api.nexusmutual.io/coverables/images/paraswap.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/paraswap.png",
+    "github": "https://github.com/paraswap"
   },
   {
     "name": "Flexa Staking",
     "address": "0x12f208476F64De6e6f933E55069Ba9596D818e08",
     "ens": "",
-    "logo": "https://api.nexusmutual.io/coverables/images/flexa.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/flexa.png",
+    "github": "https://github.com/flexahq"
   },
   {
     "name": "1Inch Exchange",
     "address": "0x11111254369792b2Ca5d084aB5eEA397cA8fa48B",
     "ens": "1inch.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/1inch.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/1inch.png",
+    "github": "https://github.com/CryptoManiacsZone/1split"
   },
   {
     "name": "Melon Protocol",
     "address": "0x5f9AE054C7F0489888B1ea46824b4B9618f8A711",
     "ens": "melon.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/melon.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/melon.png",
+    "github": "https://github.com/melonproject/protocol"
   },
   {
     "name": "Idle Finance",
     "address": "0x10eC0D497824e342bCB0EDcE00959142aAa766dD",
     "ens": "idlefinance.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/idle.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/idle.png",
+    "github": "https://github.com/bugduino/idle"
   },
   {
     "name": "Opyn",
     "address": "0xb529964F86fbf99a6aA67f72a27e59fA3fa4FEaC",
     "ens": "opyn.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/opyn.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/opyn.png",
+    "github": "https://github.com/opynfinance"
   },
   {
     "name": "Plasm Lockdrop",
     "address": "0x458DaBf1Eff8fCdfbF0896A6Bd1F457c01E2FfD6",
     "ens": "plasm.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/plasm.png"
+    "logo": "https://api.nexusmutual.io/coverables/images/plasm.png",
+    "github": "https://github.com/staketechnologies/Plasm"
   }
 ]

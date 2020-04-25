@@ -44,8 +44,8 @@
     "address": "0x802275979B020F0ec871c5eC1db6e412b72fF20b",
     "ens": "nuo.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/nuo.png",
-    "github": "https://github.com/NuoNetwork"
-    "messari": "",
+    "github": "https://github.com/NuoNetwork",
+    "messari": ""
   },
   {
     "name": "dydx",

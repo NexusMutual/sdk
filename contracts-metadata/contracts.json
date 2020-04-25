@@ -5,7 +5,7 @@
     "ens": "makerdaomcd.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/makerdao.png",
     "github": "https://github.com/makerdao",
-    "messari": "https://messari.io/asset/maker/profile",
+    "messari": "https://messari.io/asset/maker/profile"
   },
   {
     "name": "Uniswap",
@@ -13,7 +13,7 @@
     "ens": "uniswap.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/uniswap.png",
     "github": "https://github.com/Uniswap",
-    "messari": "https://messari.io/asset/uniswap/profile",
+    "messari": "https://messari.io/asset/uniswap/profile"
   },
   {
     "name": "Compound v2",
@@ -21,7 +21,7 @@
     "ens": "compoundv2.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/compoundv2.png",
     "github": "https://github.com/compound-finance/",
-    "messari": "https://messari.io/asset/compound/profile",
+    "messari": "https://messari.io/asset/compound/profile"
   },
   {
     "name": "Moloch DAO",
@@ -29,7 +29,7 @@
     "ens": "moloch.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/moloch.png",
     "github": "https://github.com/MolochVentures",
-    "messari": "https://messari.io/asset/molochdao/profile",
+    "messari": "https://messari.io/asset/molochdao/profile"
   },
   {
     "name": "Argent",
@@ -37,14 +37,14 @@
     "ens": "argent.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/argent.png",
     "github": "https://github.com/argentlabs",
-    "messari": "https://messari.io/organization/argent",
+    "messari": "https://messari.io/organization/argent"
   },
   {
     "name": "Nuo",
     "address": "0x802275979B020F0ec871c5eC1db6e412b72fF20b",
     "ens": "nuo.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/nuo.png",
-    "github": "https://github.com/NuoNetwork",
+    "github": "https://github.com/NuoNetwork"
     "messari": "",
   },
   {
@@ -53,7 +53,7 @@
     "ens": "dydx.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/dydx.png",
     "github": "https://github.com/dydxprotocol",
-    "messari": "https://messari.io/asset/dydx/profile",
+    "messari": "https://messari.io/asset/dydx/profile"
   },
   {
     "name": "IDEX",
@@ -61,7 +61,7 @@
     "ens": "idex.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/idex.png",
     "github": "https://github.com/idexio",
-    "messari": "https://messari.io/asset/aurora-idex/profile",
+    "messari": "https://messari.io/asset/aurora-idex/profile"
   },
   {
     "name": "Gnosis Multi-Sig",
@@ -69,7 +69,7 @@
     "ens": "gnosismultisig.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/gnosis-multisig.png",
     "github": "https://github.com/gnosis/MultiSigWallet",
-    "messari": "https://messari.io/asset/gnosis/profile",
+    "messari": "https://messari.io/asset/gnosis/profile"
   },
   {
     "name": "Set Protocol",
@@ -77,7 +77,7 @@
     "ens": "tokensets.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/tokensets.png",
     "github": "https://github.com/SetProtocol",
-    "messari": "https://messari.io/asset/set-protocol/profile",
+    "messari": "https://messari.io/asset/set-protocol/profile"
   },
   {
     "name": "0x v3",
@@ -85,7 +85,7 @@
     "ens": "0x.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/0x.png",
     "github": "https://github.com/0xProject",
-    "messari": "https://messari.io/asset/0x/profile",
+    "messari": "https://messari.io/asset/0x/profile"
   },
   {
     "name": "DDEX",
@@ -93,7 +93,7 @@
     "ens": "ddex.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/ddex.png",
     "github": "https://github.com/HydroProtocol",
-    "messari": "https://messari.io/asset/dex/profile",
+    "messari": "https://messari.io/asset/dex/profile"
   },
   {
     "name": "Tornado Cash",
@@ -101,7 +101,7 @@
     "ens": "tornado.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/tornado.png",
     "github": "https://github.com/tornadocash",
-    "messari": "",
+    "messari": ""
   },
   {
     "name": "Gnosis Safe",
@@ -109,7 +109,7 @@
     "ens": "gnosissafe.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/gnosis-safe.png",
     "github": "https://github.com/gnosis/safe-contracts",
-    "messari": "https://messari.io/asset/gnosis/profile",
+    "messari": "https://messari.io/asset/gnosis/profile"
   },
   {
     "name": "Aave",
@@ -117,7 +117,7 @@
     "ens": "aave.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/aave.png",
     "github": "https://github.com/aave",
-    "messari": "https://messari.io/asset/ethlend/profile",
+    "messari": "https://messari.io/asset/ethlend/profile"
   },
   {
     "name": "PoolTogether",
@@ -125,7 +125,7 @@
     "ens": "pooltogether.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/pooltogether.png",
     "github": "https://github.com/pooltogether",
-    "messari": "",
+    "messari": ""
   },
   {
     "name": "Curve",
@@ -133,7 +133,7 @@
     "ens": "curvev2.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/curvev2.png",
     "github": "https://github.com/curvefi",
-    "messari": "",
+    "messari": ""
   },
   {
     "name": "iEarn Finance",
@@ -141,7 +141,7 @@
     "ens": "iearn.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/iearn.png",
     "github": "https://github.com/iearn-finance",
-    "messari": "",
+    "messari": ""
   },
   {
     "name": "Totle",
@@ -149,7 +149,7 @@
     "ens": "",
     "logo": "https://api.nexusmutual.io/coverables/images/totle.png",
     "github": "https://github.com/TotlePlatform",
-    "messari": "",
+    "messari": ""
   },
   {
     "name": "Paraswap",
@@ -157,7 +157,7 @@
     "ens": "",
     "logo": "https://api.nexusmutual.io/coverables/images/paraswap.png",
     "github": "https://github.com/paraswap",
-    "messari": "",
+    "messari": ""
   },
   {
     "name": "Flexa Staking",
@@ -165,7 +165,7 @@
     "ens": "",
     "logo": "https://api.nexusmutual.io/coverables/images/flexa.png",
     "github": "https://github.com/flexahq",
-    "messari": "https://messari.io/asset/flexacoin/profile",
+    "messari": "https://messari.io/asset/flexacoin/profile"
   },
   {
     "name": "1Inch Exchange",
@@ -173,7 +173,7 @@
     "ens": "1inch.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/1inch.png",
     "github": "https://github.com/CryptoManiacsZone/1split",
-    "messari": "",
+    "messari": ""
   },
   {
     "name": "Melon Protocol",
@@ -181,7 +181,7 @@
     "ens": "melon.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/melon.png",
     "github": "https://github.com/melonproject/protocol",
-    "messari": "https://messari.io/asset/melon-protocol/profile",
+    "messari": "https://messari.io/asset/melon-protocol/profile"
   },
   {
     "name": "Idle Finance",
@@ -189,7 +189,7 @@
     "ens": "idlefinance.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/idle.png",
     "github": "https://github.com/bugduino/idle",
-    "messari": "",
+    "messari": ""
   },
   {
     "name": "Opyn",
@@ -197,7 +197,7 @@
     "ens": "opyn.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/opyn.png",
     "github": "https://github.com/opynfinance",
-    "messari": "",
+    "messari": ""
   },
   {
     "name": "Plasm Lockdrop",
@@ -205,6 +205,6 @@
     "ens": "plasm.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/plasm.png",
     "github": "https://github.com/staketechnologies/Plasm",
-    "messari": "",
+    "messari": ""
   }
 ]

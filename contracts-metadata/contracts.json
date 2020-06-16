@@ -151,10 +151,10 @@
     "github": "https://github.com/TotlePlatform",
     "messari": ""
   },
-  "0xF92C1ad75005E6436B4EE84e88cB23Ed8A290988": {
+  "0x86969d29F5fd327E1009bA66072BE22DB6017cC6": {
     "name": "Paraswap",
     "dateAdded": 0,
-    "ens": "",
+    "ens": "paraswapv2.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/paraswap.png",
     "github": "https://github.com/paraswap",
     "messari": ""
@@ -206,6 +206,29 @@
     "logo": "https://api.nexusmutual.io/coverables/images/plasm.png",
     "github": "https://github.com/staketechnologies/Plasm",
     "messari": ""
+  },
+  "0x5d22045DAcEAB03B158031eCB7D9d06Fad24609b": {
+    "name": "Diversifi",
+    "dateAdded": 0,
+    "ens": "diversifi.nexusmutual.eth",
+    "logo": "https://api.nexusmutual.io/coverables/images/diversifi.png",
+    "github": "https://github.com/deversifi",
+    "messari": ""
+  },
+  "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f": {
+    "name": "Uniswap V2",
+    "dateAdded": 0,
+    "ens": "uniswapv2.nexusmutual.eth",
+    "logo": "https://api.nexusmutual.io/coverables/images/uniswapv2.png",
+    "github": "https://github.com/Uniswap",
+    "messari": "https://messari.io/asset/uniswap/profile"
+  },
+  "0x9424B1412450D0f8Fc2255FAf6046b98213B76Bd": {
+    "name": "Balancer",
+    "dateAdded": 0,
+    "ens": "balancerv1.nexusmutual.eth",
+    "logo": "https://api.nexusmutual.io/coverables/images/balancer.png",
+    "github": "https://github.com/balancer-labs",
+    "messari": ""
   }
 }
-

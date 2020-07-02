@@ -128,7 +128,7 @@
     "messari": ""
   },
   "0x79a8C46DeA5aDa233ABaFFD40F3A0A2B1e5A4F27": {
-    "name": "Curve",
+    "name": "Curve Stablecoin Pools",
     "dateAdded": "2020-01-01",
     "ens": "curvev2.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/curvev2.png",
@@ -183,10 +183,10 @@
     "github": "https://github.com/melonproject/protocol",
     "messari": "https://messari.io/asset/melon-protocol/profile"
   },
-  "0x10eC0D497824e342bCB0EDcE00959142aAa766dD": {
+  "0x78751b12da02728f467a44eac40f5cbc16bd7934": {
     "name": "Idle Finance",
-    "dateAdded": "2020-01-01",
-    "ens": "idlefinance.nexusmutual.eth",
+    "dateAdded": "2020-06-20",
+    "ens": "idlefinancev3.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/idle.png",
     "github": "https://github.com/bugduino/idle",
     "messari": ""
@@ -238,5 +238,29 @@
     "logo": "https://api.nexusmutual.io/coverables/images/synthetix.png",
     "github": "https://github.com/Synthetixio",
     "messari": "https://messari.io/asset/synthetix/profile"
+  },
+  "0x7fc77b5c7614e1533320ea6ddc2eb61fa00a9714": {
+    "name": "Curve BTC Pools",
+    "dateAdded": "2020-06-25",
+    "ens": "curvebtc.nexusmutual.eth",
+    "logo": "https://api.nexusmutual.io/coverables/images/curvev2.png",
+    "github": "https://github.com/curvefi",
+    "messari": ""
+  },
+    "0xd36132e0c1141b26e62733e018f12eb38a7b7678": {
+    "name": "Ampleforth Tokengeyser",
+    "dateAdded": "2020-06-25",
+    "ens": "amplgeyser.nexusmutual.eth",
+    "logo": "https://api.nexusmutual.io/coverables/images/ampleforth.png",
+    "github": "https://github.com/ampleforth",
+    "messari": "https://messari.io/asset/ampleforth"
+    },
+    "0xe80d347df1209a76dd9d2319d62912ba98c54ddd": {
+    "name": "REN VM",
+    "dateAdded": "2020-06-25",
+    "ens": "renvm.nexusmutual.eth",
+    "logo": "https://api.nexusmutual.io/coverables/images/ren.png",
+    "github": "https://github.com/renproject",
+    "messari": "https://messari.io/asset/ren"
   }
 }

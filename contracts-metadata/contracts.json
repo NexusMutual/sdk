@@ -163,7 +163,7 @@
     "name": "Uniswap v1",
     "dateAdded": "2020-01-01",
     "ens": "uniswap.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/uniswapv1.png",
+    "logo": "https://api.nexusmutual.io/coverables/images/uniswap.png",
     "github": "https://github.com/Uniswap",
     "messari": "https://messari.io/asset/uniswap/profile"
   },
@@ -235,7 +235,7 @@
     "name": "Curve BTC Pools",
     "dateAdded": "2020-06-20",
     "ens": "curvebtc.nexusmutual.eth",
-    "logo": "https://api.nexusmutual.io/coverables/images/curvebtc.png",
+    "logo": "https://api.nexusmutual.io/coverables/images/curvev2.png",
     "github": "https://github.com/curvefi",
     "messari": ""
   },

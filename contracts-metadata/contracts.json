@@ -2,7 +2,8 @@
 "0xF5DCe57282A584D2746FaF1593d3121Fcac444dC":{
   "name": "Compound Sai",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0x8B3d70d628Ebd30D4A2ea82DB95bA2e906c71633":{
   "name": "bZx",
   "dateAdded": "2020-01-01",
@@ -14,19 +15,23 @@
 "0x5504a1d88005236147EC86C62cfb53043bD1276a":{
   "name": "Unknown",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0x4Ddc2D193948926D02f9B1fE9e1daa0718270ED5":{
   "name": "Compound ETH",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0x080bf510FCbF18b91105470639e9561022937712":{
   "name": "0x v2.1",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0x16de59092dAE5CcF4A1E6439D611fd0653f0Bd01":{
   "name": "iearn yDAI v1",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0xAF350211414C5DC176421Ea05423F0cC494261fB":{
   "name": "Saturn DAO Token",
   "dateAdded": "2020-01-01",
@@ -38,15 +43,18 @@
 "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643":{
   "name": "Compound DAI",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0x2157A7894439191e520825fe9399aB8655E0f708":{
   "name": "Uniswap Exchange Template",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2":{
   "name": "Maker Token",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0x6e95C8E8557AbC08b46F3c347bA06F8dC012763f":{
   "name": "Gnosis Multi-sig",
   "dateAdded": "2020-01-01",
@@ -58,15 +66,18 @@
 "0xb1CD6e4153B2a390Cf00A6556b0fC1458C4A5533":{
   "name": "Bancor ETHBNT Token",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0x29fe7D60DdF151E5b52e5FAB4f1325da6b2bD958":{
   "name": "Pool Together DAI",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0x4a57E687b9126435a9B19E4A802113e266AdeBde":{
   "name": "Flexacoin Token",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0x519b70055af55A007110B4Ff99b0eA33071c720a":{
   "name": "dxDAO",
   "dateAdded": "2020-01-01",
@@ -86,7 +97,8 @@
 "0xb7896fce748396EcFC240F5a0d3Cc92ca42D7d84":{
   "name": "Pool Together SAI",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0x932773aE4B661029704e731722CF8129e1B32494":{
   "name": "Pool Together",
   "dateAdded": "2020-01-01",
@@ -106,11 +118,13 @@
 "0x2b591e99afE9f32eAA6214f7B7629768c40Eeb39":{
   "name": "Hex Token",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0x2C4Bd064b998838076fa341A83d007FC2FA50957":{
   "name": "Uniswap V1 MKR Pool",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0x364508A5cA0538d8119D3BF40A284635686C98c4":{
   "name": "dydx Perpetual",
   "dateAdded": "2020-01-01",
@@ -122,11 +136,13 @@
 "0x6B175474E89094C44Da98b954EedeAC495271d0F":{
   "name": "DAI Token",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0xD5D2b9e9bcd172D5fC8521AFd2C98Dd239F5b607":{
   "name": "Unknown",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0x241e82C79452F51fbfc89Fac6d912e021dB1a3B7":{
   "name": "DDEX",
   "dateAdded": "2020-01-01",
@@ -154,11 +170,13 @@
 "0x498b3BfaBE9F73db90D252bCD4Fa9548Cd0Fd981":{
   "name": "Instadapp Registry",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0x448a5065aeBB8E423F0896E6c5D525C040f59af3":{
   "name": "Maker SCD",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0xe80d347DF1209a76DD9d2319d62912ba98C54DDD":{
   "name": "RenVM",
   "dateAdded": "2020-06-20",
@@ -218,7 +236,8 @@
 "0x72338b82800400F5488eCa2B5A37270ba3B7A111":{
   "name": "Paraswap - OLD",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0xc1D2819CE78f3E15Ee69c6738eB1B400A26e632A":{
   "name": "Aave",
   "dateAdded": "2020-01-01",
@@ -230,15 +249,18 @@
 "0x10eC0D497824e342bCB0EDcE00959142aAa766dD":{
   "name": "Idle Finance - OLD",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0x3dfd23A6c5E8BbcFc9581d2E864a68feb6a076d3":{
   "name": "Aave Lending Core",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0x45F783CCE6B7FF23B2ab2D70e416cdb7D6055f51":{
   "name": "Curve fi - OLD",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0x11111254369792b2Ca5d084aB5eEA397cA8fa48B":{
   "name": "1Inch",
   "dateAdded": "2020-01-01",
@@ -250,7 +272,8 @@
 "0xF92C1ad75005E6436B4EE84e88cB23Ed8A290988":{
   "name": "Paraswap OLD",
   "dateAdded": "2020-01-01",
-  "deprecated": true},
+  "deprecated": true
+},
 "0xb529964F86fbf99a6aA67f72a27e59fA3fa4FEaC":{
   "name": "Opyn",
   "dateAdded": "2020-01-01",

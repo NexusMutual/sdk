@@ -129,7 +129,7 @@
     "name":"dydx Perpetual",
     "dateAdded":"2020-01-01",
     "ens":"dydxperpetual.nexusmutual.eth",
-    "logo":"https://api.nexusmutual.io/coverables/images/dydxperpetual.png",
+    "logo":"https://api.nexusmutual.io/coverables/images/dydx.png",
     "github":"https://github.com/dydxprotocol",
     "messari":"https://messari.io/asset/dydx/profile"
   },
@@ -163,7 +163,7 @@
     "name":"Deversifi",
     "dateAdded":"2020-06-20",
     "ens":"diversifi.nexusmutual.eth",
-    "logo":"https://api.nexusmutual.io/coverables/images/diversifi.png",
+    "logo":"https://api.nexusmutual.io/coverables/images/deversifi.png",
     "github":"https://github.com/deversifi",
     "messari":""
   },
@@ -194,7 +194,7 @@
     "messari":"https://messari.io/asset/0x/profile"
   },
   "0x1E0447b19BB6EcFdAe1e4AE1694b0C3659614e4e":{
-    "name":"Dydx",
+    "name":"dydx",
     "dateAdded":"2020-01-01",
     "ens":"dydx.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/dydx.png",

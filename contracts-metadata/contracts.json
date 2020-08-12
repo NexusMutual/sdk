@@ -425,5 +425,29 @@
     "logo": "https://api.nexusmutual.io/coverables/images/bancor.png",
     "github": "https://github.com/bancorprotocol/",
     "messari": "https://messari.io/asset/bancor/profile"
+  },
+  "0x3e532e6222afe9Bcf02DCB87216802c75D5113aE":{
+    "name": "UMA",
+    "dateAdded": "2020-07-30",
+    "ens": "uma.nexusmutual.eth",
+    "logo": "https://api.nexusmutual.io/coverables/images/uma.png",
+    "github": "",
+    "messari": ""
+  },
+  "0x02285AcaafEB533e03A7306C55EC031297df9224":{
+    "name": "dForce Yield Market",
+    "dateAdded": "2020-08-13",
+    "ens": "",
+    "logo": "https://api.nexusmutual.io/coverables/images/dforce.png",
+    "github": "https://github.com/dforce-network/dToken",
+    "messari": ""
+  },
+  "0x0e2298E3B3390e3b945a5456fBf59eCc3f55DA16":{
+    "name": "Yam Finance",
+    "dateAdded": "2020-08-13",
+    "ens": "",
+    "logo": "https://api.nexusmutual.io/coverables/images/yam.png",
+    "github": "https://github.com/yam-finance/yam-protocol",
+    "messari": ""
   }
 }

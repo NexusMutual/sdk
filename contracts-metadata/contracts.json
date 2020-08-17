@@ -23,12 +23,12 @@
     "deprecated":true
   },
   "0x080bf510FCbF18b91105470639e9561022937712":{
-    "name":"0x v2.1",
+    "name":"0x V2.1",
     "dateAdded":"2020-01-01",
     "deprecated":true
   },
   "0x16de59092dAE5CcF4A1E6439D611fd0653f0Bd01":{
-    "name":"iearn yDAI v1",
+    "name":"iearn yDAI V1",
     "dateAdded":"2020-01-01",
     "deprecated":true
   },
@@ -202,7 +202,7 @@
     "messari":"https://messari.io/asset/dydx/profile"
   },
   "0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B":{
-    "name":"Compound v2",
+    "name":"Compound V2",
     "dateAdded":"2020-01-01",
     "ens":"compoundv2.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/compoundv2.png",
@@ -218,7 +218,7 @@
     "messari":"https://messari.io/asset/gnosis/profile"
   },
   "0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95":{
-    "name":"Uniswap v1",
+    "name":"Uniswap V1",
     "dateAdded":"2020-01-01",
     "ens":"uniswap.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/uniswap.png",
@@ -283,7 +283,7 @@
     "messari":""
   },
   "0x9D25057e62939D3408406975aD75Ffe834DA4cDd":{
-    "name":"iEarn Finance",
+    "name":"yearn finance",
     "dateAdded":"2020-01-01",
     "ens":"",
     "logo":"https://api.nexusmutual.io/coverables/images/iearn.png",
@@ -307,28 +307,22 @@
     "messari":"https://messari.io/asset/flexacoin/profile"
   },
   "0x78751B12Da02728F467A44eAc40F5cbc16Bd7934":{
-    "name":"Idle DAI v3",
-    "dateAdded":"2020-06-20",
-    "ens":"idlefinancev3.nexusmutual.eth",
-    "logo":"https://api.nexusmutual.io/coverables/images/idle.png",
-    "github":"https://github.com/bugduino/idle",
-    "messari":""
+    "name": "Idle V3",
+    "dateAdded": "2020-06-20",
+    "deprecated": true
   },
-  "0x7fC77b5c7614E1533320Ea6DDc2Eb61fa00A9714":{
-    "name":"Curve BTC Pools",
-    "dateAdded":"2020-06-20",
-    "ens":"curvebtc.nexusmutual.eth",
-    "logo":"https://api.nexusmutual.io/coverables/images/curve.png",
-    "github":"https://github.com/curvefi",
-    "messari":""
+    "0x7fC77b5c7614E1533320Ea6DDc2Eb61fa00A9714":{
+    "name": "Curve BTC Pools",
+    "dateAdded": "2020-06-20",
+    "deprecated": true
   },
   "0x79a8C46DeA5aDa233ABaFFD40F3A0A2B1e5A4F27":{
-    "name":"Curve Stablecoin Pools",
-    "dateAdded":"2020-06-20",
-    "ens":"curvev2.nexusmutual.eth",
-    "logo":"https://api.nexusmutual.io/coverables/images/curve.png",
-    "github":"https://github.com/curvefi",
-    "messari":""
+    "name": "Curve All Pools (incl staking)",
+    "dateAdded": "2020-06-20",
+    "ens": "curvev2.nexusmutual.eth",
+    "logo": "https://api.nexusmutual.io/coverables/images/curve.png",
+    "github": "https://github.com/curvefi",
+    "messari": ""
   },
   "0x5B67871C3a857dE81A1ca0f9F7945e5670D986Dc":{
     "name":"Set Protocol",
@@ -448,6 +442,14 @@
     "ens": "",
     "logo": "https://api.nexusmutual.io/coverables/images/yam.png",
     "github": "https://github.com/yam-finance/yam-protocol",
+    "messari": ""
+  },
+  "0x3fE7940616e5Bc47b0775a0dccf6237893353bB4":{
+    "name": "Idle V4",
+    "dateAdded": "2020-08-14",
+    "ens": "",
+    "logo": "https://api.nexusmutual.io/coverables/images/idle.png",
+    "github": "https://github.com/bugduino/idle",
     "messari": ""
   }
 }

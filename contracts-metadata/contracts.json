@@ -459,5 +459,13 @@
     "logo": "https://api.nexusmutual.io/coverables/images/mooniswap.svg",
     "github": "https://github.com/CryptoManiacsZone/mooniswap",
     "messari": ""
+  },
+  "0xe20a5c79b39bc8c363f0f49adcfa82c2a01ab64a": {
+    "name": "Keep Network",
+    "dateAdded": "2020-09-28",
+    "ens": "",
+    "logo": "https://api.nexusmutual.io/coverables/images/keep.jpg",
+    "github": "https://github.com/keep-network/",
+    "messari": "https://messari.io/asset/keep-network/profile"
   }
 }

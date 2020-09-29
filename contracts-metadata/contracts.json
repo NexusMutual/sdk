@@ -467,5 +467,13 @@
     "logo": "https://api.nexusmutual.io/coverables/images/tbtc.svg",
     "github": "https://github.com/keep-network/",
     "messari": "https://messari.io/asset/keep-network/profile"
+  },
+  "0xe9778E69a961e64d3cdBB34CF6778281d34667c2": {
+    "name": "NuCypher Worklock",
+    "dateAdded": "2020-09-29",
+    "ens": "",
+    "logo": "https://api.nexusmutual.io/coverables/images/nucypher.svg",
+    "github": "https://github.com/nucypher/",
+    "messari": ""
   }
 }

@@ -461,10 +461,10 @@
     "messari": ""
   },
   "0xe20A5C79b39bC8C363f0f49ADcFa82C2a01ab64a": {
-    "name": "Keep Network",
+    "name": "tBTC Solidity Code",
     "dateAdded": "2020-09-28",
     "ens": "",
-    "logo": "https://api.nexusmutual.io/coverables/images/keep.jpg",
+    "logo": "https://api.nexusmutual.io/coverables/images/tbtc.svg",
     "github": "https://github.com/keep-network/",
     "messari": "https://messari.io/asset/keep-network/profile"
   }

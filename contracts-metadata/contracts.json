@@ -475,5 +475,13 @@
     "logo": "https://api.nexusmutual.io/coverables/images/nucypher.svg",
     "github": "https://github.com/nucypher/",
     "messari": ""
+  },
+  "0x4C39b37f5F20a0695BFDC59cf10bd85a6c4B7c30": {
+    "name": "Akropolis Delphi",
+    "dateAdded": "2020-10-01",
+    "ens": "",
+    "logo": "https://api.nexusmutual.io/coverables/images/akropolis.svg",
+    "github": "https://github.com/akropolisio",
+    "messari": "https://messari.io/asset/akropolis"
   }
 }

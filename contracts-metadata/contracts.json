@@ -461,11 +461,19 @@
     "messari": ""
   },
   "0xe20A5C79b39bC8C363f0f49ADcFa82C2a01ab64a": {
-    "name": "Keep Network",
+    "name": "tBTC Contracts",
     "dateAdded": "2020-09-28",
     "ens": "",
     "logo": "https://api.nexusmutual.io/coverables/images/keep.jpg",
     "github": "https://github.com/keep-network/",
     "messari": "https://messari.io/asset/keep-network/profile"
+  },
+  "0x3A97247DF274a17C59A3bd12735ea3FcDFb49950": {
+    "name": "DODO Exchange",
+    "dateAdded": "2020-10-19",
+    "ens": "",
+    "logo": "https://api.nexusmutual.io/coverables/images/dodo.png",
+    "github": "https://github.com/DODOEX/dodo-smart-contract",
+    "messari": ""
   }
 }

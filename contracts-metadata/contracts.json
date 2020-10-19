@@ -432,7 +432,7 @@
     "name": "dForce Yield Market",
     "dateAdded": "2020-08-13",
     "ens": "",
-    "logo": "https://api.nexusmutual.io/coverables/images/dforce.png",
+    "logo": "https://api.nexusmutual.io/coverables/images/dforce.svg",
     "github": "https://github.com/dforce-network/dToken",
     "messari": ""
   },
@@ -464,9 +464,25 @@
     "name": "tBTC Contracts",
     "dateAdded": "2020-09-28",
     "ens": "",
-    "logo": "https://api.nexusmutual.io/coverables/images/keep.jpg",
+    "logo": "https://api.nexusmutual.io/coverables/images/tbtc.svg",
     "github": "https://github.com/keep-network/",
     "messari": "https://messari.io/asset/keep-network/profile"
+  },
+  "0xe9778E69a961e64d3cdBB34CF6778281d34667c2": {
+    "name": "NuCypher Worklock",
+    "dateAdded": "2020-09-29",
+    "ens": "",
+    "logo": "https://api.nexusmutual.io/coverables/images/nucypher.svg",
+    "github": "https://github.com/nucypher/",
+    "messari": ""
+  },
+  "0x4C39b37f5F20a0695BFDC59cf10bd85a6c4B7c30": {
+    "name": "Akropolis Delphi",
+    "dateAdded": "2020-10-01",
+    "ens": "",
+    "logo": "https://api.nexusmutual.io/coverables/images/akropolis.svg",
+    "github": "https://github.com/akropolisio",
+    "messari": "https://messari.io/asset/akropolis"
   },
   "0x3A97247DF274a17C59A3bd12735ea3FcDFb49950": {
     "name": "DODO Exchange",

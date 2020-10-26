@@ -491,5 +491,13 @@
     "logo": "https://api.nexusmutual.io/coverables/images/dodo.png",
     "github": "https://github.com/DODOEX/dodo-smart-contract",
     "messari": ""
+  },
+  "0x26aaD4D82f6c9FA6E34D8c1067429C986A055872": {
+    "name": "CoFix",
+    "dateAdded": "2020-10-26",
+    "ens": "",
+    "logo": "https://api.nexusmutual.io/coverables/images/cofix.png",
+    "github": "https://github.com/Computable-Finance/CoFiX",
+    "messari": ""
   }
 }

@@ -499,5 +499,29 @@
     "logo": "https://api.nexusmutual.io/coverables/images/cofix.jpg",
     "github": "https://github.com/Computable-Finance/CoFiX",
     "messari": ""
+  },
+  "0xCB876f60399897db24058b2d58D0B9f713175eeF": {
+    "name": "Pool Together V3",
+    "dateAdded": "2020-10-28",
+    "ens": "",
+    "logo": "https://api.nexusmutual.io/coverables/images/pooltogether.png",
+    "github": "https://github.com/pooltogether",
+    "messari": "https://docs.pooltogether.com/security/risks"
+  },
+  "0xa4c8d221d8BB851f83aadd0223a8900A6921A349": {
+    "name": "Set Protocol V2",
+    "dateAdded": "2020-10-28",
+    "ens": "",
+    "logo": "https://api.nexusmutual.io/coverables/images/tokensets.png",
+    "github": "https://github.com/SetProtocol",
+    "messari": "https://messari.io/asset/set-protocol/profile"
+  },
+  "0xB94199866Fe06B535d019C11247D3f921460b91A": {
+    "name": "Yield Protocol",
+    "dateAdded": "2020-10-28",
+    "ens": "",
+    "logo": "https://api.nexusmutual.io/coverables/images/yield.jpg",
+    "github": "https://github.com/yieldprotocol",
+    "messari": ""
   }
 }

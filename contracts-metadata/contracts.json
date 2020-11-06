@@ -523,5 +523,13 @@
     "logo": "https://api.nexusmutual.io/coverables/images/yield.jpg",
     "github": "https://github.com/yieldprotocol",
     "messari": ""
-  }
+  },
+  "0x00000000219ab540356cBB839Cbe05303d7705Fa": {
+    "name": "Eth 2.0",
+    "dateAdded": "2020-11-06",
+    "ens": "",
+    "logo": "https://api.nexusmutual.io/coverables/images/eth2.jpg",
+    "github": "https://github.com/ethereum/eth2.0-specs",
+    "messari": "",
+  },
 }

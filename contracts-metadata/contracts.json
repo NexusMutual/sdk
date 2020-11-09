@@ -479,13 +479,13 @@
     "dateAdded": "2020-11-06",
     "logo": "https://api.nexusmutual.io/coverables/images/eth2.jpg",
     "github": "https://github.com/ethereum/eth2.0-specs",
-    "messari": "",
+    "messari": ""
   },
   "0x878F15ffC8b894A1BA7647c7176E4C01f74e140b": {
     "name": "Hegic",
     "dateAdded": "2020-11-09",
     "logo": "https://api.nexusmutual.io/coverables/images/hegic.png",
     "github": "https://github.com/hegic/contracts-v888",
-    "messari": "",
+    "messari": ""
   }
 }

@@ -7,7 +7,6 @@
   "0x8B3d70d628Ebd30D4A2ea82DB95bA2e906c71633":{
     "name":"bZx",
     "dateAdded":"2020-01-01",
-    "ens":"fulcrum.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/bzx.png",
     "github":"https://github.com/bZxNetwork",
     "messari":""
@@ -35,7 +34,6 @@
   "0xAF350211414C5DC176421Ea05423F0cC494261fB":{
     "name":"Saturn DAO Token",
     "dateAdded":"2020-01-01",
-    "ens":"",
     "logo":"https://api.nexusmutual.io/coverables/images/saturndao.png",
     "github":"",
     "messari":""
@@ -58,7 +56,6 @@
   "0x6e95C8E8557AbC08b46F3c347bA06F8dC012763f":{
     "name":"Gnosis Multi-sig",
     "dateAdded":"2020-01-01",
-    "ens":"gnosismultisig.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/gnosis-multisig.png",
     "github":"https://github.com/gnosis/MultiSigWallet",
     "messari":"https://messari.io/asset/gnosis/profile"
@@ -81,7 +78,6 @@
   "0x519b70055af55A007110B4Ff99b0eA33071c720a":{
     "name":"dxDAO",
     "dateAdded":"2020-01-01",
-    "ens":"",
     "logo":"https://api.nexusmutual.io/coverables/images/dxdao.png",
     "github":"",
     "messari":""
@@ -89,7 +85,6 @@
   "0x802275979B020F0ec871c5eC1db6e412b72fF20b":{
     "name":"Nuo",
     "dateAdded":"2020-01-01",
-    "ens":"nuo.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/nuo.png",
     "github":"https://github.com/NuoNetwork",
     "messari":""
@@ -102,7 +97,6 @@
   "0x932773aE4B661029704e731722CF8129e1B32494":{
     "name":"Pool Together",
     "dateAdded":"2020-01-01",
-    "ens":"pooltogether.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/pooltogether.png",
     "github":"https://github.com/pooltogether",
     "messari":""
@@ -110,7 +104,6 @@
   "0xB1dD690Cc9AF7BB1a906A9B5A94F94191cc553Ce":{
     "name":"Argent",
     "dateAdded":"2020-01-01",
-    "ens":"argent.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/argent.png",
     "github":"https://github.com/argentlabs",
     "messari":"https://messari.io/organization/argent"
@@ -128,7 +121,6 @@
   "0x364508A5cA0538d8119D3BF40A284635686C98c4":{
     "name":"dydx Perpetual",
     "dateAdded":"2020-01-01",
-    "ens":"dydxperpetual.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/dydx.png",
     "github":"https://github.com/dydxprotocol",
     "messari":"https://messari.io/asset/dydx/profile"
@@ -146,7 +138,6 @@
   "0x241e82C79452F51fbfc89Fac6d912e021dB1a3B7":{
     "name":"DDEX",
     "dateAdded":"2020-01-01",
-    "ens":"ddex.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/ddex.png",
     "github":"https://github.com/HydroProtocol",
     "messari":"https://messari.io/asset/dex/profile"
@@ -154,7 +145,6 @@
   "0x12D66f87A04A9E220743712cE6d9bB1B5616B8Fc":{
     "name":"Tornado Cash",
     "dateAdded":"2020-01-01",
-    "ens":"tornado.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/tornado.png",
     "github":"https://github.com/tornadocash",
     "messari":""
@@ -162,7 +152,6 @@
   "0x5d22045DAcEAB03B158031eCB7D9d06Fad24609b":{
     "name":"Deversifi",
     "dateAdded":"2020-06-20",
-    "ens":"diversifi.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/deversifi.png",
     "github":"https://github.com/deversifi",
     "messari":""
@@ -180,7 +169,6 @@
   "0xe80d347DF1209a76DD9d2319d62912ba98C54DDD":{
     "name":"RenVM",
     "dateAdded":"2020-06-20",
-    "ens":"renvm.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/ren.png",
     "github":"https://github.com/renproject",
     "messari":"https://messari.io/asset/ren"
@@ -188,7 +176,6 @@
   "0xB27F1DB0a7e473304A5a06E54bdf035F671400C0":{
     "name":"0x V3",
     "dateAdded":"2020-01-01",
-    "ens":"0x.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/0x.png",
     "github":"https://github.com/0xProject",
     "messari":"https://messari.io/asset/0x/profile"
@@ -196,7 +183,6 @@
   "0x1E0447b19BB6EcFdAe1e4AE1694b0C3659614e4e":{
     "name":"dydx",
     "dateAdded":"2020-01-01",
-    "ens":"dydx.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/dydx.png",
     "github":"https://github.com/dydxprotocol",
     "messari":"https://messari.io/asset/dydx/profile"
@@ -204,7 +190,6 @@
   "0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B":{
     "name":"Compound V2",
     "dateAdded":"2020-01-01",
-    "ens":"compoundv2.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/compoundv2.png",
     "github":"https://github.com/compound-finance/",
     "messari":"https://messari.io/asset/compound/profile"
@@ -212,7 +197,6 @@
   "0x34CfAC646f301356fAa8B21e94227e3583Fe3F5F":{
     "name":"Gnosis Safe",
     "dateAdded":"2020-01-01",
-    "ens":"gnosissafe.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/gnosis-safe.png",
     "github":"https://github.com/gnosis/safe-contracts",
     "messari":"https://messari.io/asset/gnosis/profile"
@@ -220,7 +204,6 @@
   "0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95":{
     "name":"Uniswap V1",
     "dateAdded":"2020-01-01",
-    "ens":"uniswap.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/uniswap.png",
     "github":"https://github.com/Uniswap",
     "messari":"https://messari.io/asset/uniswap/profile"
@@ -228,7 +211,6 @@
   "0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B":{
     "name":"MakerDAO MCD",
     "dateAdded":"2020-01-01",
-    "ens":"makerdaomcd.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/makerdao.png",
     "github":"https://github.com/makerdao",
     "messari":"https://messari.io/asset/maker/profile"
@@ -241,7 +223,6 @@
   "0xc1D2819CE78f3E15Ee69c6738eB1B400A26e632A":{
     "name":"Aave",
     "dateAdded":"2020-01-01",
-    "ens":"aave.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/aave.png",
     "github":"https://github.com/aave",
     "messari":"https://messari.io/asset/ethlend/profile"
@@ -264,7 +245,6 @@
   "0x11111254369792b2Ca5d084aB5eEA397cA8fa48B":{
     "name":"1Inch",
     "dateAdded":"2020-01-01",
-    "ens":"1inch.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/1inch.png",
     "github":"https://github.com/CryptoManiacsZone/1inchProtocol",
     "messari":""
@@ -277,7 +257,6 @@
   "0xb529964F86fbf99a6aA67f72a27e59fA3fa4FEaC":{
     "name":"Opyn",
     "dateAdded":"2020-01-01",
-    "ens":"opyn.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/opyn.png",
     "github":"https://github.com/opynfinance",
     "messari":""
@@ -285,7 +264,6 @@
   "0x9D25057e62939D3408406975aD75Ffe834DA4cDd":{
     "name":"yearn finance",
     "dateAdded":"2020-01-01",
-    "ens":"",
     "logo":"https://api.nexusmutual.io/coverables/images/iearn.png",
     "github":"https://github.com/iearn-finance",
     "messari":""
@@ -293,7 +271,6 @@
   "0x77208a6000691E440026bEd1b178EF4661D37426":{
     "name":"Totle",
     "dateAdded":"2020-01-01",
-    "ens":"",
     "logo":"https://api.nexusmutual.io/coverables/images/totle.png",
     "github":"https://github.com/TotlePlatform",
     "messari":""
@@ -301,7 +278,6 @@
   "0x12f208476F64De6e6f933E55069Ba9596D818e08":{
     "name":"Flexa Staking",
     "dateAdded":"2020-01-01",
-    "ens":"",
     "logo":"https://api.nexusmutual.io/coverables/images/flexa.png",
     "github":"https://github.com/flexahq",
     "messari":"https://messari.io/asset/flexacoin/profile"
@@ -319,7 +295,6 @@
   "0x79a8C46DeA5aDa233ABaFFD40F3A0A2B1e5A4F27":{
     "name": "Curve All Pools (incl staking)",
     "dateAdded": "2020-06-20",
-    "ens": "curvev2.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/curve.png",
     "github": "https://github.com/curvefi",
     "messari": ""
@@ -327,7 +302,6 @@
   "0x5B67871C3a857dE81A1ca0f9F7945e5670D986Dc":{
     "name":"Set Protocol",
     "dateAdded":"2020-01-01",
-    "ens":"tokensets.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/tokensets.png",
     "github":"https://github.com/SetProtocol",
     "messari":"https://messari.io/asset/set-protocol/profile"
@@ -335,7 +309,6 @@
   "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f":{
     "name":"Uniswap V2",
     "dateAdded":"2020-01-01",
-    "ens":"uniswapv2.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/uniswapv2.png",
     "github":"https://github.com/Uniswap",
     "messari":"https://messari.io/asset/uniswap/profile"
@@ -343,7 +316,6 @@
   "0x9424B1412450D0f8Fc2255FAf6046b98213B76Bd":{
     "name":"Balancer",
     "dateAdded":"2020-06-20",
-    "ens":"balancerv1.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/balancer.png",
     "github":"https://github.com/balancer-labs",
     "messari":""
@@ -351,7 +323,6 @@
   "0xD36132E0c1141B26E62733e018f12Eb38A7b7678":{
     "name":"Ampleforth Tokengeyser",
     "dateAdded":"2020-06-20",
-    "ens":"amplgeyser.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/ampleforth.png",
     "github":"https://github.com/ampleforth",
     "messari":"https://messari.io/asset/ampleforth"
@@ -359,7 +330,6 @@
   "0x86969d29F5fd327E1009bA66072BE22DB6017cC6":{
     "name":"Paraswap",
     "dateAdded":"2020-01-01",
-    "ens":"paraswapv2.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/paraswap.png",
     "github":"https://github.com/paraswap",
     "messari":""
@@ -367,7 +337,6 @@
   "0x5f9AE054C7F0489888B1ea46824b4B9618f8A711":{
     "name":"Melon",
     "dateAdded":"2020-06-20",
-    "ens":"melon.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/melon.png",
     "github":"https://github.com/melonproject/protocol",
     "messari":"https://messari.io/asset/melon-protocol/profile"
@@ -375,7 +344,6 @@
   "0x1fd169A4f5c59ACf79d0Fd5d91D1201EF1Bce9f1":{
     "name":"Moloch V1",
     "dateAdded":"2020-01-01",
-    "ens":"moloch.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/moloch.png",
     "github":"https://github.com/MolochVentures",
     "messari":"https://messari.io/asset/molochdao/profile"
@@ -383,7 +351,6 @@
   "0xAFcE80b19A8cE13DEc0739a1aaB7A028d6845Eb3":{
     "name":"mStable",
     "dateAdded":"2020-06-20",
-    "ens":"",
     "logo":"https://api.nexusmutual.io/coverables/images/mstable.png",
     "github":"https://github.com/mstable",
     "messari":""
@@ -391,7 +358,6 @@
   "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F":{
     "name":"Synthetix",
     "dateAdded":"2020-06-20",
-    "ens":"synthetix.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/synthetix.png",
     "github":"https://github.com/Synthetixio",
     "messari":"https://messari.io/asset/synthetix/profile"
@@ -399,7 +365,6 @@
   "0x2a0c0DBEcC7E4D658f48E01e3fA353F44050c208":{
     "name":"IDEX",
     "dateAdded":"2020-01-01",
-    "ens":"idex.nexusmutual.eth",
     "logo":"https://api.nexusmutual.io/coverables/images/idex.png",
     "github":"https://github.com/idexio",
     "messari":"https://messari.io/asset/aurora-idex/profile"
@@ -407,7 +372,6 @@
   "0x9AAb3f75489902f3a48495025729a0AF77d4b11e":{
     "name":"Kyber - Katalyst",
     "dateAdded":"2020-07-07",
-    "ens":"",
     "logo":"https://api.nexusmutual.io/coverables/images/kyber.png",
     "github":"https://github.com/kybernetwork",
     "messari":"https://messari.io/asset/kyber-network/profile"
@@ -415,7 +379,6 @@
   "0x1F573D6Fb3F13d689FF844B4cE37794d79a7FF1C":{
     "name": "Bancor Network",
     "dateAdded": "2020-07-23",
-    "ens": "",
     "logo": "https://api.nexusmutual.io/coverables/images/bancor.png",
     "github": "https://github.com/bancorprotocol/",
     "messari": "https://messari.io/asset/bancor/profile"
@@ -423,7 +386,6 @@
   "0x3e532e6222afe9Bcf02DCB87216802c75D5113aE":{
     "name": "UMA",
     "dateAdded": "2020-07-30",
-    "ens": "uma.nexusmutual.eth",
     "logo": "https://api.nexusmutual.io/coverables/images/uma.png",
     "github": "",
     "messari": ""
@@ -431,7 +393,6 @@
   "0x02285AcaafEB533e03A7306C55EC031297df9224":{
     "name": "dForce Yield Market",
     "dateAdded": "2020-08-13",
-    "ens": "",
     "logo": "https://api.nexusmutual.io/coverables/images/dforce.svg",
     "github": "https://github.com/dforce-network/dToken",
     "messari": ""
@@ -439,7 +400,6 @@
   "0x0e2298E3B3390e3b945a5456fBf59eCc3f55DA16":{
     "name": "Yam Finance",
     "dateAdded": "2020-08-13",
-    "ens": "",
     "logo": "https://api.nexusmutual.io/coverables/images/yam.png",
     "github": "https://github.com/yam-finance/yam-protocol",
     "messari": ""
@@ -447,7 +407,6 @@
   "0x3fE7940616e5Bc47b0775a0dccf6237893353bB4":{
     "name": "Idle V4",
     "dateAdded": "2020-08-14",
-    "ens": "",
     "logo": "https://api.nexusmutual.io/coverables/images/idle.png",
     "github": "https://github.com/bugduino/idle",
     "messari": ""
@@ -455,7 +414,6 @@
   "0x71CD6666064C3A1354a3B4dca5fA1E2D3ee7D303": {
     "name": "Mooniswap",
     "dateAdded": "2020-08-25",
-    "ens": "",
     "logo": "https://api.nexusmutual.io/coverables/images/mooniswap.svg",
     "github": "https://github.com/CryptoManiacsZone/mooniswap",
     "messari": ""
@@ -463,7 +421,6 @@
   "0xe20A5C79b39bC8C363f0f49ADcFa82C2a01ab64a": {
     "name": "tBTC Contracts",
     "dateAdded": "2020-09-28",
-    "ens": "",
     "logo": "https://api.nexusmutual.io/coverables/images/tbtc.svg",
     "github": "https://github.com/keep-network/",
     "messari": "https://messari.io/asset/keep-network/profile"
@@ -471,7 +428,6 @@
   "0xe9778E69a961e64d3cdBB34CF6778281d34667c2": {
     "name": "NuCypher Worklock",
     "dateAdded": "2020-09-29",
-    "ens": "",
     "logo": "https://api.nexusmutual.io/coverables/images/nucypher.svg",
     "github": "https://github.com/nucypher/",
     "messari": ""
@@ -479,7 +435,6 @@
   "0x4C39b37f5F20a0695BFDC59cf10bd85a6c4B7c30": {
     "name": "Akropolis Delphi",
     "dateAdded": "2020-10-01",
-    "ens": "",
     "logo": "https://api.nexusmutual.io/coverables/images/akropolis.svg",
     "github": "https://github.com/akropolisio",
     "messari": "https://messari.io/asset/akropolis"
@@ -487,7 +442,6 @@
   "0x3A97247DF274a17C59A3bd12735ea3FcDFb49950": {
     "name": "DODO Exchange",
     "dateAdded": "2020-10-19",
-    "ens": "",
     "logo": "https://api.nexusmutual.io/coverables/images/dodo.png",
     "github": "https://github.com/DODOEX/dodo-smart-contract",
     "messari": ""
@@ -495,7 +449,6 @@
   "0x26aaD4D82f6c9FA6E34D8c1067429C986A055872": {
     "name": "CoFix",
     "dateAdded": "2020-10-26",
-    "ens": "",
     "logo": "https://api.nexusmutual.io/coverables/images/cofix.jpg",
     "github": "https://github.com/Computable-Finance/CoFiX",
     "messari": ""
@@ -503,7 +456,6 @@
   "0xCB876f60399897db24058b2d58D0B9f713175eeF": {
     "name": "Pool Together V3",
     "dateAdded": "2020-10-28",
-    "ens": "",
     "logo": "https://api.nexusmutual.io/coverables/images/pooltogether.png",
     "github": "https://github.com/pooltogether",
     "messari": "https://docs.pooltogether.com/security/risks"
@@ -511,7 +463,6 @@
   "0xa4c8d221d8BB851f83aadd0223a8900A6921A349": {
     "name": "Set Protocol V2",
     "dateAdded": "2020-10-28",
-    "ens": "",
     "logo": "https://api.nexusmutual.io/coverables/images/tokensets.png",
     "github": "https://github.com/SetProtocol",
     "messari": "https://messari.io/asset/set-protocol/profile"
@@ -519,7 +470,6 @@
   "0xB94199866Fe06B535d019C11247D3f921460b91A": {
     "name": "Yield Protocol",
     "dateAdded": "2020-10-28",
-    "ens": "",
     "logo": "https://api.nexusmutual.io/coverables/images/yield.jpg",
     "github": "https://github.com/yieldprotocol",
     "messari": ""
@@ -527,9 +477,15 @@
   "0x00000000219ab540356cBB839Cbe05303d7705Fa": {
     "name": "Eth 2.0",
     "dateAdded": "2020-11-06",
-    "ens": "",
     "logo": "https://api.nexusmutual.io/coverables/images/eth2.jpg",
     "github": "https://github.com/ethereum/eth2.0-specs",
+    "messari": "",
+  },
+  "0x878F15ffC8b894A1BA7647c7176E4C01f74e140b": {
+    "name": "Hegic",
+    "dateAdded": "2020-11-09",
+    "logo": "https://api.nexusmutual.io/coverables/images/hegic.png",
+    "github": "https://github.com/hegic/contracts-v888",
     "messari": "",
   }
 }

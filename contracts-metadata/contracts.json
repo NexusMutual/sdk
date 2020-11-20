@@ -487,5 +487,12 @@
     "logo": "https://api.nexusmutual.io/coverables/images/hegic.png",
     "github": "https://github.com/hegic/contracts-v888",
     "messari": ""
+  },
+  "0xfA5047c9c78B8877af97BDcb85Db743fD7313d4a": {
+    "name": "Keeper DAO",
+    "dateAdded": "2020-11-19",
+    "logo": "https://api.nexusmutual.io/coverables/images/keeperdao.jpg",
+    "github": "https://github.com/keeperdao/",
+    "messari": "https://github.com/keeperdao/docs/wiki"
   }
 }

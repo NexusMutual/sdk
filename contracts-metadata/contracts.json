@@ -494,5 +494,12 @@
     "logo": "https://api.nexusmutual.io/coverables/images/keeperdao.jpg",
     "github": "https://github.com/keeperdao/",
     "messari": "https://github.com/keeperdao/docs/wiki"
+  },
+  "0x3d5BC3c8d13dcB8bF317092d84783c2697AE9258": {
+    "name": "C.R.E.A.M.",
+    "dateAdded": "2020-11-24",
+    "logo": "https://api.nexusmutual.io/coverables/images/cream.png",
+    "github": "https://github.com/CreamFi",
+    "messari": "https://cream.finance/"
   }
 }

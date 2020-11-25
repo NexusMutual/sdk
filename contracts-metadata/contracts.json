@@ -501,5 +501,12 @@
     "logo": "https://api.nexusmutual.io/coverables/images/cream.png",
     "github": "https://github.com/CreamFi",
     "messari": "https://cream.finance/"
+  },
+  "0x7a9701453249e84fd0d5afe5951e9cbe9ed2e90f": {
+    "name": "TrueFi",
+    "dateAdded": "2020-11-25",
+    "logo": "https://api.nexusmutual.io/coverables/images/truefi.jpg",
+    "github": "https://github.com/trusttoken/truefi-spec",
+    "messari": "https://truefi.io/"
   }
 }

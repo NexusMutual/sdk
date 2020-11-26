@@ -508,5 +508,12 @@
     "logo": "https://api.nexusmutual.io/coverables/images/truefi.jpg",
     "github": "https://github.com/trusttoken/truefi-spec",
     "messari": "https://truefi.io/"
+  },
+  "0x67B66C99D3Eb37Fa76Aa3Ed1ff33E8e39F0b9c7A": {
+    "name": "Alpha Homora",
+    "dateAdded": "2020-11-26",
+    "logo": "https://api.nexusmutual.io/coverables/images/alpha-homora.svg",
+    "github": "https://github.com/AlphaFinanceLab/alphahomora",
+    "messari": "https://homora.alphafinance.io/"
   }
 }

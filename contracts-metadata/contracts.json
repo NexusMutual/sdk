@@ -199,7 +199,7 @@
     "name":"RenVM",
     "type": "contract",
     "dateAdded":"2020-06-20",
-    "logo":"https://api.nexusmutual.io/coverables/images/ren.png",
+    "logo":"https://api.nexusmutual.io/coverables/images/ren.svg",
     "github":"https://github.com/renproject",
     "messari":"https://messari.io/asset/ren"
   },
@@ -369,7 +369,7 @@
     "name":"Balancer",
     "type": "contract",
     "dateAdded":"2020-06-20",
-    "logo":"https://api.nexusmutual.io/coverables/images/balancer.png",
+    "logo":"https://api.nexusmutual.io/coverables/images/balancer.svg",
     "github":"https://github.com/balancer-labs",
     "messari":""
   },
@@ -377,7 +377,7 @@
     "name":"Ampleforth Tokengeyser",
     "type": "contract",
     "dateAdded":"2020-06-20",
-    "logo":"https://api.nexusmutual.io/coverables/images/ampleforth.png",
+    "logo":"https://api.nexusmutual.io/coverables/images/ampleforth.svg",
     "github":"https://github.com/ampleforth",
     "messari":"https://messari.io/asset/ampleforth"
   },
@@ -409,7 +409,7 @@
     "name":"mStable",
     "type": "contract",
     "dateAdded":"2020-06-20",
-    "logo":"https://api.nexusmutual.io/coverables/images/mstable.png",
+    "logo":"https://api.nexusmutual.io/coverables/images/mstable.svg",
     "github":"https://github.com/mstable",
     "messari":""
   },
@@ -417,7 +417,7 @@
     "name":"Synthetix",
     "type": "contract",
     "dateAdded":"2020-06-20",
-    "logo":"https://api.nexusmutual.io/coverables/images/synthetix.png",
+    "logo":"https://api.nexusmutual.io/coverables/images/synthetix.svg",
     "github":"https://github.com/Synthetixio",
     "messari":"https://messari.io/asset/synthetix/profile"
   },

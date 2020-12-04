@@ -258,7 +258,7 @@
     "deprecated":true
   },
   "0xc1D2819CE78f3E15Ee69c6738eB1B400A26e632A":{
-    "name":"Aave",
+    "name":"Aave V1",
     "type": "contract",
     "dateAdded":"2020-01-01",
     "logo":"https://api.nexusmutual.io/coverables/images/aave.png",
@@ -638,5 +638,12 @@
     "type": "custodian",
     "dateAdded": "2020-12-02",
     "logo": "https://api.nexusmutual.io/coverables/images/hodlnaut.svg"
+  },
+  "0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9": {
+    "name": "Aave V2",
+    "type": "contract",
+    "dateAdded": "2020-12-03",
+    "logo": "https://api.nexusmutual.io/coverables/images/aavev2.svg",
+    "github": "https://github.com/aave/protocol-v2"
   }
 }

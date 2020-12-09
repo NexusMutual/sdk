@@ -597,6 +597,20 @@
     "github": "https://github.com/AlphaFinanceLab/alphahomora",
     "messari": "https://homora.alphafinance.io/"
   },
+  "0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9": {
+    "name": "Aave V2",
+    "type": "contract",
+    "dateAdded": "2020-12-03",
+    "logo": "https://api.nexusmutual.io/coverables/images/aavev2.svg",
+    "github": "https://github.com/aave/protocol-v2"
+  },
+  "0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd": {
+    "name": "SushiSwap",
+    "type": "contract",
+    "dateAdded": "2020-12-09",
+    "logo": "https://api.nexusmutual.io/coverables/images/sushiswap.jpg",
+    "github": "https://github.com/sushiswap/sushiswap"
+  },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",
     "site": "https://celsius.network/",
@@ -638,12 +652,5 @@
     "type": "custodian",
     "dateAdded": "2020-12-02",
     "logo": "https://api.nexusmutual.io/coverables/images/hodlnaut.svg"
-  },
-  "0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9": {
-    "name": "Aave V2",
-    "type": "contract",
-    "dateAdded": "2020-12-03",
-    "logo": "https://api.nexusmutual.io/coverables/images/aavev2.svg",
-    "github": "https://github.com/aave/protocol-v2"
   }
 }

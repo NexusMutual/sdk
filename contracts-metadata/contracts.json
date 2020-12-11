@@ -611,6 +611,13 @@
     "logo": "https://api.nexusmutual.io/coverables/images/sushiswap.jpg",
     "github": "https://github.com/sushiswap/sushiswap"
   },
+  "0xedfC81Bf63527337cD2193925f9C0cF2D537AccA": {
+    "name": "Cover Protocol",
+    "type": "contract",
+    "dateAdded": "2020-12-11",
+    "logo": "https://api.nexusmutual.io/coverables/images/cover.png",
+    "github": "https://github.com/CoverProtocol/"
+  },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",
     "site": "https://celsius.network/",

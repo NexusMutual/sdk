@@ -618,6 +618,13 @@
     "logo": "https://api.nexusmutual.io/coverables/images/cover.jpg",
     "github": "https://github.com/CoverProtocol/"
   },
+  "0xA51156F3F1e39d1036Ca4ba4974107A1C1815d1e": {
+    "name": "Perpetual Protocol",
+    "type": "contract",
+    "dateAdded": "2020-12-17",
+    "logo": "https://api.nexusmutual.io/coverables/images/perpetual.jpg",
+    "github": "https://github.com/perpetual-protocol/"
+  },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",
     "site": "https://celsius.network/",

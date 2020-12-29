@@ -625,6 +625,14 @@
     "logo": "https://api.nexusmutual.io/coverables/images/perpetual.jpg",
     "github": "https://github.com/perpetual-protocol/"
   },
+  "0x6354E79F21B56C11f48bcD7c451BE456D7102A36": {
+    "name": "BadgerDAO",
+    "type": "contract",
+    "dateAdded": "2020-12-29",
+    "logo": "https://api.nexusmutual.io/coverables/images/badgerdao.png",
+    "github": "https://github.com/Badger-Finance",
+    "messari": "https://badger.finance/"
+  },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",
     "site": "https://celsius.network/",

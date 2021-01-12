@@ -682,21 +682,21 @@
     "dateAdded": "2021-01-12",
     "logo": "https://api.nexusmutual.io/coverables/images/binance.png"
   },
-  "0xC57d000000000000000000000000000000000008": {
+  "0xc57D000000000000000000000000000000000008": {
     "name": "Coinbase",
     "site": "https://coinbase.com/",
     "type": "custodian",
     "dateAdded": "2021-01-12",
     "logo": "https://api.nexusmutual.io/coverables/images/coinbase.png"
   },
-  "0xC57d000000000000000000000000000000000009": {
+  "0xc57d000000000000000000000000000000000009": {
     "name": "Kraken",
     "site": "https://kraken.com/",
     "type": "custodian",
     "dateAdded": "2021-01-12",
     "logo": "https://api.nexusmutual.io/coverables/images/kraken.png"
   },
-  "0xC57d000000000000000000000000000000000010": {
+  "0xc57d000000000000000000000000000000000010": {
     "name": "Gemini",
     "site": "https://gemini.com/",
     "type": "custodian",

@@ -284,7 +284,7 @@
     "deprecated":true
   },
   "0x11111254369792b2Ca5d084aB5eEA397cA8fa48B":{
-    "name":"1Inch",
+    "name":"1Inch (DEX & Liquidity Pools)",
     "type": "contract",
     "dateAdded":"2020-01-01",
     "logo":"https://api.nexusmutual.io/coverables/images/1inch.png",
@@ -632,6 +632,14 @@
     "logo": "https://api.nexusmutual.io/coverables/images/badgerdao.png",
     "github": "https://github.com/Badger-Finance",
     "messari": "https://badger.finance/"
+  },
+  "0x9abd0b8868546105F6F48298eaDC1D9c82f7f683": {
+    "name": "Notional Finance",
+    "type": "contract",
+    "dateAdded": "2020-12-29",
+    "logo": "https://api.nexusmutual.io/coverables/images/notional.png",
+    "github": "https://github.com/notional-finance",
+    "messari": "https://notional.finance/"
   },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",

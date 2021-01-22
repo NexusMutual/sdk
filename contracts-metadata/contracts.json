@@ -636,13 +636,13 @@
   "0x9abd0b8868546105F6F48298eaDC1D9c82f7f683": {
     "name": "Notional Finance",
     "type": "contract",
-    "dateAdded": "2020-12-29",
+    "dateAdded": "2020-01-18",
     "logo": "https://api.nexusmutual.io/coverables/images/notional.png",
     "github": "https://github.com/notional-finance",
     "messari": "https://notional.finance/"
   },
   "0xE75D77B1865Ae93c7eaa3040B038D7aA7BC02F70": {
-    "name": "Origin USD",
+    "name": "Origin Dollar",
     "type": "contract",
     "dateAdded": "2020-01-22",
     "logo": "https://api.nexusmutual.io/coverables/images/originusd.png",

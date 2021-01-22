@@ -641,6 +641,14 @@
     "github": "https://github.com/notional-finance",
     "messari": "https://notional.finance/"
   },
+  "0xE75D77B1865Ae93c7eaa3040B038D7aA7BC02F70": {
+    "name": "Origin USD",
+    "type": "contract",
+    "dateAdded": "2020-01-22",
+    "logo": "https://api.nexusmutual.io/coverables/images/originusd.png",
+    "github": "https://github.com/OriginProtocol/origin-dollar",
+    "messari": "https://www.ousd.com"
+  },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",
     "site": "https://celsius.network/",

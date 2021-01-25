@@ -64,7 +64,7 @@
     "deprecated":true
   },
   "0x6e95C8E8557AbC08b46F3c347bA06F8dC012763f":{
-    "name":"Gnosis Multi-sig",
+    "name":"Legacy Gnosis MultiSig",
     "type": "contract",
     "dateAdded":"2020-01-01",
     "logo":"https://api.nexusmutual.io/coverables/images/gnosis-multisig.png",

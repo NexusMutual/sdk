@@ -67,7 +67,7 @@
     "name":"Legacy Gnosis MultiSig",
     "type": "contract",
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/gnosis-multisig.png",
+    "logo":"https://api.nexusmutual.io/coverables/images/gnosis-multisig.svg",
     "github":"https://github.com/gnosis/MultiSigWallet",
     "messari":"https://messari.io/asset/gnosis/profile"
   },

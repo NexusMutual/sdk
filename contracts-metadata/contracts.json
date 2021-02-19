@@ -382,7 +382,7 @@
     "messari":"https://messari.io/asset/ampleforth"
   },
   "0x86969d29F5fd327E1009bA66072BE22DB6017cC6":{
-    "name":"Paraswap",
+    "name":"Paraswap V1",
     "type": "contract",
     "dateAdded":"2020-01-01",
     "logo":"https://api.nexusmutual.io/coverables/images/paraswap.png",
@@ -390,7 +390,7 @@
     "messari":""
   },
   "0x5f9AE054C7F0489888B1ea46824b4B9618f8A711":{
-    "name":"Melon",
+    "name":"Melon V1",
     "type": "contract",
     "dateAdded":"2020-06-20",
     "logo":"https://api.nexusmutual.io/coverables/images/melon.png",
@@ -398,7 +398,7 @@
     "messari":"https://messari.io/asset/melon-protocol/profile"
   },
   "0x1fd169A4f5c59ACf79d0Fd5d91D1201EF1Bce9f1":{
-    "name":"Moloch V1",
+    "name":"MolochDAO",
     "type": "contract",
     "dateAdded":"2020-01-01",
     "logo":"https://api.nexusmutual.io/coverables/images/moloch.png",
@@ -422,7 +422,7 @@
     "messari":"https://messari.io/asset/synthetix/profile"
   },
   "0x2a0c0DBEcC7E4D658f48E01e3fA353F44050c208":{
-    "name":"IDEX",
+    "name":"IDEX V1",
     "type": "contract",
     "dateAdded":"2020-01-01",
     "logo":"https://api.nexusmutual.io/coverables/images/idex.png",
@@ -430,7 +430,7 @@
     "messari":"https://messari.io/asset/aurora-idex/profile"
   },
   "0x9AAb3f75489902f3a48495025729a0AF77d4b11e":{
-    "name":"Kyber - Katalyst",
+    "name":"Kyber (Katalyst)",
     "type": "contract",
     "dateAdded":"2020-07-07",
     "logo":"https://api.nexusmutual.io/coverables/images/kyber.png",
@@ -462,12 +462,13 @@
     "messari": ""
   },
   "0x0e2298E3B3390e3b945a5456fBf59eCc3f55DA16":{
-    "name": "Yam Finance",
+    "name": "Yam Finance V1",
     "type": "contract",
     "dateAdded": "2020-08-13",
     "logo": "https://api.nexusmutual.io/coverables/images/yam.png",
     "github": "https://github.com/yam-finance/yam-protocol",
-    "messari": ""
+    "messari": "",
+    "deprecated": "true"
   },
   "0x3fE7940616e5Bc47b0775a0dccf6237893353bB4":{
     "name": "Idle V4",

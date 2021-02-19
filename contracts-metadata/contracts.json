@@ -6,7 +6,7 @@
     "deprecated":true
   },
   "0x8B3d70d628Ebd30D4A2ea82DB95bA2e906c71633":{
-    "name":"bZx",
+    "name":"bZx V1",
     "type": "contract",
     "dateAdded":"2020-01-01",
     "logo":"https://api.nexusmutual.io/coverables/images/bzx.png",
@@ -112,7 +112,7 @@
     "deprecated":true
   },
   "0x932773aE4B661029704e731722CF8129e1B32494":{
-    "name":"Pool Together",
+    "name":"Pool Together V2",
     "type": "contract",
     "dateAdded":"2020-01-01",
     "logo":"https://api.nexusmutual.io/coverables/images/pooltogether.png",
@@ -306,7 +306,7 @@
     "messari":""
   },
   "0x9D25057e62939D3408406975aD75Ffe834DA4cDd":{
-    "name":"yearn finance",
+    "name":"Yearn Finance (all vaults)",
     "type": "contract",
     "dateAdded":"2020-01-01",
     "logo":"https://api.nexusmutual.io/coverables/images/iearn.png",
@@ -366,7 +366,7 @@
     "messari":"https://messari.io/asset/uniswap/profile"
   },
   "0x9424B1412450D0f8Fc2255FAf6046b98213B76Bd":{
-    "name":"Balancer",
+    "name":"Balancer V1",
     "type": "contract",
     "dateAdded":"2020-06-20",
     "logo":"https://api.nexusmutual.io/coverables/images/balancer.svg",
@@ -438,7 +438,7 @@
     "messari":"https://messari.io/asset/kyber-network/profile"
   },
   "0x1F573D6Fb3F13d689FF844B4cE37794d79a7FF1C":{
-    "name": "Bancor Network",
+    "name": "Bancor",
     "type": "contract",
     "dateAdded": "2020-07-23",
     "logo": "https://api.nexusmutual.io/coverables/images/bancor.png",
@@ -486,7 +486,7 @@
     "messari": ""
   },
   "0xe20A5C79b39bC8C363f0f49ADcFa82C2a01ab64a": {
-    "name": "tBTC Contracts",
+    "name": "tBTC Contracts V1",
     "type": "contract",
     "dateAdded": "2020-09-28",
     "logo": "https://api.nexusmutual.io/coverables/images/tbtc.svg",
@@ -574,7 +574,7 @@
     "messari": "https://github.com/keeperdao/docs/wiki"
   },
   "0x3d5BC3c8d13dcB8bF317092d84783c2697AE9258": {
-    "name": "C.R.E.A.M.",
+    "name": "C.R.E.A.M. V1",
     "type": "contract",
     "dateAdded": "2020-11-24",
     "logo": "https://api.nexusmutual.io/coverables/images/cream.png",
@@ -605,14 +605,14 @@
     "github": "https://github.com/aave/protocol-v2"
   },
   "0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd": {
-    "name": "SushiSwap",
+    "name": "SushiSwap V1",
     "type": "contract",
     "dateAdded": "2020-12-09",
     "logo": "https://api.nexusmutual.io/coverables/images/sushiswap.jpg",
     "github": "https://github.com/sushiswap/sushiswap"
   },
   "0xedfC81Bf63527337cD2193925f9C0cF2D537AccA": {
-    "name": "Cover Protocol",
+    "name": "Cover Protocol V1",
     "type": "contract",
     "dateAdded": "2020-12-11",
     "logo": "https://api.nexusmutual.io/coverables/images/cover.jpg",

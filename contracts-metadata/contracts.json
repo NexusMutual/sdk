@@ -650,6 +650,14 @@
     "github": "https://github.com/OriginProtocol/origin-dollar",
     "messari": "https://www.ousd.com"
   },
+  "0x7C06792Af1632E77cb27a558Dc0885338F4Bdf8E": {
+    "name": "Opyn V2",
+    "type": "contract",
+    "dateAdded": "2021-02-25",
+    "logo": "https://api.nexusmutual.io/coverables/images/opyn.png",
+    "github": "https://github.com/opynfinance",
+    "messari": "https://opyn.co"
+  },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",
     "site": "https://celsius.network/",

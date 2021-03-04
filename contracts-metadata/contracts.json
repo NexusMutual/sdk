@@ -658,6 +658,14 @@
     "github": "https://github.com/opynfinance",
     "messari": "https://opyn.co"
   },
+  "0xCC88a9d330da1133Df3A7bD823B95e52511A6962": {
+    "name": "Reflexer",
+    "type": "contract",
+    "dateAdded": "2021-03-04",
+    "logo": "https://api.nexusmutual.io/coverables/images/reflexer.png",
+    "github": "https://github.com/reflexer-labs",
+    "messari": "https://reflexer.finance"
+  },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",
     "site": "https://celsius.network/",

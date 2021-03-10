@@ -666,6 +666,14 @@
     "github": "https://github.com/reflexer-labs",
     "messari": "https://reflexer.finance"
   },
+  "0xa4F1671d3Aee73C05b552d57f2d16d3cfcBd0217": {
+    "name": "Vesper",
+    "type": "contract",
+    "dateAdded": "2021-03-10",
+    "logo": "https://api.nexusmutual.io/coverables/images/vesper.jpeg",
+    "github": "https://github.com/vesperfi",
+    "messari": "https://vesper.finance"
+  },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",
     "site": "https://celsius.network/",

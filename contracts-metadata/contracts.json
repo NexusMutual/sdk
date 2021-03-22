@@ -675,8 +675,8 @@
     "messari": "https://vesper.finance"
   },
   "0x5D9972dD3Ba5602574ABeA6bF9E1713568D49903": {
-		"name": "Benchmark Protocol",
-		"site": "https://benchmarkprotocol.finance/",
+    "name": "Benchmark Protocol",
+    "site": "https://benchmarkprotocol.finance/",
     "type": "contract",
     "dateAdded": "2021-03-22",
     "logo": "https://api.nexusmutual.io/coverables/images/brenchmark-protocol.png",
@@ -745,11 +745,11 @@
     "dateAdded": "2021-01-12",
     "logo": "https://api.nexusmutual.io/coverables/images/kraken.png"
   },
-	"0xc57d000000000000000000000000000000000010": {
-     "name": "Gemini",
-     "site": "https://gemini.com/",
-     "type": "custodian",
-     "dateAdded": "2021-01-12",
-     "logo": "https://api.nexusmutual.io/coverables/images/gemini.png"
-   }
+  "0xc57d000000000000000000000000000000000010": {
+    "name": "Gemini",
+    "site": "https://gemini.com/",
+    "type": "custodian",
+    "dateAdded": "2021-01-12",
+    "logo": "https://api.nexusmutual.io/coverables/images/gemini.png"
+  }
 }

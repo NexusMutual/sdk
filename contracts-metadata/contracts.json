@@ -674,6 +674,14 @@
     "github": "https://github.com/vesperfi",
     "messari": "https://vesper.finance"
   },
+  "0x5D9972dD3Ba5602574ABeA6bF9E1713568D49903": {
+    "name": "Benchmark Protocol",
+    "site": "https://benchmarkprotocol.finance/",
+    "type": "contract",
+    "dateAdded": "2021-03-22",
+    "logo": "https://api.nexusmutual.io/coverables/images/brenchmark-protocol.png",
+    "github": "https://github.com/benchmarkprotocol"
+  },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",
     "site": "https://celsius.network/",

@@ -744,5 +744,12 @@
     "type": "custodian",
     "dateAdded": "2021-01-12",
     "logo": "https://api.nexusmutual.io/coverables/images/kraken.png"
-  }
+  },
+	"0xc57d000000000000000000000000000000000010": {
+     "name": "Gemini",
+     "site": "https://gemini.com/",
+     "type": "custodian",
+     "dateAdded": "2021-01-12",
+     "logo": "https://api.nexusmutual.io/coverables/images/gemini.png"
+   }
 }

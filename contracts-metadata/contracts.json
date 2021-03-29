@@ -674,6 +674,14 @@
     "github": "https://github.com/vesperfi",
     "messari": "https://vesper.finance"
   },
+  "0xB17640796e4c27a39AF51887aff3F8DC0daF9567": {
+    "name": "Stake DAO",
+    "type": "contract",
+    "dateAdded": "2021-03-29",
+    "logo": "https://api.nexusmutual.io/coverables/images/stakeda.png",
+    "github": "https://github.com/StakeDAO",
+    "messari": "https://stakedao.org"
+  },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",
     "site": "https://celsius.network/",

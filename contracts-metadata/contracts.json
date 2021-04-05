@@ -690,6 +690,14 @@
     "github": "https://github.com/StakeDAO",
     "messari": "https://stakedao.org"
   },
+  "0xA39739EF8b0231DbFA0DcdA07d7e29faAbCf4bb2": {
+    "name": "Liquity",
+    "site": "https://liquity.org/",
+    "type": "contract",
+    "dateAdded": "2021-04-05",
+    "logo": "https://api.nexusmutual.io/coverables/images/liquity.jpeg",
+    "github": "https://github.com/liquity"
+  },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",
     "site": "https://celsius.network/",

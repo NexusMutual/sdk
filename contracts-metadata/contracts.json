@@ -767,5 +767,36 @@
     "type": "custodian",
     "dateAdded": "2021-01-12",
     "logo": "https://api.nexusmutual.io/coverables/images/gemini.png"
+  },
+  "0x028171bca77440897b824ca71d1c56cac55b68a3": {
+    "name": "Aave aDAI",
+    "site": "https://aave.com/",
+    "type": "token",
+    "underlyingToken": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+    "dateAdded": "2021-01-12"
+  },
+  "0x5d3a536e4d6dbd6114cc1ead35777bab948e3643": {
+    "name": "Compound cDAI",
+    "type": "token",
+    "underlyingToken": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+    "dateAdded": "2021-01-12"
+  },
+  "0x6c3f90f043a72fa612cbac8115ee7e52bde6e490": {
+    "name": "Curve 3pool LP (3CRV)",
+    "type": "token",
+    "underlyingToken": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+    "dateAdded": "2021-01-12"
+  },
+  "0x103cc17C2B1586e5Cd9BaD308690bCd0BBe54D5e": {
+    "name": "Vesper vETH",
+    "type": "token",
+    "underlyingToken": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+    "dateAdded": "2021-01-12"
+  },
+  "0x0000000000000000000000000000000000000005": {
+    "name": "Yearn yDAI",
+    "type": "token",
+    "underlyingToken": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+    "dateAdded": "2021-01-12"
   }
 }

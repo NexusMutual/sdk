@@ -2091,7 +2091,7 @@
 
   },
   {
-    "address": "0x022c2f18fbb74cfc059dabb7f18662f8e6c08bb8",
+    "address": "0x00c894905D0a9AE9851082b1F778d6eeC8F876CB",
     "code": "CL",
     "smartContractCode": "CL",
     "contractName": "claim1",
@@ -2115,15 +2115,6 @@
         }
       ],
       "name": "changeMasterAddress",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "changePendingClaimStart",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
@@ -2169,119 +2160,6 @@
         {
           "internalType": "uint256",
           "name": "tokens",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "index",
-          "type": "uint256"
-        }
-      ],
-      "name": "getClaimFromNewStart",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "coverId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "claimId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "int8",
-          "name": "voteCA",
-          "type": "int8"
-        },
-        {
-          "internalType": "int8",
-          "name": "voteMV",
-          "type": "int8"
-        },
-        {
-          "internalType": "uint256",
-          "name": "statusnumber",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_claimId",
-          "type": "uint256"
-        }
-      ],
-      "name": "getClaimbyIndex",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "claimId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "status",
-          "type": "uint256"
-        },
-        {
-          "internalType": "int8",
-          "name": "finalVerdict",
-          "type": "int8"
-        },
-        {
-          "internalType": "address",
-          "name": "claimOwner",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "coverId",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "index",
-          "type": "uint256"
-        }
-      ],
-      "name": "getUserClaimByIndex",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "status",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "coverId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "claimId",
           "type": "uint256"
         }
       ],
@@ -2442,6 +2320,7 @@
       "type": "function"
     }
 ]
+
 
   },
   {
@@ -11390,7 +11269,7 @@
 
   },
   {
-    "address": "0xe146bbdabd565384df5a1b32c07143f68106a406",
+    "address": "0x00AA495a1aD64ED74cCf41b2aafe42933751E5cD",
     "code": "QT",
     "smartContractCode": "QT",
     "contractName": "quotation",
@@ -11531,6 +11410,15 @@
       "type": "function"
     },
     {
+      "constant": false,
+      "inputs": [],
+      "name": "freeUpHeldCovers",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "constant": true,
       "inputs": [
         {
@@ -11597,7 +11485,7 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "_of",
+          "name": "coverOwner",
           "type": "address"
         }
       ],
@@ -11605,7 +11493,7 @@
       "outputs": [
         {
           "internalType": "uint256",
-          "name": "withdrawableAmount",
+          "name": "",
           "type": "uint256"
         }
       ],
@@ -11647,26 +11535,6 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_add",
-          "type": "address"
-        },
-        {
-          "internalType": "bool",
-          "name": "status",
-          "type": "bool"
-        }
-      ],
-      "name": "kycVerdict",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -11878,7 +11746,7 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "newAdd",
+          "name": "",
           "type": "address"
         }
       ],
@@ -12015,6 +11883,7 @@
       "type": "function"
     }
 ]
+
 
   },
   {
@@ -14289,7 +14158,7 @@
 
   },
   {
-    "address": "0x0e45a0b3929a8870abdd3e06c74bf1c6e3341107",
+    "address": "0x00a32f76074D394909E74D4564399255144a4207",
     "code": "TF",
     "smartContractCode": "TF",
     "contractName": "tokenFunction",
@@ -14379,7 +14248,7 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "_masterAddress",
+          "name": "masterAddress",
           "type": "address"
         }
       ],
@@ -14387,52 +14256,6 @@
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_of",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_coverId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_lockTime",
-          "type": "uint256"
-        }
-      ],
-      "name": "extendCNEPOff",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_coverId",
-          "type": "uint256"
-        }
-      ],
-      "name": "getLockedCNAgainstCover",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -14445,32 +14268,6 @@
         }
       ],
       "name": "getUserAllLockedCNTokens",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_of",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_coverId",
-          "type": "uint256"
-        }
-      ],
-      "name": "getUserLockedCNTokens",
       "outputs": [
         {
           "internalType": "uint256",
@@ -14504,57 +14301,12 @@
       "type": "function"
     },
     {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "coverNoteAmount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "coverPeriod",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "coverId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "address",
-          "name": "_of",
-          "type": "address"
-        }
-      ],
-      "name": "lockCN",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
       "constant": true,
       "inputs": [],
-      "name": "ms",
+      "name": "master",
       "outputs": [
         {
           "internalType": "contract INXMMaster",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "nxMasterAddress",
-      "outputs": [
-        {
-          "internalType": "address",
           "name": "",
           "type": "address"
         }
@@ -14673,7 +14425,7 @@
       "stateMutability": "nonpayable",
       "type": "function"
     }
-]
+  ]
 
   },
   {

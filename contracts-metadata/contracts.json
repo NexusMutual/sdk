@@ -698,6 +698,13 @@
     "logo": "https://api.nexusmutual.io/coverables/images/liquity.png",
     "github": "https://github.com/liquity"
   },
+  "0x284D7200a0Dabb05ee6De698da10d00df164f61d": {
+    "name": "Harvest Finance",
+    "site": "https://harvest.finance/",
+    "type": "contract",
+    "dateAdded": "2021-04-16",
+    "github": "https://github.com/harvest-finance"
+  },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",
     "site": "https://celsius.network/",

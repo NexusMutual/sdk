@@ -3,7 +3,7 @@
     "address": "0xdc2d359f59f6a26162972c3bd0cfbfd8c9ef43af",
     "code": "CD",
     "smartContractCode": "CD",
-    "contractName": "ClaimData",
+    "contractName": "ClaimsData",
     "contractAbi": [
       {
         "constant": true,

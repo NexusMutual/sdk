@@ -3587,7 +3587,7 @@
     "address": "0xd7c49cee7e9188cca6ad8ff264c1da2e69d4cf3b",
     "code": "NXMTOKEN",
     "smartContractCode": "NXMTOKEN",
-    "contractName": "NXMtoken",
+    "contractName": "NXMToken",
     "contractAbi": [
       {
         "constant": true,
@@ -4112,7 +4112,7 @@
     "address": "0xcafeada4d15bbc7592113d5d5af631b5dcd53dcb",
     "code": "P2",
     "smartContractCode": "P2",
-    "contractName": "pool2",
+    "contractName": "Pool2",
     "contractAbi": [{"inputs":[{"internalType":"address","name":"masterAddress","type":"address"},{"internalType":"address","name":"_dai","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"constant":false,"inputs":[],"name":"changeDependentContractAddress","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"masterAddress","type":"address"}],"name":"changeMasterAddress","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"dai","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"master","outputs":[{"internalType":"contract INXMMaster","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"sendEther","outputs":[],"payable":true,"stateMutability":"payable","type":"function"}]
   },
   {

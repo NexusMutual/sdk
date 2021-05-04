@@ -846,6 +846,13 @@
     "dateAdded": "2021-01-12",
     "logo": "gemini.png"
   },
+  "0xC57d000000000000000000000000000000000011": {
+    "name": "FTX",
+    "site": "https://ftx.com/",
+    "type": "custodian",
+    "dateAdded": "2021-05-04",
+    "logo": "ftx.png"
+  },
   "0x0000000000000000000000000000000000000001": {
     "name": "Anchor",
     "site": "https://anchorprotocol.com ",

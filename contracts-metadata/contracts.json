@@ -851,7 +851,7 @@
     "site": "https://ftx.com/",
     "type": "custodian",
     "dateAdded": "2021-05-04",
-    "logo": "ftx.png"
+    "logo": "ftx.svg"
   },
   "0x0000000000000000000000000000000000000001": {
     "name": "Anchor",

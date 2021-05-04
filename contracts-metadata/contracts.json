@@ -151,7 +151,7 @@
     "type": "protocol",
     "supportedChains": ["ethereum", "starkware"],
     "dateAdded":"2020-01-01",
-    "logo":"dydx.png",
+    "logo":"dydx.svg",
     "github":"https://github.com/dydxprotocol",
     "messari":"https://messari.io/asset/dydx/profile"
   },
@@ -229,7 +229,7 @@
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"dydx.png",
+    "logo":"dydx.svg",
     "github":"https://github.com/dydxprotocol",
     "messari":"https://messari.io/asset/dydx/profile"
   },
@@ -440,7 +440,7 @@
   "0xAFcE80b19A8cE13DEc0739a1aaB7A028d6845Eb3":{
     "name":"mStable",
     "type": "protocol",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "polygon"],
     "dateAdded":"2020-06-20",
     "logo":"mstable.svg",
     "github":"https://github.com/mstable",

@@ -776,6 +776,15 @@
     "logo": "harvest.png",
     "github": "https://github.com/harvest-finance"
   },
+  "0x1F98431c8aD98523631AE4a59f267346ea31F984": {
+    "name": "Uniswap V3",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2021-05-05",
+    "logo": "uniswapv2.svg",
+    "github":"https://github.com/Uniswap/uniswap-v3-core",
+    "messari":"https://messari.io/asset/uniswap/profile"
+  },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",
     "site": "https://celsius.network/",

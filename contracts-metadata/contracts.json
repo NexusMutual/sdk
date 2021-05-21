@@ -8,8 +8,9 @@
   "0x8B3d70d628Ebd30D4A2ea82DB95bA2e906c71633":{
     "name":"bZx V1",
     "type": "protocol",
+    "supportedChains": ["ethereum", "bsc"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/bzx.png",
+    "logo":"bzx.png",
     "github":"https://github.com/bZxNetwork",
     "messari":""
   },
@@ -40,8 +41,9 @@
   "0xAF350211414C5DC176421Ea05423F0cC494261fB":{
     "name":"Saturn DAO Token",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/saturndao.png",
+    "logo":"saturndao.png",
     "github":"",
     "messari":""
   },
@@ -66,8 +68,9 @@
   "0x6e95C8E8557AbC08b46F3c347bA06F8dC012763f":{
     "name":"Legacy Gnosis MultiSig",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/gnosis-multisig.svg",
+    "logo":"gnosis-multisig.svg",
     "github":"https://github.com/gnosis/MultiSigWallet",
     "messari":"https://messari.io/asset/gnosis/profile"
   },
@@ -92,16 +95,18 @@
   "0x519b70055af55A007110B4Ff99b0eA33071c720a":{
     "name":"dxDAO",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/dxdao.png",
+    "logo":"dxdao.png",
     "github":"",
     "messari":""
   },
   "0x802275979B020F0ec871c5eC1db6e412b72fF20b":{
     "name":"Nuo",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/nuo.png",
+    "logo":"nuo.png",
     "github":"https://github.com/NuoNetwork",
     "messari":""
   },
@@ -114,16 +119,18 @@
   "0x932773aE4B661029704e731722CF8129e1B32494":{
     "name":"Pool Together V2",
     "type": "protocol",
+    "supportedChains": ["ethereum", "polygon"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/pooltogether.png",
+    "logo":"pooltogether.png",
     "github":"https://github.com/pooltogether",
     "messari":""
   },
   "0xB1dD690Cc9AF7BB1a906A9B5A94F94191cc553Ce":{
     "name":"Argent",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/argent.png",
+    "logo":"argent.png",
     "github":"https://github.com/argentlabs",
     "messari":"https://messari.io/organization/argent"
   },
@@ -142,9 +149,11 @@
   "0x364508A5cA0538d8119D3BF40A284635686C98c4":{
     "name":"dydx Perpetual",
     "type": "protocol",
+    "supportedChains": ["ethereum", "starkware"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/dydx.png",
+    "logo":"dydx.svg",
     "github":"https://github.com/dydxprotocol",
+    "note": "Includes Layer 2.",
     "messari":"https://messari.io/asset/dydx/profile"
   },
   "0x6B175474E89094C44Da98b954EedeAC495271d0F":{
@@ -162,24 +171,28 @@
   "0x241e82C79452F51fbfc89Fac6d912e021dB1a3B7":{
     "name":"DDEX",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/ddex.png",
+    "logo":"ddex.png",
     "github":"https://github.com/HydroProtocol",
     "messari":"https://messari.io/asset/dex/profile"
   },
   "0x12D66f87A04A9E220743712cE6d9bB1B5616B8Fc":{
     "name":"Tornado Cash",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/tornado.png",
+    "logo":"tornado.png",
     "github":"https://github.com/tornadocash",
     "messari":""
   },
   "0x5d22045DAcEAB03B158031eCB7D9d06Fad24609b":{
     "name":"Deversifi",
     "type": "protocol",
+    "supportedChains": ["ethereum", "starkware"],
     "dateAdded":"2020-06-20",
-    "logo":"https://api.nexusmutual.io/coverables/images/deversifi.png",
+    "logo":"deversifi.png",
+    "note": "Includes Layer 2.",
     "github":"https://github.com/deversifi",
     "messari":""
   },
@@ -198,56 +211,65 @@
   "0xe80d347DF1209a76DD9d2319d62912ba98C54DDD":{
     "name":"RenVM",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-06-20",
-    "logo":"https://api.nexusmutual.io/coverables/images/ren.svg",
+    "logo":"ren.svg",
     "github":"https://github.com/renproject",
+    "note": "Includes Bitcoin and other chain integrations.",
     "messari":"https://messari.io/asset/ren"
   },
   "0xB27F1DB0a7e473304A5a06E54bdf035F671400C0":{
     "name":"0x V3",
     "type": "protocol",
+    "supportedChains": ["ethereum", "bsc"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/0x.png",
+    "logo":"0x.png",
     "github":"https://github.com/0xProject",
     "messari":"https://messari.io/asset/0x/profile"
   },
   "0x1E0447b19BB6EcFdAe1e4AE1694b0C3659614e4e":{
-    "name":"dydx",
+    "name":"dydx Margin",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/dydx.png",
+    "logo":"dydx.svg",
     "github":"https://github.com/dydxprotocol",
+    "note": "Layer 1 only.",
     "messari":"https://messari.io/asset/dydx/profile"
   },
   "0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B":{
     "name":"Compound V2",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/compoundv2.png",
+    "logo":"compoundv2.png",
     "github":"https://github.com/compound-finance/",
     "messari":"https://messari.io/asset/compound/profile"
   },
   "0x34CfAC646f301356fAa8B21e94227e3583Fe3F5F":{
     "name":"Gnosis Safe",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/gnosis-safe.png",
+    "logo":"gnosis-safe.png",
     "github":"https://github.com/gnosis/safe-protocols",
     "messari":"https://messari.io/asset/gnosis/profile"
   },
   "0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95":{
     "name":"Uniswap V1",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/uniswap.png",
+    "logo":"uniswap.png",
     "github":"https://github.com/Uniswap",
     "messari":"https://messari.io/asset/uniswap/profile"
   },
   "0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B":{
     "name":"MakerDAO MCD",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/makerdao.png",
+    "logo":"makerdao.png",
     "github":"https://github.com/makerdao",
     "messari":"https://messari.io/asset/maker/profile"
   },
@@ -260,8 +282,9 @@
   "0xc1D2819CE78f3E15Ee69c6738eB1B400A26e632A":{
     "name":"Aave V1",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/aave.png",
+    "logo":"aave.png",
     "github":"https://github.com/aave",
     "messari":"https://messari.io/asset/ethlend/profile"
   },
@@ -286,8 +309,9 @@
   "0x11111254369792b2Ca5d084aB5eEA397cA8fa48B":{
     "name":"1Inch (DEX & Liquidity Pools)",
     "type": "protocol",
+    "supportedChains": ["ethereum", "bsc"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/1inch.png",
+    "logo":"1inch.svg",
     "github":"https://github.com/CryptoManiacsZone/1inchProtocol",
     "messari":""
   },
@@ -300,32 +324,37 @@
   "0xb529964F86fbf99a6aA67f72a27e59fA3fa4FEaC":{
     "name":"Opyn",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/opyn.png",
+    "logo":"opyn.png",
     "github":"https://github.com/opynfinance",
     "messari":""
   },
   "0x9D25057e62939D3408406975aD75Ffe834DA4cDd":{
     "name":"Yearn Finance (all vaults)",
     "type": "protocol",
+    "supportedChains": ["ethereum", "fantom"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/iearn.png",
+    "logo":"yearn.svg",
     "github":"https://github.com/iearn-finance",
+    "note": "Only covers Yearn contracts, not underlying protocols.",
     "messari":""
   },
   "0x77208a6000691E440026bEd1b178EF4661D37426":{
     "name":"Totle",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/totle.png",
+    "logo":"totle.png",
     "github":"https://github.com/TotlePlatform",
     "messari":""
   },
   "0x12f208476F64De6e6f933E55069Ba9596D818e08":{
     "name":"Flexa Staking",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/flexa.png",
+    "logo":"flexa.png",
     "github":"https://github.com/flexahq",
     "messari":"https://messari.io/asset/flexacoin/profile"
   },
@@ -344,128 +373,145 @@
   "0x79a8C46DeA5aDa233ABaFFD40F3A0A2B1e5A4F27":{
     "name": "Curve All Pools (incl staking)",
     "type": "protocol",
+    "supportedChains": ["ethereum", "polygon", "fantom"],
     "dateAdded": "2020-06-20",
-    "logo": "https://api.nexusmutual.io/coverables/images/curve.png",
+    "logo": "curve.png",
     "github": "https://github.com/curvefi",
+    "note": "Excluding innovation zone.",
     "messari": ""
   },
   "0x5B67871C3a857dE81A1ca0f9F7945e5670D986Dc":{
     "name":"Set Protocol",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/tokensets.png",
+    "logo":"tokensets.svg",
     "github":"https://github.com/SetProtocol",
     "messari":"https://messari.io/asset/set-protocol/profile"
   },
   "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f":{
     "name":"Uniswap V2",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/uniswapv2.png",
+    "logo":"uniswapv2.svg",
     "github":"https://github.com/Uniswap",
     "messari":"https://messari.io/asset/uniswap/profile"
   },
   "0x9424B1412450D0f8Fc2255FAf6046b98213B76Bd":{
     "name":"Balancer V1",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-06-20",
-    "logo":"https://api.nexusmutual.io/coverables/images/balancer.svg",
+    "logo":"balancer.svg",
     "github":"https://github.com/balancer-labs",
     "messari":""
   },
   "0xD36132E0c1141B26E62733e018f12Eb38A7b7678":{
     "name":"Ampleforth Tokengeyser",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-06-20",
-    "logo":"https://api.nexusmutual.io/coverables/images/ampleforth.svg",
+    "logo":"ampleforth.svg",
     "github":"https://github.com/ampleforth",
     "messari":"https://messari.io/asset/ampleforth"
   },
   "0x86969d29F5fd327E1009bA66072BE22DB6017cC6":{
     "name":"Paraswap V1",
     "type": "protocol",
+    "supportedChains": ["ethereum", "bsc", "polygon"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/paraswap.png",
+    "logo":"paraswap.png",
     "github":"https://github.com/paraswap",
     "messari":""
   },
   "0x5f9AE054C7F0489888B1ea46824b4B9618f8A711":{
     "name":"Melon V1",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-06-20",
-    "logo":"https://api.nexusmutual.io/coverables/images/melon.png",
+    "logo":"melon.png",
     "github":"https://github.com/melonproject/protocol",
     "messari":"https://messari.io/asset/melon-protocol/profile"
   },
   "0x1fd169A4f5c59ACf79d0Fd5d91D1201EF1Bce9f1":{
     "name":"MolochDAO",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/moloch.png",
+    "logo":"moloch.png",
     "github":"https://github.com/MolochVentures",
     "messari":"https://messari.io/asset/molochdao/profile"
   },
   "0xAFcE80b19A8cE13DEc0739a1aaB7A028d6845Eb3":{
     "name":"mStable",
     "type": "protocol",
+    "supportedChains": ["ethereum", "polygon"],
     "dateAdded":"2020-06-20",
-    "logo":"https://api.nexusmutual.io/coverables/images/mstable.svg",
+    "logo":"mstable.svg",
     "github":"https://github.com/mstable",
     "messari":""
   },
   "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F":{
     "name":"Synthetix",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-06-20",
-    "logo":"https://api.nexusmutual.io/coverables/images/synthetix.svg",
+    "logo":"synthetix.svg",
     "github":"https://github.com/Synthetixio",
     "messari":"https://messari.io/asset/synthetix/profile"
   },
   "0x2a0c0DBEcC7E4D658f48E01e3fA353F44050c208":{
     "name":"IDEX V1",
     "type": "protocol",
+    "supportedChains": ["ethereum", "bsc"],
     "dateAdded":"2020-01-01",
-    "logo":"https://api.nexusmutual.io/coverables/images/idex.png",
+    "logo":"idex.png",
     "github":"https://github.com/idexio",
     "messari":"https://messari.io/asset/aurora-idex/profile"
   },
   "0x9AAb3f75489902f3a48495025729a0AF77d4b11e":{
     "name":"Kyber (Katalyst)",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded":"2020-07-07",
-    "logo":"https://api.nexusmutual.io/coverables/images/kyber.png",
+    "logo":"kyber.png",
     "github":"https://github.com/kybernetwork",
     "messari":"https://messari.io/asset/kyber-network/profile"
   },
   "0x1F573D6Fb3F13d689FF844B4cE37794d79a7FF1C":{
     "name": "Bancor",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2020-07-23",
-    "logo": "https://api.nexusmutual.io/coverables/images/bancor.png",
+    "logo": "bancor.png",
     "github": "https://github.com/bancorprotocol/",
     "messari": "https://messari.io/asset/bancor/profile"
   },
   "0x3e532e6222afe9Bcf02DCB87216802c75D5113aE":{
     "name": "UMA",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2020-07-30",
-    "logo": "https://api.nexusmutual.io/coverables/images/uma.png",
+    "logo": "uma.png",
     "github": "",
     "messari": ""
   },
   "0x02285AcaafEB533e03A7306C55EC031297df9224":{
     "name": "dForce Yield Market",
     "type": "protocol",
+    "supportedChains": ["ethereum", "bsc"],
     "dateAdded": "2020-08-13",
-    "logo": "https://api.nexusmutual.io/coverables/images/dforce.svg",
+    "logo": "dforce.svg",
     "github": "https://github.com/dforce-network/dToken",
     "messari": ""
   },
   "0x0e2298E3B3390e3b945a5456fBf59eCc3f55DA16":{
     "name": "Yam Finance V1",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2020-08-13",
-    "logo": "https://api.nexusmutual.io/coverables/images/yam.png",
+    "logo": "yam.png",
     "github": "https://github.com/yam-finance/yam-protocol",
     "messari": "",
     "deprecated": "true"
@@ -473,204 +519,233 @@
   "0x3fE7940616e5Bc47b0775a0dccf6237893353bB4":{
     "name": "Idle V4",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2020-08-14",
-    "logo": "https://api.nexusmutual.io/coverables/images/idle.png",
+    "logo": "idle.png",
     "github": "https://github.com/bugduino/idle",
     "messari": ""
   },
   "0x71CD6666064C3A1354a3B4dca5fA1E2D3ee7D303": {
     "name": "Mooniswap",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2020-08-25",
-    "logo": "https://api.nexusmutual.io/coverables/images/mooniswap.svg",
+    "logo": "mooniswap.svg",
     "github": "https://github.com/CryptoManiacsZone/mooniswap",
     "messari": ""
   },
   "0xe20A5C79b39bC8C363f0f49ADcFa82C2a01ab64a": {
     "name": "tBTC Contracts V1",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2020-09-28",
-    "logo": "https://api.nexusmutual.io/coverables/images/tbtc.svg",
+    "logo": "tbtc.svg",
     "github": "https://github.com/keep-network/",
     "messari": "https://messari.io/asset/keep-network/profile"
   },
   "0xe9778E69a961e64d3cdBB34CF6778281d34667c2": {
     "name": "NuCypher Worklock",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2020-09-29",
-    "logo": "https://api.nexusmutual.io/coverables/images/nucypher.svg",
+    "logo": "nucypher.svg",
     "github": "https://github.com/nucypher/",
     "messari": ""
   },
   "0x4C39b37f5F20a0695BFDC59cf10bd85a6c4B7c30": {
     "name": "Akropolis Delphi",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2020-10-01",
-    "logo": "https://api.nexusmutual.io/coverables/images/akropolis.svg",
+    "logo": "akropolis.svg",
     "github": "https://github.com/akropolisio",
     "messari": "https://messari.io/asset/akropolis"
   },
   "0x3A97247DF274a17C59A3bd12735ea3FcDFb49950": {
     "name": "DODO Exchange",
     "type": "protocol",
+    "supportedChains": ["ethereum", "bsc"],
     "dateAdded": "2020-10-19",
-    "logo": "https://api.nexusmutual.io/coverables/images/dodo.png",
+    "logo": "dodo.svg",
     "github": "https://github.com/DODOEX/dodo-smart-protocol",
     "messari": ""
   },
   "0x26aaD4D82f6c9FA6E34D8c1067429C986A055872": {
     "name": "CoFix",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2020-10-26",
-    "logo": "https://api.nexusmutual.io/coverables/images/cofix.jpg",
+    "logo": "cofix.jpg",
     "github": "https://github.com/Computable-Finance/CoFiX",
     "messari": ""
   },
   "0xCB876f60399897db24058b2d58D0B9f713175eeF": {
     "name": "Pool Together V3",
     "type": "protocol",
+    "supportedChains": ["ethereum", "polygon"],
     "dateAdded": "2020-10-28",
-    "logo": "https://api.nexusmutual.io/coverables/images/pooltogether.png",
+    "logo": "pooltogether.png",
     "github": "https://github.com/pooltogether",
     "messari": "https://docs.pooltogether.com/security/risks"
   },
   "0xa4c8d221d8BB851f83aadd0223a8900A6921A349": {
     "name": "Set Protocol V2",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2020-10-28",
-    "logo": "https://api.nexusmutual.io/coverables/images/tokensets.png",
+    "logo": "tokensets.svg",
     "github": "https://github.com/SetProtocol",
     "messari": "https://messari.io/asset/set-protocol/profile"
   },
   "0xB94199866Fe06B535d019C11247D3f921460b91A": {
     "name": "Yield Protocol",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2020-10-28",
-    "logo": "https://api.nexusmutual.io/coverables/images/yield.jpg",
+    "logo": "yield.jpg",
     "github": "https://github.com/yieldprotocol",
     "messari": ""
   },
   "0x00000000219ab540356cBB839Cbe05303d7705Fa": {
     "name": "Eth 2.0",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2020-11-06",
-    "logo": "https://api.nexusmutual.io/coverables/images/eth2.jpg",
+    "logo": "eth2.jpg",
     "github": "https://github.com/ethereum/eth2.0-specs",
     "messari": ""
   },
   "0x878F15ffC8b894A1BA7647c7176E4C01f74e140b": {
     "name": "Hegic",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2020-11-09",
-    "logo": "https://api.nexusmutual.io/coverables/images/hegic.png",
+    "logo": "hegic.png",
     "github": "https://github.com/hegic/protocols-v888",
     "messari": ""
   },
   "0xfA5047c9c78B8877af97BDcb85Db743fD7313d4a": {
     "name": "Keeper DAO",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2020-11-19",
-    "logo": "https://api.nexusmutual.io/coverables/images/keeperdao.jpg",
+    "logo": "keeperdao.jpg",
     "github": "https://github.com/keeperdao/",
     "messari": "https://github.com/keeperdao/docs/wiki"
   },
   "0x3d5BC3c8d13dcB8bF317092d84783c2697AE9258": {
     "name": "C.R.E.A.M. V1",
     "type": "protocol",
+    "supportedChains": ["ethereum", "bsc", "polygon"],
     "dateAdded": "2020-11-24",
-    "logo": "https://api.nexusmutual.io/coverables/images/cream.png",
+    "logo": "cream.png",
     "github": "https://github.com/CreamFi",
+    "note": "Excluding Iron Bank.",
     "messari": "https://cream.finance/"
   },
   "0x7a9701453249e84fd0D5AfE5951e9cBe9ed2E90f": {
     "name": "TrueFi",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2020-11-25",
-    "logo": "https://api.nexusmutual.io/coverables/images/truefi.jpg",
+    "logo": "truefi.jpg",
     "github": "https://github.com/trusttoken/truefi-spec",
     "messari": "https://truefi.io/"
   },
   "0x67B66C99D3Eb37Fa76Aa3Ed1ff33E8e39F0b9c7A": {
     "name": "Alpha Homora V1",
     "type": "protocol",
+    "supportedChains": ["ethereum", "bsc"],
     "dateAdded": "2020-11-26",
-    "logo": "https://api.nexusmutual.io/coverables/images/alpha-homora.jpg",
+    "logo": "alpha-homora.jpg",
     "github": "https://github.com/AlphaFinanceLab/alphahomora",
     "messari": "https://homora.alphafinance.io/"
   },
   "0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9": {
     "name": "Aave V2",
     "type": "protocol",
+    "supportedChains": ["ethereum", "polygon"],
     "dateAdded": "2020-12-03",
-    "logo": "https://api.nexusmutual.io/coverables/images/aavev2.svg",
+    "logo": "aavev2.svg",
+    "note": "Including AMM market.",
     "github": "https://github.com/aave/protocol-v2"
   },
   "0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd": {
     "name": "SushiSwap V1",
     "type": "protocol",
+    "supportedChains": ["ethereum", "bsc", "xdai", "fantom", "polygon"],
     "dateAdded": "2020-12-09",
-    "logo": "https://api.nexusmutual.io/coverables/images/sushiswap.jpg",
+    "logo": "sushiswap.jpg",
+    "note": "Includes AMM, Masterchef V1 and V2. Excludes Kashi Lending.",
     "github": "https://github.com/sushiswap/sushiswap"
   },
   "0xedfC81Bf63527337cD2193925f9C0cF2D537AccA": {
     "name": "Cover Protocol V1",
     "type": "protocol",
+    "supportedChains": ["ethereum", "bsc", "xdai", "fantom", "polygon"],
     "dateAdded": "2020-12-11",
-    "logo": "https://api.nexusmutual.io/coverables/images/cover.jpg",
+    "logo": "cover.jpg",
     "github": "https://github.com/CoverProtocol/"
   },
   "0xA51156F3F1e39d1036Ca4ba4974107A1C1815d1e": {
     "name": "Perpetual Protocol",
     "type": "protocol",
+    "supportedChains": ["ethereum", "xdai"],
     "dateAdded": "2020-12-17",
-    "logo": "https://api.nexusmutual.io/coverables/images/perpetual.jpg",
+    "logo": "perpetual.jpg",
     "github": "https://github.com/perpetual-protocol/"
   },
   "0x6354E79F21B56C11f48bcD7c451BE456D7102A36": {
     "name": "BadgerDAO",
     "type": "protocol",
+    "supportedChains": ["ethereum", "bsc"],
     "dateAdded": "2020-12-29",
-    "logo": "https://api.nexusmutual.io/coverables/images/badgerdao.png",
+    "logo": "badgerdao.png",
     "github": "https://github.com/Badger-Finance",
     "messari": "https://badger.finance/"
   },
   "0x9abd0b8868546105F6F48298eaDC1D9c82f7f683": {
     "name": "Notional Finance",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2021-01-18",
-    "logo": "https://api.nexusmutual.io/coverables/images/notional.png",
+    "logo": "notional.png",
     "github": "https://github.com/notional-finance",
     "messari": "https://notional.finance/"
   },
   "0xE75D77B1865Ae93c7eaa3040B038D7aA7BC02F70": {
     "name": "Origin Dollar",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2021-01-22",
-    "logo": "https://api.nexusmutual.io/coverables/images/originusd.png",
+    "logo": "originusd.svg",
     "github": "https://github.com/OriginProtocol/origin-dollar",
     "messari": "https://www.ousd.com"
   },
   "0x7C06792Af1632E77cb27a558Dc0885338F4Bdf8E": {
     "name": "Opyn V2",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2021-02-25",
-    "logo": "https://api.nexusmutual.io/coverables/images/opyn.png",
+    "logo": "opyn.png",
     "github": "https://github.com/opynfinance",
     "messari": "https://opyn.co"
   },
   "0xCC88a9d330da1133Df3A7bD823B95e52511A6962": {
     "name": "Reflexer",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2021-03-04",
-    "logo": "https://api.nexusmutual.io/coverables/images/reflexer.png",
+    "logo": "reflexer.png",
     "github": "https://github.com/reflexer-labs",
     "messari": "https://reflexer.finance"
   },
   "0xa4F1671d3Aee73C05b552d57f2d16d3cfcBd0217": {
     "name": "Vesper",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2021-03-10",
-    "logo": "https://api.nexusmutual.io/coverables/images/vesper.jpeg",
+    "logo": "vesper.svg",
     "github": "https://github.com/vesperfi",
     "messari": "https://vesper.finance"
   },
@@ -678,15 +753,17 @@
     "name": "Benchmark Protocol",
     "site": "https://benchmarkprotocol.finance/",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2021-03-22",
-    "logo": "https://api.nexusmutual.io/coverables/images/benchmark-protocol.png",
+    "logo": "benchmark-protocol.png",
     "github": "https://github.com/benchmarkprotocol"
   },
   "0xB17640796e4c27a39AF51887aff3F8DC0daF9567": {
     "name": "Stake DAO",
     "type": "protocol",
+    "supportedChains": ["ethereum", "bsc", "polygon"],
     "dateAdded": "2021-03-29",
-    "logo": "https://api.nexusmutual.io/coverables/images/stakedao.png",
+    "logo": "stakedao.png",
     "github": "https://github.com/StakeDAO",
     "messari": "https://stakedao.org"
   },
@@ -694,122 +771,196 @@
     "name": "Liquity",
     "site": "https://liquity.org/",
     "type": "protocol",
+    "supportedChains": ["ethereum"],
     "dateAdded": "2021-04-05",
-    "logo": "https://api.nexusmutual.io/coverables/images/liquity.png",
+    "logo": "liquity.png",
     "github": "https://github.com/liquity"
+  },
+  "0x284D7200a0Dabb05ee6De698da10d00df164f61d": {
+    "name": "Harvest Finance",
+    "site": "https://harvest.finance/",
+    "type": "protocol",
+    "supportedChains": ["ethereum", "bsc"],
+    "dateAdded": "2021-04-16",
+    "logo": "harvest.png",
+    "github": "https://github.com/harvest-finance"
+  },
+  "0x1F98431c8aD98523631AE4a59f267346ea31F984": {
+    "name": "Uniswap V3",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2021-05-05",
+    "logo": "uniswapv2.svg",
+    "github":"https://github.com/Uniswap/uniswap-v3-core",
+    "messari":"https://messari.io/asset/uniswap/profile"
   },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",
     "site": "https://celsius.network/",
     "type": "custodian",
     "dateAdded": "2020-12-02",
-    "logo": "https://api.nexusmutual.io/coverables/images/celsius.svg"
+    "logo": "celsius.svg"
   },
   "0xC57D000000000000000000000000000000000002": {
     "name": "BlockFi",
     "site": "https://blockfi.com/",
     "type": "custodian",
     "dateAdded": "2020-12-02",
-    "logo": "https://api.nexusmutual.io/coverables/images/blockFi.svg"
+    "logo": "blockFi.svg"
   },
   "0xC57d000000000000000000000000000000000003": {
     "name": "Nexo",
     "site": "https://nexo.io/",
     "type": "custodian",
     "dateAdded": "2020-12-02",
-    "logo": "https://api.nexusmutual.io/coverables/images/nexo.svg"
+    "logo": "nexo.svg"
   },
   "0xc57d000000000000000000000000000000000004": {
     "name": "inLock",
     "site": "https://inlock.io/",
     "type": "custodian",
     "dateAdded": "2020-12-02",
-    "logo": "https://api.nexusmutual.io/coverables/images/inlock.png"
+    "logo": "inlock.png"
   },
   "0xC57D000000000000000000000000000000000005": {
     "name": "Ledn",
     "site": "https://ledn.io/",
     "type": "custodian",
     "dateAdded": "2020-12-02",
-    "logo": "https://api.nexusmutual.io/coverables/images/ledn.svg"
+    "logo": "ledn.svg"
   },
   "0xC57d000000000000000000000000000000000006": {
     "name": "Hodlnaut",
     "site": "https://www.hodlnaut.com/",
     "type": "custodian",
     "dateAdded": "2020-12-02",
-    "logo": "https://api.nexusmutual.io/coverables/images/hodlnaut.svg"
+    "logo": "hodlnaut.svg"
   },
   "0xC57d000000000000000000000000000000000007": {
     "name": "Binance",
     "site": "https://binance.com/",
     "type": "custodian",
     "dateAdded": "2021-01-12",
-    "logo": "https://api.nexusmutual.io/coverables/images/binance.png"
+    "logo": "binance.png"
   },
   "0xc57D000000000000000000000000000000000008": {
     "name": "Coinbase",
     "site": "https://coinbase.com/",
     "type": "custodian",
     "dateAdded": "2021-01-12",
-    "logo": "https://api.nexusmutual.io/coverables/images/coinbase.png"
+    "logo": "coinbase.png"
   },
   "0xc57d000000000000000000000000000000000009": {
     "name": "Kraken",
     "site": "https://kraken.com/",
     "type": "custodian",
     "dateAdded": "2021-01-12",
-    "logo": "https://api.nexusmutual.io/coverables/images/kraken.png"
+    "logo": "kraken.png"
   },
   "0xc57d000000000000000000000000000000000010": {
     "name": "Gemini",
     "site": "https://gemini.com/",
     "type": "custodian",
     "dateAdded": "2021-01-12",
-    "logo": "https://api.nexusmutual.io/coverables/images/gemini.png"
+    "logo": "gemini.png"
   },
-  "0x1a1b000000000000000000000000000000000001": {
-    "name": "Aave aDAI",
-    "site": "https://aave.com/",
-    "type": "token",
-    "coveredToken": "0x028171bCA77440897B824Ca71D1c56caC55b68A3",
-    "underlyingToken": "DAI",
-    "dateAdded": "2021-01-12",
-    "logo": "https://assets.coingecko.com/coins/images/14242/small/aDAI.84b6c41f.png?1615528749"
+  "0xC57d000000000000000000000000000000000011": {
+    "name": "FTX",
+    "site": "https://ftx.com/",
+    "type": "custodian",
+    "dateAdded": "2021-05-04",
+    "logo": "ftx.svg"
   },
-  "0x1A1b000000000000000000000000000000000002": {
-    "name": "Compound cDAI",
-    "site": "https://compound.finance/",
-    "type": "token",
-    "coveredToken": "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643",
-    "underlyingToken": "DAI",
-    "dateAdded": "2021-01-12",
-    "logo": "https://assets.coingecko.com/coins/images/9281/small/cDAI.png?1576467585"
+  "0x0000000000000000000000000000000000000001": {
+    "name": "Anchor",
+    "site": "https://anchorprotocol.com ",
+    "supportedChains": ["ethereum", "terra"],
+    "type": "protocol",
+    "dateAdded": "2021-04-26",
+    "note": "Includes Ethereum bridge components.",
+    "logo": "anchor.svg"
   },
-  "0x1A1b000000000000000000000000000000000003": {
-    "name": "Curve 3pool LP (3CRV)",
-    "site": "https://curve.fi/",
-    "type": "token",
-    "coveredToken": "0x6c3f90f043a72fa612cbac8115ee7e52bde6e490",
-    "underlyingToken": "DAI",
-    "dateAdded": "2021-01-12",
-    "logo": "https://assets.coingecko.com/coins/images/12972/small/3pool_128.png?1603948039"
+  "0x0000000000000000000000000000000000000002": {
+    "name": "Bunny",
+    "site": "https://pancakebunny.finance/pool",
+    "supportedChains": ["bsc"],
+    "type": "protocol",
+    "dateAdded": "2021-04-26",
+    "logo": "bunnypancake.svg"
   },
-  "0x1a1B000000000000000000000000000000000004": {
-    "name": "Vesper vETH",
-    "site": "https://vesper.finance/",
-    "coveredToken": "0x103cc17C2B1586e5Cd9BaD308690bCd0BBe54D5e",
-    "underlyingToken": "ETH",
-    "type": "token",
-    "dateAdded": "2021-01-12"
+  "0x0000000000000000000000000000000000000003": {
+    "name": "Venus",
+    "site": "https://venus.io",
+    "supportedChains": ["bsc"],
+    "type": "protocol",
+    "dateAdded": "2021-04-26",
+    "logo": "venus.svg"
   },
-  "0x1a1B000000000000000000000000000000000005": {
+  "0x0000000000000000000000000000000000000004": {
+    "name": "Thorchain",
+    "site": "https://thorchain.org",
+    "supportedChains": ["ethereum"],
+    "type": "protocol",
+    "dateAdded": "2021-04-26",
+    "note": "Includes Bitcoin and other chain integrations.",
+    "logo": "thorchain.svg"
+  },
+  "0x0000000000000000000000000000000000000005": {
+    "name": "Pancakeswap V1",
+    "site": "https://pancakeswap.finance ",
+    "supportedChains": ["bsc"],
+    "type": "protocol",
+    "dateAdded": "2021-04-26",
+    "logo": "pancakeswap.svg"
+  },
+  "0x0000000000000000000000000000000000000006": {
     "name": "Yearn yDAI v2",
     "site": "https://yearn.finance",
     "type": "token",
-    "coveredToken": "0x16de59092dAE5CcF4A1E6439D611fd0653f0Bd01",
+    "symbol": "yDAI",
+    "coveredToken": "0x19D3364A399d251E894aC732651be8B0E4e85001",
     "underlyingToken": "DAI",
-    "dateAdded": "2021-01-12",
-    "logo":"https://api.nexusmutual.io/coverables/images/iearn.png"
+    "dateAdded": "2021-05-25",
+    "logo": "yearn.svg"
+  },
+  "0x0000000000000000000000000000000000000007": {
+    "name": "Yearn yUSDC",
+    "site": "https://yearn.finance",
+    "type": "token",
+    "symbol": "yUSDC",
+    "coveredToken": "0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9",
+    "underlyingToken": "DAI",
+    "dateAdded": "2021-05-25",
+    "logo": "yearn.svg"
+  },
+  "0x0000000000000000000000000000000000000008": {
+    "name": "Yearn ycrvstETH",
+    "site": "https://yearn.finance",
+    "type": "token",
+    "symbol": "ycrvstETH",
+    "coveredToken": "0xdCD90C7f6324cfa40d7169ef80b12031770B4325",
+    "underlyingToken": "ETH",
+    "dateAdded": "2021-05-25",
+    "logo": "yearn.svg"
+  },
+  "0x0000000000000000000000000000000000000009": {
+    "name": "Curve 3pool LP (3CRV)",
+    "site": "https://curve.fi/",
+    "type": "token",
+    "symbol": "3CRV",
+    "coveredToken": "0x6c3f90f043a72fa612cbac8115ee7e52bde6e490",
+    "underlyingToken": "DAI",
+    "dateAdded": "2021-05-25",
+    "logo": "curve-3crv.png"
+  },
+  "0x0000000000000000000000000000000000000010": {
+    "name": "Curve sETH",
+    "site": "https://curve.fi/",
+    "type": "token",
+    "symbol": "crvsETH",
+    "coveredToken": "0xA3D87FffcE63B53E0d54fAa1cc983B7eB0b74A9c",
+    "underlyingToken": "ETH",
+    "dateAdded": "2021-05-25",
+    "logo": "curve.png"
   }
 }

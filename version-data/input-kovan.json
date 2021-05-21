@@ -1,6 +1,6 @@
 [
   {
-    "address": "0x4c27d6a7b2d80ef4faf48f7005694ad223f62480",
+    "address": "0x1a847f98b5fb8ca6745221ae076605c4747f95f9",
     "code": "CD",
     "smartContractCode": "CD",
     "contractName": "claimData",
@@ -2090,7 +2090,7 @@
   ]
   },
   {
-    "address": "0x00c894905D0a9AE9851082b1F778d6eeC8F876CB",
+    "address": "0xa860b59cf5fc6689fa3e9555487d092cdf8dd428",
     "code": "CL",
     "smartContractCode": "CL",
     "contractName": "claim1",
@@ -2321,7 +2321,7 @@
   ]
   },
   {
-    "address": "0x558c49757d9809c179d7f755f3789ec3f9f4dcb6",
+    "address": "0x4df63148c3319af716d9b5a4d42dd36f3cd6a1cd",
     "code": "CR",
     "smartContractCode": "CR",
     "contractName": "claimsReward",
@@ -2650,7 +2650,7 @@
   ]
   },
   {
-    "address": "0xa7c668daefac4edf547972e6ad12160bbac6d38d",
+    "address": "0x018acd893d45119e11fce984bbb0fdf9126f678c",
     "code": "DAI",
     "smartContractCode": "DAI",
     "contractName": "dai",
@@ -3241,7 +3241,7 @@
     ]
   },
   {
-    "address": "0xbdbc9b888b9b41c26cfc7bfab73d867a13204e64",
+    "address": "0xeb6c3da0bb9d653847d232131d51a2305114115b",
     "code": "GV",
     "smartContractCode": "GV",
     "contractName": "Governance",
@@ -4285,7 +4285,7 @@
 
   },
   {
-    "address": "0xe4ec4756d4bad10ab24df53723da4ae5048c6e3f",
+    "address": "0x165df6549bc3f9c5c0b8a5e4be27d027f060c362",
     "code": "MC",
     "smartContractCode": "MC",
     "contractName": "mcr",
@@ -4655,7 +4655,7 @@
   ]
   },
   {
-    "address": "0xd5df5c5a8931b127766afd7956ce28ebde38eb69",
+    "address": "0x0e179bb8d08ef31cecf95c9dcd58d90c2a0b6496",
     "code": "MR",
     "smartContractCode": "MR",
     "contractName": "memberRoles",
@@ -5251,7 +5251,7 @@
     ]
   },
   {
-    "address": "0xfbc253cc606bca58f0f79021a1d710c66cb55692",
+    "address": "0x4d4a22ec8ca221f8767d39c8da628c621dcb05b6",
     "code": "NXMASTER",
     "smartContractCode": "NXMASTER",
     "contractName": "NXMaster",
@@ -5842,7 +5842,7 @@
     ]
   },
   {
-    "address": "0x93052832a374df750fabfa9c761ad5e032301dc6",
+    "address": "0x9e069bc907b8bb2aa1b8003ba80b97bf5050e2fb",
     "code": "NXMTOKEN",
     "smartContractCode": "NXMTOKEN",
     "contractName": "NXMtoken",
@@ -6360,7 +6360,7 @@
     ]
   },
   {
-    "address": "0xf3a9bb732c9a08371ba78da65333ffefeca440df",
+    "address": "0x9f784ebbd91d531f9c880a1d06548be13c641385",
     "code": "P1",
     "smartContractCode": "P1",
     "contractName": "pool1",
@@ -7482,7 +7482,7 @@
   ]
   },
   {
-    "address": "0xd6b8b715f58ff2f94d5bc107c019a212ab1d0a3f",
+    "address": "0xdb6d3828ee17c563b3bd6067a1b314c1ac287be1",
     "code": "PC",
     "smartContractCode": "PC",
     "contractName": "ProposalCategory",
@@ -9547,7 +9547,7 @@
 
   },
   {
-    "address": "0xf11ec96aef1d2982e9efe6cd0bba515278bf5c11",
+    "address": "0x6344d97f0a7ce698f823292fab1fbcfbd3e7ea55",
     "code": "QD",
     "smartContractCode": "QD",
     "contractName": "quotationData",
@@ -10753,7 +10753,7 @@
   ]
   },
   {
-    "address": "0x00AA495a1aD64ED74cCf41b2aafe42933751E5cD",
+    "address": "0x76613032b3740ba876597d69e8aef5f8c3314081",
     "code": "QT",
     "smartContractCode": "QT",
     "contractName": "quotation",
@@ -11293,7 +11293,7 @@
   ]
   },
   {
-    "address": "0xfde7412103e7c911ba0322833c70060d0ec330a3",
+    "address": "0x4674fb99d52d9fe83fa5aa17c68e5e6405acfeab",
     "code": "TC",
     "smartContractCode": "TC",
     "contractName": "tokenController",
@@ -12346,7 +12346,7 @@
   ]
   },
   {
-    "address": "0xd129bac519e3042d135efbc0b55294ffd2e992be",
+    "address": "0x5e0aa09366ce5092bbec7299c0e47194a6d5ebc5",
     "code": "TD",
     "smartContractCode": "TD",
     "contractName": "tokenData",
@@ -13550,7 +13550,7 @@
   ]
   },
   {
-    "address": "0x00a32f76074D394909E74D4564399255144a4207",
+    "address": "0xb7f189ec58852cae2c50cf428b737d32d0212905",
     "code": "TF",
     "smartContractCode": "TF",
     "contractName": "tokenFunction",
@@ -14249,7 +14249,7 @@
     ]
   },
   {
-    "address": "0x18c83b4e17713d422f514c1ad2727d8bd1dea907",
+    "address": "0x4e6b16ae20b827998c5689e0730651f507fadcd2",
     "code": "PS",
     "smartContractCode": "PS",
     "contractName": "Pooled Staking",
@@ -16170,7 +16170,7 @@
     ]
   },
   {
-    "address": "0xd1a5c329ef7fbe93596460133ffa9195ef279e34",
+    "address": "0x668ddabf6bbfca42f0350972b811429058baf49d",
     "code": "CP",
     "smartContractCode": "CP",
     "contractName": "ClaimProofs",
@@ -16218,7 +16218,7 @@
     ]
   },
   {
-    "address": "0x0000000000000000000000000000000000000000",
+    "address": "0xbb602632cbea10755cea15fdf03a71b3da7b7a0b",
     "code": "IC",
     "smartContractCode": "IC",
     "contractName": "Incidents",

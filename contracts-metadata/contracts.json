@@ -119,11 +119,7 @@
   "0x932773aE4B661029704e731722CF8129e1B32494":{
     "name":"Pool Together V2",
     "type": "protocol",
-<<<<<<< HEAD
     "supportedChains": ["ethereum", "polygon"],
-=======
-    "supportedChains": ["ethereum"],
->>>>>>> master
     "dateAdded":"2020-01-01",
     "logo":"pooltogether.png",
     "github":"https://github.com/pooltogether",
@@ -196,10 +192,7 @@
     "supportedChains": ["ethereum", "starkware"],
     "dateAdded":"2020-06-20",
     "logo":"deversifi.png",
-<<<<<<< HEAD
     "note": "Includes Layer 2.",
-=======
->>>>>>> master
     "github":"https://github.com/deversifi",
     "messari":""
   },
@@ -380,11 +373,7 @@
   "0x79a8C46DeA5aDa233ABaFFD40F3A0A2B1e5A4F27":{
     "name": "Curve All Pools (incl staking)",
     "type": "protocol",
-<<<<<<< HEAD
     "supportedChains": ["ethereum", "polygon", "fantom"],
-=======
-    "supportedChains": ["ethereum", "polygon"],
->>>>>>> master
     "dateAdded": "2020-06-20",
     "logo": "curve.png",
     "github": "https://github.com/curvefi",
@@ -430,11 +419,7 @@
   "0x86969d29F5fd327E1009bA66072BE22DB6017cC6":{
     "name":"Paraswap V1",
     "type": "protocol",
-<<<<<<< HEAD
     "supportedChains": ["ethereum", "bsc", "polygon"],
-=======
-    "supportedChains": ["ethereum"],
->>>>>>> master
     "dateAdded":"2020-01-01",
     "logo":"paraswap.png",
     "github":"https://github.com/paraswap",
@@ -597,11 +582,7 @@
   "0xCB876f60399897db24058b2d58D0B9f713175eeF": {
     "name": "Pool Together V3",
     "type": "protocol",
-<<<<<<< HEAD
     "supportedChains": ["ethereum", "polygon"],
-=======
-    "supportedChains": ["ethereum"],
->>>>>>> master
     "dateAdded": "2020-10-28",
     "logo": "pooltogether.png",
     "github": "https://github.com/pooltogether",
@@ -686,10 +667,7 @@
     "supportedChains": ["ethereum", "polygon"],
     "dateAdded": "2020-12-03",
     "logo": "aavev2.svg",
-<<<<<<< HEAD
     "note": "Including AMM market.",
-=======
->>>>>>> master
     "github": "https://github.com/aave/protocol-v2"
   },
   "0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd": {
@@ -698,10 +676,7 @@
     "supportedChains": ["ethereum", "bsc", "xdai", "fantom", "polygon"],
     "dateAdded": "2020-12-09",
     "logo": "sushiswap.jpg",
-<<<<<<< HEAD
     "note": "Includes AMM, Masterchef V1 and V2. Excludes Kashi Lending.",
-=======
->>>>>>> master
     "github": "https://github.com/sushiswap/sushiswap"
   },
   "0xedfC81Bf63527337cD2193925f9C0cF2D537AccA": {
@@ -786,11 +761,7 @@
   "0xB17640796e4c27a39AF51887aff3F8DC0daF9567": {
     "name": "Stake DAO",
     "type": "protocol",
-<<<<<<< HEAD
     "supportedChains": ["ethereum", "bsc", "polygon"],
-=======
-    "supportedChains": ["ethereum", "bsc"],
->>>>>>> master
     "dateAdded": "2021-03-29",
     "logo": "stakedao.png",
     "github": "https://github.com/StakeDAO",
@@ -809,11 +780,7 @@
     "name": "Harvest Finance",
     "site": "https://harvest.finance/",
     "type": "protocol",
-<<<<<<< HEAD
     "supportedChains": ["ethereum", "bsc"],
-=======
-    "supportedChains": ["ethereum"],
->>>>>>> master
     "dateAdded": "2021-04-16",
     "logo": "harvest.png",
     "github": "https://github.com/harvest-finance"
@@ -910,10 +877,7 @@
     "supportedChains": ["ethereum", "terra"],
     "type": "protocol",
     "dateAdded": "2021-04-26",
-<<<<<<< HEAD
     "note": "Includes Ethereum bridge components.",
-=======
->>>>>>> master
     "logo": "anchor.svg"
   },
   "0x0000000000000000000000000000000000000002": {
@@ -938,10 +902,7 @@
     "supportedChains": ["ethereum"],
     "type": "protocol",
     "dateAdded": "2021-04-26",
-<<<<<<< HEAD
     "note": "Includes Bitcoin and other chain integrations.",
-=======
->>>>>>> master
     "logo": "thorchain.svg"
   },
   "0x0000000000000000000000000000000000000005": {
@@ -951,7 +912,6 @@
     "type": "protocol",
     "dateAdded": "2021-04-26",
     "logo": "pancakeswap.svg"
-<<<<<<< HEAD
   },
   "0x0000000000000000000000000000000000000006": {
     "name": "Yearn yDAI v2",
@@ -1002,7 +962,5 @@
     "underlyingToken": "ETH",
     "dateAdded": "2021-05-25",
     "logo": "curve.png"
-=======
->>>>>>> master
   }
 }

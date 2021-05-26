@@ -17285,7 +17285,7 @@
   ]
   },
   {
-    "address": "0x8CEBa69a8e96a4ce71Aa65859DBdb180B489a719",
+    "address": "0x8ceba69a8e96a4ce71aa65859dbdb180b489a719",
     "code": "IC",
     "smartContractCode": "IC",
     "contractName": "Incidents",
@@ -17774,7 +17774,7 @@
   ]
   },
   {
-    "address": "0xcafea7191d1B8538076feB019B092a53Dc4dCdFe",
+    "address": "0xcafea7191d1b8538076feb019b092a53dc4dcdfe",
     "code": "SO",
     "smartContractCode": "SO",
     "contractName": "SwapOperator",

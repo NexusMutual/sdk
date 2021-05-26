@@ -914,20 +914,20 @@
     "logo": "pancakeswap.svg"
   },
   "0x0000000000000000000000000000000000000006": {
-    "name": "Yearn yDAI v2",
+    "name": "Yearn yvDAI v2",
     "site": "https://yearn.finance",
     "type": "token",
-    "symbol": "yDAI",
+    "symbol": "yvDAI",
     "coveredToken": "0x19D3364A399d251E894aC732651be8B0E4e85001",
     "underlyingToken": "DAI",
     "dateAdded": "2021-05-25",
     "logo": "yearn.svg"
   },
   "0x0000000000000000000000000000000000000007": {
-    "name": "Yearn yUSDC",
+    "name": "Yearn yvUSDC",
     "site": "https://yearn.finance",
     "type": "token",
-    "symbol": "yUSDC",
+    "symbol": "yvUSDC",
     "coveredToken": "0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9",
     "underlyingToken": "DAI",
     "dateAdded": "2021-05-25",

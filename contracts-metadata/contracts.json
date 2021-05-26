@@ -119,7 +119,7 @@
   "0x932773aE4B661029704e731722CF8129e1B32494":{
     "name":"Pool Together V2",
     "type": "protocol",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "polygon"],
     "dateAdded":"2020-01-01",
     "logo":"pooltogether.png",
     "github":"https://github.com/pooltogether",
@@ -153,6 +153,7 @@
     "dateAdded":"2020-01-01",
     "logo":"dydx.svg",
     "github":"https://github.com/dydxprotocol",
+    "note": "Includes Layer 2.",
     "messari":"https://messari.io/asset/dydx/profile"
   },
   "0x6B175474E89094C44Da98b954EedeAC495271d0F":{
@@ -191,6 +192,7 @@
     "supportedChains": ["ethereum", "starkware"],
     "dateAdded":"2020-06-20",
     "logo":"deversifi.png",
+    "note": "Includes Layer 2.",
     "github":"https://github.com/deversifi",
     "messari":""
   },
@@ -213,6 +215,7 @@
     "dateAdded":"2020-06-20",
     "logo":"ren.svg",
     "github":"https://github.com/renproject",
+    "note": "Includes Bitcoin and other chain integrations.",
     "messari":"https://messari.io/asset/ren"
   },
   "0xB27F1DB0a7e473304A5a06E54bdf035F671400C0":{
@@ -231,6 +234,7 @@
     "dateAdded":"2020-01-01",
     "logo":"dydx.svg",
     "github":"https://github.com/dydxprotocol",
+    "note": "Layer 1 only.",
     "messari":"https://messari.io/asset/dydx/profile"
   },
   "0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B":{
@@ -333,6 +337,7 @@
     "dateAdded":"2020-01-01",
     "logo":"yearn.svg",
     "github":"https://github.com/iearn-finance",
+    "note": "Only covers Yearn contracts, not underlying protocols.",
     "messari":""
   },
   "0x77208a6000691E440026bEd1b178EF4661D37426":{
@@ -368,10 +373,11 @@
   "0x79a8C46DeA5aDa233ABaFFD40F3A0A2B1e5A4F27":{
     "name": "Curve All Pools (incl staking)",
     "type": "protocol",
-    "supportedChains": ["ethereum", "polygon"],
+    "supportedChains": ["ethereum", "polygon", "fantom"],
     "dateAdded": "2020-06-20",
     "logo": "curve.png",
     "github": "https://github.com/curvefi",
+    "note": "Excluding innovation zone.",
     "messari": ""
   },
   "0x5B67871C3a857dE81A1ca0f9F7945e5670D986Dc":{
@@ -413,7 +419,7 @@
   "0x86969d29F5fd327E1009bA66072BE22DB6017cC6":{
     "name":"Paraswap V1",
     "type": "protocol",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "bsc", "polygon"],
     "dateAdded":"2020-01-01",
     "logo":"paraswap.png",
     "github":"https://github.com/paraswap",
@@ -576,7 +582,7 @@
   "0xCB876f60399897db24058b2d58D0B9f713175eeF": {
     "name": "Pool Together V3",
     "type": "protocol",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "polygon"],
     "dateAdded": "2020-10-28",
     "logo": "pooltogether.png",
     "github": "https://github.com/pooltogether",
@@ -634,6 +640,7 @@
     "dateAdded": "2020-11-24",
     "logo": "cream.png",
     "github": "https://github.com/CreamFi",
+    "note": "Excluding Iron Bank.",
     "messari": "https://cream.finance/"
   },
   "0x7a9701453249e84fd0D5AfE5951e9cBe9ed2E90f": {
@@ -660,6 +667,7 @@
     "supportedChains": ["ethereum", "polygon"],
     "dateAdded": "2020-12-03",
     "logo": "aavev2.svg",
+    "note": "Including AMM market.",
     "github": "https://github.com/aave/protocol-v2"
   },
   "0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd": {
@@ -668,6 +676,7 @@
     "supportedChains": ["ethereum", "bsc", "xdai", "fantom", "polygon"],
     "dateAdded": "2020-12-09",
     "logo": "sushiswap.jpg",
+    "note": "Includes AMM, Masterchef V1 and V2. Excludes Kashi Lending.",
     "github": "https://github.com/sushiswap/sushiswap"
   },
   "0xedfC81Bf63527337cD2193925f9C0cF2D537AccA": {
@@ -752,7 +761,7 @@
   "0xB17640796e4c27a39AF51887aff3F8DC0daF9567": {
     "name": "Stake DAO",
     "type": "protocol",
-    "supportedChains": ["ethereum", "bsc"],
+    "supportedChains": ["ethereum", "bsc", "polygon"],
     "dateAdded": "2021-03-29",
     "logo": "stakedao.png",
     "github": "https://github.com/StakeDAO",
@@ -771,7 +780,7 @@
     "name": "Harvest Finance",
     "site": "https://harvest.finance/",
     "type": "protocol",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "bsc"],
     "dateAdded": "2021-04-16",
     "logo": "harvest.png",
     "github": "https://github.com/harvest-finance"
@@ -868,6 +877,7 @@
     "supportedChains": ["ethereum", "terra"],
     "type": "protocol",
     "dateAdded": "2021-04-26",
+    "note": "Includes Ethereum bridge components.",
     "logo": "anchor.svg"
   },
   "0x0000000000000000000000000000000000000002": {
@@ -892,6 +902,7 @@
     "supportedChains": ["ethereum"],
     "type": "protocol",
     "dateAdded": "2021-04-26",
+    "note": "Includes Bitcoin and other chain integrations.",
     "logo": "thorchain.svg"
   },
   "0x0000000000000000000000000000000000000005": {
@@ -901,5 +912,55 @@
     "type": "protocol",
     "dateAdded": "2021-04-26",
     "logo": "pancakeswap.svg"
+  },
+  "0x0000000000000000000000000000000000000006": {
+    "name": "Yearn yvDAI v2",
+    "site": "https://yearn.finance",
+    "type": "token",
+    "symbol": "yvDAI",
+    "coveredToken": "0x19D3364A399d251E894aC732651be8B0E4e85001",
+    "underlyingToken": "DAI",
+    "dateAdded": "2021-05-25",
+    "logo": "yearn.svg"
+  },
+  "0x0000000000000000000000000000000000000007": {
+    "name": "Yearn yvUSDC",
+    "site": "https://yearn.finance",
+    "type": "token",
+    "symbol": "yvUSDC",
+    "coveredToken": "0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9",
+    "underlyingToken": "DAI",
+    "dateAdded": "2021-05-25",
+    "logo": "yearn.svg"
+  },
+  "0x0000000000000000000000000000000000000008": {
+    "name": "Yearn ycrvstETH",
+    "site": "https://yearn.finance",
+    "type": "token",
+    "symbol": "ycrvstETH",
+    "coveredToken": "0xdCD90C7f6324cfa40d7169ef80b12031770B4325",
+    "underlyingToken": "ETH",
+    "dateAdded": "2021-05-25",
+    "logo": "yearn.svg"
+  },
+  "0x0000000000000000000000000000000000000009": {
+    "name": "Curve 3pool LP (3CRV)",
+    "site": "https://curve.fi/",
+    "type": "token",
+    "symbol": "3CRV",
+    "coveredToken": "0x6c3f90f043a72fa612cbac8115ee7e52bde6e490",
+    "underlyingToken": "DAI",
+    "dateAdded": "2021-05-25",
+    "logo": "curve-3crv.png"
+  },
+  "0x0000000000000000000000000000000000000010": {
+    "name": "Curve sETH",
+    "site": "https://curve.fi/",
+    "type": "token",
+    "symbol": "crvsETH",
+    "coveredToken": "0xA3D87FffcE63B53E0d54fAa1cc983B7eB0b74A9c",
+    "underlyingToken": "ETH",
+    "dateAdded": "2021-05-25",
+    "logo": "curve.png"
   }
 }

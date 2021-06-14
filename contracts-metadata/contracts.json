@@ -607,7 +607,7 @@
     "messari": ""
   },
   "0x00000000219ab540356cBB839Cbe05303d7705Fa": {
-    "name": "Eth 2.0",
+    "name": "Eth 2.0 (deposit contract)",
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded": "2020-11-06",
@@ -791,8 +791,35 @@
     "supportedChains": ["ethereum"],
     "dateAdded": "2021-05-05",
     "logo": "uniswapv2.svg",
-    "github":"https://github.com/Uniswap/uniswap-v3-core",
-    "messari":"https://messari.io/asset/uniswap/profile"
+    "github": "https://github.com/Uniswap/uniswap-v3-core",
+    "messari": "https://messari.io/asset/uniswap/profile"
+  },
+  "0x1F98431c8aD98523631AE4a59f267346ea31F984": {
+    "name": "Barnbridge Smart Yield V1",
+    "site": "https://barnbridge.com",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2021-06-14",
+    "logo": "barnbridge.png",
+    "github": "https://github.com/BarnBridge"
+  },
+  "0xF403C135812408BFbE8713b5A23a04b3D48AAE31": {
+    "name": "Convex Finance V1",
+    "site": "https://www.convexfinance.com",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2021-06-14",
+    "logo": "convex.png",
+    "github": "https://github.com/convex-eth"
+  },
+  "0xc21D353FF4ee73C572425697f4F5aaD2109fe35b": {
+    "name": "Alchemix V1",
+    "site": "https://alchemix.fi",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2021-06-14",
+    "logo": "alchemix.png",
+    "github": "https://github.com/alchemix-finance"
   },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",
@@ -877,7 +904,7 @@
     "supportedChains": ["ethereum", "terra"],
     "type": "protocol",
     "dateAdded": "2021-04-26",
-    "note": "Includes Ethereum bridge components.",
+    "note": "Includes Ethereum bridge components. Doesn't cover UST depegging.",
     "logo": "anchor.svg"
   },
   "0x0000000000000000000000000000000000000002": {
@@ -899,7 +926,7 @@
   "0x0000000000000000000000000000000000000004": {
     "name": "Thorchain",
     "site": "https://thorchain.org",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["thorchain"],
     "type": "protocol",
     "dateAdded": "2021-04-26",
     "note": "Includes Bitcoin and other chain integrations.",
@@ -916,6 +943,7 @@
   "0x0000000000000000000000000000000000000006": {
     "name": "Yearn yvDAI v2",
     "site": "https://yearn.finance",
+    "supportedChains": ["ethereum"],
     "type": "token",
     "symbol": "yvDAI",
     "coveredToken": "0x19D3364A399d251E894aC732651be8B0E4e85001",
@@ -924,8 +952,9 @@
     "logo": "yearn.svg"
   },
   "0x0000000000000000000000000000000000000007": {
-    "name": "Yearn yvUSDC",
+    "name": "Yearn yvUSDC v2",
     "site": "https://yearn.finance",
+    "supportedChains": ["ethereum"],
     "type": "token",
     "symbol": "yvUSDC",
     "coveredToken": "0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9",
@@ -934,8 +963,9 @@
     "logo": "yearn.svg"
   },
   "0x0000000000000000000000000000000000000008": {
-    "name": "Yearn ycrvstETH",
+    "name": "Yearn ycrvstETH v2",
     "site": "https://yearn.finance",
+    "supportedChains": ["ethereum"],
     "type": "token",
     "symbol": "ycrvstETH",
     "coveredToken": "0xdCD90C7f6324cfa40d7169ef80b12031770B4325",
@@ -946,6 +976,7 @@
   "0x0000000000000000000000000000000000000009": {
     "name": "Curve 3pool LP (3CRV)",
     "site": "https://curve.fi/",
+    "supportedChains": ["ethereum"],
     "type": "token",
     "symbol": "3CRV",
     "coveredToken": "0x6c3f90f043a72fa612cbac8115ee7e52bde6e490",
@@ -954,10 +985,11 @@
     "logo": "curve-3crv.png"
   },
   "0x0000000000000000000000000000000000000010": {
-    "name": "Curve sETH",
+    "name": "Curve sETH LP (eCRV)",
     "site": "https://curve.fi/",
+    "supportedChains": ["ethereum"],
     "type": "token",
-    "symbol": "crvsETH",
+    "symbol": "eCRV",
     "coveredToken": "0xA3D87FffcE63B53E0d54fAa1cc983B7eB0b74A9c",
     "underlyingToken": "ETH",
     "dateAdded": "2021-05-25",

@@ -50,13 +50,14 @@
   async function load () {
 
     const table = document.getElementById('data');
-    const file = document.location.hostname.indexOf('staging') === -1
-      ? 'data.json'
-      : 'data-kovan.json';
+    const network = document.location.hostname.indexOf('staging') === -1
+      ? 'mainnet'
+      : 'kovan';
+    const file = `data${network === 'mainnet' ? '' : '-' + network}.json`;
     const data = await fetch(file).then(r => r.json());
     const proxies = ['GV', 'MR', 'NXMASTER', 'PC', 'PS', 'TC', 'GW', 'IC'];
 
-    const rows = data.mainnet.abis
+    const rows = data[network].abis
       .filter(({ code }) => !['DAI', 'PRICEORACLE', 'CHAINLINK-DAI-ETH'].includes(code))
       .sort((a, b) => a.contractName < b.contractName ? -1 : 1)
       .map(({ address, code, contractName }) => {

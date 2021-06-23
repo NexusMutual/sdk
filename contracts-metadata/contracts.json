@@ -821,6 +821,15 @@
     "logo": "alchemix.png",
     "github": "https://github.com/alchemix-finance"
   },
+  "0x99c666810bA4Bf9a4C2318CE60Cb2c279Ee2cF56": {
+    "name": "Alpha Homora V2",
+    "site": "https://homora-v2.alphafinance.io",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2021-06-23",
+    "logo": "alpha-homora.jpg",
+    "github": "https://github.com/AlphaFinanceLab/homora-v2"
+  },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",
     "site": "https://celsius.network/",

@@ -907,6 +907,20 @@
     "dateAdded": "2021-05-04",
     "logo": "ftx.svg"
   },
+  "0xC57d000000000000000000000000000000000012": {
+    "name": "Crypto.com",
+    "site": "https://crypto.com/",
+    "type": "custodian",
+    "dateAdded": "2021-07-06",
+    "logo": "crypto-com.svg"
+  },
+  "0xc57d000000000000000000000000000000000013": {
+    "name": "Yield.app",
+    "site": "https://www.yield.app/",
+    "type": "custodian",
+    "dateAdded": "2021-07-06",
+    "logo": "yield-app.png"
+  },
   "0x0000000000000000000000000000000000000001": {
     "name": "Anchor",
     "site": "https://anchorprotocol.com ",

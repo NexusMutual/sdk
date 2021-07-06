@@ -911,6 +911,7 @@
     "name": "Crypto.com",
     "site": "https://crypto.com/",
     "type": "custodian",
+    "note": "Custodial services only. All non-custodial services such as DeFi Wallet, Earn and Swap are excluded.",
     "dateAdded": "2021-07-06",
     "logo": "crypto-com.svg"
   },

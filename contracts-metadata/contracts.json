@@ -476,6 +476,7 @@
     "supportedChains": ["ethereum"],
     "dateAdded":"2020-07-07",
     "logo":"kyber.png",
+    "note":"Excludes Kyber DMM.",
     "github":"https://github.com/kybernetwork",
     "messari":"https://messari.io/asset/kyber-network/profile"
   },
@@ -830,6 +831,15 @@
     "logo": "alpha-homora.jpg",
     "github": "https://github.com/AlphaFinanceLab/homora-v2"
   },
+  "0xBA12222222228d8Ba445958a75a0704d566BF2C8": {
+    "name": "Balancer V2",
+    "site": "https://balancer.fi/",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2021-08-04",
+    "logo": "balancer.svg",
+    "github": "https://github.com/balancer-labs"
+  },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",
     "site": "https://celsius.network/",
@@ -911,7 +921,7 @@
     "name": "Crypto.com",
     "site": "https://crypto.com/",
     "type": "custodian",
-    "note": "Custodial services only. All non-custodial services such as DeFi Wallet, Earn and Swap are excluded.",
+    "note": "Custodial services only, including Crypto Earn, Crypto Credit and Exchange. All non-custodial services such as DeFi Wallet, DeFi Earn and DeFi Swap are excluded.",
     "dateAdded": "2021-07-06",
     "logo": "crypto-com.svg"
   },
@@ -950,7 +960,7 @@
   "0x0000000000000000000000000000000000000004": {
     "name": "Thorchain",
     "site": "https://thorchain.org",
-    "supportedChains": ["thorchain"],
+    "supportedChains": ["thorchain", "ethereum"],
     "type": "protocol",
     "dateAdded": "2021-04-26",
     "note": "Includes Bitcoin and other chain integrations.",

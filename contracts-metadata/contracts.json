@@ -565,7 +565,7 @@
   "0x3A97247DF274a17C59A3bd12735ea3FcDFb49950": {
     "name": "DODO Exchange",
     "type": "protocol",
-    "supportedChains": ["ethereum", "bsc"],
+    "supportedChains": ["ethereum", "polygon", "bsc"],
     "dateAdded": "2020-10-19",
     "logo": "dodo.svg",
     "github": "https://github.com/DODOEX/dodo-smart-protocol",
@@ -706,7 +706,7 @@
     "messari": "https://badger.finance/"
   },
   "0x9abd0b8868546105F6F48298eaDC1D9c82f7f683": {
-    "name": "Notional Finance",
+    "name": "Notional Finance V1",
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded": "2021-01-18",
@@ -781,7 +781,7 @@
     "name": "Harvest Finance",
     "site": "https://harvest.finance/",
     "type": "protocol",
-    "supportedChains": ["ethereum", "bsc"],
+    "supportedChains": ["ethereum", "polygon", "bsc"],
     "dateAdded": "2021-04-16",
     "logo": "harvest.png",
     "github": "https://github.com/harvest-finance"
@@ -789,7 +789,7 @@
   "0x1F98431c8aD98523631AE4a59f267346ea31F984": {
     "name": "Uniswap V3",
     "type": "protocol",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "optimism"],
     "dateAdded": "2021-05-05",
     "logo": "uniswapv2.svg",
     "github": "https://github.com/Uniswap/uniswap-v3-core",
@@ -799,7 +799,7 @@
     "name": "Barnbridge Smart Yield V1",
     "site": "https://barnbridge.com",
     "type": "protocol",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "polygon"],
     "dateAdded": "2021-06-14",
     "logo": "barnbridge.png",
     "github": "https://github.com/BarnBridge"
@@ -835,10 +835,19 @@
     "name": "Balancer V2",
     "site": "https://balancer.fi/",
     "type": "protocol",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "polygon"],
     "dateAdded": "2021-08-04",
     "logo": "balancer.svg",
     "github": "https://github.com/balancer-labs"
+  },
+  "0xA625AB01B08ce023B2a342Dbb12a16f2C8489A8F": {
+    "name": "Alpaca Finance",
+    "site": "https://www.alpacafinance.org/",
+    "type": "protocol",
+    "supportedChains": ["bsc"],
+    "dateAdded": "2021-08-13",
+    "logo": "alpaca.svg",
+    "github": "https://github.com/alpaca-finance"
   },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",
@@ -914,6 +923,7 @@
     "name": "FTX",
     "site": "https://ftx.com/",
     "type": "custodian",
+    "note": "Includes Blockfolio, re-branded as FTX app, where assets are custodied with FTX.",
     "dateAdded": "2021-05-04",
     "logo": "ftx.svg"
   },

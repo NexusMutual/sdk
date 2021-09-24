@@ -8,7 +8,7 @@
   "0x8B3d70d628Ebd30D4A2ea82DB95bA2e906c71633":{
     "name":"bZx V1",
     "type": "protocol",
-    "supportedChains": ["ethereum", "bsc"],
+    "supportedChains": ["ethereum", "bsc", "polygon"],
     "dateAdded":"2020-01-01",
     "logo":"bzx.png",
     "github":"https://github.com/bZxNetwork",
@@ -211,7 +211,7 @@
   "0xe80d347DF1209a76DD9d2319d62912ba98C54DDD":{
     "name":"RenVM",
     "type": "protocol",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "polygon", "bsc", "fantom", "arbitrum", "avalanche"],
     "dateAdded":"2020-06-20",
     "logo":"ren.svg",
     "github":"https://github.com/renproject",
@@ -309,7 +309,7 @@
   "0x11111254369792b2Ca5d084aB5eEA397cA8fa48B":{
     "name":"1Inch (DEX & Liquidity Pools)",
     "type": "protocol",
-    "supportedChains": ["ethereum", "bsc"],
+    "supportedChains": ["ethereum", "bsc", "polygon"],
     "dateAdded":"2020-01-01",
     "logo":"1inch.svg",
     "github":"https://github.com/CryptoManiacsZone/1inchProtocol",
@@ -373,7 +373,7 @@
   "0x79a8C46DeA5aDa233ABaFFD40F3A0A2B1e5A4F27":{
     "name": "Curve All Pools (incl staking)",
     "type": "protocol",
-    "supportedChains": ["ethereum", "polygon", "fantom"],
+    "supportedChains": ["ethereum", "polygon", "xdai", "fantom", "arbitrum"],
     "dateAdded": "2020-06-20",
     "logo": "curve.png",
     "github": "https://github.com/curvefi",
@@ -401,7 +401,7 @@
   "0x9424B1412450D0f8Fc2255FAf6046b98213B76Bd":{
     "name":"Balancer V1",
     "type": "protocol",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "xdai", "arbitrum"],
     "dateAdded":"2020-06-20",
     "logo":"balancer.svg",
     "github":"https://github.com/balancer-labs",
@@ -455,7 +455,7 @@
   "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F":{
     "name":"Synthetix",
     "type": "protocol",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "optimism"],
     "dateAdded":"2020-06-20",
     "logo":"synthetix.svg",
     "github":"https://github.com/Synthetixio",
@@ -492,7 +492,7 @@
   "0x3e532e6222afe9Bcf02DCB87216802c75D5113aE":{
     "name": "UMA",
     "type": "protocol",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "polygon"],
     "dateAdded": "2020-07-30",
     "logo": "uma.png",
     "github": "",
@@ -565,7 +565,7 @@
   "0x3A97247DF274a17C59A3bd12735ea3FcDFb49950": {
     "name": "DODO Exchange",
     "type": "protocol",
-    "supportedChains": ["ethereum", "polygon", "bsc"],
+    "supportedChains": ["ethereum", "polygon", "bsc", "arbitrum"],
     "dateAdded": "2020-10-19",
     "logo": "dodo.svg",
     "github": "https://github.com/DODOEX/dodo-smart-protocol",
@@ -583,7 +583,7 @@
   "0xCB876f60399897db24058b2d58D0B9f713175eeF": {
     "name": "Pool Together V3",
     "type": "protocol",
-    "supportedChains": ["ethereum", "polygon"],
+    "supportedChains": ["ethereum", "polygon", "bsc"],
     "dateAdded": "2020-10-28",
     "logo": "pooltogether.png",
     "github": "https://github.com/pooltogether",
@@ -635,9 +635,9 @@
     "messari": "https://github.com/keeperdao/docs/wiki"
   },
   "0x3d5BC3c8d13dcB8bF317092d84783c2697AE9258": {
-    "name": "C.R.E.A.M. V1",
+    "name": "CREAM V1",
     "type": "protocol",
-    "supportedChains": ["ethereum", "bsc", "polygon"],
+    "supportedChains": ["ethereum", "bsc", "polygon", "fantom"],
     "dateAdded": "2020-11-24",
     "logo": "cream.png",
     "github": "https://github.com/CreamFi",
@@ -658,7 +658,7 @@
     "type": "protocol",
     "supportedChains": ["ethereum", "bsc"],
     "dateAdded": "2020-11-26",
-    "logo": "alpha-homora.jpg",
+    "logo": "alpha-homora.svg",
     "github": "https://github.com/AlphaFinanceLab/alphahomora",
     "messari": "https://homora.alphafinance.io/"
   },
@@ -674,7 +674,7 @@
   "0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd": {
     "name": "SushiSwap V1",
     "type": "protocol",
-    "supportedChains": ["ethereum", "bsc", "xdai", "fantom", "polygon"],
+    "supportedChains": ["ethereum", "bsc", "xdai", "fantom", "polygon", "arbitrum"],
     "dateAdded": "2020-12-09",
     "logo": "sushiswap.jpg",
     "note": "Includes AMM, xSushi Staking, Masterchef V1 and V2. Excludes Kashi Lending and BentoBox.",
@@ -691,7 +691,7 @@
   "0xA51156F3F1e39d1036Ca4ba4974107A1C1815d1e": {
     "name": "Perpetual Protocol",
     "type": "protocol",
-    "supportedChains": ["ethereum", "xdai"],
+    "supportedChains": ["ethereum", "xdai", "arbitrum"],
     "dateAdded": "2020-12-17",
     "logo": "perpetual.jpg",
     "github": "https://github.com/perpetual-protocol/"
@@ -699,7 +699,7 @@
   "0x6354E79F21B56C11f48bcD7c451BE456D7102A36": {
     "name": "BadgerDAO",
     "type": "protocol",
-    "supportedChains": ["ethereum", "bsc"],
+    "supportedChains": ["ethereum", "bsc", "polygon"],
     "dateAdded": "2020-12-29",
     "logo": "badgerdao.png",
     "github": "https://github.com/Badger-Finance",
@@ -789,7 +789,7 @@
   "0x1F98431c8aD98523631AE4a59f267346ea31F984": {
     "name": "Uniswap V3",
     "type": "protocol",
-    "supportedChains": ["ethereum", "optimism"],
+    "supportedChains": ["ethereum", "optimism", "arbitrum"],
     "dateAdded": "2021-05-05",
     "logo": "uniswapv2.svg",
     "github": "https://github.com/Uniswap/uniswap-v3-core",
@@ -828,14 +828,14 @@
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded": "2021-06-23",
-    "logo": "alpha-homora.jpg",
+    "logo": "alpha-homora.svg",
     "github": "https://github.com/AlphaFinanceLab/homora-v2"
   },
   "0xBA12222222228d8Ba445958a75a0704d566BF2C8": {
     "name": "Balancer V2",
     "site": "https://balancer.fi/",
     "type": "protocol",
-    "supportedChains": ["ethereum", "polygon"],
+    "supportedChains": ["ethereum", "polygon", "arbitrum"],
     "dateAdded": "2021-08-04",
     "logo": "balancer.svg",
     "github": "https://github.com/balancer-labs"
@@ -848,6 +848,24 @@
     "dateAdded": "2021-08-13",
     "logo": "alpaca.svg",
     "github": "https://github.com/alpaca-finance"
+  },
+  "0x08FB62c84909dA3Aa5F59E01763E5FDC62De76e9": {
+    "name": "Visor Finance",
+    "site": "https://www.visor.finance/",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2021-08-20",
+    "logo": "visor.png",
+    "github": "https://github.com/VisorFinance"
+  },
+  "0x8481a6EbAf5c7DABc3F7e09e44A89531fd31F822": {
+    "name": "Goldfinch",
+    "site": "https://www.goldfinch.finance",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2021-09-24",
+    "logo": "goldfinch.svg",
+    "github": " https://github.com/goldfinch-eng/"
   },
   "0xc57D000000000000000000000000000000000001": {
     "name": "Celsius",

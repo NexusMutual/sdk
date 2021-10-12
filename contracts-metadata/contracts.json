@@ -68,7 +68,7 @@
   "0x6e95C8E8557AbC08b46F3c347bA06F8dC012763f":{
     "name":"Legacy Gnosis MultiSig",
     "type": "protocol",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "polygon", "bsc"],
     "dateAdded":"2020-01-01",
     "logo":"gnosis-multisig.svg",
     "github":"https://github.com/gnosis/MultiSigWallet",
@@ -373,7 +373,7 @@
   "0x79a8C46DeA5aDa233ABaFFD40F3A0A2B1e5A4F27":{
     "name": "Curve All Pools (incl staking)",
     "type": "protocol",
-    "supportedChains": ["ethereum", "polygon", "xdai", "fantom", "arbitrum"],
+    "supportedChains": ["ethereum", "polygon", "xdai", "fantom", "arbitrum", "avalanche", "celo"],
     "dateAdded": "2020-06-20",
     "logo": "curve.png",
     "github": "https://github.com/curvefi",
@@ -492,7 +492,7 @@
   "0x3e532e6222afe9Bcf02DCB87216802c75D5113aE":{
     "name": "UMA",
     "type": "protocol",
-    "supportedChains": ["ethereum", "polygon"],
+    "supportedChains": ["ethereum", "polygon", "celo"],
     "dateAdded": "2020-07-30",
     "logo": "uma.png",
     "github": "",
@@ -583,7 +583,7 @@
   "0xCB876f60399897db24058b2d58D0B9f713175eeF": {
     "name": "Pool Together V3",
     "type": "protocol",
-    "supportedChains": ["ethereum", "polygon", "bsc"],
+    "supportedChains": ["ethereum", "polygon", "bsc", "celo"],
     "dateAdded": "2020-10-28",
     "logo": "pooltogether.png",
     "github": "https://github.com/pooltogether",
@@ -665,7 +665,7 @@
   "0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9": {
     "name": "Aave V2",
     "type": "protocol",
-    "supportedChains": ["ethereum", "polygon"],
+    "supportedChains": ["ethereum", "polygon", "avalanche", "celo"],
     "dateAdded": "2020-12-03",
     "logo": "aavev2.svg",
     "note": "Including AMM market.",
@@ -674,7 +674,7 @@
   "0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd": {
     "name": "SushiSwap V1",
     "type": "protocol",
-    "supportedChains": ["ethereum", "bsc", "xdai", "fantom", "polygon", "arbitrum"],
+    "supportedChains": ["ethereum", "bsc", "xdai", "fantom", "polygon", "arbitrum", "avalanche", "celo"],
     "dateAdded": "2020-12-09",
     "logo": "sushiswap.jpg",
     "note": "Includes AMM, xSushi Staking, Masterchef V1 and V2. Excludes Kashi Lending and BentoBox.",
@@ -826,7 +826,7 @@
     "name": "Alpha Homora V2",
     "site": "https://homora-v2.alphafinance.io",
     "type": "protocol",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "avalanche"],
     "dateAdded": "2021-06-23",
     "logo": "alpha-homora.svg",
     "github": "https://github.com/AlphaFinanceLab/homora-v2"
@@ -846,7 +846,7 @@
     "type": "protocol",
     "supportedChains": ["bsc"],
     "dateAdded": "2021-08-13",
-    "logo": "alpaca.svg",
+    "logo": "alpaca.png",
     "github": "https://github.com/alpaca-finance"
   },
   "0x08FB62c84909dA3Aa5F59E01763E5FDC62De76e9": {
@@ -959,6 +959,33 @@
     "type": "custodian",
     "dateAdded": "2021-07-06",
     "logo": "yield-app.png"
+  },
+  "0xefa94DE7a4656D787667C749f7E1223D71E9FD88": {
+    "name": "Pangolin",
+    "site": "https://pangolin.exchange/",
+    "github": "https://github.com/pangolindex",
+    "supportedChains": ["avalanche"],
+    "type": "protocol",
+    "dateAdded": "2021-10-12",
+    "logo": "pangolin.svg"
+  },
+  "0x0CED6166873038Ac0cc688e7E6d19E2cBE251Bf0": {
+    "name": "Centrifuge Tinlake",
+    "site": "https://tinlake.centrifuge.io/",
+    "github": "https://github.com/centrifuge/",
+    "supportedChains": ["ethereum"],
+    "type": "protocol",
+    "dateAdded": "2021-10-12",
+    "logo": "centrifuge.svg"
+  },
+  "0x835482FE0532f169024d5E9410199369aAD5C77E": {
+    "name": "Rari Capital",
+    "site": "https://rari.capital/",
+    "github": "https://github.com/Rari-Capital",
+    "supportedChains": ["ethereum"],
+    "type": "protocol",
+    "dateAdded": "2021-10-12",
+    "logo": "rari.png"
   },
   "0x0000000000000000000000000000000000000001": {
     "name": "Anchor",

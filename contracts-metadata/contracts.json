@@ -235,7 +235,8 @@
     "logo":"dydx.svg",
     "github":"https://github.com/dydxprotocol",
     "note": "Layer 1 only.",
-    "messari":"https://messari.io/asset/dydx/profile"
+    "messari":"https://messari.io/asset/dydx/profile",
+    "deprecated": true
   },
   "0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B":{
     "name":"Compound V2",
@@ -249,7 +250,7 @@
   "0x34CfAC646f301356fAa8B21e94227e3583Fe3F5F":{
     "name":"Gnosis Safe",
     "type": "protocol",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "polygon", "bsc", "arbitrum"],
     "dateAdded":"2020-01-01",
     "logo":"gnosis-safe.png",
     "github":"https://github.com/gnosis/safe-protocols",
@@ -762,7 +763,7 @@
   "0xB17640796e4c27a39AF51887aff3F8DC0daF9567": {
     "name": "Stake DAO",
     "type": "protocol",
-    "supportedChains": ["ethereum", "bsc", "polygon"],
+    "supportedChains": ["ethereum", "bsc", "polygon", "avalanche"],
     "dateAdded": "2021-03-29",
     "logo": "stakedao.png",
     "github": "https://github.com/StakeDAO",
@@ -982,7 +983,7 @@
     "name": "Rari Capital",
     "site": "https://rari.capital/",
     "github": "https://github.com/Rari-Capital",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "polygon"],
     "type": "protocol",
     "dateAdded": "2021-10-12",
     "logo": "rari.png"
@@ -1063,7 +1064,7 @@
     "logo": "yearn.svg"
   },
   "0x0000000000000000000000000000000000000009": {
-    "name": "Curve 3pool LP (3CRV)",
+    "name": "Curve 3pool LP (3Crv)",
     "site": "https://curve.fi/",
     "supportedChains": ["ethereum"],
     "type": "token",
@@ -1074,7 +1075,7 @@
     "logo": "curve-3crv.png"
   },
   "0x0000000000000000000000000000000000000010": {
-    "name": "Curve sETH LP (eCRV)",
+    "name": "Curve sETH LP (eCrv)",
     "site": "https://curve.fi/",
     "supportedChains": ["ethereum"],
     "type": "token",
@@ -1105,5 +1106,38 @@
     "underlyingToken": "DAI",
     "dateAdded": "2021-07-05",
     "logo": "idleUSDTYield.svg"
+  },
+  "0x0000000000000000000000000000000000000013": {
+    "name": "Convex stethCrv (cvxstethCrv)",
+    "site": "https://www.convexfinance.com/",
+    "supportedChains": ["ethereum"],
+    "type": "token",
+    "symbol": "cvx3Crv",
+    "coveredToken": "0x9518c9063eB0262D791f38d8d6Eb0aca33c63ed0",
+    "underlyingToken": "ETH",
+    "dateAdded": "2021-10-28",
+    "logo": "convex.png"
+  },
+  "0x0000000000000000000000000000000000000014": {
+    "name": "Convex 3CRV (cvx3CRV)",
+    "site": "https://www.convexfinance.com/",
+    "supportedChains": ["ethereum"],
+    "type": "token",
+    "symbol": "cvx3Crv",
+    "coveredToken": "0x30D9410ED1D5DA1F6C8391af5338C93ab8d4035C",
+    "underlyingToken": "DAI",
+    "dateAdded": "2021-10-28",
+    "logo": "convex.png"
+  },
+  "0x0000000000000000000000000000000000000015": {
+    "name": "Convex mimCrv (cvxmimCrv)",
+    "site": "https://www.convexfinance.com/",
+    "supportedChains": ["ethereum"],
+    "type": "token",
+    "symbol": "cvxmimCrv",
+    "coveredToken": "0xabB54222c2b77158CC975a2b715a3d703c256F05",
+    "underlyingToken": "DAI",
+    "dateAdded": "2021-10-28",
+    "logo": "convex.png"
   }
 }

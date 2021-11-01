@@ -988,6 +988,15 @@
     "dateAdded": "2021-10-12",
     "logo": "rari.png"
   },
+  "0xd96f48665a1410C0cd669A88898ecA36B9Fc2cce": {
+    "name": "Abracadabra",
+    "site": "https://abracadabra.money/",
+    "github": "https://github.com/Abracadabra-money/magic-internet-money",
+    "supportedChains": [ "ethereum", "bsc", "fantom", "avalanche", "arbitrum" ],
+    "type": "protocol",
+    "dateAdded": "2021-11-01",
+    "logo": "abracadabra.svg"
+  },
   "0x0000000000000000000000000000000000000001": {
     "name": "Anchor",
     "site": "https://anchorprotocol.com ",

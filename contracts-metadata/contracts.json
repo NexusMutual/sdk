@@ -1156,5 +1156,14 @@
     "underlyingToken": "DAI",
     "dateAdded": "2021-10-28",
     "logo": "convex.png"
+  },
+  "0x0000000000000000000000000000000000000016": {
+    "name": "Notional Finance V2",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2021-01-18",
+    "logo": "notional.png",
+    "github": "https://github.com/notional-finance",
+    "messari": "https://notional.finance/"
   }
 }

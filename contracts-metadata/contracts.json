@@ -997,6 +997,14 @@
     "dateAdded": "2021-11-01",
     "logo": "abracadabra.svg"
   },
+  "0x48D49466CB2EFbF05FaA5fa5E69f2984eDC8d1D7": {
+    "name": "Premia Finance",
+    "site": "https://premia.finance/",
+    "supportedChains": ["ethereum"],
+    "type": "protocol",
+    "dateAdded": "2021-11-04",
+    "logo": "premia.svg"
+  },
   "0x0000000000000000000000000000000000000001": {
     "name": "Anchor",
     "site": "https://anchorprotocol.com ",

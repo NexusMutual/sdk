@@ -1161,7 +1161,7 @@
     "name": "Notional Finance V2",
     "type": "protocol",
     "supportedChains": ["ethereum"],
-    "dateAdded": "2021-01-18",
+    "dateAdded": "2021-11-04",
     "logo": "notional.png",
     "github": "https://github.com/notional-finance",
     "messari": "https://notional.finance/"

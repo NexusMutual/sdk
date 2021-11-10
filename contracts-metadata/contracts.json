@@ -986,6 +986,7 @@
     "supportedChains": ["ethereum", "polygon"],
     "type": "protocol",
     "dateAdded": "2021-10-12",
+    "note": "Rari Capital allows for the permissionless creation of Fuse pools, which means assets can be added without regard for smart contract, counterparty, or market risk. These assets may be subject to oracle manipulation or other non-standard events; as stated in the Protocol Cover wording under Exclusion 8.1, known bugs or vulnerabilities disclosed before a cover policy begins are not covered by Nexus Mutual.",
     "logo": "rari.png"
   },
   "0xd96f48665a1410C0cd669A88898ecA36B9Fc2cce": {
@@ -1156,5 +1157,13 @@
     "underlyingToken": "DAI",
     "dateAdded": "2021-10-28",
     "logo": "convex.png"
+  },
+  "0xaE7b92C8B14E7bdB523408aE0A6fFbf3f589adD9": {
+    "name": "Popsicle Finance",
+    "site": "https://popsicle.finance/",
+    "supportedChains": ["ethereum", "bsc", "fantom", "avalanche", "arbitrum"],
+    "type": "protocol",
+    "dateAdded": "2021-11-10",
+    "logo": "popsicle.svg"
   }
 }

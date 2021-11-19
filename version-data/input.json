@@ -15617,7 +15617,7 @@
   },
   {
     "code": "SO",
-    "address": "0xcafea19bB9ab657f8Ea74363C937446C0846a320",
+    "address": "0xcafea4E03B98873B842D83ed368F6F1A49F58Ee7",
     "contractName": "SwapOperator",
     "contractAbi": [
       {
@@ -15698,6 +15698,19 @@
             "internalType": "uint256",
             "name": "",
             "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "communityFundTransferExecuted",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
           }
         ],
         "stateMutability": "view",
@@ -15826,6 +15839,13 @@
           }
         ],
         "name": "swapETHForStETH",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "transferToCommunityFund",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"

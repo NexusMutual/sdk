@@ -1165,5 +1165,14 @@
     "type": "protocol",
     "dateAdded": "2021-11-10",
     "logo": "popsicle.svg"
+  },
+  "0x1344A36A1B56144C3Bc62E7757377D288fDE0369": {
+    "name": "Notional Finance V2",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2021-11-22",
+    "logo": "notional-finance.svg",
+    "github": "https://github.com/notional-finance",
+    "messari": "https://notional.finance/"
   }
 }

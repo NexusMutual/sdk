@@ -108,7 +108,8 @@
     "dateAdded":"2020-01-01",
     "logo":"nuo.png",
     "github":"https://github.com/NuoNetwork",
-    "messari":""
+    "messari":"",
+    "deprecated": true
   },
   "0xb7896fce748396EcFC240F5a0d3Cc92ca42D7d84":{
     "name":"Pool Together SAI",
@@ -123,7 +124,8 @@
     "dateAdded":"2020-01-01",
     "logo":"pooltogether.png",
     "github":"https://github.com/pooltogether",
-    "messari":""
+    "messari":"",
+    "deprecated": true
   },
   "0xB1dD690Cc9AF7BB1a906A9B5A94F94191cc553Ce":{
     "name":"Argent",
@@ -374,7 +376,7 @@
   "0x79a8C46DeA5aDa233ABaFFD40F3A0A2B1e5A4F27":{
     "name": "Curve All Pools (incl staking)",
     "type": "protocol",
-    "supportedChains": ["ethereum", "polygon", "xdai", "fantom", "arbitrum", "avalanche", "celo"],
+    "supportedChains": ["ethereum", "polygon", "xdai", "fantom", "arbitrum", "avalanche", "celo", "harmony"],
     "dateAdded": "2020-06-20",
     "logo": "curve.png",
     "github": "https://github.com/curvefi",
@@ -521,7 +523,7 @@
   "0x3fE7940616e5Bc47b0775a0dccf6237893353bB4":{
     "name": "Idle V4",
     "type": "protocol",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "polygon"],
     "dateAdded": "2020-08-14",
     "logo": "idle.png",
     "github": "https://github.com/bugduino/idle",
@@ -675,7 +677,7 @@
   "0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd": {
     "name": "SushiSwap V1",
     "type": "protocol",
-    "supportedChains": ["ethereum", "bsc", "xdai", "fantom", "polygon", "arbitrum", "avalanche", "celo"],
+    "supportedChains": ["ethereum", "bsc", "xdai", "fantom", "polygon", "arbitrum", "avalanche", "celo", "harmony"],
     "dateAdded": "2020-12-09",
     "logo": "sushiswap.jpg",
     "note": "Includes AMM, xSushi Staking, Masterchef V1 and V2. Excludes Kashi Lending and BentoBox.",
@@ -687,7 +689,8 @@
     "supportedChains": ["ethereum", "bsc", "xdai", "fantom", "polygon"],
     "dateAdded": "2020-12-11",
     "logo": "cover.jpg",
-    "github": "https://github.com/CoverProtocol/"
+    "github": "https://github.com/CoverProtocol/",
+    "deprecated": true
   },
   "0xA51156F3F1e39d1036Ca4ba4974107A1C1815d1e": {
     "name": "Perpetual Protocol",
@@ -700,7 +703,7 @@
   "0x6354E79F21B56C11f48bcD7c451BE456D7102A36": {
     "name": "BadgerDAO",
     "type": "protocol",
-    "supportedChains": ["ethereum", "bsc", "polygon"],
+    "supportedChains": ["ethereum", "bsc", "polygon", "arbitrum"],
     "dateAdded": "2020-12-29",
     "logo": "badgerdao.png",
     "github": "https://github.com/Badger-Finance",
@@ -711,7 +714,7 @@
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded": "2021-01-18",
-    "logo": "notional.png",
+    "logo": "notional-finance.svg",
     "github": "https://github.com/notional-finance",
     "messari": "https://notional.finance/"
   },

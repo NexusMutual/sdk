@@ -1177,5 +1177,13 @@
     "logo": "notional-finance.svg",
     "github": "https://github.com/notional-finance",
     "messari": "https://notional.finance/"
+  },
+  "0x575409F8d77c12B05feD8B455815f0e54797381c": {
+    "name": "OlympusDAO",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2021-11-29",
+    "logo": "olympusdao.svg",
+    "github": "https://github.com/OlympusDAO"
   }
 }

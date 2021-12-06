@@ -484,7 +484,7 @@
     "messari":"https://messari.io/asset/kyber-network/profile"
   },
   "0x1F573D6Fb3F13d689FF844B4cE37794d79a7FF1C":{
-    "name": "Bancor",
+    "name": "Bancor V2",
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded": "2020-07-23",
@@ -752,7 +752,8 @@
     "dateAdded": "2021-03-10",
     "logo": "vesper.svg",
     "github": "https://github.com/vesperfi",
-    "messari": "https://vesper.finance"
+    "messari": "https://vesper.finance",
+    "note": "Vesper Finance Protocol Cover includes protection for assets deposited in Grow Pools within the Vesper app and the Vesper Orbit app."
   },
   "0x5D9972dD3Ba5602574ABeA6bF9E1713568D49903": {
     "name": "Benchmark Protocol",
@@ -1181,9 +1182,17 @@
   "0x575409F8d77c12B05feD8B455815f0e54797381c": {
     "name": "OlympusDAO",
     "type": "protocol",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "arbitrum", "avalanche"],
     "dateAdded": "2021-11-29",
     "logo": "olympusdao.svg",
     "github": "https://github.com/OlympusDAO"
+  },
+  "0x25751853Eab4D0eB3652B5eB6ecB102A2789644B": {
+    "name": "Ribbon Finance v2",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2021-12-06",
+    "logo": "ribbon.svg",
+    "github": "https://github.com/ribbon-finance"
   }
 }

@@ -1194,5 +1194,14 @@
     "dateAdded": "2021-12-06",
     "logo": "ribbon.svg",
     "github": "https://github.com/ribbon-finance"
+  },
+  "0xd89a09084555a7D0ABe7B111b1f78DFEdDd638Be": {
+    "name": "Pool Together v4",
+    "type": "protocol",
+    "supportedChains": ["ethereum", "polygon"],
+    "dateAdded": "2021-12-09",
+    "logo": "pooltogether.svg",
+    "github": "https://github.com/pooltogether/pooltogether-pool-contracts"
   }
+
 }

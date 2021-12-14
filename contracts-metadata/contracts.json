@@ -6,7 +6,7 @@
     "deprecated":true
   },
   "0x8B3d70d628Ebd30D4A2ea82DB95bA2e906c71633":{
-    "name":"bZx V1",
+    "name":"bZx v1",
     "type": "protocol",
     "supportedChains": ["ethereum", "bsc", "polygon"],
     "dateAdded":"2020-01-01",
@@ -27,13 +27,13 @@
     "deprecated":true
   },
   "0x080bf510FCbF18b91105470639e9561022937712":{
-    "name":"0x V2.1",
+    "name":"0x v2.1",
     "type": "protocol",
     "dateAdded":"2020-01-01",
     "deprecated":true
   },
   "0x16de59092dAE5CcF4A1E6439D611fd0653f0Bd01":{
-    "name":"iearn yDAI V1",
+    "name":"iearn yDAI v1",
     "type": "protocol",
     "dateAdded":"2020-01-01",
     "deprecated":true
@@ -118,11 +118,11 @@
     "deprecated":true
   },
   "0x932773aE4B661029704e731722CF8129e1B32494":{
-    "name":"Pool Together V2",
+    "name":"Pool Together v2",
     "type": "protocol",
     "supportedChains": ["ethereum", "polygon"],
     "dateAdded":"2020-01-01",
-    "logo":"pooltogether.png",
+    "logo":"pooltogether.svg",
     "github":"https://github.com/pooltogether",
     "messari":"",
     "deprecated": true
@@ -143,7 +143,7 @@
     "deprecated":true
   },
   "0x2C4Bd064b998838076fa341A83d007FC2FA50957":{
-    "name":"Uniswap V1 MKR Pool",
+    "name":"Uniswap v1 MKR Pool",
     "type": "protocol",
     "dateAdded":"2020-01-01",
     "deprecated":true
@@ -221,7 +221,7 @@
     "messari":"https://messari.io/asset/ren"
   },
   "0xB27F1DB0a7e473304A5a06E54bdf035F671400C0":{
-    "name":"0x V3",
+    "name":"0x v3",
     "type": "protocol",
     "supportedChains": ["ethereum", "bsc"],
     "dateAdded":"2020-01-01",
@@ -241,7 +241,7 @@
     "deprecated": true
   },
   "0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B":{
-    "name":"Compound V2",
+    "name":"Compound v2",
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
@@ -259,7 +259,7 @@
     "messari":"https://messari.io/asset/gnosis/profile"
   },
   "0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95":{
-    "name":"Uniswap V1",
+    "name":"Uniswap v1",
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
@@ -283,7 +283,7 @@
     "deprecated":true
   },
   "0xc1D2819CE78f3E15Ee69c6738eB1B400A26e632A":{
-    "name":"Aave V1",
+    "name":"Aave v1",
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
@@ -362,7 +362,7 @@
     "messari":"https://messari.io/asset/flexacoin/profile"
   },
   "0x78751B12Da02728F467A44eAc40F5cbc16Bd7934":{
-    "name": "Idle V3",
+    "name": "Idle v3",
     "type": "protocol",
     "dateAdded": "2020-06-20",
     "deprecated": true
@@ -393,7 +393,7 @@
     "messari":"https://messari.io/asset/set-protocol/profile"
   },
   "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f":{
-    "name":"Uniswap V2",
+    "name":"Uniswap v2",
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded":"2020-01-01",
@@ -402,7 +402,7 @@
     "messari":"https://messari.io/asset/uniswap/profile"
   },
   "0x9424B1412450D0f8Fc2255FAf6046b98213B76Bd":{
-    "name":"Balancer V1",
+    "name":"Balancer v1",
     "type": "protocol",
     "supportedChains": ["ethereum", "xdai", "arbitrum"],
     "dateAdded":"2020-06-20",
@@ -420,7 +420,7 @@
     "messari":"https://messari.io/asset/ampleforth"
   },
   "0x86969d29F5fd327E1009bA66072BE22DB6017cC6":{
-    "name":"Paraswap V1",
+    "name":"Paraswap v1",
     "type": "protocol",
     "supportedChains": ["ethereum", "bsc", "polygon"],
     "dateAdded":"2020-01-01",
@@ -429,7 +429,7 @@
     "messari":""
   },
   "0x5f9AE054C7F0489888B1ea46824b4B9618f8A711":{
-    "name":"Melon V1",
+    "name":"Melon v1",
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded":"2020-06-20",
@@ -465,7 +465,7 @@
     "messari":"https://messari.io/asset/synthetix/profile"
   },
   "0x2a0c0DBEcC7E4D658f48E01e3fA353F44050c208":{
-    "name":"IDEX V1",
+    "name":"IDEX v1",
     "type": "protocol",
     "supportedChains": ["ethereum", "bsc"],
     "dateAdded":"2020-01-01",
@@ -484,7 +484,7 @@
     "messari":"https://messari.io/asset/kyber-network/profile"
   },
   "0x1F573D6Fb3F13d689FF844B4cE37794d79a7FF1C":{
-    "name": "Bancor V2",
+    "name": "Bancor v2",
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded": "2020-07-23",
@@ -511,7 +511,7 @@
     "messari": ""
   },
   "0x0e2298E3B3390e3b945a5456fBf59eCc3f55DA16":{
-    "name": "Yam Finance V1",
+    "name": "Yam Finance v1",
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded": "2020-08-13",
@@ -521,7 +521,7 @@
     "deprecated": "true"
   },
   "0x3fE7940616e5Bc47b0775a0dccf6237893353bB4":{
-    "name": "Idle V4",
+    "name": "Idle v4",
     "type": "protocol",
     "supportedChains": ["ethereum", "polygon"],
     "dateAdded": "2020-08-14",
@@ -539,7 +539,7 @@
     "messari": ""
   },
   "0xe20A5C79b39bC8C363f0f49ADcFa82C2a01ab64a": {
-    "name": "tBTC Contracts V1",
+    "name": "tBTC Contracts v1",
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded": "2020-09-28",
@@ -584,16 +584,16 @@
     "messari": ""
   },
   "0xCB876f60399897db24058b2d58D0B9f713175eeF": {
-    "name": "Pool Together V3",
+    "name": "Pool Together v3",
     "type": "protocol",
     "supportedChains": ["ethereum", "polygon", "bsc", "celo"],
     "dateAdded": "2020-10-28",
-    "logo": "pooltogether.png",
+    "logo":"pooltogether.svg",
     "github": "https://github.com/pooltogether",
     "messari": "https://docs.pooltogether.com/security/risks"
   },
   "0xa4c8d221d8BB851f83aadd0223a8900A6921A349": {
-    "name": "Set Protocol V2",
+    "name": "Set Protocol v2",
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded": "2020-10-28",
@@ -638,7 +638,7 @@
     "messari": "https://github.com/keeperdao/docs/wiki"
   },
   "0x3d5BC3c8d13dcB8bF317092d84783c2697AE9258": {
-    "name": "CREAM V1",
+    "name": "CREAM v1",
     "type": "protocol",
     "supportedChains": ["ethereum", "bsc", "polygon", "fantom"],
     "dateAdded": "2020-11-24",
@@ -657,7 +657,7 @@
     "messari": "https://truefi.io/"
   },
   "0x67B66C99D3Eb37Fa76Aa3Ed1ff33E8e39F0b9c7A": {
-    "name": "Alpha Homora V1",
+    "name": "Alpha Homora v1",
     "type": "protocol",
     "supportedChains": ["ethereum", "bsc"],
     "dateAdded": "2020-11-26",
@@ -666,7 +666,7 @@
     "messari": "https://homora.alphafinance.io/"
   },
   "0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9": {
-    "name": "Aave V2",
+    "name": "Aave v2",
     "type": "protocol",
     "supportedChains": ["ethereum", "polygon", "avalanche", "celo"],
     "dateAdded": "2020-12-03",
@@ -675,16 +675,16 @@
     "github": "https://github.com/aave/protocol-v2"
   },
   "0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd": {
-    "name": "SushiSwap V1",
+    "name": "SushiSwap v1",
     "type": "protocol",
     "supportedChains": ["ethereum", "bsc", "xdai", "fantom", "polygon", "arbitrum", "avalanche", "celo", "harmony"],
     "dateAdded": "2020-12-09",
     "logo": "sushiswap.jpg",
-    "note": "Includes AMM, xSushi Staking, Masterchef V1 and V2. Excludes Kashi Lending and BentoBox.",
+    "note": "Includes AMM, xSushi Staking, Masterchef v1 and v2. Excludes Kashi Lending and BentoBox.",
     "github": "https://github.com/sushiswap/sushiswap"
   },
   "0xedfC81Bf63527337cD2193925f9C0cF2D537AccA": {
-    "name": "Cover Protocol V1",
+    "name": "Cover Protocol v1",
     "type": "protocol",
     "supportedChains": ["ethereum", "bsc", "xdai", "fantom", "polygon"],
     "dateAdded": "2020-12-11",
@@ -710,7 +710,7 @@
     "messari": "https://badger.finance/"
   },
   "0x9abd0b8868546105F6F48298eaDC1D9c82f7f683": {
-    "name": "Notional Finance V1",
+    "name": "Notional Finance v1",
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded": "2021-01-18",
@@ -728,7 +728,7 @@
     "messari": "https://www.ousd.com"
   },
   "0x7C06792Af1632E77cb27a558Dc0885338F4Bdf8E": {
-    "name": "Opyn V2",
+    "name": "Opyn v2",
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded": "2021-02-25",
@@ -792,7 +792,7 @@
     "github": "https://github.com/harvest-finance"
   },
   "0x1F98431c8aD98523631AE4a59f267346ea31F984": {
-    "name": "Uniswap V3",
+    "name": "Uniswap v3",
     "type": "protocol",
     "supportedChains": ["ethereum", "optimism", "arbitrum"],
     "dateAdded": "2021-05-05",
@@ -801,7 +801,7 @@
     "messari": "https://messari.io/asset/uniswap/profile"
   },
   "0x4B8d90D68F26DEF303Dcb6CFc9b63A1aAEC15840": {
-    "name": "Barnbridge Smart Yield V1",
+    "name": "Barnbridge Smart Yield v1",
     "site": "https://barnbridge.com",
     "type": "protocol",
     "supportedChains": ["ethereum", "polygon"],
@@ -810,7 +810,7 @@
     "github": "https://github.com/BarnBridge"
   },
   "0xF403C135812408BFbE8713b5A23a04b3D48AAE31": {
-    "name": "Convex Finance V1",
+    "name": "Convex Finance v1",
     "site": "https://www.convexfinance.com",
     "type": "protocol",
     "supportedChains": ["ethereum"],
@@ -819,7 +819,7 @@
     "github": "https://github.com/convex-eth"
   },
   "0xc21D353FF4ee73C572425697f4F5aaD2109fe35b": {
-    "name": "Alchemix V1",
+    "name": "Alchemix v1",
     "site": "https://alchemix.fi",
     "type": "protocol",
     "supportedChains": ["ethereum"],
@@ -828,7 +828,7 @@
     "github": "https://github.com/alchemix-finance"
   },
   "0x99c666810bA4Bf9a4C2318CE60Cb2c279Ee2cF56": {
-    "name": "Alpha Homora V2",
+    "name": "Alpha Homora v2",
     "site": "https://homora-v2.alphafinance.io",
     "type": "protocol",
     "supportedChains": ["ethereum", "avalanche"],
@@ -837,7 +837,7 @@
     "github": "https://github.com/AlphaFinanceLab/homora-v2"
   },
   "0xBA12222222228d8Ba445958a75a0704d566BF2C8": {
-    "name": "Balancer V2",
+    "name": "Balancer v2",
     "site": "https://balancer.fi/",
     "type": "protocol",
     "supportedChains": ["ethereum", "polygon", "arbitrum"],
@@ -1045,7 +1045,7 @@
     "logo": "thorchain.svg"
   },
   "0x0000000000000000000000000000000000000005": {
-    "name": "Pancakeswap V1",
+    "name": "Pancakeswap v1",
     "site": "https://pancakeswap.finance ",
     "supportedChains": ["bsc"],
     "type": "protocol",
@@ -1171,7 +1171,7 @@
     "logo": "popsicle.svg"
   },
   "0x1344A36A1B56144C3Bc62E7757377D288fDE0369": {
-    "name": "Notional Finance V2",
+    "name": "Notional Finance v2",
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded": "2021-11-22",
@@ -1202,6 +1202,13 @@
     "dateAdded": "2021-12-09",
     "logo": "pooltogether.svg",
     "github": "https://github.com/pooltogether/pooltogether-pool-contracts"
+  },
+  "0x60aE616a2155Ee3d9A68541Ba4544862310933d4": {
+    "name": "Trader Joe",
+    "type": "protocol",
+    "supportedChains": ["avalanche"],
+    "dateAdded": "2021-12-14",
+    "logo": "trader-joe.svg",
+    "github": "https://github.com/traderjoe-xyz/"
   }
-
 }

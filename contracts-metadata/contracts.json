@@ -376,7 +376,7 @@
   "0x79a8C46DeA5aDa233ABaFFD40F3A0A2B1e5A4F27":{
     "name": "Curve All Pools (incl staking)",
     "type": "protocol",
-    "supportedChains": ["ethereum", "polygon", "xdai", "fantom", "arbitrum", "avalanche", "celo", "harmony"],
+    "supportedChains": ["ethereum", "polygon", "xdai", "fantom", "arbitrum", "avalanche", "harmony"],
     "dateAdded": "2020-06-20",
     "logo": "curve.png",
     "github": "https://github.com/curvefi",
@@ -576,6 +576,7 @@
   },
   "0x26aaD4D82f6c9FA6E34D8c1067429C986A055872": {
     "name": "CoFix",
+    "deprecated": true,
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded": "2020-10-26",
@@ -595,7 +596,7 @@
   "0xa4c8d221d8BB851f83aadd0223a8900A6921A349": {
     "name": "Set Protocol v2",
     "type": "protocol",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "polygon"],
     "dateAdded": "2020-10-28",
     "logo": "tokensets.svg",
     "github": "https://github.com/SetProtocol",
@@ -668,7 +669,7 @@
   "0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9": {
     "name": "Aave v2",
     "type": "protocol",
-    "supportedChains": ["ethereum", "polygon", "avalanche", "celo"],
+    "supportedChains": ["ethereum", "polygon", "avalanche"],
     "dateAdded": "2020-12-03",
     "logo": "aavev2.svg",
     "note": "Including AMM market.",
@@ -1005,7 +1006,7 @@
   "0x48D49466CB2EFbF05FaA5fa5E69f2984eDC8d1D7": {
     "name": "Premia Finance",
     "site": "https://premia.finance/",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "arbitrum"],
     "type": "protocol",
     "dateAdded": "2021-11-04",
     "logo": "premia.svg"
@@ -1185,12 +1186,13 @@
     "supportedChains": ["ethereum", "arbitrum", "avalanche"],
     "dateAdded": "2021-11-29",
     "logo": "olympusdao.svg",
-    "github": "https://github.com/OlympusDAO"
+    "github": "https://github.com/OlympusDAO",
+    "note": "Protocol Cover for OlympusDAO covers assets in OlympusDAO v1 and OlympusDAO v2."
   },
   "0x25751853Eab4D0eB3652B5eB6ecB102A2789644B": {
     "name": "Ribbon Finance v2",
     "type": "protocol",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "avalanche"],
     "dateAdded": "2021-12-06",
     "logo": "ribbon.svg",
     "github": "https://github.com/ribbon-finance"
@@ -1198,7 +1200,7 @@
   "0xd89a09084555a7D0ABe7B111b1f78DFEdDd638Be": {
     "name": "Pool Together v4",
     "type": "protocol",
-    "supportedChains": ["ethereum", "polygon"],
+    "supportedChains": ["ethereum", "polygon", "avalanche"],
     "dateAdded": "2021-12-09",
     "logo": "pooltogether.svg",
     "github": "https://github.com/pooltogether/pooltogether-pool-contracts"
@@ -1210,5 +1212,15 @@
     "dateAdded": "2021-12-14",
     "logo": "trader-joe.svg",
     "github": "https://github.com/traderjoe-xyz/"
+  },
+  "0x2A8e1E676Ec238d8A992307B495b45B3fEAa5e86": {
+    "name": "Origin oUSD",
+    "type": "token",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2022-01-04",
+    "logo": "originusd.svg",
+    "coveredToken": "0x2A8e1E676Ec238d8A992307B495b45B3fEAa5e86",
+    "underlyingToken": "DAI",
+    "github": "https://github.com/originprotocol/origin-dollar"
   }
 }

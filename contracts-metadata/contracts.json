@@ -155,7 +155,6 @@
     "dateAdded":"2020-01-01",
     "logo":"dydx.svg",
     "github":"https://github.com/dydxprotocol",
-    "note": "Includes Layer 2.",
     "messari":"https://messari.io/asset/dydx/profile"
   },
   "0x6B175474E89094C44Da98b954EedeAC495271d0F":{
@@ -194,7 +193,6 @@
     "supportedChains": ["ethereum", "starkware"],
     "dateAdded":"2020-06-20",
     "logo":"deversifi.png",
-    "note": "Includes Layer 2.",
     "github":"https://github.com/deversifi",
     "messari":""
   },
@@ -217,7 +215,6 @@
     "dateAdded":"2020-06-20",
     "logo":"ren.svg",
     "github":"https://github.com/renproject",
-    "note": "Includes Bitcoin and other chain integrations.",
     "messari":"https://messari.io/asset/ren"
   },
   "0xB27F1DB0a7e473304A5a06E54bdf035F671400C0":{
@@ -236,7 +233,6 @@
     "dateAdded":"2020-01-01",
     "logo":"dydx.svg",
     "github":"https://github.com/dydxprotocol",
-    "note": "Layer 1 only.",
     "messari":"https://messari.io/asset/dydx/profile",
     "deprecated": true
   },
@@ -340,7 +336,6 @@
     "dateAdded":"2020-01-01",
     "logo":"yearn.svg",
     "github":"https://github.com/iearn-finance",
-    "note": "Only covers Yearn contracts, not underlying protocols.",
     "messari":""
   },
   "0x77208a6000691E440026bEd1b178EF4661D37426":{
@@ -380,7 +375,6 @@
     "dateAdded": "2020-06-20",
     "logo": "curve.png",
     "github": "https://github.com/curvefi",
-    "note": "Excluding innovation zone.",
     "messari": ""
   },
   "0x5B67871C3a857dE81A1ca0f9F7945e5670D986Dc":{
@@ -479,7 +473,6 @@
     "supportedChains": ["ethereum"],
     "dateAdded":"2020-07-07",
     "logo":"kyber.png",
-    "note":"Excludes Kyber DMM.",
     "github":"https://github.com/kybernetwork",
     "messari":"https://messari.io/asset/kyber-network/profile"
   },
@@ -645,7 +638,6 @@
     "dateAdded": "2020-11-24",
     "logo": "cream.png",
     "github": "https://github.com/CreamFi",
-    "note": "Excluding Iron Bank.",
     "messari": "https://cream.finance/"
   },
   "0x7a9701453249e84fd0D5AfE5951e9cBe9ed2E90f": {
@@ -672,7 +664,6 @@
     "supportedChains": ["ethereum", "polygon", "avalanche"],
     "dateAdded": "2020-12-03",
     "logo": "aavev2.svg",
-    "note": "Including AMM market.",
     "github": "https://github.com/aave/protocol-v2"
   },
   "0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd": {
@@ -681,7 +672,6 @@
     "supportedChains": ["ethereum", "bsc", "xdai", "fantom", "polygon", "arbitrum", "avalanche", "celo", "harmony"],
     "dateAdded": "2020-12-09",
     "logo": "sushiswap.jpg",
-    "note": "Includes AMM, xSushi Staking, Masterchef v1 and v2. Excludes Kashi Lending and BentoBox.",
     "github": "https://github.com/sushiswap/sushiswap"
   },
   "0xedfC81Bf63527337cD2193925f9C0cF2D537AccA": {
@@ -753,8 +743,7 @@
     "dateAdded": "2021-03-10",
     "logo": "vesper.svg",
     "github": "https://github.com/vesperfi",
-    "messari": "https://vesper.finance",
-    "note": "Vesper Finance Protocol Cover includes protection for assets deposited in Grow Pools within the Vesper app and the Vesper Orbit app."
+    "messari": "https://vesper.finance"
   },
   "0x5D9972dD3Ba5602574ABeA6bF9E1713568D49903": {
     "name": "Benchmark Protocol",
@@ -768,7 +757,7 @@
   "0xB17640796e4c27a39AF51887aff3F8DC0daF9567": {
     "name": "Stake DAO",
     "type": "protocol",
-    "supportedChains": ["ethereum", "bsc", "polygon", "avalanche"],
+    "supportedChains": ["ethereum", "bsc", "polygon", "avalanche", "harmony"],
     "dateAdded": "2021-03-29",
     "logo": "stakedao.png",
     "github": "https://github.com/StakeDAO",
@@ -947,7 +936,6 @@
     "name": "FTX",
     "site": "https://ftx.com/",
     "type": "custodian",
-    "note": "Includes Blockfolio, re-branded as FTX app, where assets are custodied with FTX.",
     "dateAdded": "2021-05-04",
     "logo": "ftx.svg"
   },
@@ -955,7 +943,6 @@
     "name": "Crypto.com",
     "site": "https://crypto.com/",
     "type": "custodian",
-    "note": "Custodial services only, including Crypto Earn, Crypto Credit and Exchange. All non-custodial services such as DeFi Wallet, DeFi Earn and DeFi Swap are excluded.",
     "dateAdded": "2021-07-06",
     "logo": "crypto-com.svg"
   },
@@ -991,7 +978,6 @@
     "supportedChains": ["ethereum", "polygon"],
     "type": "protocol",
     "dateAdded": "2021-10-12",
-    "note": "Rari Capital allows for the permissionless creation of Fuse pools, which means assets can be added without regard for smart contract, counterparty, or market risk. These assets may be subject to oracle manipulation or other non-standard events; as stated in the Protocol Cover wording under Exclusion 8.1, known bugs or vulnerabilities disclosed before a cover policy begins are not covered by Nexus Mutual.",
     "logo": "rari.png"
   },
   "0xd96f48665a1410C0cd669A88898ecA36B9Fc2cce": {
@@ -1017,7 +1003,6 @@
     "supportedChains": ["ethereum", "terra"],
     "type": "protocol",
     "dateAdded": "2021-04-26",
-    "note": "Includes Ethereum bridge components. Doesn't cover UST depegging.",
     "logo": "anchor.svg"
   },
   "0x0000000000000000000000000000000000000002": {
@@ -1042,7 +1027,6 @@
     "supportedChains": ["thorchain", "ethereum"],
     "type": "protocol",
     "dateAdded": "2021-04-26",
-    "note": "Includes Bitcoin and other chain integrations.",
     "logo": "thorchain.svg"
   },
   "0x0000000000000000000000000000000000000005": {
@@ -1186,8 +1170,7 @@
     "supportedChains": ["ethereum", "arbitrum", "avalanche"],
     "dateAdded": "2021-11-29",
     "logo": "olympusdao.svg",
-    "github": "https://github.com/OlympusDAO",
-    "note": "Protocol Cover for OlympusDAO covers assets in OlympusDAO v1 and OlympusDAO v2."
+    "github": "https://github.com/OlympusDAO"
   },
   "0x25751853Eab4D0eB3652B5eB6ecB102A2789644B": {
     "name": "Ribbon Finance v2",
@@ -1221,8 +1204,7 @@
     "logo": "originusd.svg",
     "coveredToken": "0x2A8e1E676Ec238d8A992307B495b45B3fEAa5e86",
     "underlyingToken": "DAI",
-    "github": "https://github.com/originprotocol/origin-dollar",
-    "note": "As Origin Dollar’s OUSD is a rebasing token, any malfunction of the token contract that causes a rebasing down of the token will effectively not be covered, as no depeg will have occurred."
+    "github": "https://github.com/originprotocol/origin-dollar"
   },
   "0x2BB8de958134AFd7543d4063CaFAD0b7c6de08BC": {
     "name": "Ondo",
@@ -1231,5 +1213,12 @@
     "dateAdded": "2022-01-28",
     "logo": "ondo.svg",
     "github": "https://github.com/ondoprotocol"
+  },
+  "0x7e6d3b1161DF9c9c7527F68d651B297d2Fdb820B": {
+    "name": "Enzyme v3",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2022-02-16",
+    "logo": "enzyme.svg"
   }
 }

@@ -1220,5 +1220,12 @@
     "supportedChains": ["ethereum"],
     "dateAdded": "2022-02-16",
     "logo": "enzyme.svg"
+  },
+  "0x453D4Ba9a2D594314DF88564248497F7D74d6b2C": {
+    "name": "Beefy",
+    "type": "protocol",
+    "supportedChains": ["bsc", "avalanche", "heco", "polygon", "fantom", "harmony", "arbitrum", "celo", "moonriver", "cronos", "fuse", "metis", "aurora", "moonbeam"],
+    "dateAdded": "2022-03-04",
+    "logo": "beefy.svg"
   }
 }

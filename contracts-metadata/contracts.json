@@ -1227,5 +1227,12 @@
     "supportedChains": ["bsc", "avalanche", "heco", "polygon", "fantom", "harmony", "arbitrum", "celo", "moonriver", "cronos", "fuse", "metis", "aurora", "moonbeam"],
     "dateAdded": "2022-03-04",
     "logo": "beefy.svg"
+  },
+  "0xfdA462548Ce04282f4B6D6619823a7C64Fdc0185": {
+    "name": "Angle",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2022-03-08",
+    "logo": "angle.svg"
   }
 }

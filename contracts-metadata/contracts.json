@@ -821,7 +821,7 @@
     "name": "Alpha Homora v2",
     "site": "https://homora-v2.alphafinance.io",
     "type": "protocol",
-    "supportedChains": ["ethereum", "avalanche"],
+    "supportedChains": ["ethereum", "avalanche", "fantom"],
     "dateAdded": "2021-06-23",
     "logo": "alpha-homora.svg",
     "github": "https://github.com/AlphaFinanceLab/homora-v2"
@@ -839,7 +839,7 @@
     "name": "Alpaca Finance",
     "site": "https://www.alpacafinance.org/",
     "type": "protocol",
-    "supportedChains": ["bsc"],
+    "supportedChains": ["bsc", "fantom"],
     "dateAdded": "2021-08-13",
     "logo": "alpaca.png",
     "github": "https://github.com/alpaca-finance"
@@ -992,7 +992,7 @@
   "0x48D49466CB2EFbF05FaA5fa5E69f2984eDC8d1D7": {
     "name": "Premia Finance",
     "site": "https://premia.finance/",
-    "supportedChains": ["ethereum", "arbitrum", "polygon"],
+    "supportedChains": ["ethereum", "arbitrum", "polygon", "bsc"],
     "type": "protocol",
     "dateAdded": "2021-11-04",
     "logo": "premia.svg"
@@ -1234,5 +1234,12 @@
     "supportedChains": ["ethereum"],
     "dateAdded": "2022-03-08",
     "logo": "angle.svg"
+  },
+  "0x66357dCaCe80431aee0A7507e2E361B7e2402370": {
+    "name": "Platypus",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2022-03-18",
+    "logo": "platypus.png"
   }
 }

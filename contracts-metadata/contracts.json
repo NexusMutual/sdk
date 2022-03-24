@@ -814,7 +814,7 @@
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded": "2021-06-14",
-    "logo": "alchemix.png",
+    "logo": "alchemix.svg",
     "github": "https://github.com/alchemix-finance"
   },
   "0x99c666810bA4Bf9a4C2318CE60Cb2c279Ee2cF56": {
@@ -1241,5 +1241,19 @@
     "supportedChains": ["avalanche"],
     "dateAdded": "2022-03-18",
     "logo": "platypus.png"
+  },
+  "0x0000000000000000000000000000000000000017": {
+    "name": "FODL",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2022-03-24",
+    "logo": "fodl.svg"
+  },
+  "0x5C6374a2ac4EBC38DeA0Fc1F8716e5Ea1AdD94dd": {
+    "name": "Alchemix v2",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2022-03-24",
+    "logo": "alchemix.svg"
   }
 }

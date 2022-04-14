@@ -818,12 +818,12 @@
     "github": "https://github.com/alchemix-finance"
   },
   "0x99c666810bA4Bf9a4C2318CE60Cb2c279Ee2cF56": {
-    "name": "Alpha Homora v2",
+    "name": "Homora v2",
     "site": "https://homora-v2.alphafinance.io",
     "type": "protocol",
     "supportedChains": ["ethereum", "avalanche", "fantom"],
     "dateAdded": "2021-06-23",
-    "logo": "alpha-homora.svg",
+    "logo": "homora.svg",
     "github": "https://github.com/AlphaFinanceLab/homora-v2"
   },
   "0xBA12222222228d8Ba445958a75a0704d566BF2C8": {
@@ -845,12 +845,12 @@
     "github": "https://github.com/alpaca-finance"
   },
   "0x08FB62c84909dA3Aa5F59E01763E5FDC62De76e9": {
-    "name": "Visor Finance",
-    "site": "https://www.visor.finance/",
+    "name": "Gamma Finance",
+    "site": "https://www.gamma.xyz/",
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded": "2021-08-20",
-    "logo": "visor.png",
+    "logo": "gamma.svg",
     "github": "https://github.com/VisorFinance"
   },
   "0x8481a6EbAf5c7DABc3F7e09e44A89531fd31F822": {
@@ -1000,7 +1000,7 @@
   "0x0000000000000000000000000000000000000001": {
     "name": "Anchor",
     "site": "https://anchorprotocol.com ",
-    "supportedChains": ["ethereum", "terra"],
+    "supportedChains": ["ethereum", "terra", "avalanche"],
     "type": "protocol",
     "dateAdded": "2021-04-26",
     "logo": "anchor.svg"
@@ -1255,5 +1255,12 @@
     "supportedChains": ["ethereum"],
     "dateAdded": "2022-03-24",
     "logo": "alchemix.svg"
+  },
+  "0x0000000000000000000000000000000000000018": {
+    "name": "Bundle: Gelt + mStable + Aave v2",
+    "type": "protocol",
+    "supportedChains": ["ethereum", "polygon"],
+    "dateAdded": "2022-04-14",
+    "logo": "gelt.svg"
   }
 }

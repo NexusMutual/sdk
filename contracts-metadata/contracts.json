@@ -1262,5 +1262,12 @@
     "supportedChains": ["ethereum", "polygon"],
     "dateAdded": "2022-04-14",
     "logo": "gelt.svg"
+  },
+  "0x0000000000000000000000000000000000000019": {
+    "name": "Yeti Finance",
+    "type": "protocol",
+    "supportedChains": ["avalanche"],
+    "dateAdded": "2022-04-28",
+    "logo": "yeti.png"
   }
 }

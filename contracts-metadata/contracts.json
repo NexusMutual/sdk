@@ -481,7 +481,7 @@
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded": "2020-07-23",
-    "logo": "bancor.png",
+    "logo": "bancor.svg",
     "github": "https://github.com/bancorprotocol/",
     "messari": "https://messari.io/asset/bancor/profile"
   },
@@ -975,7 +975,7 @@
     "name": "Rari Capital",
     "site": "https://rari.capital/",
     "github": "https://github.com/Rari-Capital",
-    "supportedChains": ["ethereum", "polygon"],
+    "supportedChains": ["ethereum", "polygon", "arbitrum"],
     "type": "protocol",
     "dateAdded": "2021-10-12",
     "logo": "rari.png"
@@ -1269,5 +1269,26 @@
     "supportedChains": ["avalanche"],
     "dateAdded": "2022-04-28",
     "logo": "yeti.png"
+  },
+  "0x0000000000000000000000000000000000000020": {
+    "name": "Babylon Finance",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2022-05-12",
+    "logo": "babylon.svg"
+  },
+  "0x0000000000000000000000000000000000000021": {
+    "name": "Vector",
+    "type": "protocol",
+    "supportedChains": ["avalanche"],
+    "dateAdded": "2022-05-12",
+    "logo": "vector.svg"
+  },
+  "0x0000000000000000000000000000000000000022": {
+    "name": "Bancor v3",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2022-05-12",
+    "logo": "bancor.svg"
   }
 }

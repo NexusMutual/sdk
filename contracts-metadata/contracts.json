@@ -1290,5 +1290,12 @@
     "supportedChains": ["ethereum"],
     "dateAdded": "2022-05-12",
     "logo": "bancor.svg"
+  },
+  "0x0000000000000000000000000000000000000023": {
+    "name": "Ease",
+    "type": "protocol",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2022-05-31",
+    "logo": "easelogo.png"
   }
 }

@@ -1119,7 +1119,7 @@
     "site": "https://www.convexfinance.com/",
     "supportedChains": ["ethereum"],
     "type": "token",
-    "symbol": "cvx3Crv",
+    "symbol": "cvxstethCrv",
     "coveredToken": "0x9518c9063eB0262D791f38d8d6Eb0aca33c63ed0",
     "underlyingToken": "ETH",
     "dateAdded": "2021-10-28",
@@ -1304,5 +1304,19 @@
     "supportedChains": ["ethereum", "fantom", "avalanche"],
     "dateAdded": "2022-06-08",
     "logo": "ironbank.svg"
+  },
+  "0x0000000000000000000000000000000000000025": {
+    "name": "Stakewise operated (3 ETH/validator)",
+    "type": "eth2slashing",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2022-06-08",
+    "logo": "stakewise.svg"
+  },
+  "0x0000000000000000000000000000000000000026": {
+    "name": "Stakewise 3rd party (3 ETH/validator)",
+    "type": "eth2slashing",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2022-06-08",
+    "logo": "stakewise.svg"
   }
 }

@@ -1318,5 +1318,12 @@
     "supportedChains": ["ethereum"],
     "dateAdded": "2022-06-08",
     "logo": "stakewise.svg"
+  },
+  "0x0000000000000000000000000000000000000027": {
+    "name": "Nested",
+    "type": "protocol",
+    "supportedChains": ["ethereum", "bsc", "avalanche", "polygon", "optimism"],
+    "dateAdded": "2022-07-05",
+    "logo": "nested.svg"
   }
 }

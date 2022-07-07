@@ -8940,7 +8940,7 @@
     "code": "QT",
     "smartContractCode": "QT",
     "contractName": "quotation",
-    "address": "0xb931b565d38da124dc6fd0332ca445544e8b96fb",
+    "address": "0x2d91354298Ba4278F4FC548e680a92D1bfF4efF5",
     "contractAbi": [
       {
         "constant": false,

@@ -8944,6 +8944,61 @@
     "contractAbi": [
       {
         "constant": false,
+        "inputs": [
+          {
+            "internalType": "uint256[]",
+            "name": "coverDetails",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint16",
+            "name": "coverPeriod",
+            "type": "uint16"
+          },
+          {
+            "internalType": "bytes4",
+            "name": "coverCurr",
+            "type": "bytes4"
+          },
+          {
+            "internalType": "address",
+            "name": "smartCAdd",
+            "type": "address"
+          },
+          {
+            "internalType": "uint8",
+            "name": "_v",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "_r",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "_s",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bool",
+            "name": "payWithNXM",
+            "type": "bool"
+          },
+          {
+            "internalType": "string",
+            "name": "ipfsMetadata",
+            "type": "string"
+          }
+        ],
+        "name": "buyCoverWithMetadata",
+        "outputs": [],
+        "payable": true,
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "constant": false,
         "inputs": [],
         "name": "changeDependentContractAddress",
         "outputs": [],
@@ -8964,6 +9019,27 @@
         "outputs": [],
         "payable": false,
         "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "coverMetadata",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
         "type": "function"
       },
       {
@@ -9041,15 +9117,6 @@
           }
         ],
         "name": "expireCover",
-        "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [],
-        "name": "freeUpHeldCovers",
         "outputs": [],
         "payable": false,
         "stateMutability": "nonpayable",

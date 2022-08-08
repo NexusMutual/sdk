@@ -185,7 +185,8 @@
     "dateAdded":"2020-01-01",
     "logo":"tornado.png",
     "github":"https://github.com/tornadocash",
-    "messari":""
+    "messari":"",
+    "deprecated":true
   },
   "0x5d22045DAcEAB03B158031eCB7D9d06Fad24609b":{
     "name":"Deversifi",

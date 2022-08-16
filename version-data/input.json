@@ -2361,7 +2361,7 @@
   },
   {
     "code": "CR",
-    "address": "0x15671E5710e6E8f087939F8dbB6707Bc4B5c64A9",
+    "address": "0xcafeae7fff15D1289380e4d32501599F3f022d6a",
     "contractName": "ClaimsReward",
     "contractAbi": [
       {
@@ -2699,24 +2699,29 @@
   },
   {
     "code": "PRICEORACLE",
-    "address": "0xcafea55b2d62399DcFe3DfA3CFc71E4076B14b71",
+    "address": "0xcafea5cA38462F35AdbeE429AB7ae597c08d7552",
     "contractName": "PriceFeedOracle",
     "contractAbi": [
       {
         "inputs": [
           {
-            "internalType": "address",
-            "name": "_daiAggregator",
-            "type": "address"
+            "internalType": "address[]",
+            "name": "assetAddresses",
+            "type": "address[]"
+          },
+          {
+            "internalType": "address[]",
+            "name": "aggregators",
+            "type": "address[]"
+          },
+          {
+            "internalType": "uint8[]",
+            "name": "decimals",
+            "type": "uint8[]"
           },
           {
             "internalType": "address",
             "name": "_daiAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "_stEthAddress",
             "type": "address"
           }
         ],
@@ -2748,12 +2753,17 @@
             "type": "address"
           }
         ],
-        "name": "aggregators",
+        "name": "assets",
         "outputs": [
           {
             "internalType": "address",
-            "name": "",
+            "name": "aggregator",
             "type": "address"
+          },
+          {
+            "internalType": "uint8",
+            "name": "decimals",
+            "type": "uint8"
           }
         ],
         "payable": false,
@@ -2780,7 +2790,7 @@
         "inputs": [
           {
             "internalType": "address",
-            "name": "asset",
+            "name": "assetAddress",
             "type": "address"
           },
           {
@@ -2816,21 +2826,6 @@
             "internalType": "uint256",
             "name": "",
             "type": "uint256"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [],
-        "name": "stETH",
-        "outputs": [
-          {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
           }
         ],
         "payable": false,
@@ -15684,7 +15679,7 @@
   },
   {
     "code": "SO",
-    "address": "0xb00b58b77ECF669D6Cc5a8fc34783Bc244E3e045",
+    "address": "0xcafeaD1b3A9B57FE2A59Cd5D44de9BD54571b1BB",
     "contractName": "SwapOperator",
     "contractAbi": [
       {
@@ -15707,6 +15702,21 @@
           {
             "internalType": "address",
             "name": "_stETH",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "_enzymeV4VaultProxyAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "contract IEnzymeFundValueCalculatorRouter",
+            "name": "_enzymeFundValueCalculatorRouter",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "_weth",
             "type": "address"
           }
         ],
@@ -15772,12 +15782,51 @@
       },
       {
         "inputs": [],
+        "name": "MIN_TIME_BETWEEN_SWAPS",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
         "name": "communityFundTransferExecuted",
         "outputs": [
           {
             "internalType": "bool",
             "name": "",
             "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "enzymeFundValueCalculatorRouter",
+        "outputs": [
+          {
+            "internalType": "contract IEnzymeFundValueCalculatorRouter",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "enzymeV4VaultProxyAddress",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
           }
         ],
         "stateMutability": "view",
@@ -15810,6 +15859,24 @@
           }
         ],
         "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "assetAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "receiver",
+            "type": "address"
+          }
+        ],
+        "name": "recoverAsset",
+        "outputs": [],
+        "stateMutability": "nonpayable",
         "type": "function"
       },
       {
@@ -15903,9 +15970,45 @@
             "internalType": "uint256",
             "name": "amountIn",
             "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amountOutMin",
+            "type": "uint256"
+          }
+        ],
+        "name": "swapETHForEnzymeVaultShare",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "amountIn",
+            "type": "uint256"
           }
         ],
         "name": "swapETHForStETH",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "amountIn",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amountOutMin",
+            "type": "uint256"
+          }
+        ],
+        "name": "swapEnzymeVaultShareForETH",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -15923,6 +16026,19 @@
         "outputs": [
           {
             "internalType": "contract ITwapOracle",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "weth",
+        "outputs": [
+          {
+            "internalType": "contract IWETH",
             "name": "",
             "type": "address"
           }

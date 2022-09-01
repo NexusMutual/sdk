@@ -1421,5 +1421,13 @@
     "supportedChains": ["ethereum"],
     "dateAdded": "2022-08-29",
     "logo": "euler.svg"
+  },
+  "0x3D6bA331e3D9702C5e8A8d254e5d8a285F223aba": {
+    "name": "GMX",
+    "type": "protocol",
+    "site": " https://gmx.io/",
+    "supportedChains": ["arbitrum", "avalanche"],
+    "dateAdded": "2022-09-01",
+    "logo": "gmx.svg"
   }
 }

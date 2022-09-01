@@ -213,7 +213,14 @@
   "0xe80d347DF1209a76DD9d2319d62912ba98C54DDD": {
     "name": "RenVM",
     "type": "protocol",
-    "supportedChains": ["ethereum", "polygon", "bsc", "fantom", "arbitrum", "avalanche"],
+    "supportedChains": [
+      "ethereum",
+      "polygon",
+      "bsc",
+      "fantom",
+      "arbitrum",
+      "avalanche"
+    ],
     "dateAdded": "2020-06-20",
     "logo": "ren.svg",
     "github": "https://github.com/renproject",
@@ -250,7 +257,16 @@
   "0x34CfAC646f301356fAa8B21e94227e3583Fe3F5F": {
     "name": "Gnosis Safe",
     "type": "protocol",
-    "supportedChains": ["ethereum", "polygon", "bsc", "arbitrum", "xdai", "avalanche", "optimism", "aurora"],
+    "supportedChains": [
+      "ethereum",
+      "polygon",
+      "bsc",
+      "arbitrum",
+      "xdai",
+      "avalanche",
+      "optimism",
+      "aurora"
+    ],
     "dateAdded": "2020-01-01",
     "logo": "gnosis-safe.png",
     "github": "https://github.com/gnosis/safe-protocols",
@@ -310,7 +326,16 @@
   "0x11111254369792b2Ca5d084aB5eEA397cA8fa48B": {
     "name": "1Inch (DEX & Liquidity Pools)",
     "type": "protocol",
-    "supportedChains": ["ethereum", "bsc", "polygon", "optimism", "arbitrum", "xdai", "fantom", "avalanche"],
+    "supportedChains": [
+      "ethereum",
+      "bsc",
+      "polygon",
+      "optimism",
+      "arbitrum",
+      "xdai",
+      "fantom",
+      "avalanche"
+    ],
     "dateAdded": "2020-01-01",
     "logo": "1inch.svg",
     "github": "https://github.com/CryptoManiacsZone/1inchProtocol",
@@ -509,7 +534,14 @@
   "0x02285AcaafEB533e03A7306C55EC031297df9224": {
     "name": "dForce Yield Market",
     "type": "protocol",
-    "supportedChains": ["ethereum", "bsc", "polygon", "optimism", "arbitrum", "avalanche"],
+    "supportedChains": [
+      "ethereum",
+      "bsc",
+      "polygon",
+      "optimism",
+      "arbitrum",
+      "avalanche"
+    ],
     "dateAdded": "2020-08-13",
     "logo": "dforce.svg",
     "github": "https://github.com/dforce-network/dToken",
@@ -1009,7 +1041,15 @@
     "name": "Abracadabra",
     "site": "https://abracadabra.money/",
     "github": "https://github.com/Abracadabra-money/magic-internet-money",
-    "supportedChains": ["ethereum", "bsc", "fantom", "avalanche", "arbitrum", "polygon", "arbitrum"],
+    "supportedChains": [
+      "ethereum",
+      "bsc",
+      "fantom",
+      "avalanche",
+      "arbitrum",
+      "polygon",
+      "arbitrum"
+    ],
     "type": "protocol",
     "dateAdded": "2021-11-01",
     "logo": "abracadabra.svg"
@@ -1175,7 +1215,14 @@
   "0xaE7b92C8B14E7bdB523408aE0A6fFbf3f589adD9": {
     "name": "Popsicle Finance",
     "site": "https://popsicle.finance/",
-    "supportedChains": ["ethereum", "bsc", "fantom", "avalanche", "arbitrum", "polygon"],
+    "supportedChains": [
+      "ethereum",
+      "bsc",
+      "fantom",
+      "avalanche",
+      "arbitrum",
+      "polygon"
+    ],
     "type": "protocol",
     "dateAdded": "2021-11-10",
     "logo": "popsicle.svg"
@@ -1316,7 +1363,8 @@
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded": "2022-05-12",
-    "logo": "babylon.svg"
+    "logo": "babylon.svg",
+    "deprecated": true
   },
   "0x0000000000000000000000000000000000000021": {
     "name": "Vector",

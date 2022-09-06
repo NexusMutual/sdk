@@ -406,7 +406,8 @@
       "arbitrum",
       "avalanche",
       "harmony",
-      "optimism"
+      "optimism",
+      "aurora"
     ],
     "dateAdded": "2020-06-20",
     "logo": "curve.png",
@@ -877,7 +878,7 @@
     "name": "Homora v2",
     "site": "https://homora-v2.alphafinance.io",
     "type": "protocol",
-    "supportedChains": ["ethereum", "avalanche", "fantom"],
+    "supportedChains": ["ethereum", "avalanche", "fantom", "optimism"],
     "dateAdded": "2021-06-23",
     "logo": "homora.svg",
     "github": "https://github.com/AlphaFinanceLab/homora-v2"
@@ -904,7 +905,7 @@
     "name": "Gamma Strategies",
     "site": "https://www.gamma.xyz/",
     "type": "protocol",
-    "supportedChains": ["ethereum", "polygon", "optimism"],
+    "supportedChains": ["ethereum", "polygon", "optimism", "celo"],
     "dateAdded": "2021-08-20",
     "logo": "gamma.svg",
     "github": "https://github.com/VisorFinance"
@@ -1138,7 +1139,7 @@
   "0x0000000000000000000000000000000000000009": {
     "name": "Curve 3pool LP (3Crv)",
     "site": "https://curve.fi/",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "aurora"],
     "type": "token",
     "symbol": "3CRV",
     "coveredToken": "0x6c3f90f043a72fa612cbac8115ee7e52bde6e490",
@@ -1149,7 +1150,7 @@
   "0x0000000000000000000000000000000000000010": {
     "name": "Curve sETH LP (eCrv)",
     "site": "https://curve.fi/",
-    "supportedChains": ["ethereum"],
+    "supportedChains": ["ethereum", "aurora"],
     "type": "token",
     "symbol": "eCRV",
     "coveredToken": "0xA3D87FffcE63B53E0d54fAa1cc983B7eB0b74A9c",
@@ -1390,7 +1391,7 @@
   "0x0000000000000000000000000000000000000024": {
     "name": "Iron Bank",
     "type": "protocol",
-    "supportedChains": ["ethereum", "fantom", "avalanche"],
+    "supportedChains": ["ethereum", "fantom", "avalanche", "optimism"],
     "dateAdded": "2022-06-08",
     "logo": "ironbank.svg"
   },

@@ -924,35 +924,40 @@
     "site": "https://celsius.network/",
     "type": "custodian",
     "dateAdded": "2020-12-02",
-    "logo": "celsius.svg"
+    "logo": "celsius.svg",
+    "deprecated": true
   },
   "0xC57D000000000000000000000000000000000002": {
     "name": "BlockFi",
     "site": "https://blockfi.com/",
     "type": "custodian",
     "dateAdded": "2020-12-02",
-    "logo": "blockFi.svg"
+    "logo": "blockFi.svg",
+    "deprecated": true
   },
   "0xC57d000000000000000000000000000000000003": {
     "name": "Nexo",
     "site": "https://nexo.io/",
     "type": "custodian",
     "dateAdded": "2020-12-02",
-    "logo": "nexo.svg"
+    "logo": "nexo.svg",
+    "deprecated": true
   },
   "0xc57d000000000000000000000000000000000004": {
     "name": "inLock",
     "site": "https://inlock.io/",
     "type": "custodian",
     "dateAdded": "2020-12-02",
-    "logo": "inlock.png"
+    "logo": "inlock.png",
+    "deprecated": true
   },
   "0xC57D000000000000000000000000000000000005": {
     "name": "Ledn",
     "site": "https://ledn.io/",
     "type": "custodian",
     "dateAdded": "2020-12-02",
-    "logo": "ledn.svg"
+    "logo": "ledn.svg",
+    "deprecated": true
   },
   "0xC57d000000000000000000000000000000000006": {
     "name": "Hodlnaut",
@@ -1008,7 +1013,8 @@
     "site": "https://www.yield.app/",
     "type": "custodian",
     "dateAdded": "2021-07-06",
-    "logo": "yield-app.png"
+    "logo": "yield-app.png",
+    "deprecated": true
   },
   "0xefa94DE7a4656D787667C749f7E1223D71E9FD88": {
     "name": "Pangolin",
@@ -1139,7 +1145,7 @@
   "0x0000000000000000000000000000000000000009": {
     "name": "Curve 3pool LP (3Crv)",
     "site": "https://curve.fi/",
-    "supportedChains": ["ethereum", "aurora"],
+    "supportedChains": ["ethereum"],
     "type": "token",
     "symbol": "3CRV",
     "coveredToken": "0x6c3f90f043a72fa612cbac8115ee7e52bde6e490",
@@ -1150,7 +1156,7 @@
   "0x0000000000000000000000000000000000000010": {
     "name": "Curve sETH LP (eCrv)",
     "site": "https://curve.fi/",
-    "supportedChains": ["ethereum", "aurora"],
+    "supportedChains": ["ethereum"],
     "type": "token",
     "symbol": "eCRV",
     "coveredToken": "0xA3D87FffcE63B53E0d54fAa1cc983B7eB0b74A9c",

@@ -964,7 +964,8 @@
     "site": "https://www.hodlnaut.com/",
     "type": "custodian",
     "dateAdded": "2020-12-02",
-    "logo": "hodlnaut.svg"
+    "logo": "hodlnaut.svg",
+    "deprecated": true
   },
   "0xC57d000000000000000000000000000000000007": {
     "name": "Binance",

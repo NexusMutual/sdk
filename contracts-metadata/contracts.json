@@ -1437,5 +1437,11 @@
     "supportedChains": ["arbitrum", "avalanche"],
     "dateAdded": "2022-09-01",
     "logo": "gmx.svg"
+  },
+  "0x0000000000000000000000000000000000000029": {
+    "name": "Sherlock",
+    "type": "sherlock",
+    "dateAdded": "2022-10-17",
+    "logo": "sherlock.svg"
   }
 }

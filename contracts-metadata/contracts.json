@@ -1443,5 +1443,13 @@
     "type": "sherlock",
     "dateAdded": "2022-10-17",
     "logo": "sherlock.svg"
+  },
+  "0x0000000000000000000000000000000000000030": {
+    "name": "Gearbox V2",
+    "type": "protocol",
+    "site": "https://gearbox.fi/",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2022-10-31",
+    "logo": "gearbox.png"
   }
 }

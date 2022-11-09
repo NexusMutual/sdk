@@ -1007,7 +1007,8 @@
     "site": "https://crypto.com/",
     "type": "custodian",
     "dateAdded": "2021-07-06",
-    "logo": "crypto-com.svg"
+    "logo": "crypto-com.svg",
+    "deprecated": true
   },
   "0xc57d000000000000000000000000000000000013": {
     "name": "Yield.app",

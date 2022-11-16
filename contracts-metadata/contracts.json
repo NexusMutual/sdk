@@ -1452,5 +1452,21 @@
     "supportedChains": ["ethereum"],
     "dateAdded": "2022-10-31",
     "logo": "gearbox.png"
+  },
+  "0x0000000000000000000000000000000000000031": {
+    "name": "Aura",
+    "type": "protocol",
+    "logo": "aura.png",
+    "site": "https://app.aura.finance/",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2022-11-16"
+  },
+  "0x0000000000000000000000000000000000000032": {
+    "name": "Enzyme v4",
+    "type": "protocol",
+    "logo": "enzyme-v4.svg",
+    "site": "https://enzyme.finance/",
+    "supportedChains": ["ethereum", "polygon"],
+    "dateAdded": "2022-11-16"
   }
 }

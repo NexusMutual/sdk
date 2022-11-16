@@ -993,7 +993,8 @@
     "site": "https://gemini.com/",
     "type": "custodian",
     "dateAdded": "2021-01-12",
-    "logo": "gemini.png"
+    "logo": "gemini.png",
+    "deprecated": true
   },
   "0xC57d000000000000000000000000000000000011": {
     "name": "FTX",

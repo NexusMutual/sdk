@@ -1245,7 +1245,8 @@
     "coveredToken": "0xabB54222c2b77158CC975a2b715a3d703c256F05",
     "underlyingToken": "DAI",
     "dateAdded": "2021-10-28",
-    "logo": "convex.png"
+    "logo": "convex.png",
+    "deprecated": true
   },
   "0xaE7b92C8B14E7bdB523408aE0A6fFbf3f589adD9": {
     "name": "Popsicle Finance",

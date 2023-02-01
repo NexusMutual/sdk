@@ -530,7 +530,8 @@
     "dateAdded": "2020-07-30",
     "logo": "uma.png",
     "github": "",
-    "messari": ""
+    "messari": "",
+    "deprecated": true
   },
   "0x02285AcaafEB533e03A7306C55EC031297df9224": {
     "name": "dForce Yield Market",
@@ -565,7 +566,8 @@
     "dateAdded": "2020-08-14",
     "logo": "idle.png",
     "github": "https://github.com/bugduino/idle",
-    "messari": ""
+    "messari": "",
+    "deprecated": "true"
   },
   "0x71CD6666064C3A1354a3B4dca5fA1E2D3ee7D303": {
     "name": "Mooniswap",
@@ -629,7 +631,8 @@
     "dateAdded": "2020-10-28",
     "logo": "pooltogether.svg",
     "github": "https://github.com/pooltogether",
-    "messari": "https://docs.pooltogether.com/security/risks"
+    "messari": "https://docs.pooltogether.com/security/risks",
+    "deprecated": "true"
   },
   "0xa4c8d221d8BB851f83aadd0223a8900A6921A349": {
     "name": "Set Protocol v2",
@@ -656,7 +659,8 @@
     "dateAdded": "2020-11-06",
     "logo": "eth2.jpg",
     "github": "https://github.com/ethereum/eth2.0-specs",
-    "messari": ""
+    "messari": "",
+    "deprecated": "true"
   },
   "0x878F15ffC8b894A1BA7647c7176E4C01f74e140b": {
     "name": "Hegic",
@@ -693,7 +697,8 @@
     "dateAdded": "2020-11-25",
     "logo": "truefi.jpg",
     "github": "https://github.com/trusttoken/truefi-spec",
-    "messari": "https://truefi.io/"
+    "messari": "https://truefi.io/",
+    "deprecated": true
   },
   "0x67B66C99D3Eb37Fa76Aa3Ed1ff33E8e39F0b9c7A": {
     "name": "Alpha Homora v1",
@@ -1120,7 +1125,8 @@
     "coveredToken": "0x19D3364A399d251E894aC732651be8B0E4e85001",
     "underlyingToken": "DAI",
     "dateAdded": "2021-05-25",
-    "logo": "yearn.svg"
+    "logo": "yearn.svg",
+    "deprecated": true
   },
   "0x0000000000000000000000000000000000000007": {
     "name": "Yearn yvUSDC v2",
@@ -1142,7 +1148,8 @@
     "coveredToken": "0xdCD90C7f6324cfa40d7169ef80b12031770B4325",
     "underlyingToken": "ETH",
     "dateAdded": "2021-05-25",
-    "logo": "yearn.svg"
+    "logo": "yearn.svg",
+    "deprecated": true
   },
   "0x0000000000000000000000000000000000000009": {
     "name": "Curve 3pool LP (3Crv)",
@@ -1175,7 +1182,8 @@
     "coveredToken": "0x3fE7940616e5Bc47b0775a0dccf6237893353bB4",
     "underlyingToken": "DAI",
     "dateAdded": "2021-07-05",
-    "logo": "idleDAIYield.svg"
+    "logo": "idleDAIYield.svg",
+    "deprecated": true
   },
   "0x0000000000000000000000000000000000000012": {
     "name": "Idle USDT v4 (idleUSDTYield)",
@@ -1186,7 +1194,8 @@
     "coveredToken": "0xF34842d05A1c888Ca02769A633DF37177415C2f8",
     "underlyingToken": "DAI",
     "dateAdded": "2021-07-05",
-    "logo": "idleUSDTYield.svg"
+    "logo": "idleUSDTYield.svg",
+    "deprecated": true
   },
   "0x0000000000000000000000000000000000000013": {
     "name": "Convex stethCrv (cvxstethCrv)",
@@ -1293,7 +1302,8 @@
     "supportedChains": ["ethereum"],
     "dateAdded": "2022-01-28",
     "logo": "ondo.svg",
-    "github": "https://github.com/ondoprotocol"
+    "github": "https://github.com/ondoprotocol",
+    "deprecated": true
   },
   "0x7e6d3b1161DF9c9c7527F68d651B297d2Fdb820B": {
     "name": "Enzyme v3",
@@ -1337,7 +1347,8 @@
     "type": "protocol",
     "supportedChains": ["avalanche"],
     "dateAdded": "2022-03-18",
-    "logo": "platypus.png"
+    "logo": "platypus.png",
+    "deprecated": true
   },
   "0x0000000000000000000000000000000000000017": {
     "name": "FODL",
@@ -1358,7 +1369,8 @@
     "type": "protocol",
     "supportedChains": ["ethereum", "polygon"],
     "dateAdded": "2022-04-14",
-    "logo": "gelt.svg"
+    "logo": "gelt.svg",
+    "deprecated": true
   },
   "0x0000000000000000000000000000000000000019": {
     "name": "Yeti Finance",
@@ -1401,7 +1413,8 @@
     "type": "protocol",
     "supportedChains": ["ethereum", "fantom", "avalanche", "optimism"],
     "dateAdded": "2022-06-08",
-    "logo": "ironbank.svg"
+    "logo": "ironbank.svg",
+    "deprecated": true
   },
   "0x0000000000000000000000000000000000000025": {
     "name": "Stakewise operated (3 ETH / validator)",

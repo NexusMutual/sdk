@@ -1502,5 +1502,12 @@
     "site": "https://enzyme.finance/",
     "supportedChains": ["ethereum", "polygon"],
     "dateAdded": "2022-11-16"
+  },
+  "0x0000000000000000000000000000000000000033": {
+    "name": "Liquid Collective",
+    "type": "eth2slashing",
+    "supportedChains": ["ethereum"],
+    "dateAdded": "2023-02-03",
+    "logo": "liquidcollective.svg"
   }
 }

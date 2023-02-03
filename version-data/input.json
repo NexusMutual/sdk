@@ -2090,7 +2090,7 @@
   },
   {
     "code": "CL",
-    "address": "0x813174d3eC6f7C11f4364a637cEf0f1CD6176139",
+    "address": "0xcafeac9D72C3A1274DD2312e5Fc5E8AE127aA87F",
     "contractName": "Claims",
     "contractAbi": [
       {
@@ -2356,12 +2356,32 @@
         "payable": false,
         "stateMutability": "nonpayable",
         "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "coverId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "requestedPayoutAmount",
+            "type": "uint256"
+          }
+        ],
+        "name": "submitPartialClaim",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
       }
     ]
   },
   {
     "code": "CR",
-    "address": "0xcafeae7fff15D1289380e4d32501599F3f022d6a",
+    "address": "0xcafea891e8F9c61ad80018B923939934FCb29948",
     "contractName": "ClaimsReward",
     "contractAbi": [
       {
@@ -9484,7 +9504,7 @@
   },
   {
     "code": "QT",
-    "address": "0xcafea41C0fa5Fb882f2C965d00a4b8bAfF2F1231",
+    "address": "0xcafea2f426d2c49c1985c2f732e6aea6c8ca56e6",
     "contractName": "Quotation",
     "contractAbi": [
       {
@@ -10319,6 +10339,11 @@
             "internalType": "bool",
             "name": "hasAcceptedClaim",
             "type": "bool"
+          },
+          {
+            "internalType": "uint96",
+            "name": "requestedPayoutAmount",
+            "type": "uint96"
           }
         ],
         "payable": false,
@@ -10631,6 +10656,26 @@
           }
         ],
         "name": "markCoverClaimOpen",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "coverId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "requestedPayoutAmount",
+            "type": "uint256"
+          }
+        ],
+        "name": "markCoverClaimOpenWithRequestedAmount",
         "outputs": [],
         "payable": false,
         "stateMutability": "nonpayable",

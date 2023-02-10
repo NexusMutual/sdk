@@ -254,7 +254,7 @@
     "messari": "https://messari.io/asset/compound/profile"
   },
   "0x34CfAC646f301356fAa8B21e94227e3583Fe3F5F": {
-    "name": "Gnosis Safe",
+    "name": "Safe (formerly, Gnosis Safe)",
     "type": "protocol",
     "supportedChains": [
       "ethereum",
@@ -632,7 +632,8 @@
     "dateAdded": "2020-10-26",
     "logo": "cofix.jpg",
     "github": "https://github.com/Computable-Finance/CoFiX",
-    "messari": ""
+    "messari": "",
+    "deprecated": true
   },
   "0xCB876f60399897db24058b2d58D0B9f713175eeF": {
     "name": "Pool Together v3",
@@ -924,7 +925,8 @@
     "supportedChains": ["bsc", "fantom"],
     "dateAdded": "2021-08-13",
     "logo": "alpaca.png",
-    "github": "https://github.com/alpaca-finance"
+    "github": "https://github.com/alpaca-finance",
+    "deprecated": true
   },
   "0x08FB62c84909dA3Aa5F59E01763E5FDC62De76e9": {
     "name": "Gamma Strategies",
@@ -1127,7 +1129,7 @@
     "deprecated": true
   },
   "0x0000000000000000000000000000000000000004": {
-    "name": "Thorchain",
+    "name": "THORChain (Thorchain Network)",
     "site": "https://thorchain.org",
     "supportedChains": ["thorchain", "ethereum"],
     "type": "protocol",
@@ -1165,7 +1167,8 @@
     "coveredToken": "0x5f18C75AbDAe578b483E5F43f12a39cF75b973a9",
     "underlyingToken": "DAI",
     "dateAdded": "2021-05-25",
-    "logo": "yearn.svg"
+    "logo": "yearn.svg",
+    "deprecated": true
   },
   "0x0000000000000000000000000000000000000008": {
     "name": "Yearn ycrvstETH v2",
@@ -1283,7 +1286,8 @@
     "supportedChains": ["ethereum", "arbitrum", "avalanche"],
     "dateAdded": "2021-11-29",
     "logo": "olympusdao.svg",
-    "github": "https://github.com/OlympusDAO"
+    "github": "https://github.com/OlympusDAO",
+    "deprecated": true
   },
   "0x25751853Eab4D0eB3652B5eB6ecB102A2789644B": {
     "name": "Ribbon Finance v2",
@@ -1333,7 +1337,8 @@
     "type": "protocol",
     "supportedChains": ["ethereum"],
     "dateAdded": "2022-02-16",
-    "logo": "enzyme.svg"
+    "logo": "enzyme.svg",
+    "deprecated": true
   },
   "0x453D4Ba9a2D594314DF88564248497F7D74d6b2C": {
     "name": "Beefy",

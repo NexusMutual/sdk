@@ -1027,7 +1027,8 @@
     "site": "https://ftx.com/",
     "type": "custodian",
     "dateAdded": "2021-05-04",
-    "logo": "ftx.svg"
+    "logo": "ftx.svg",
+    "deprecated": true
   },
   "0xC57d000000000000000000000000000000000012": {
     "name": "Crypto.com",

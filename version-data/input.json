@@ -2381,7 +2381,7 @@
   },
   {
     "code": "CR",
-    "address": "0xcafea891e8F9c61ad80018B923939934FCb29948",
+    "address": "0xcafeaF7260DaB47C2D05B05559263579dBb0c84d",
     "contractName": "ClaimsReward",
     "contractAbi": [
       {
@@ -9504,7 +9504,7 @@
   },
   {
     "code": "QT",
-    "address": "0xcafea2f426d2c49c1985c2f732e6aea6c8ca56e6",
+    "address": "0xcafea196EfbC7aAd6cb0D427145E9eDc4566F0Bd",
     "contractName": "Quotation",
     "contractAbi": [
       {

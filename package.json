@@ -1,0 +1,50 @@
+{
+  "name": "@nexusmutual/sdk",
+  "version": "1.0.0",
+  "description": "Nexus Mutual SDK",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "server": "node scripts/server.js"
+  },
+  "exports": {
+    ".": [
+      "./dist/index.js"
+    ],
+    "./abis": "./dist/contracts/abis.js",
+    "./abis/*": "./dist/contracts/abis/*.json",
+    "./addresses": "./dist/contracts/addresses.json",
+    "./products": "./dist/products/products.json",
+    "./product-types": "./dist/products/product-types.json",
+    "./logos": "./dist/products/product-logos.json",
+    "./logos/*": "./dist/products/logos/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NexusMutual/static-data.git"
+  },
+  "author": "nexusmutual",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/NexusMutual/static-data/issues"
+  },
+  "homepage": "https://github.com/NexusMutual/static-data#readme",
+  "dependencies": {
+    "ethers": "^5.7.2"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3",
+    "eslint": "^8.33.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-config-semistandard": "^17.0.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-standard": "^5.0.0",
+    "express": "^4.18.2",
+    "node-fetch": "^2.6.9",
+    "prettier": "^2.8.7",
+    "semver": "^7.4.0"
+  }
+}

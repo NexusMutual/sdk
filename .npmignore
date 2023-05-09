@@ -1,0 +1,8 @@
+.eslintrc
+.idea
+.prettierrc
+.env
+.env.sample
+dist/index.html
+scripts
+src

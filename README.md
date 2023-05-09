@@ -19,7 +19,7 @@ import productTypes from '@nexusmutual/sdk/product-types'
 
 ## Nexus Mutual contract addresses and abis
 
-Source of truth for the latest mainnet addresses. Feeds into https://api.nexusmutual.io/contracts/.
+Source of truth for the latest mainnet addresses. Feeds into https://api.nexusmutual.io/sdk/.
 
 ## Listed products and product types metadata
 

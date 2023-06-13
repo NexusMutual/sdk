@@ -8,6 +8,7 @@ const fetch = require('node-fetch');
 const coverAbi = require('../src/contracts/abis/Cover.json');
 const addresses = require('../src/contracts/addresses.json');
 const logos = require('../src/products/product-logos.json');
+const { parseProductCoverAssets } = require('./utils');
 
 const { PROVIDER_URL, IPFS_GATEWAY_URL } = process.env;
 
@@ -61,7 +62,7 @@ const fetchProducts = async cover => {
 
   for (const batch of batches) {
     const promises = batch.map(async id => {
-      const { productType, isDeprecated, useFixedPrice } = await cover.products(id);
+      const { productType, isDeprecated, useFixedPrice, coverAssets } = await cover.products(id);
       const name = await cover.productNames(id);
       const { ipfsHash } = ipfsHashes[id];
       const metadata = ipfsHash === '' ? {} : await fetch(ipfsURL(ipfsHash)).then(res => res.json());
@@ -70,7 +71,16 @@ const fetchProducts = async cover => {
         throw new Error(`Product id ${id} is missing a logo`);
       }
 
-      return { id, name, productType, isDeprecated, useFixedPrice, logo: logos[id], metadata };
+      return {
+        id,
+        name,
+        productType,
+        isDeprecated,
+        useFixedPrice,
+        logo: logos[id],
+        metadata,
+        coverAssets: parseProductCoverAssets(coverAssets),
+      };
     });
 
     const batchProducts = await Promise.all(promises);

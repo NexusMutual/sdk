@@ -16,8 +16,7 @@
     "./addresses": "./dist/contracts/addresses.json",
     "./products": "./dist/products/products.json",
     "./product-types": "./dist/products/product-types.json",
-    "./logos": "./dist/products/product-logos.json",
-    "./logos/*": "./dist/products/logos/*"
+    "./logos": "./dist/products/product-logos.json"
   },
   "repository": {
     "type": "git",

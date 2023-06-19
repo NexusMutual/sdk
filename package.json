@@ -6,6 +6,7 @@
     "build": "node scripts/build.js",
     "server": "node scripts/server.js"
   },
+  "typings": "./dist/index.d.ts",
   "exports": {
     ".": [
       "./dist/index.js"

@@ -11,7 +11,7 @@
     ".": [
       "./dist/index.js"
     ],
-    "./abis": "./dist/contracts/abis.js",
+    "./abis": "./dist/contracts/abis/index.js",
     "./abis/*": "./dist/contracts/abis/*.json",
     "./addresses": "./dist/contracts/addresses.json",
     "./products": "./dist/products/products.json",

@@ -1,0 +1,124 @@
+name: release
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  NODE_VERSION: '18'
+  CACHE_KEY: ${{ secrets.CACHE_KEY }} # Change to bust caches
+
+jobs:
+  version:
+    runs-on: ubuntu-22.04
+    outputs:
+      local_version: ${{ steps.local_version.outputs.value }}
+      registry_version: ${{ steps.registry_version.outputs.value }}
+    steps:
+      - name: GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Get local version
+        id: local_version
+        run: |
+          version=$(cat ./package.json | jq --raw-output .version)
+          echo $version
+          echo "value=$version" >> $GITHUB_OUTPUT
+
+      - name: Get registry version
+        id: registry_version
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        run: |
+          package_name="$(cat ./package.json | jq --raw-output .name)"
+          echo $package_name
+          version=$(npm view $package_name version || echo "0.0.0")
+          echo $version
+          echo "value=$version" >> $GITHUB_OUTPUT
+
+      - name: Validate version
+        uses: actions/github-script@v6
+        with:
+          result-encoding: string
+          script: |
+            const local_version = '${{ steps.local_version.outputs.value }}';
+            const registry_version = '${{ steps.registry_version.outputs.value }}';
+            core.info(`Repository version: ${local_version}`);
+            core.info(`Registry version: ${registry_version}`);
+            if (registry_version === local_version) {
+              core.setFailed('Please bump version before merging');
+            }
+
+  build:
+    runs-on: ubuntu-22.04
+    needs: version
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - uses: actions/cache@v3
+        id: cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ env.CACHE_KEY }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm i
+
+      - run: npm run build
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: sdk-${{ needs.version.outputs.local_version }}
+          path: dist
+
+  publish:
+    runs-on: ubuntu-22.04
+    needs: [version, build]
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://registry.npmjs.org'
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: sdk-${{ needs.version.outputs.local_version }}
+          path: dist
+
+      - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        run: npm publish --access public
+
+      - name: Create release
+        uses: actions/github-script@v6
+        with:
+          github-token: '${{ github.token }}'
+          script: |
+            try {
+              const response = await github.rest.repos.createRelease({
+                name: "${{ needs.version.outputs.local_version }}",
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag_name: "${{ needs.version.outputs.local_version }}",
+                generate_release_notes: true,
+              });
+            } catch (error) {
+              core.setFailed(error.message);
+            }

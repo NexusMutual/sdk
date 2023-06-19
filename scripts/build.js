@@ -126,7 +126,7 @@ const main = async () => {
 
   console.log('Generating abi exports');
   const abisPath = path.join(__dirname, '../dist/contracts/abis');
-  const abiExportsFile = path.join(__dirname, '../dist/contracts/abis.js');
+  const abiExportsFile = path.join(__dirname, '../dist/contracts/abis/index.js');
 
   const abis = fs
     .readdirSync(abisPath)

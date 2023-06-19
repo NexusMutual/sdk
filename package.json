@@ -1,22 +1,22 @@
 {
   "name": "@nexusmutual/sdk",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Nexus Mutual SDK",
   "scripts": {
     "build": "node scripts/build.js",
     "server": "node scripts/server.js"
   },
+  "typings": "./dist/index.d.ts",
   "exports": {
     ".": [
       "./dist/index.js"
     ],
-    "./abis": "./dist/contracts/abis.js",
+    "./abis": "./dist/contracts/abis/index.js",
     "./abis/*": "./dist/contracts/abis/*.json",
     "./addresses": "./dist/contracts/addresses.json",
     "./products": "./dist/products/products.json",
     "./product-types": "./dist/products/product-types.json",
-    "./logos": "./dist/products/product-logos.json",
-    "./logos/*": "./dist/products/logos/*"
+    "./logos": "./dist/products/product-logos.json"
   },
   "repository": {
     "type": "git",

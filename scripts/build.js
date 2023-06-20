@@ -133,7 +133,7 @@ const main = async () => {
     .filter(file => file.endsWith('.json'))
     .map(file => file.replace('.json', ''));
 
-  const imports = abis.map(abi => `const ${abi} = require('./abis/${abi}.json');`);
+  const imports = abis.map(abi => `const ${abi} = require('./${abi}.json');`);
   const moduleExports = `module.exports = {\n${abis.map(abi => `  ${abi},`).join('\n')}\n};`;
   fs.writeFileSync(abiExportsFile, [...imports, '', moduleExports, ''].join('\n'));
 

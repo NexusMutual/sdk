@@ -7,16 +7,10 @@
     "server": "node scripts/server.js"
   },
   "typings": "./dist/index.d.ts",
-  "exports": {
-    ".": [
-      "./dist/index.js"
-    ],
-    "./abis": "./dist/contracts/abis/index.js",
-    "./abis/*": "./dist/contracts/abis/*.json",
-    "./addresses": "./dist/contracts/addresses.json",
-    "./products": "./dist/products.json",
-    "./product-types": "./dist/product-types.json"
-  },
+  "main": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NexusMutual/static-data.git"

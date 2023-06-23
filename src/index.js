@@ -1,7 +1,7 @@
-const abis = require('./contracts/abis');
-const addresses = require('./contracts/addresses.json');
-const productTypes = require('./products/product-types.json');
-const products = require('./products/products.json');
+const abis = require('./abis');
+const addresses = require('./addresses.json');
+const productTypes = require('./product-types.json');
+const products = require('./products.json');
 
 module.exports = {
   abis,

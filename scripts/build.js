@@ -5,8 +5,8 @@ const path = require('path');
 const ethers = require('ethers');
 const fetch = require('node-fetch');
 
-const coverAbi = require('../src/contracts/abis/Cover.json');
-const addresses = require('../src/contracts/addresses.json');
+const coverAbi = require('../src/abis/Cover.json');
+const addresses = require('../src/addresses.json');
 const logos = require('@nexusmutual/logos/dist/data/product-logos.json');
 const { parseProductCoverAssets } = require('./utils');
 
@@ -125,8 +125,8 @@ const main = async () => {
   copyRecursiveSync(path.join(__dirname, '../src'), path.join(__dirname, '../dist'));
 
   console.log('Generating abi exports');
-  const abisPath = path.join(__dirname, '../dist/contracts/abis');
-  const abiExportsFile = path.join(__dirname, '../dist/contracts/abis/index.js');
+  const abisPath = path.join(__dirname, '../dist/abis');
+  const abiExportsFile = path.join(__dirname, '../dist/abis/index.js');
 
   const abis = fs
     .readdirSync(abisPath)

@@ -14,9 +14,8 @@
     "./abis": "./dist/contracts/abis/index.js",
     "./abis/*": "./dist/contracts/abis/*.json",
     "./addresses": "./dist/contracts/addresses.json",
-    "./products": "./dist/products/products.json",
-    "./product-types": "./dist/products/product-types.json",
-    "./logos": "./dist/products/product-logos.json"
+    "./products": "./dist/products.json",
+    "./product-types": "./dist/product-types.json"
   },
   "repository": {
     "type": "git",
@@ -29,6 +28,7 @@
   },
   "homepage": "https://github.com/NexusMutual/static-data#readme",
   "dependencies": {
+    "@nexusmutual/logos": "^0.0.14",
     "ethers": "^5.7.2"
   },
   "devDependencies": {

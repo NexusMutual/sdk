@@ -7,7 +7,7 @@ const fetch = require('node-fetch');
 
 const coverAbi = require('../src/contracts/abis/Cover.json');
 const addresses = require('../src/contracts/addresses.json');
-const logos = require('../src/products/product-logos.json');
+const logos = require('@nexusmutual/logos/dist/data/product-logos.json');
 const { parseProductCoverAssets } = require('./utils');
 
 const { PROVIDER_URL, IPFS_GATEWAY_URL } = process.env;
@@ -138,12 +138,12 @@ const main = async () => {
   fs.writeFileSync(abiExportsFile, [...imports, '', moduleExports, ''].join('\n'));
 
   console.log('Updating product types');
-  const productTypesPath = path.join(__dirname, '../dist/products/product-types.json');
+  const productTypesPath = path.join(__dirname, '../dist/product-types.json');
   const productTypes = await fetchProductTypes(cover);
   fs.writeFileSync(productTypesPath, JSON.stringify(productTypes, null, 2));
 
   console.log('Updating products');
-  const productsPath = path.join(__dirname, '../dist/products/products.json');
+  const productsPath = path.join(__dirname, '../dist/products.json');
   const products = await fetchProducts(cover);
   fs.writeFileSync(productsPath, JSON.stringify(products, null, 2));
 

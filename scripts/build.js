@@ -64,6 +64,7 @@ const fetchProducts = async cover => {
     const promises = batch.map(async id => {
       const { productType, isDeprecated, useFixedPrice, coverAssets } = await cover.products(id);
       const name = await cover.productNames(id);
+      console.log(`Processing #${id} (${name})`);
       const { ipfsHash } = ipfsHashes[id];
       const metadata = ipfsHash === '' ? {} : await fetch(ipfsURL(ipfsHash)).then(res => res.json());
 

@@ -1,6 +1,6 @@
 {
   "name": "@nexusmutual/sdk",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Nexus Mutual SDK",
   "scripts": {
     "build": "node scripts/build.js",
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/NexusMutual/static-data#readme",
   "dependencies": {
-    "@nexusmutual/logos": "^0.0.16",
+    "@nexusmutual/logos": "^0.0.17",
     "ethers": "^5.7.2"
   },
   "devDependencies": {

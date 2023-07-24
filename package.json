@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/NexusMutual/static-data#readme",
   "dependencies": {
-    "@nexusmutual/logos": "^0.0.17",
+    "@nexusmutual/logos": "^0.0.18",
     "ethers": "^5.7.2"
   },
   "devDependencies": {

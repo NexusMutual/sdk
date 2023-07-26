@@ -72,10 +72,24 @@ const fetchProducts = async cover => {
         throw new Error(`Product id ${id} is missing a logo`);
       }
 
+      // Exception for correcting Sherlock and Stakewise products types
+      // - got wrong on chain and cannot be modified there
+      let correctProductType = productType;
+      const sherlockProductType = 3;
+      const stakewiseProductType = 4;
+      const isSherlockProduct = id === 63;
+      const isStakewiseProduct = [65, 66].includes(id);
+      if (isSherlockProduct) {
+        correctProductType = sherlockProductType;
+      }
+      if (isStakewiseProduct) {
+        correctProductType = stakewiseProductType;
+      }
+
       return {
         id,
         name,
-        productType,
+        productType: correctProductType,
         isDeprecated,
         useFixedPrice,
         logo: logos[id],

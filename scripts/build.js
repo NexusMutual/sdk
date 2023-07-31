@@ -20,7 +20,8 @@ const fetchProductTypes = async cover => {
 
   // using sort and reduce to deduplicate events and get the latest ipfs hash
   const ipfsHashes = events
-    .sort((a, b) => a.logIndex - b.logIndex)
+    // sort descending by log index to get the latest ipfs hash
+    .sort((a, b) => b.logIndex - a.logIndex)
     .reduce((acc, event) => {
       const id = event.args.id.toNumber();
       const coverWordingURL = ipfsURL(event.args.ipfsMetadata);
@@ -43,7 +44,8 @@ const fetchProducts = async cover => {
   const events = await cover.queryFilter(eventFilter);
 
   const ipfsHashes = events
-    .sort((a, b) => a.logIndex - b.logIndex)
+    // sort descending by log index to get the latest ipfs hash
+    .sort((a, b) => b.logIndex - a.logIndex)
     .reduce((acc, event) => {
       const id = event.args.id.toNumber();
       const ipfsHash = event.args.ipfsMetadata;

@@ -5,8 +5,7 @@ const path = require('path');
 const ethers = require('ethers');
 const fetch = require('node-fetch');
 
-const coverAbi = require('../src/abis/Cover.json');
-const addresses = require('../src/addresses.json');
+const { Cover, addresses } = require('@nexusmutual/deployments');
 const logos = require('@nexusmutual/logos/dist/data/product-logos.json');
 const { parseProductCoverAssets } = require('./utils');
 
@@ -93,22 +92,6 @@ const fetchProducts = async cover => {
   return products;
 };
 
-const copyRecursiveSync = (src, dest) => {
-  const exists = fs.existsSync(src);
-
-  if (!exists) {
-    throw new Error(`Source directory ${src} does not exist`);
-  }
-
-  if (fs.statSync(src).isDirectory()) {
-    fs.mkdirSync(dest);
-    fs.readdirSync(src).forEach(item => copyRecursiveSync(path.join(src, item), path.join(dest, item)));
-    return;
-  }
-
-  fs.copyFileSync(src, dest);
-};
-
 const main = async () => {
   if (PROVIDER_URL === undefined) {
     console.log('PROVIDER_URL environment variable is not defined');
@@ -120,33 +103,22 @@ const main = async () => {
     process.exit(1);
   }
 
+  const destination = path.join(__dirname, '../generated');
+  if (fs.existsSync(destination)) {
+    fs.rmSync(destination, { recursive: true });
+  }
+  fs.mkdirSync(destination);
+
   const provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL);
-  const cover = new ethers.Contract(addresses.Cover, coverAbi, provider);
+  const cover = new ethers.Contract(addresses.Cover, Cover, provider);
 
-  console.log('Rebuilding dist folder');
-  fs.rmSync(path.join(__dirname, '../dist'), { recursive: true, force: true });
-  copyRecursiveSync(path.join(__dirname, '../src'), path.join(__dirname, '../dist'));
-
-  console.log('Generating abi exports');
-  const abisPath = path.join(__dirname, '../dist/abis');
-  const abiExportsFile = path.join(__dirname, '../dist/abis/index.js');
-
-  const abis = fs
-    .readdirSync(abisPath)
-    .filter(file => file.endsWith('.json'))
-    .map(file => file.replace('.json', ''));
-
-  const imports = abis.map(abi => `const ${abi} = require('./${abi}.json');`);
-  const moduleExports = `module.exports = {\n${abis.map(abi => `  ${abi},`).join('\n')}\n};`;
-  fs.writeFileSync(abiExportsFile, [...imports, '', moduleExports, ''].join('\n'));
-
-  console.log('Updating product types');
-  const productTypesPath = path.join(__dirname, '../dist/product-types.json');
+  console.log('Generating product types...');
+  const productTypesPath = path.join(__dirname, '../generated/product-types.json');
   const productTypes = await fetchProductTypes(cover);
   fs.writeFileSync(productTypesPath, JSON.stringify(productTypes, null, 2));
 
-  console.log('Updating products');
-  const productsPath = path.join(__dirname, '../dist/products.json');
+  console.log('Generating products...');
+  const productsPath = path.join(__dirname, '../generated/products.json');
   const products = await fetchProducts(cover);
   fs.writeFileSync(productsPath, JSON.stringify(products, null, 2));
 

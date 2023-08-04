@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" id="Layer_1" x="0px" y="0px" style="enable-background:new 0 0 2500 2500;" version="1.1" viewBox="0 0 2500 2500" aria-hidden="true" width="24px"><style type="text/css">.st0 {
+      clip-path: url(#SVGID_00000115488980643941322720000004985548254979316381_);
+    }
+
+    .st1 {
+      fill: #FFFFFF;
+    }
+
+    .st2 {
+      fill: #2EB6EA;
+    }
+
+    .st3 {
+      fill: #1542CD;
+    }
+
+    .st4 {
+      fill-rule: evenodd;
+      clip-rule: evenodd;
+      fill: #745DDF;
+    }
+
+    .st5 {
+      fill: none;
+    }</style><g id="Layer_x0020_1"><g><defs><rect id="SVGID_1_" width="2500" height="2500" y="0"/></defs><clipPath id="SVGID_00000062187608671949850390000007044865918848025751_"><use xlink:href="#SVGID_1_" style="overflow:visible;"/></clipPath><g style="clip-path:url(#SVGID_00000062187608671949850390000007044865918848025751_);"><g><circle cx="1250" cy="1250" r="1250" class="st1"/><circle cx="1201" cy="1250" r="644" class="st2"/><path d="M1198,1894c-641,0-894-843-328-1198c-67,704,291,720,623,704c557-26,557,494,557,494H1198z" class="st3"/><path d="M1810,1460c-100,255-342,426-616,434c7,0,13,0,20,0h847C2061,1894,2061,1589,1810,1460z" class="st4"/></g></g></g><polygon points="0,2500 2500,2500 2500,0 0,0  " class="st5"/></g></svg>

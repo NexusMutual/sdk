@@ -3,8 +3,9 @@
   "version": "0.0.16",
   "description": "Nexus Mutual SDK",
   "scripts": {
-    "build": "npm run build-generated && npm run build-src",
-    "build-generated": "node scripts/build-generated.js",
+    "build": "npm run build-products && npm run build-logos && npm run build-src",
+    "build-products": "node scripts/build-products.js",
+    "build-logos": "node scripts/build-logos.js",
     "build-src": "node scripts/build-src.js"
   },
   "typings": "./dist/index.d.ts",
@@ -29,6 +30,7 @@
     "ethers": "^5.7.2"
   },
   "devDependencies": {
+    "camelcase": "^6.3.0",
     "dotenv": "^16.0.3",
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.6.0",

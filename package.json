@@ -1,6 +1,6 @@
 {
   "name": "@nexusmutual/sdk",
-  "version": "0.0.16",
+  "version": "0.1.0",
   "description": "Nexus Mutual SDK",
   "scripts": {
     "build": "npm run build-products && npm run build-logos && npm run build-src",

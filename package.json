@@ -22,11 +22,16 @@
   },
   "homepage": "https://github.com/NexusMutual/static-data#readme",
   "dependencies": {
+    "@babel/core": "^7.22.1",
+    "@babel/plugin-transform-react-jsx": "^7.22.3",
     "@nexusmutual/deployments": "^2.2.0",
-    "ethers": "^5.7.2"
+    "@svgr/core": "^6.5.1",
+    "camelcase": "^6.3.0",
+    "ethers": "^5.7.2",
+    "rimraf": "^5.0.1",
+    "svgo": "^3.0.2"
   },
   "devDependencies": {
-    "camelcase": "^6.3.0",
     "dotenv": "^16.0.3",
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.6.0",

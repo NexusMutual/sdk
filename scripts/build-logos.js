@@ -116,10 +116,6 @@ async function optimizeSvg(componentName, svgStr, svgoConfig) {
     plugins: [[pluginTransformReactJsx, { useBuiltIns: true }]],
   });
 
-  // const commonJsCode = code
-  //   .replace('import * as React from "react"', 'const React = require("react")')
-  //   .replace("export default", "module.exports =");
-
   return {
     svg: data,
     code,

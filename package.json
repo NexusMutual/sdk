@@ -1,13 +1,16 @@
 {
   "name": "@nexusmutual/sdk",
-  "version": "0.0.16",
+  "version": "0.1.0",
   "description": "Nexus Mutual SDK",
   "scripts": {
-    "build": "node scripts/build.js",
-    "server": "node scripts/server.js"
+    "build": "npm run build-products && npm run build-logos && npm run build-src",
+    "build-products": "node scripts/build-products.js",
+    "build-logos": "node scripts/build-logos.js",
+    "build-src": "node scripts/build-src.js"
   },
   "typings": "./dist/index.d.ts",
   "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "files": [
     "dist"
   ],
@@ -22,10 +25,12 @@
   },
   "homepage": "https://github.com/NexusMutual/static-data#readme",
   "dependencies": {
+    "@nexusmutual/deployments": "^2.2.0",
     "@nexusmutual/logos": "^0.0.21",
     "ethers": "^5.7.2"
   },
   "devDependencies": {
+    "camelcase": "^6.3.0",
     "dotenv": "^16.0.3",
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.6.0",
@@ -39,6 +44,8 @@
     "express": "^4.18.2",
     "node-fetch": "^2.6.9",
     "prettier": "^2.8.7",
-    "semver": "^7.4.0"
+    "semver": "^7.4.0",
+    "tsup": "^7.1.0",
+    "typescript": "^5.1.6"
   }
 }

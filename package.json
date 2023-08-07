@@ -3,10 +3,7 @@
   "version": "0.1.0",
   "description": "Nexus Mutual SDK",
   "scripts": {
-    "build": "npm run build-products && npm run build-logos && npm run build-src",
-    "build-products": "node scripts/build-products.js",
-    "build-logos": "node scripts/build-logos.js",
-    "build-src": "node scripts/build-src.js"
+    "build": "node scripts/build.js"
   },
   "typings": "./dist/index.d.ts",
   "main": "./dist/index.js",

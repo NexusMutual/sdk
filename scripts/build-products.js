@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const fs = require('fs');
 const path = require('path');
 const ethers = require('ethers');
@@ -92,7 +90,7 @@ const fetchProducts = async cover => {
   return products;
 };
 
-const main = async () => {
+const buildProducts = async () => {
   if (PROVIDER_URL === undefined) {
     console.log('PROVIDER_URL environment variable is not defined');
     process.exit(1);
@@ -102,12 +100,6 @@ const main = async () => {
     console.log('IPFS_GATEWAY_URL environment variable is not defined');
     process.exit(1);
   }
-
-  const destination = path.join(__dirname, '../generated');
-  if (fs.existsSync(destination)) {
-    fs.rmSync(destination, { recursive: true });
-  }
-  fs.mkdirSync(destination);
 
   const provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL);
   const cover = new ethers.Contract(addresses.Cover, Cover, provider);
@@ -125,9 +117,6 @@ const main = async () => {
   console.log('Done.');
 };
 
-main()
-  .catch(err => {
-    console.log(err);
-    process.exit(1);
-  })
-  .then(() => process.exit(0));
+module.exports = {
+  buildProducts,
+};

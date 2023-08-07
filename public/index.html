@@ -24,8 +24,8 @@
   </div>
   <div class='row'>
     <div class='col text-right'>
-      <a target="_blank" href="product-types.json">Product types 🡭</a><br>
-      <a target="_blank" href="products.json">Products 🡭</a>
+      <a target="_blank" href="/data/product-types.json">Product types 🡭</a><br>
+      <a target="_blank" href="/data/products.json">Products 🡭</a>
     </div>
   </div>
 </div>
@@ -40,7 +40,7 @@
   async function load () {
 
     const table = document.getElementById('data');
-    const addresses = await fetch('addresses.json').then(r => r.json());
+    const addresses = await fetch('/data/addresses.json').then(r => r.json());
     const proxies = [
       'Assessment',
       'Cover',
@@ -63,7 +63,7 @@
         const isProxy = proxies.includes(name) ? 'Proxy' : '';
         return row([
           linkCell(`${ETHERSCAN}/${address}`, `<strong>${name}</strong>`),
-          linkCell(`abis/${name}.json`, 'ABI'),
+          linkCell(`/abis/${name}.json`, 'ABI'),
           textCell(`${address}`),
           linkCell(`${ETHERSCAN}/${address}/advanced#tokentxns`, 'ERC20 transfers'),
           linkCell(`${ETHERSCAN}/${address}/advanced#read${isProxy}Contract`, `Read ${isProxy}`),

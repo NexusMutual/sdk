@@ -20,17 +20,39 @@ const main = async () => {
   });
 
   // Copy over all processed logo files to dist
-  const outDir = path.join(dist, 'logos');
-  const srcDir = path.join(__dirname, '../generated/logos-src');
-  fs.mkdirSync(outDir);
-  const dirents = await fs.promises.readdir(srcDir, { withFileTypes: true });
-  for (const dirent of dirents) {
+  const logosOutDir = path.join(dist, 'logos');
+  const logosSrcDir = path.join(__dirname, '../generated/logos-src');
+  fs.mkdirSync(logosOutDir);
+  const logoDirents = await fs.promises.readdir(logosSrcDir, { withFileTypes: true });
+  for (const dirent of logoDirents) {
     if (dirent.isFile()) {
-      const source = path.join(srcDir, dirent.name);
-      const dest = path.join(outDir, dirent.name);
+      const source = path.join(logosSrcDir, dirent.name);
+      const dest = path.join(logosOutDir, dirent.name);
       fs.copyFileSync(source, dest);
     }
   }
+
+  // Copy addresses from @nexusmutual/deployments package
+  const addressesFile = path.join(__dirname, '../node_modules/@nexusmutual/deployments/dist/addresses.json');
+  fs.copyFileSync(addressesFile, path.join(dist, 'data/addresses.json'));
+
+  // Copy abis from @nexusmutual/deployments package
+  const abisOutDir = path.join(dist, 'data/abis');
+  const abisSrcDir = path.join(__dirname, '../node_modules/@nexusmutual/deployments/dist/abis');
+  fs.mkdirSync(abisOutDir, { recursive: true });
+  const abiDirents = await fs.promises.readdir(abisSrcDir, { withFileTypes: true });
+  for (const dirent of abiDirents) {
+    if (dirent.isFile()) {
+      const source = path.join(abisSrcDir, dirent.name);
+      const dest = path.join(abisOutDir, dirent.name);
+      fs.copyFileSync(source, dest);
+    }
+  }
+
+  // Copy products.json and product-types.json from generated to dist
+  const generatedDir = path.join(__dirname, '../generated');
+  fs.copyFileSync(path.join(generatedDir, 'products.json'), path.join(dist, 'data/products.json'));
+  fs.copyFileSync(path.join(generatedDir, 'product-types.json'), path.join(dist, 'data/product-types.json'));
 };
 
 main()

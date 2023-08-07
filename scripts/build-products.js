@@ -4,7 +4,7 @@ const ethers = require('ethers');
 const fetch = require('node-fetch');
 
 const { Cover, addresses } = require('@nexusmutual/deployments');
-const logos = require('@nexusmutual/logos/dist/data/product-logos.json');
+const logos = require('../public/data/product-logos.json');
 const { parseProductCoverAssets } = require('./utils');
 
 const { PROVIDER_URL, IPFS_GATEWAY_URL } = process.env;

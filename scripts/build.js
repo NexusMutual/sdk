@@ -1,12 +1,19 @@
+require('dotenv').config();
+
 const fs = require('node:fs');
 const path = require('node:path');
 const { build } = require('tsup');
+const { buildLogos } = require('./build-logos');
+const { buildProducts } = require('./build-products');
 
 const main = async () => {
   const dist = path.join(__dirname, '../dist');
   if (fs.existsSync(dist)) {
     fs.rmSync(dist, { recursive: true });
   }
+
+  await buildLogos();
+  await buildProducts();
 
   await build({
     entry: ['src/index.ts'],

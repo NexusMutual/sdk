@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const productLogos = require('../public/data/product-logos.json');
 const { loadConfig, optimize } = require('svgo');
 const { appendFile, mkdir, readdir, readFile, writeFile, copyFile } = require('fs').promises;
@@ -12,7 +10,7 @@ const pluginTransformReactJsx = require('@babel/plugin-transform-react-jsx');
 const OUTPUT_DIR = path.join(__dirname, '../generated/logos');
 const OUTPUT_DIR_IMAGES = path.join(__dirname, '../generated/logos-src');
 
-const build = async () => {
+const buildLogos = async () => {
   await mkdir(OUTPUT_DIR, { recursive: true });
   await mkdir(OUTPUT_DIR_IMAGES, { recursive: true });
 
@@ -82,8 +80,6 @@ const build = async () => {
   await appendFile(path.join(OUTPUT_DIR, 'index.d.ts'), `\nexport declare const allLogoFileNames: LogoFileName[];`);
 };
 
-build();
-
 /**
  * Utils
  */
@@ -136,3 +132,7 @@ async function readFiles(dir) {
 
   return paths;
 }
+
+module.exports = {
+  buildLogos,
+};

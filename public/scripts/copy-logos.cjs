@@ -15,7 +15,7 @@ const main = async argv => {
   }
 
   const targetPath = path.resolve(argv[2]);
-  const sourcePath = path.resolve(__dirname, '../logos-src');
+  const sourcePath = path.resolve(__dirname, '../logos');
 
   await rimraf(targetPath);
   await mkdir(targetPath);

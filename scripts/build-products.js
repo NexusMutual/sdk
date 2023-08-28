@@ -2,9 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const ethers = require('ethers');
 const fetch = require('node-fetch');
+const { readdir } = require('fs').promises;
 
 const { Cover, addresses } = require('@nexusmutual/deployments');
-const logos = require('../public/data/product-logos.json');
 const { parseProductCoverAssets } = require('./utils');
 
 const { PROVIDER_URL, IPFS_GATEWAY_URL } = process.env;
@@ -36,9 +36,25 @@ const fetchProductTypes = async cover => {
   return productTypes;
 };
 
+const createLogoDict = async logosDir => {
+  const dirents = await readdir(logosDir, { withFileTypes: true });
+  const filenames = dirents.map(dirent => dirent.name);
+
+  const map = filenames.reduce((acc, filename) => {
+    const name = filename.substring(filename.indexOf('-') + 1);
+    const id = Number(filename.substring(0, filename.indexOf('-')));
+    acc[id] = name;
+    return acc;
+  }, {});
+
+  return map;
+};
+
 const fetchProducts = async cover => {
   const eventFilter = cover.filters.ProductSet();
   const events = await cover.queryFilter(eventFilter);
+
+  const logos = await createLogoDict(path.join(__dirname, '../src/logos'));
 
   const ipfsHashes = events
     // sort descending by log index to get the latest ipfs hash

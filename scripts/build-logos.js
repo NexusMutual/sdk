@@ -1,4 +1,3 @@
-const productLogos = require('../public/data/product-logos.json');
 const { loadConfig, optimize } = require('svgo');
 const { appendFile, mkdir, readdir, readFile, writeFile, copyFile } = require('fs').promises;
 const camelcase = require('camelcase');
@@ -20,25 +19,16 @@ const buildLogos = async () => {
   const svgFilePaths = allFilePaths.filter(path => path.endsWith('.svg'));
   const otherFilePaths = allFilePaths.filter(path => !path.endsWith('.svg'));
 
-  // Validate if all products have a logo
-  const missingLogos = productLogos.filter(filename => !allFilePaths.find(fp => fp.endsWith(filename)));
-  if (missingLogos.length > 0) {
-    throw new Error(`Missing file for filepath: ${missingLogos.join(', ')}`);
-  }
-
-  // Validate if all logos are used by products
-  const excessLogos = allFilePaths.map(p => path.basename(p)).filter(filename => !productLogos.includes(filename));
-  if (excessLogos.length > 0) {
-    console.error(`[WARNING] The following logos have no associated product: ${excessLogos.join(', ')}`);
-  }
-
   // Load `./svgo.config.js`
   const config = await loadConfig();
 
   // Create a Promise for each svg transformation
   const transformations = svgFilePaths.map(async filePath => {
     const content = await readFile(filePath);
-    const filename = path.basename(filePath, '.svg');
+    const rawFilename = path.basename(filePath, '.svg');
+
+    const filename = rawFilename.substring(rawFilename.indexOf('-') + 1);
+
     const name = camelcase(filename, {
       pascalCase: true,
     });
@@ -54,7 +44,8 @@ const buildLogos = async () => {
 
   // Copy over non-svg files for legacy support. These files should be replaced with svg's
   otherFilePaths.forEach(async filePath => {
-    const filename = path.basename(filePath);
+    const rawFilename = path.basename(filePath);
+    const filename = rawFilename.substring(rawFilename.indexOf('-') + 1);
     console.log(`Copy ${filename} for legacy support`);
     await copyFile(filePath, path.join(OUTPUT_DIR_IMAGES, filename));
   });
@@ -85,11 +76,13 @@ const buildLogos = async () => {
  */
 
 function createIndexJs(componentNames) {
-  return componentNames.map(name => `export { default as ${name} } from './${name}.js';`).join('\n');
+  const uniqueComponentNames = [...new Set(componentNames)];
+  return uniqueComponentNames.map(name => `export { default as ${name} } from './${name}.js';`).join('\n');
 }
 
 function createIndexDts(componentNames) {
-  return componentNames.map(name => `export { default as ${name} } from './${name}';`).join('\n');
+  const uniqueComponentNames = [...new Set(componentNames)];
+  return uniqueComponentNames.map(name => `export { default as ${name} } from './${name}';`).join('\n');
 }
 
 function createTypeDef(componentName) {

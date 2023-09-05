@@ -16,6 +16,7 @@ const buildLogos = async () => {
   // Find all logos in the src/ folder
   const logosDir = path.join(__dirname, '../src/logos');
   const allFilePaths = await readFiles(logosDir);
+  const allFileNames = allFilePaths.map(p => p.substring(p.indexOf('-') + 1));
   const svgFilePaths = allFilePaths.filter(path => path.endsWith('.svg'));
   const otherFilePaths = allFilePaths.filter(path => !path.endsWith('.svg'));
 
@@ -62,11 +63,11 @@ const buildLogos = async () => {
   // Add `allLogoFileNames` array for utility use
   await appendFile(
     path.join(OUTPUT_DIR, 'index.js'),
-    `\nexport const allLogoFileNames = ['${allFilePaths.map(filepath => path.basename(filepath)).join("', '")}'];`,
+    `\nexport const allLogoFileNames = ['${allFileNames.map(filepath => path.basename(filepath)).join("', '")}'];`,
   );
   await appendFile(
     path.join(OUTPUT_DIR, 'index.d.ts'),
-    `\nexport type LogoFileName = '${allFilePaths.map(filepath => path.basename(filepath)).join("' | '")}';`,
+    `\nexport type LogoFileName = '${allFileNames.map(filepath => path.basename(filepath)).join("' | '")}';`,
   );
   await appendFile(path.join(OUTPUT_DIR, 'index.d.ts'), `\nexport declare const allLogoFileNames: LogoFileName[];`);
 };

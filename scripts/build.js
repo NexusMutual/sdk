@@ -12,6 +12,11 @@ const main = async () => {
     fs.rmSync(dist, { recursive: true });
   }
 
+  const generated = path.join(__dirname, '../generated');
+  if (fs.existsSync(generated)) {
+    fs.rmSync(generated, { recursive: true });
+  }
+
   await buildLogos();
   await buildProducts();
 
@@ -28,7 +33,7 @@ const main = async () => {
 
   // Copy over all processed logo files to dist
   const logosOutDir = path.join(dist, 'logos');
-  const logosSrcDir = path.join(__dirname, '../generated/logos-src');
+  const logosSrcDir = path.join(__dirname, '../generated/logos');
   fs.mkdirSync(logosOutDir);
   const logoDirents = await fs.promises.readdir(logosSrcDir, { withFileTypes: true });
   for (const dirent of logoDirents) {

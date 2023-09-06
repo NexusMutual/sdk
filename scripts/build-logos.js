@@ -49,14 +49,15 @@ const buildLogos = async () => {
 
   // Add `allLogoFileNames` array for utility use
   await appendFile(
-    path.join(OUTPUT_DIR, 'index.js'),
-    `\nexport const allLogoFileNames = ['${allFileNames.map(filepath => path.basename(filepath)).join("', '")}'];`,
+    path.join(OUTPUT_DIR, 'types.ts'),
+    `export type LogoFileName = '${allFileNames.map(filepath => path.basename(filepath)).join("' | '")}';\n`,
   );
   await appendFile(
-    path.join(OUTPUT_DIR, 'index.d.ts'),
-    `\nexport type LogoFileName = '${allFileNames.map(filepath => path.basename(filepath)).join("' | '")}';`,
+    path.join(OUTPUT_DIR, 'types.ts'),
+    `export const allLogoFileNames: LogoFileName[] = ['${allFileNames
+      .map(filepath => path.basename(filepath))
+      .join("', '")}'];\n`,
   );
-  await appendFile(path.join(OUTPUT_DIR, 'index.d.ts'), `\nexport declare const allLogoFileNames: LogoFileName[];`);
 };
 
 async function readFiles(dir) {

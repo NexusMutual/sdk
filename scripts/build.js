@@ -45,14 +45,14 @@ const main = async () => {
   }
 
   // Copy addresses from @nexusmutual/deployments package
-  const addressesFile = path.join(__dirname, '../node_modules/@nexusmutual/deployments/dist/data/addresses.json');
+  const addressesFile = path.join(__dirname, '../node_modules/@nexusmutual/deployments/dist/addresses.json');
   const dataOutDir = path.join(dist, 'data');
   fs.mkdirSync(dataOutDir, { recursive: true });
   fs.copyFileSync(addressesFile, path.join(dataOutDir, 'addresses.json'));
 
   // Copy abis from @nexusmutual/deployments package
   const abisOutDir = path.join(dist, 'data/abis');
-  const abisSrcDir = path.join(__dirname, '../node_modules/@nexusmutual/deployments/dist/data/abis');
+  const abisSrcDir = path.join(__dirname, '../node_modules/@nexusmutual/deployments/dist/abis');
   fs.mkdirSync(abisOutDir, { recursive: true });
   const abiDirents = await fs.promises.readdir(abisSrcDir, { withFileTypes: true });
   for (const dirent of abiDirents) {

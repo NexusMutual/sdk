@@ -1,3 +1,3 @@
-export * from './ethToNxm';
-export * from './nxmToEth';
+export * from './calculateNxmForEth';
+export * from './calculateEthForNxm';
 export * from './reserves.type';

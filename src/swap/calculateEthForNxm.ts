@@ -1,6 +1,6 @@
 import { Reserves } from './reserves.type';
 
-export const nxmToEth = (nxmIn: bigint, reserves: Reserves): bigint => {
+export const calculateEthForNxm = (nxmIn: bigint, reserves: Reserves): bigint => {
   // Extracting the current reserves of Nxm and Eth
   const nxmReservesBefore = BigInt(reserves.nxmB);
   const ethReserveBefore = BigInt(reserves.ethReserve);

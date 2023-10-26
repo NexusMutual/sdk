@@ -1,10 +1,9 @@
 import { Reserves } from './reserves.type';
 
-// k = state.nxmB * state.eth
-// nxmBNew = state.nxmB + nxmInput
-// ethNew = k / nxmBNewethNew
-// ethOut = state.eth - ethNew
-
+/**
+ * Calculates the amount of eth flowing out of the pool for the given amount of nxm flowing in
+ */
+// suggestion: calculateEthOutGivenNxmIn
 export const calculateEthForNxm = (nxmIn: bigint, reserves: Reserves): bigint => {
   // Calculate the constant product (k) for the market maker model
   const k = reserves.nxmB * reserves.ethReserve;

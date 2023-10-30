@@ -5,6 +5,9 @@ import { Reserves } from './reserves.type';
  */
 // suggestion: calculateEthOutGivenNxmIn
 export const calculateEthForNxm = (nxmIn: bigint, reserves: Reserves): bigint => {
+
+  if(nxmIn <= 0n) return 0n;
+
   // Calculate the constant product (k) for the market maker model
   const k = reserves.nxmB * reserves.ethReserve;
 

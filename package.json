@@ -4,7 +4,8 @@
   "description": "Nexus Mutual SDK",
   "scripts": {
     "build": "node scripts/build.js",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "typings": "./dist/index.d.ts",
   "main": "./dist/index.js",

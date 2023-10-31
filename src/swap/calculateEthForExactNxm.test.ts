@@ -15,7 +15,7 @@ describe('calculateEthForExactNxm', () => {
     ['unit value', '1', 34999922981378727n],
     ['decimal value', '0.1', 3499970248373829n],
     ['small value', '0.000000000000000001', 0n],
-    ['large value under 150000', '140000', 244887345247446128967433n],
+    ['large value under nxmA reserve', '140000', 244887345247446128967433n],
   ];
 
   test.each(cases)('calculates nxm out for eth in correctly - %s', (_type, nxmOut, expectedEthIn) => {
@@ -26,13 +26,13 @@ describe('calculateEthForExactNxm', () => {
 
   // throws error for invalid nxmOut values
   const invalidCases: Array<[string, any, string]> = [
-    ['large value over 100000', parseEther('150000'), 'Cannot swap this amount'],
-    ['larger value over 100000', parseEther('1000000'), 'Cannot swap this amount'],
-    ['zero value', parseEther('0'), 'NXM out value must be greater than 0'],
-    ['unit negative  value', parseEther('-1'), 'NXM out value must be greater than 0'],
-    ['large negative value', parseEther('-1000000'), 'NXM out value must be greater than 0'],
-    ['small negative value', parseEther('-0.000000000000000001'), 'NXM out value must be greater than 0'],
-    ['null value', null, 'NXM out value must be greater than 0'],
+    ['large value over nxmA reserve', parseEther('150000'), 'NXM out value must be greater than 0 and less than the reserves'],
+    ['larger value over nxmA reserve', parseEther('1000000'), 'NXM out value must be greater than 0 and less than the reserves'],
+    ['zero value', parseEther('0'), 'NXM out value must be greater than 0 and less than the reserves'],
+    ['unit negative  value', parseEther('-1'), 'NXM out value must be greater than 0 and less than the reserves'],
+    ['large negative value', parseEther('-1000000'), 'NXM out value must be greater than 0 and less than the reserves'],
+    ['small negative value', parseEther('-0.000000000000000001'), 'NXM out value must be greater than 0 and less than the reserves'],
+    ['null value', null, 'NXM out value must be greater than 0 and less than the reserves'],
     ['undefined value', undefined, 'Cannot mix BigInt and other types, use explicit conversions'],
     ['string value', '1', 'Cannot mix BigInt and other types, use explicit conversions'],
     ['object value', {}, 'Cannot mix BigInt and other types, use explicit conversions'],

@@ -26,6 +26,7 @@ describe('calculateEthForExactNxm', () => {
 
   // throws error for invalid nxmOut values
   const invalidCases: Array<[string, any, string]> = [
+    ['large value = nxmA reserve', parseEther('142858.457219554100789497'), 'NXM out value must be greater than 0 and less than the reserves'],
     ['large value over nxmA reserve', parseEther('150000'), 'NXM out value must be greater than 0 and less than the reserves'],
     ['larger value over nxmA reserve', parseEther('1000000'), 'NXM out value must be greater than 0 and less than the reserves'],
     ['zero value', parseEther('0'), 'NXM out value must be greater than 0 and less than the reserves'],

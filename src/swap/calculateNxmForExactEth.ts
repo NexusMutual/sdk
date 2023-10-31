@@ -6,8 +6,8 @@ import { Reserves } from './reserves.type';
 // suggestion: calculateNxmInGivenEthOut
 export const calculateNxmForExactEth = (ethOut: bigint, reserves: Reserves): bigint => {
 
-  if(ethOut <= 0n) return 0n;
-  
+  if(ethOut <= 0n) throw new Error('ETH out value must be greater than 0');
+
   // Calculate the constant product (k) for the market maker model
   const k = reserves.nxmB * reserves.ethReserve;
 
@@ -17,6 +17,8 @@ export const calculateNxmForExactEth = (ethOut: bigint, reserves: Reserves): big
 
   // Calculate the amount of Nxm needed to flow into the pool to get the desired amount of eth
   const nxmIn = nxmReservesAfter - reserves.nxmB;
+
+  if(nxmIn < 0n) throw new Error('Cannot swap this amount');
 
   return nxmIn;
 };

@@ -14,52 +14,35 @@ describe('calculateEthForNxm', () => {
   const cases = [
     ['unit value', '1', 15205969926825736n],
     ['decimal value', '0.1', 1520601154681351n],
-    ['large value', '1000000', 3762744729683749758291n],
     ['small value', '0.000000000000000001', 1n],
-    ['zero value', '0', 0n],
-    ['unit negative  value', '-1', 0n],
-    ['large negative value', '-1000000', 0n],
-    ['small negative value', '-0.000000000000000001', 0n],
+    ['large value', '1000000', 3762744729683749758291n],
+    ['very large value', '100000000000000', 4999999983559138938029n]
   ];
 
-  test.each(cases)('calculates nxm out for eth in correctly - %s', (_type, nxmIn, expectedEthOut) => {
+  test.each(cases)('calculates eth out for nxm in correctly - %s', (_type, nxmIn, expectedEthOut) => {
     const nxmInParsed = parseEther(nxmIn.toString());
     const ethOutCalculated = calculateEthForNxm(nxmInParsed, reserves);
     expect(ethOutCalculated.toString()).toBe(expectedEthOut.toString());
   });
 
-  it('returns 0 nxm out for eth in - null value', () => {
-    const nxmIn = null as bigint | null;
-    const ethOut = calculateEthForNxm(nxmIn as bigint, reserves);
-    expect(ethOut.toString()).toBe('0');
-  });
 
-  // throw error for invalid nxmIn values
-  it('throws error for eth in - undefined value', () => {
-    const nxmIn = undefined as bigint | undefined;
-    expect(() => calculateEthForNxm(nxmIn as bigint, reserves)).toThrow(
-      'Cannot mix BigInt and other types, use explicit conversions',
-    );
-  });
+  // throws error for invalid nxmIn values
+  const invalidCases: Array<[string, any, string]> = [
+    ['zero value', parseEther('0'), 'NXM in value must be greater than 0'],
+    ['unit negative  value', parseEther('-1'), 'NXM in value must be greater than 0'],
+    ['large negative value', parseEther('-1000000'), 'NXM in value must be greater than 0'],
+    ['small negative value', parseEther('-0.000000000000000001'), 'NXM in value must be greater than 0'],
+    ['null value', null, 'NXM in value must be greater than 0'],
+    ['undefined value', undefined, 'Cannot mix BigInt and other types, use explicit conversions'],
+    ['string value', '1', 'Cannot mix BigInt and other types, use explicit conversions'],
+    ['object value', {}, 'Cannot mix BigInt and other types, use explicit conversions'],
+    ['BigNumber value', BigNumber.from(1), 'Cannot mix BigInt and other types, use explicit conversions'],
+  ];
 
-  it('throws error for eth in - string value', () => {
-    const nxmIn = '1' as unknown as bigint;
-    expect(() => calculateEthForNxm(nxmIn, reserves)).toThrow(
-      'Cannot mix BigInt and other types, use explicit conversions',
-    );
-  });
-
-  it('throws error for eth in - object value', () => {
-    const nxmIn = {} as unknown as bigint;
-    expect(() => calculateEthForNxm(nxmIn, reserves)).toThrow(
-      'Cannot mix BigInt and other types, use explicit conversions',
-    );
-  });
-
-  it('throws an error for eth in - BigNumber value', () => {
-    const nxmIn = BigNumber.from(1) as unknown as bigint;
-    expect(() => calculateEthForNxm(nxmIn, reserves)).toThrow(
-      'Cannot mix BigInt and other types, use explicit conversions',
-    );
-  });
+  test.each(invalidCases)(
+    'throws error for invalid nxm in values - %s',
+    (_type: string, nxmIn: any, expectedError: string) => {
+      expect(() => calculateEthForNxm(nxmIn as bigint, reserves)).toThrow(expectedError);
+    },
+  );
 });

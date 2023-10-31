@@ -8,15 +8,14 @@ import { Reserves } from './reserves.type';
 export const calculatePriceImpactA = (ethIn: bigint, reserves: Reserves) => {
   const { spotPriceA } = calculateSpotPrice(reserves);
   const nxmOut = calculateNxmForEth(ethIn, reserves);
-  const nxmOutAtSpotPrice = ethIn / spotPriceA * BigInt(1e18);
+  const nxmOutAtSpotPrice = BigInt(1e18) * ethIn / spotPriceA;
 
-  // [(nxmOut - nxmOutAtSpot) / nxmOutAtSpot] * 100 = (nxmOut / nxmOutAtSpot - 1) * 100
-  const priceImpactRatio = BigInt(100) * nxmOut / nxmOutAtSpotPrice - BigInt(100);
+  // 100 - 100 * nxmOut / nxmOutAtSpot
+  const priceImpactRatio = BigInt(100) - BigInt(100) * nxmOut / nxmOutAtSpotPrice;
 
-  console.log('spotPriceA', spotPriceA);
-  console.log('nxmOut', nxmOut);
-  console.log('nxmOutAtSpotPrice', nxmOutAtSpotPrice);
-  console.log('priceImpactRatio', priceImpactRatio.toString());
+  console.log('nxm out         = ', nxmOut);
+  console.log('nxm out at spot = ', nxmOutAtSpotPrice);
+  console.log('price impact    = %s%%', priceImpactRatio);
 
   return priceImpactRatio;
 };

@@ -3,12 +3,6 @@ import { Reserves } from './reserves.type';
 import { parseEther } from 'viem';
 
 describe('calculatePriceImpactA', () => {
-  // const reserves: Reserves = {
-  //   nxmA: parseEther('2'),
-  //   nxmB: parseEther('5'),
-  //   ethReserve: parseEther('10'),
-  //   budget: BigInt('0'),
-  // };
   const reserves: Reserves = {
     nxmA: BigInt('144258115168288148164359'),
     nxmB: BigInt('328083361976871023072198'),
@@ -16,9 +10,9 @@ describe('calculatePriceImpactA', () => {
     budget: BigInt('0'),
   };
 
-  it.only('calculates price impact A', () => {
+  it('calculates price impact A', () => {
     const ethIn = parseEther('1');
     const result = calculatePriceImpactA(ethIn, reserves);
-    // expect(result).toBe(parseEther('100'));
+    expect(result).toBe(BigInt('200'));
   });
 });

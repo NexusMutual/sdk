@@ -1,9 +1,9 @@
 import { parseEther } from 'viem';
 import { Reserves } from './reserves.type';
-import { calculateEthForNxm } from './calculateEthForNxm';
+import { calculateExactEthForNxm } from './calculateExactEthForNxm';
 import { BigNumber } from 'ethers';
 
-describe('calculateEthForNxm', () => {
+describe('calculateExactEthForNxm', () => {
   const reserves: Reserves = {
     nxmA: 142858457219554100789497n,
     nxmB: 328817222320643252285179n,
@@ -21,7 +21,7 @@ describe('calculateEthForNxm', () => {
 
   test.each(cases)('calculates eth out for nxm in correctly - %s', (_type, nxmIn, expectedEthOut) => {
     const nxmInParsed = parseEther(nxmIn.toString());
-    const ethOutCalculated = calculateEthForNxm(nxmInParsed, reserves);
+    const ethOutCalculated = calculateExactEthForNxm(nxmInParsed, reserves);
     expect(ethOutCalculated.toString()).toBe(expectedEthOut.toString());
   });
 
@@ -42,7 +42,7 @@ describe('calculateEthForNxm', () => {
   test.each(invalidCases)(
     'throws error for invalid nxm in values - %s',
     (_type: string, nxmIn: any, expectedError: string) => {
-      expect(() => calculateEthForNxm(nxmIn as bigint, reserves)).toThrow(expectedError);
+      expect(() => calculateExactEthForNxm(nxmIn as bigint, reserves)).toThrow(expectedError);
     },
   );
 });

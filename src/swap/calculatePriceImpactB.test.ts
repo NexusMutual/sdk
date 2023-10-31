@@ -11,8 +11,8 @@ describe('calculatePriceImpactB', () => {
   };
 
   it('calculates price impact B', () => {
-    const nxmIn = parseEther('1');
+    const nxmIn = parseEther('100');
     const result = calculatePriceImpactB(nxmIn, reserves);
-    expect(result).toBe(parseEther('100'));
+    expect(result).toBe(BigInt('305'));
   });
 });

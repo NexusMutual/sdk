@@ -4,7 +4,7 @@ import { Reserves } from './reserves.type';
  * Calculates the amount of nxm flowing out of the pool for the given amount of eth flowing in
  */
 // suggestion: calculateNxmOutGivenEthIn
-export const calculateNxmForEth = (ethIn: bigint, reserves: Reserves): bigint => {
+export const calculateExactNxmForEth = (ethIn: bigint, reserves: Reserves): bigint => {
  
   if(ethIn <= 0n) throw new Error('ETH in value must be greater than 0');
  

@@ -14,8 +14,7 @@ describe('calculatePriceImpactB', () => {
   const cases = [
     ['unit value', '1', 200n],
     ['decimal value', '0.1', 20n],
-    // TODO handle this case
-    ['small value', '0.000000000000000001', -35714n], // negative value
+    ['small value = 1e-18', '0.000000000000000001', -35714n], // negative value
     ['large value', '1000000', 995025n],
     ['very large value', '100000000000000', 1000000n],
   ];
@@ -28,7 +27,6 @@ describe('calculatePriceImpactB', () => {
 
   // throws error for invalid nxmIn values
   const invalidCases: Array<[string, any, string]> = [
-    // ['small value', parseEther('0.000000000000000001'), 'Division by zero'],
     ['zero value', parseEther('0'), 'ETH in value must be greater than 0'],
     ['unit negative  value', parseEther('-1'), 'ETH in value must be greater than 0'],
     ['large negative value', parseEther('-1000000'), 'ETH in value must be greater than 0'],

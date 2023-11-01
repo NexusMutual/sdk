@@ -14,10 +14,9 @@ describe('calculatePriceImpactB', () => {
   const cases = [
     ['unit value', '1', 4n],
     ['decimal value', '0.1', 1n],
-    // TODO handle this case
-    ['small value', '0.000000000000000001', 1n], // throws division by zero
     ['large value', '1000000', 752965n],
     ['very large value', '100000000000000', 1000000n],
+    ['small value = 1e-16', '0.0000000000000001', -1000000n], // negative value
   ];
 
   test.each(cases)('calculates price impact B - %s', (_type, nxmIn, expectedPriceImpact) => {
@@ -28,7 +27,8 @@ describe('calculatePriceImpactB', () => {
 
   // throws error for invalid nxmIn values
   const invalidCases: Array<[string, any, string]> = [
-    // ['small value', parseEther('0.000000000000000001'), 'Division by zero'],
+    ['small value = 1e-17', parseEther('0.00000000000000001'), 'Division by zero'],
+    ['small value = 1e-18', parseEther('0.000000000000000001'), 'Division by zero'],
     ['zero value', parseEther('0'), 'NXM in value must be greater than 0'],
     ['unit negative  value', parseEther('-1'), 'NXM in value must be greater than 0'],
     ['large negative value', parseEther('-1000000'), 'NXM in value must be greater than 0'],

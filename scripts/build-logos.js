@@ -50,13 +50,13 @@ const buildLogos = async () => {
   // Add `allLogoFileNames` array for utility use
   await appendFile(
     path.join(OUTPUT_DIR, 'types.ts'),
-    `export type LogoFileName = '${allFileNames.map(filepath => path.basename(filepath)).join("' | '")}';\n`,
+    `export type LogoFileName =\n  | '${allFileNames.map(filepath => path.basename(filepath)).join("'\n  | '")}';\n\n`,
   );
   await appendFile(
     path.join(OUTPUT_DIR, 'types.ts'),
-    `export const allLogoFileNames: LogoFileName[] = ['${allFileNames
+    `export const allLogoFileNames: LogoFileName[] = [\n  '${allFileNames
       .map(filepath => path.basename(filepath))
-      .join("', '")}'];\n`,
+      .join("',\n  '")}',\n];\n`,
   );
 };
 

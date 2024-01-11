@@ -17,8 +17,9 @@ const fetchProductTypes = async cover => {
 
   // using sort and reduce to deduplicate events and get the latest ipfs hash
   const ipfsHashes = events
-    // sort descending by log index to get the latest ipfs hash
-    .sort((a, b) => b.logIndex - a.logIndex)
+    // sort ascending by blockNumber to get the latest ipfs hash
+    // (ascending rather than descending due to the reduce)
+    .sort((a, b) => a.blockNumber - b.blockNumber)
     .reduce((acc, event) => {
       const id = event.args.id.toNumber();
       const coverWordingURL = ipfsURL(event.args.ipfsMetadata);
@@ -57,8 +58,9 @@ const fetchProducts = async cover => {
   const logos = await createLogoDict(path.join(__dirname, '../src/logos'));
 
   const ipfsHashes = events
-    // sort descending by log index to get the latest ipfs hash
-    .sort((a, b) => b.logIndex - a.logIndex)
+    // sort ascending by blockNumber to get the latest ipfs hash
+    // (ascending rather than descending due to the reduce)
+    .sort((a, b) => a.blockNumber - b.blockNumber)
     .reduce((acc, event) => {
       const id = event.args.id.toNumber();
       const ipfsHash = event.args.ipfsMetadata;

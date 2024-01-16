@@ -7,7 +7,7 @@ const { readdir } = require('fs').promises;
 const { Cover, addresses } = require('@nexusmutual/deployments');
 const { parseProductCoverAssets } = require('./utils');
 
-const { allPrivateProductsIds } = require(path.join(__dirname, '../src/constants/privateProducts.ts'));
+const { allPrivateProductsIds } = require(path.join(__dirname, '../src/constants/privateProducts.js'));
 
 const { PROVIDER_URL, IPFS_GATEWAY_URL } = process.env;
 

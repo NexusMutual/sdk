@@ -7,6 +7,8 @@ const { readdir } = require('fs').promises;
 const { Cover, addresses } = require('@nexusmutual/deployments');
 const { parseProductCoverAssets } = require('./utils');
 
+const { allPrivateProductsIds } = require(path.join(__dirname, '../src/constants/privateProducts.ts'));
+
 const { PROVIDER_URL, IPFS_GATEWAY_URL } = process.env;
 
 const ipfsURL = ipfsHash => `${IPFS_GATEWAY_URL}/ipfs/${ipfsHash}`;
@@ -89,6 +91,8 @@ const fetchProducts = async cover => {
         throw new Error(`Product id ${id} is missing a logo`);
       }
 
+      const isPrivate = allPrivateProductsIds.includes(id);
+
       return {
         id,
         name,
@@ -98,6 +102,7 @@ const fetchProducts = async cover => {
         logo: logos[id],
         metadata,
         coverAssets: parseProductCoverAssets(coverAssets),
+        isPrivate,
       };
     });
 

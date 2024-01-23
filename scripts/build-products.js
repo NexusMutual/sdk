@@ -44,9 +44,15 @@ const createLogoDict = async logosDir => {
   const filenames = dirents.map(dirent => dirent.name);
 
   const map = filenames.reduce((acc, filename) => {
-    const name = filename.substring(filename.indexOf('-') + 1);
-    const id = Number(filename.substring(0, filename.indexOf('-')));
-    acc[id] = name;
+    const dashIndex = filename.indexOf('-');
+
+    // Skip files that don't have a dash in the name
+    if (dashIndex !== -1) {
+      const name = filename.substring(dashIndex + 1);
+      const id = Number(filename.substring(0, dashIndex));
+      acc[id] = name;
+    }
+
     return acc;
   }, {});
 

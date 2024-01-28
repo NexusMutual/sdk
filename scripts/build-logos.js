@@ -10,7 +10,7 @@ const buildLogos = async () => {
 
   // Find all logos in the src/ folder
   const allFilePaths = await readFiles(SRC_DIR);
-  const allFileNames = allFilePaths.map(p => p.substring(p.indexOf('-') + 1));
+  const allFileNames = allFilePaths.map(p => path.basename(p));
   const svgFilePaths = allFilePaths.filter(path => path.endsWith('.svg'));
   const otherFilePaths = allFilePaths.filter(path => !path.endsWith('.svg'));
 
@@ -21,7 +21,9 @@ const buildLogos = async () => {
   const transformations = svgFilePaths.map(async filePath => {
     const content = await readFile(filePath);
     const filename = path.basename(filePath, '.svg');
-    const name = filename.substring(filename.indexOf('-') + 1);
+
+    // Check if the filename starts with a number, if so split on dash. If not, take the whole filename
+    const name = /\d+-/.test(filename) ? filename.substring(filename.indexOf('-') + 1) : filename;
 
     const { data } = optimize(content, config);
 
@@ -42,7 +44,10 @@ const buildLogos = async () => {
   // Copy over non-svg files for legacy support. These files should be replaced with svg's
   otherFilePaths.forEach(async filePath => {
     const rawFilename = path.basename(filePath);
-    const filename = rawFilename.substring(rawFilename.indexOf('-') + 1);
+
+    // Check if the filename starts with a number, if so split on dash. If not, take the whole filename
+    const filename = /\d+-/.test(rawFilename) ? rawFilename.substring(rawFilename.indexOf('-') + 1) : rawFilename;
+
     console.log(`Copy ${filename} for legacy support`);
     await copyFile(filePath, path.join(OUTPUT_DIR, filename));
   });

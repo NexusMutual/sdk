@@ -6,6 +6,6 @@ export { default as products } from '../generated/products.json';
 export { default as productTypes } from '../generated/product-types.json';
 
 // Export generated logo types
-export * from '../generated/logos/types';
+export * from '../generated/types';
 
 export * from './swap/index';

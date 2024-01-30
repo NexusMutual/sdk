@@ -2,11 +2,12 @@ const { loadConfig, optimize } = require('svgo');
 const { appendFile, mkdir, readdir, readFile, writeFile, copyFile } = require('fs').promises;
 const path = require('path');
 
-const OUTPUT_DIR = path.join(__dirname, '../generated/logos');
+const GENERATED_OUTPUT_DIR = path.join(__dirname, '../generated');
+const LOGOS_OUTPUT_DIR = path.join(GENERATED_OUTPUT_DIR, '/logos');
 const SRC_DIR = path.join(__dirname, '../src/logos');
 
 const buildLogos = async () => {
-  await mkdir(OUTPUT_DIR, { recursive: true });
+  await mkdir(LOGOS_OUTPUT_DIR, { recursive: true });
 
   // Find all logos in the src/ folder
   const allFilePaths = await readFiles(SRC_DIR);
@@ -36,7 +37,7 @@ const buildLogos = async () => {
   // Write each component to output directory
   await Promise.all(
     components.map(async ({ name, svg }) => {
-      await writeFile(path.join(OUTPUT_DIR, `${name}.svg`), svg);
+      await writeFile(path.join(LOGOS_OUTPUT_DIR, `${name}.svg`), svg);
       console.log(`Copy optimized ${name}.svg`);
     }),
   );
@@ -49,13 +50,13 @@ const buildLogos = async () => {
     const filename = /\d+-/.test(rawFilename) ? rawFilename.substring(rawFilename.indexOf('-') + 1) : rawFilename;
 
     console.log(`Copy ${filename} for legacy support`);
-    await copyFile(filePath, path.join(OUTPUT_DIR, filename));
+    await copyFile(filePath, path.join(LOGOS_OUTPUT_DIR, filename));
   });
 
   // Add `allLogoFileNames` array and `LogoFileName` type for utility use
   const allLogoFileNames = allFileNames.map(filepath => path.basename(filepath).replace(/\.svg$/, ''));
   await appendFile(
-    path.join(OUTPUT_DIR, 'types.ts'),
+    path.join(GENERATED_OUTPUT_DIR, 'types.ts'),
     'export const allLogoFileNames = [\n' +
       `  '${allLogoFileNames.join("',\n  '")}` +
       "',\n] as const;\n" +

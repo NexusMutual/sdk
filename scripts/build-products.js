@@ -5,7 +5,7 @@ const fetch = require('node-fetch');
 const { readdir } = require('fs').promises;
 
 const { Cover, addresses } = require('@nexusmutual/deployments');
-const { parseProductCoverAssets } = require('./utils');
+const { parseProductCoverAssets, parseFilePath } = require('./utils');
 
 const { allPrivateProductsIds } = require(path.join(__dirname, '../src/constants/privateProducts.js'));
 
@@ -42,19 +42,20 @@ const fetchProductTypes = async cover => {
 const createLogoDict = async logosDir => {
   const dirents = await readdir(logosDir, { withFileTypes: true });
   const filenames = dirents.map(dirent => dirent.name);
+  // console.log('filenames', filenames);
 
   const map = filenames.reduce((acc, filename) => {
-    const dashIndex = filename.indexOf('-');
+    const { id, filename: name } = parseFilePath(filename);
 
     // Skip files that don't have a dash in the name
-    if (dashIndex !== -1) {
-      const name = filename.substring(dashIndex + 1);
-      const id = Number(filename.substring(0, dashIndex));
-      acc[id] = name;
+    if (id) {
+      acc[Number(id)] = name;
     }
 
     return acc;
   }, {});
+
+  console.log('map', map);
 
   return map;
 };

@@ -1,5 +1,3 @@
-const path = require('path');
-
 const parseProductCoverAssets = coverAssets => {
   const COVER_ASSETS_MAP = {
     0: 'ETH',
@@ -24,16 +22,6 @@ const parseProductCoverAssets = coverAssets => {
   return productCoverAssets;
 };
 
-const parseFilePath = filePath => {
-  const fileName = path.basename(filePath);
-  const regex = /(\d+)?-?(.+?)(\.\w+$)/;
-  const [, id, filename, extension] = fileName.match(regex);
-
-  // Note: `id` will be '001' etc
-  return { id, filename, extension };
-};
-
 module.exports = {
   parseProductCoverAssets,
-  parseFilePath,
 };

@@ -59,7 +59,7 @@ const buildLogos = async () => {
     'export const allLogoFileNames = [\n' +
       `  '${allLogoFileNames.join("',\n  '")}` +
       "',\n] as const;\n" +
-      '\nexport type LogoFileName = typeof allLogoFileNames[number];\n',
+      '\nexport type LogoFileName = (typeof allLogoFileNames)[number];\n',
   );
 };
 

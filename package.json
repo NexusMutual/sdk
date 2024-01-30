@@ -1,6 +1,6 @@
 {
   "name": "@nexusmutual/sdk",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "Nexus Mutual SDK",
   "scripts": {
     "build": "node scripts/build.js",

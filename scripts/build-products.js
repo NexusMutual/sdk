@@ -42,20 +42,18 @@ const fetchProductTypes = async cover => {
 const createLogoDict = async logosDir => {
   const dirents = await readdir(logosDir, { withFileTypes: true });
   const filenames = dirents.map(dirent => dirent.name);
-  // console.log('filenames', filenames);
 
   const map = filenames.reduce((acc, filename) => {
     const { id, filename: name } = parseFilePath(filename);
 
-    // Skip files that don't have a dash in the name
+    // Skip files that don't have an id. These files have no id in the filename and will never be
+    // used in a product
     if (id) {
       acc[Number(id)] = name;
     }
 
     return acc;
   }, {});
-
-  console.log('map', map);
 
   return map;
 };

@@ -26,7 +26,7 @@ const parseProductCoverAssets = coverAssets => {
 
 const parseFilePath = filePath => {
   const fileName = path.basename(filePath);
-  const regex = /(\d+)?-?(.+?)(\.\w+$)/;
+  const regex = /(\d+)?-?(.+?)\.(\w+$)/;
   const [, id, filename, extension] = fileName.match(regex);
 
   // Note: `id` will be '001' etc

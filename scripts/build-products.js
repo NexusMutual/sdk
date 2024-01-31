@@ -44,12 +44,12 @@ const createLogoDict = async logosDir => {
   const filenames = dirents.map(dirent => dirent.name);
 
   const map = filenames.reduce((acc, filename) => {
-    const { id, filename: name } = parseFilePath(filename);
+    const { id, filename: name, extension } = parseFilePath(filename);
 
     // Skip files that don't have an id. These files have no id in the filename and will never be
     // used in a product
     if (id) {
-      acc[Number(id)] = name;
+      acc[Number(id)] = `${name}.${extension}`;
     }
 
     return acc;

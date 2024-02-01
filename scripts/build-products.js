@@ -5,7 +5,7 @@ const fetch = require('node-fetch');
 const { readdir } = require('fs').promises;
 
 const { Cover, addresses } = require('@nexusmutual/deployments');
-const { parseProductCoverAssets } = require('./utils');
+const { parseProductCoverAssets, parseFilePath } = require('./utils');
 
 const { allPrivateProductsIds } = require(path.join(__dirname, '../src/constants/privateProducts.js'));
 
@@ -44,13 +44,12 @@ const createLogoDict = async logosDir => {
   const filenames = dirents.map(dirent => dirent.name);
 
   const map = filenames.reduce((acc, filename) => {
-    const dashIndex = filename.indexOf('-');
+    const { id, filename: name, extension } = parseFilePath(filename);
 
-    // Skip files that don't have a dash in the name
-    if (dashIndex !== -1) {
-      const name = filename.substring(dashIndex + 1);
-      const id = Number(filename.substring(0, dashIndex));
-      acc[id] = name;
+    // Skip files that don't have an id. These files have no id in the filename and will never be
+    // used in a product
+    if (id) {
+      acc[Number(id)] = `${name}.${extension}`;
     }
 
     return acc;

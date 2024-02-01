@@ -1,6 +1,7 @@
 const { loadConfig, optimize } = require('svgo');
 const { appendFile, mkdir, readdir, readFile, writeFile, copyFile } = require('fs').promises;
 const path = require('path');
+const { parseFilePath } = require('./utils');
 
 const GENERATED_OUTPUT_DIR = path.join(__dirname, '../generated');
 const LOGOS_OUTPUT_DIR = path.join(GENERATED_OUTPUT_DIR, '/logos');
@@ -21,14 +22,11 @@ const buildLogos = async () => {
   // Create a Promise for each svg transformation
   const transformations = svgFilePaths.map(async filePath => {
     const content = await readFile(filePath);
-    const filename = path.basename(filePath, '.svg');
-
-    // Check if the filename starts with a number, if so split on dash. If not, take the whole filename
-    const name = /\d+-/.test(filename) ? filename.substring(filename.indexOf('-') + 1) : filename;
+    const { filename } = parseFilePath(filePath);
 
     const { data } = optimize(content, config);
 
-    return { name, svg: data };
+    return { name: filename, svg: data };
   });
 
   // Execute all the transformations in parallel
@@ -44,23 +42,39 @@ const buildLogos = async () => {
 
   // Copy over non-svg files for legacy support. These files should be replaced with svg's
   otherFilePaths.forEach(async filePath => {
-    const rawFilename = path.basename(filePath);
-
-    // Check if the filename starts with a number, if so split on dash. If not, take the whole filename
-    const filename = /\d+-/.test(rawFilename) ? rawFilename.substring(rawFilename.indexOf('-') + 1) : rawFilename;
-
+    const { filename, extension } = parseFilePath(filePath);
     console.log(`Copy ${filename} for legacy support`);
-    await copyFile(filePath, path.join(LOGOS_OUTPUT_DIR, filename));
+    await copyFile(filePath, path.join(LOGOS_OUTPUT_DIR, `${filename}.${extension}`));
   });
 
-  // Add `allLogoFileNames` array and `LogoFileName` type for utility use
-  const allLogoFileNames = allFileNames.map(filepath => path.basename(filepath).replace(/\.svg$/, ''));
+  // Contains all file names including extension
+  const allLogoFileNames = allFileNames.map(filePath => {
+    const { filename, extension } = parseFilePath(filePath);
+    return `${filename}.${extension}`;
+  });
+
+  // Contains all file names without extension
+  const allLogoNames = allFileNames.map(filePath => {
+    const { filename } = parseFilePath(filePath);
+    return filename;
+  });
+
+  // Write `types.ts` file
   await appendFile(
     path.join(GENERATED_OUTPUT_DIR, 'types.ts'),
-    'export const allLogoFileNames = [\n' +
-      `  '${allLogoFileNames.join("',\n  '")}` +
-      "',\n] as const;\n" +
-      '\nexport type LogoFileName = (typeof allLogoFileNames)[number];\n',
+    `\
+export const allLogoFileNames = [
+  ${allLogoFileNames.map(filename => `'${filename}'`).join(',\n  ')}
+] as const;
+
+export type LogoFileName = (typeof allLogoFileNames)[number];
+
+export const allLogoNames = [
+  ${allLogoNames.map(name => `'${name}'`).join(',\n  ')}
+] as const;
+
+export type LogoName = (typeof allLogoNames)[number];
+`,
   );
 };
 

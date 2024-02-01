@@ -42,9 +42,9 @@ const buildLogos = async () => {
 
   // Copy over non-svg files for legacy support. These files should be replaced with svg's
   otherFilePaths.forEach(async filePath => {
-    const { filename } = parseFilePath(filePath);
+    const { filename, extension } = parseFilePath(filePath);
     console.log(`Copy ${filename} for legacy support`);
-    await copyFile(filePath, path.join(LOGOS_OUTPUT_DIR, filename));
+    await copyFile(filePath, path.join(LOGOS_OUTPUT_DIR, `${filename}.${extension}`));
   });
 
   // Contains all file names including extension

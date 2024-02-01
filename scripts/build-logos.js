@@ -47,17 +47,34 @@ const buildLogos = async () => {
     await copyFile(filePath, path.join(LOGOS_OUTPUT_DIR, filename));
   });
 
-  // Add `allLogoFileNames` array and `LogoFileName` type for utility use
+  // Contains all file names including extension
   const allLogoFileNames = allFileNames.map(filePath => {
+    const { filename, extension } = parseFilePath(filePath);
+    return `${filename}.${extension}`;
+  });
+
+  // Contains all file names without extension
+  const allLogoNames = allFileNames.map(filePath => {
     const { filename } = parseFilePath(filePath);
     return filename;
   });
+
+  // Write `types.ts` file
   await appendFile(
     path.join(GENERATED_OUTPUT_DIR, 'types.ts'),
-    'export const allLogoFileNames = [\n' +
-      `  '${allLogoFileNames.join("',\n  '")}` +
-      "',\n] as const;\n" +
-      '\nexport type LogoFileName = (typeof allLogoFileNames)[number];\n',
+    `\
+export const allLogoFileNames = [
+  ${allLogoFileNames.map(filename => `'${filename}'`).join(',\n  ')}
+] as const;
+
+export type LogoFileName = (typeof allLogoFileNames)[number];
+
+export const allLogoNames = [
+  ${allLogoNames.map(name => `'${name}'`).join(',\n  ')}
+] as const;
+
+export type LogoName = (typeof allLogoNames)[number];
+`,
   );
 };
 

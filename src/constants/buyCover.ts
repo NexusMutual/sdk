@@ -1,0 +1,2 @@
+export const COMMISSION_DENOMINATOR = 100_00;
+export const SLIPPAGE_DENOMINATOR = 100_00;

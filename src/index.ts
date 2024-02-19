@@ -9,3 +9,5 @@ export { default as productTypes } from '../generated/product-types.json';
 export * from '../generated/types';
 
 export * from './swap/index';
+
+export * from './buyCover/index';

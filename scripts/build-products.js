@@ -58,21 +58,33 @@ const createLogoDict = async logosDir => {
   return map;
 };
 
-const fetchProducts = async cover => {
+const fetchProducts = async (cover, provider) => {
   const eventFilter = cover.filters.ProductSet();
   const events = await cover.queryFilter(eventFilter);
 
   const logos = await createLogoDict(path.join(__dirname, '../src/logos'));
 
-  const ipfsHashes = events
+  const sortedEvents = events
     // sort ascending by blockNumber to get the latest ipfs hash
-    // (ascending rather than descending due to the reduce)
-    .sort((a, b) => a.blockNumber - b.blockNumber)
-    .reduce((acc, event) => {
+    // (ascending rather than descending due to the reduce into productMetadata object below)
+    .sort((a, b) => a.blockNumber - b.blockNumber);
+
+  const productMetadata = {};
+
+  await Promise.all(
+    sortedEvents.map(async event => {
       const id = event.args.id.toNumber();
       const ipfsHash = event.args.ipfsMetadata;
-      return { ...acc, [id]: { id, ipfsHash } };
-    }, {});
+      productMetadata[id] = { id, ipfsHash };
+
+      const block = await provider.getBlock(event.blockNumber);
+      // Only update the timestamp if it's not already set
+      // This is to avoid overwriting the timestamp if the event was an update, not a creation (e.g. for ipfsMetadata)
+      if (!productMetadata[id].timestamp) {
+        productMetadata[id].timestamp = block.timestamp;
+      }
+    }),
+  );
 
   const productsCount = await cover.productsCount();
   const ids = Array.from(Array(productsCount.toNumber()).keys());
@@ -89,7 +101,7 @@ const fetchProducts = async cover => {
       const { productType, isDeprecated, useFixedPrice, coverAssets } = await cover.products(id);
       const name = await cover.productNames(id);
       console.log(`Processing #${id} (${name})`);
-      const { ipfsHash } = ipfsHashes[id];
+      const { ipfsHash, timestamp } = productMetadata[id];
       const metadata = ipfsHash === '' ? {} : await fetch(ipfsURL(ipfsHash)).then(res => res.json());
 
       if (logos[id] === undefined) {
@@ -108,6 +120,7 @@ const fetchProducts = async cover => {
         metadata,
         coverAssets: parseProductCoverAssets(coverAssets),
         isPrivate,
+        timestamp,
       };
     });
 
@@ -139,7 +152,7 @@ const buildProducts = async () => {
 
   console.log('Generating products...');
   const productsPath = path.join(__dirname, '../generated/products.json');
-  const products = await fetchProducts(cover);
+  const products = await fetchProducts(cover, provider);
   fs.writeFileSync(productsPath, JSON.stringify(products, null, 2));
 
   console.log('Done.');

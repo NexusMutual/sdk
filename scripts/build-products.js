@@ -78,12 +78,10 @@ const fetchProducts = async (cover, provider) => {
       productMetadata[id] = { id, ipfsHash };
 
       const block = await provider.getBlock(event.blockNumber);
-      const blockDate = new Date(block.timestamp * 1000);
-      // Only update the dateAdded if it's not already set
-      // This is to avoid overwriting the dateAdded if the event was an update, not a creation (e.g. for ipfsMetadata)
-      if (!productMetadata[id].dateAdded) {
-        console.log(`Product #${id} added on ${blockDate.toISOString()}`);
-        productMetadata[id].dateAdded = blockDate;
+      // Only update the timestamp if it's not already set
+      // This is to avoid overwriting the timestamp if the event was an update, not a creation (e.g. for ipfsMetadata)
+      if (!productMetadata[id].timestamp) {
+        productMetadata[id].timestamp = block.timestamp;
       }
     }),
   );
@@ -103,7 +101,7 @@ const fetchProducts = async (cover, provider) => {
       const { productType, isDeprecated, useFixedPrice, coverAssets } = await cover.products(id);
       const name = await cover.productNames(id);
       console.log(`Processing #${id} (${name})`);
-      const { ipfsHash, dateAdded } = productMetadata[id];
+      const { ipfsHash, timestamp } = productMetadata[id];
       const metadata = ipfsHash === '' ? {} : await fetch(ipfsURL(ipfsHash)).then(res => res.json());
 
       if (logos[id] === undefined) {
@@ -122,7 +120,7 @@ const fetchProducts = async (cover, provider) => {
         metadata,
         coverAssets: parseProductCoverAssets(coverAssets),
         isPrivate,
-        dateAdded,
+        timestamp,
       };
     });
 

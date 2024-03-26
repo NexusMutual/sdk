@@ -33,6 +33,7 @@ const allPrivateProductsIds = [
   111, // WeFi (UnoRe)
   112, // ZkTsunami (UnoRe)
   113, // Hats Protocol
+  151, // Arcadia (Sherlock)
 ];
 
 module.exports = {

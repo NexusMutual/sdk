@@ -8,6 +8,10 @@ export { default as productTypes } from '../generated/product-types.json';
 // Export generated logo types
 export * from '../generated/types';
 
-export * from './swap/index';
+export * from './swap';
 
-export * from './buyCover/index';
+export * from './buyCover';
+
+export * from './types';
+
+export * from './quote';

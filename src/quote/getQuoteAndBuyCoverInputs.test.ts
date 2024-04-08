@@ -2,7 +2,7 @@ import { CoverAsset, MINIMUM_COVER_PERIOD } from '../constants/buyCover';
 import { getMaxCapacity, getQuoteAndBuyCoverInputs } from './getQuoteAndBuyCoverInputs';
 import { Address, PoolCapacity } from '../types';
 
-describe.only('getQuoteAndBuyCoverInputs', () => {
+describe('getQuoteAndBuyCoverInputs', () => {
   let buyerAddress: Address;
   beforeAll(() => {
     process.env.COVER_ROUTER_URL = 'http://localhost:5001';
@@ -127,7 +127,7 @@ describe.only('getQuoteAndBuyCoverInputs', () => {
   );
 });
 
-describe.only('getMaxCapacity', () => {
+describe('getMaxCapacity', () => {
   it('should return the sum of all pool capacities as a string', () => {
     const capacities: PoolCapacity[] = [
       {

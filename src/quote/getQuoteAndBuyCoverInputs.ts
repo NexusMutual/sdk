@@ -129,7 +129,7 @@ async function handleError(error: unknown): Promise<ErrorApiResponse> {
         result: undefined,
         error: {
           message: axiosError.response?.data.error,
-          data: {}, // TODO: call /capacities and return max capacity data
+          data: {},
         },
       };
     }
@@ -154,9 +154,8 @@ async function getQuote(
   coverAsset: CoverAsset,
 ): Promise<CoverRouterQuoteResponse> {
   const params: CoverRouterQuoteParams = { productId, amount: coverAmount, period: coverPeriod, coverAsset };
-  const response: CoverRouterQuoteResponse = await axios.get(`${process.env.COVER_ROUTER_URL}/quote`, { params });
-  // TODO: validate response
-  return response;
+  const response = await axios.get<CoverRouterQuoteResponse>(`${process.env.COVER_ROUTER_URL}/quote`, { params });
+  return response.data;
 }
 
 export { getMaxCapacity, getQuoteAndBuyCoverInputs };

@@ -6,19 +6,57 @@
   },
   "extends": [
     "semistandard",
-    "eslint:recommended",
-    "plugin:prettier/recommended"
+    "plugin:n/recommended", // Uses the recommended rules from eslint-plugin-n (node)
+    "plugin:@typescript-eslint/recommended", // Uses the recommended rules from the @typescript-eslint/eslint-plugin
+    "prettier" // enables eslint-plugin-prettier and displays prettier errors as ESLint errors. (must be the last config in extends array)
   ],
-  "ignorePatterns": ["node_modules/"],
+  "ignorePatterns": ["node_modules/", "artifacts", "dist"],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "project": "./tsconfig.json",
+    "ecmaVersion": 2018,
+    "sourceType": "module" // Allows for the use of imports
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts"]
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true, // always try to resolve types under `<root>@types` directory even it doesn't contain any source code, like `@types/unist`
+        "project": "./tsconfig.json"
+      }
+    }
   },
   "rules": {
     "comma-dangle": ["warn", "always-multiline"],
     "curly": ["error", "all"],
     "max-len": ["error", { "code": 120 }],
     "no-nested-ternary": "error",
-    "no-unused-vars": ["warn", { "varsIgnorePattern": "^_unused" }],
-    "padded-blocks": "off"
-  }
+    "padded-blocks": "off",
+    "space-before-function-paren": "off",
+    "no-useless-constructor": "off",
+    "n/no-process-exit": "off",
+    "n/no-unsupported-features/es-syntax": "off",
+    "n/no-missing-import": "off", // disable as it conflicts with TS compiling to ES modules.
+    "import/no-unresolved": "error", // replaces the above n/no-missing-import
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": "error",
+    "prettier/prettier": "error", // Ensure Prettier discrepancies are treated as errors
+    "import/order": [
+      1,
+      {
+        "groups": ["builtin", "external", "internal", ["parent", "sibling", "index"], "object", "type"],
+        "alphabetize": { "order": "asc", "caseInsensitive": true },
+        "newlines-between": "always"
+      }
+    ]
+  },
+  "plugins": [
+    "mocha",
+    "import",
+    "@typescript-eslint",
+    "prettier" // so prettier errors shows up in eslint
+  ],
+  "root": true
 }

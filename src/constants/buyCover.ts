@@ -1,3 +1,12 @@
+export enum CoverAsset {
+  ETH = 0,
+  DAI = 1,
+}
+
+export enum CoverId {
+  BUY = 0,
+}
+
 export const COMMISSION_DENOMINATOR = 100_00;
 export const SLIPPAGE_DENOMINATOR = 100_00;
 export const TARGET_PRICE_DENOMINATOR = 100_00;

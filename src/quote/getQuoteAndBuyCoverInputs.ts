@@ -34,7 +34,7 @@ type CoverRouterQuoteParams = {
 async function getQuoteAndBuyCoverInputs(
   productId: Integer,
   coverAmount: IntString,
-  coverPeriod: Integer,
+  coverPeriod: Integer, // days
   coverAsset: CoverAsset,
   coverBuyerAddress: Address,
   paymentAsset: CoverAsset = coverAsset,
@@ -105,7 +105,7 @@ async function getQuoteAndBuyCoverInputs(
           productId,
           coverAsset,
           amount: coverAmount,
-          period: coverPeriod,
+          period: coverPeriod * 60 * 60 * 24, // seconds
           maxPremiumInAsset: maxPremiumInAsset.toString(),
           paymentAsset,
           commissionRatio: DEFAULT_COMMISSION_RATIO,

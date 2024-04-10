@@ -5,7 +5,7 @@ export type ApiResponse<R, E> = {
 
 export type ErrorResponse = {
   message: string;
-  data: Record<string, any>;
+  data?: Record<string, any>;
 };
 
 export type ErrorApiResponse = ApiResponse<undefined, ErrorResponse>;

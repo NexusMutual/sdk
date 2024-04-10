@@ -34,6 +34,7 @@ const allPrivateProductsIds = [
   112, // ZkTsunami (UnoRe)
   113, // Hats Protocol
   151, // Arcadia (Sherlock)
+  159, // Liquid Collective
 ];
 
 module.exports = {

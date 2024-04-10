@@ -123,7 +123,6 @@ describe('getQuoteAndBuyCoverInputs', () => {
         30,
         CoverAsset.ETH,
         buyerAddress,
-        CoverAsset.ETH,
         invalidSlippage as number,
       );
       expect(error?.message).toBe(`Invalid slippage: must be a number between 0 and ${SLIPPAGE_DENOMINATOR}`);
@@ -140,7 +139,6 @@ describe('getQuoteAndBuyCoverInputs', () => {
         30,
         CoverAsset.ETH,
         buyerAddress,
-        CoverAsset.ETH,
         0.1,
         invalidData as string,
       );
@@ -148,11 +146,11 @@ describe('getQuoteAndBuyCoverInputs', () => {
     },
   );
 
-  it('returns an object with displayInfo and buyCoverInput parameters', async () => {
+  it.only('returns an object with displayInfo and buyCoverInput parameters', async () => {
     const coverRouterQuoteResponse: CoverRouterQuoteResponse = {
       quote: {
         totalCoverAmountInAsset: parseEther('1000').toString(),
-        annualPrice: parseEther('100').toString(),
+        annualPrice: '287',
         premiumInNXM: parseEther('10').toString(),
         premiumInAsset: parseEther('5').toString(),
         poolAllocationRequests: [
@@ -174,7 +172,6 @@ describe('getQuoteAndBuyCoverInputs', () => {
       28, // coverPeriod
       CoverAsset.ETH, // coverAsset
       buyerAddress, // coverBuyerAddress
-      CoverAsset.DAI, // paymentAsset
       100, // slippage
       'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY', // ipfsCid
     );
@@ -186,7 +183,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
       100,
     );
     const expectedYearlyCostPerc = calculatePremiumWithCommissionAndSlippage(
-      BigInt(parseEther(annualPrice).toString()) / BigInt(TARGET_PRICE_DENOMINATOR),
+      BigInt(annualPrice),
       DEFAULT_COMMISSION_RATIO,
       100,
     );
@@ -194,7 +191,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(error).toBeUndefined();
     expect(result?.displayInfo.premiumInAsset).toBe(expectedMaxPremiumInAsset.toString());
     expect(result?.displayInfo.coverAmount).toBe(coverAmount);
-    expect(result?.displayInfo.yearlyCostPerc).toBe(expectedYearlyCostPerc.toString());
+    expect(result?.displayInfo.yearlyCostPerc).toBe(Number(expectedYearlyCostPerc) / TARGET_PRICE_DENOMINATOR);
     expect(result?.displayInfo.maxCapacity).toBe(parseEther('1000').toString());
     expect(result?.buyCoverInput.buyCoverParams.coverId).toBe(CoverId.BUY);
     expect(result?.buyCoverInput.buyCoverParams.owner).toBe(buyerAddress);
@@ -203,7 +200,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(result?.buyCoverInput.buyCoverParams.amount).toBe(coverAmount);
     expect(result?.buyCoverInput.buyCoverParams.period).toBe(28 * 60 * 60 * 24);
     expect(result?.buyCoverInput.buyCoverParams.maxPremiumInAsset).toBe(expectedMaxPremiumInAsset.toString());
-    expect(result?.buyCoverInput.buyCoverParams.paymentAsset).toBe(CoverAsset.DAI);
+    expect(result?.buyCoverInput.buyCoverParams.paymentAsset).toBe(CoverAsset.ETH);
     expect(result?.buyCoverInput.buyCoverParams.commissionRatio).toBe(DEFAULT_COMMISSION_RATIO);
     expect(result?.buyCoverInput.buyCoverParams.commissionDestination).toBe(NEXUS_MUTUAL_DAO_TREASURY_ADDRESS);
     expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe('QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY');

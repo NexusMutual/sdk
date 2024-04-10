@@ -1,5 +1,4 @@
 import axios, { AxiosError } from 'axios';
-import { parseEther } from 'viem';
 import dotenv from 'dotenv';
 
 import { calculatePremiumWithCommissionAndSlippage } from '../buyCover/calculatePremiumWithCommissionAndSlippage';
@@ -43,7 +42,7 @@ type CoverRouterQuoteParams = {
  * @param {Integer} coverPeriod - The duration of the cover in days (28-365).
  * @param {CoverAsset} coverAsset - The asset for which cover is being purchased (the cover must be purchased using the same asset)
  * @param {Address} coverBuyerAddress - The Ethereum address of the buyer.
- * @param {number} slippage - The acceptable slippage percentage (defaults to 0.1%)
+ * @param {number} slippage - The acceptable slippage percentage. Must be between 0 - 100_00 (Defaults to 10 ~ 0.1%)
  * @param {string} ipfsCid - The IPFS CID for additional data (optional).
  * @return {Promise<GetQuoteApiResponse | ErrorApiResponse>} Returns a successful quote response or an error response.
  */

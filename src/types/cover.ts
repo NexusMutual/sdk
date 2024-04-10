@@ -18,7 +18,7 @@ export type BuyCoverParams = {
 
 export type PoolAllocationRequest = {
   poolId: IntString;
-  coverAmountInAsset: IntString; // wei
+  coverAmountInAsset: IntString; // smallest unit (i.e. wei)
   skip: boolean;
 };
 
@@ -30,10 +30,10 @@ export type CoverRouterQuoteResponse = {
 };
 
 export type Quote = {
-  totalCoverAmountInAsset: IntString; // wei
-  annualPrice: IntString; // NOTE: in ETH/DAI units, not wei
-  premiumInNXM: IntString; // wei
-  premiumInAsset: IntString; // wei
+  totalCoverAmountInAsset: IntString; // smallest unit (i.e. wei)
+  annualPrice: IntString; // percentage expressed as number between 0 and 100_00
+  premiumInNXM: IntString; // smallest unit (i.e. wei)
+  premiumInAsset: IntString; // smallest unit (i.e. wei)
   poolAllocationRequests: PoolAllocationRequest[];
 };
 
@@ -47,10 +47,10 @@ export type PoolCapacity = {
 /* getQuoteAndBuyCoverInputs */
 
 export type QuoteDisplayInfo = {
-  premiumInAsset: IntString;
-  coverAmount: IntString;
-  yearlyCostPerc: IntString;
-  maxCapacity: IntString;
+  premiumInAsset: IntString; // smallest unit (i.e. wei)
+  coverAmount: IntString; // smallest unit (i.e. wei)
+  yearlyCostPerc: number; // percentage expressed as number between 0 and 1
+  maxCapacity: IntString; // smallest unit (i.e. wei)
 };
 
 export type BuyCoverInput = {

@@ -115,7 +115,7 @@ async function getQuoteAndBuyCoverInputs(
       slippage,
     );
     const yearlyCostPerc = calculatePremiumWithCommissionAndSlippage(
-      BigInt(parseEther(quote.annualPrice).toString()) / BigInt(TARGET_PRICE_DENOMINATOR),
+      BigInt(quote.annualPrice),
       DEFAULT_COMMISSION_RATIO,
       slippage,
     );
@@ -124,7 +124,7 @@ async function getQuoteAndBuyCoverInputs(
       displayInfo: {
         premiumInAsset: maxPremiumInAsset.toString(),
         coverAmount,
-        yearlyCostPerc: yearlyCostPerc.toString(),
+        yearlyCostPerc: Number(yearlyCostPerc) / TARGET_PRICE_DENOMINATOR,
         maxCapacity: sumPoolCapacities(capacities),
       },
       buyCoverInput: {
@@ -160,9 +160,8 @@ async function getQuote(
   coverPeriod: Integer,
   coverAsset: CoverAsset,
 ): Promise<CoverRouterQuoteResponse> {
-  const url = new URL('/quote', process.env.COVER_ROUTER_URL);
   const params: CoverRouterQuoteParams = { productId, amount: coverAmount, period: coverPeriod, coverAsset };
-  const response = await axios.get<CoverRouterQuoteResponse>(url.href, { params });
+  const response = await axios.get<CoverRouterQuoteResponse>(process.env.COVER_ROUTER_URL + '/quote', { params });
   return response.data;
 }
 
@@ -182,7 +181,9 @@ function sumPoolCapacities(capacities: PoolCapacity[]): IntString {
 async function handleError(error: unknown): Promise<ErrorApiResponse> {
   const axiosError = error as AxiosError<{ error: string }>;
   if (axiosError.isAxiosError) {
-    if (axiosError.response?.data.error.includes('Not enough capacity')) {
+    console.log('axiosError.response.data: ', require('util').inspect(axiosError.response?.data, { depth: null }));
+
+    if (axiosError.response?.data?.error?.includes('Not enough capacity')) {
       return {
         result: undefined,
         error: {
@@ -192,7 +193,11 @@ async function handleError(error: unknown): Promise<ErrorApiResponse> {
       };
     }
   }
-  throw error;
+
+  return {
+    result: undefined,
+    error: { message: 'Something went wrong' },
+  };
 }
 
 export { sumPoolCapacities, getQuoteAndBuyCoverInputs };

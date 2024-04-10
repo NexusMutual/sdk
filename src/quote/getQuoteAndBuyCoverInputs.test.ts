@@ -84,7 +84,6 @@ describe('getQuoteAndBuyCoverInputs', () => {
       .filter(k => isNaN(+k))
       .map(k => `CoverAsset.${k}`)
       .join(', ');
-    console.log(coverAssetsString);
     expect(error?.message).toBe(`Invalid coverAsset: must be one of ${coverAssetsString}`);
   });
 

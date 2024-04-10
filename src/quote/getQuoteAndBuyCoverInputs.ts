@@ -36,13 +36,13 @@ type CoverRouterQuoteParams = {
 
 /**
  * Retrieves a quote for buying cover and prepares the necessary inputs for CoverBroker.buyCover method
+ * The cover must be purchased using the same asset as the cover
  *
  * @param {Integer} productId - The ID of the product for which cover is being purchased.
  * @param {IntString} coverAmount - The amount of cover in smallest unit of currency (i.e. wei)
  * @param {Integer} coverPeriod - The duration of the cover in days (28-365).
- * @param {CoverAsset} coverAsset - The asset for which cover is being purchased.
+ * @param {CoverAsset} coverAsset - The asset for which cover is being purchased (the cover must be purchased using the same asset)
  * @param {Address} coverBuyerAddress - The Ethereum address of the buyer.
- * @param {CoverAsset} paymentAsset - The asset used for payment (defaults to coverAsset).
  * @param {number} slippage - The acceptable slippage percentage (defaults to 0.1%)
  * @param {string} ipfsCid - The IPFS CID for additional data (optional).
  * @return {Promise<GetQuoteApiResponse | ErrorApiResponse>} Returns a successful quote response or an error response.
@@ -53,7 +53,6 @@ async function getQuoteAndBuyCoverInputs(
   coverPeriod: Integer,
   coverAsset: CoverAsset,
   coverBuyerAddress: Address,
-  paymentAsset: CoverAsset = coverAsset,
   slippage: number = DEFAULT_SLIPPAGE,
   ipfsCid: string = '',
 ): Promise<GetQuoteApiResponse | ErrorApiResponse> {
@@ -88,15 +87,6 @@ async function getQuoteAndBuyCoverInputs(
       result: undefined,
       error: {
         message: `Invalid coverAsset: must be one of ${coverAssetsString}`,
-      },
-    };
-  }
-
-  if (!Object.values(CoverAsset).includes(paymentAsset)) {
-    return {
-      result: undefined,
-      error: {
-        message: `Invalid paymentAsset: must be one of ${coverAssetsString}`,
       },
     };
   }
@@ -146,7 +136,7 @@ async function getQuoteAndBuyCoverInputs(
           amount: coverAmount,
           period: coverPeriod * 60 * 60 * 24, // seconds
           maxPremiumInAsset: maxPremiumInAsset.toString(),
-          paymentAsset,
+          paymentAsset: coverAsset,
           commissionRatio: DEFAULT_COMMISSION_RATIO,
           commissionDestination: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
           ipfsData: ipfsCid,

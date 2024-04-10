@@ -1,7 +1,7 @@
 /**
  * 0x prefixed 20 bytes ethereum address encoded as hex string
  */
-export type Address = `0x${string}`;
+export type Address = string;
 
 /**
  * Integer value, used to represent whole numbers without fractional parts

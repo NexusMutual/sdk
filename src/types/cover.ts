@@ -1,6 +1,6 @@
 import { CoverAsset } from '../constants/buyCover';
 import { ApiResponse } from './api';
-import { Address, Integer, IntString, DataHexString } from './data';
+import { Address, IntString, Integer } from './data';
 
 export type BuyCoverParams = {
   coverId: Integer;
@@ -13,12 +13,12 @@ export type BuyCoverParams = {
   paymentAsset: Integer;
   commissionRatio: number;
   commissionDestination?: Address;
-  ipfsData: DataHexString;
+  ipfsData: string;
 };
 
 export type PoolAllocationRequest = {
   poolId: IntString;
-  coverAmountInAsset: IntString;
+  coverAmountInAsset: IntString; // wei
   skip: boolean;
 };
 
@@ -30,10 +30,10 @@ export type CoverRouterQuoteResponse = {
 };
 
 export type Quote = {
-  totalCoverAmountInAsset: IntString;
-  annualPrice: IntString;
-  premiumInNXM: IntString;
-  premiumInAsset: IntString;
+  totalCoverAmountInAsset: IntString; // wei
+  annualPrice: IntString; // NOTE: in ETH/DAI units, not wei
+  premiumInNXM: IntString; // wei
+  premiumInAsset: IntString; // wei
   poolAllocationRequests: PoolAllocationRequest[];
 };
 

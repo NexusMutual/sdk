@@ -9,6 +9,11 @@ export type Address = string;
 export type Integer = number;
 
 /**
- * Integer values in string format
+ * Integer value in string format
  */
 export type IntString = string;
+
+/**
+ * Float value in string format
+ */
+export type FloatString = string;

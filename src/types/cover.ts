@@ -1,6 +1,6 @@
 import { CoverAsset } from '../constants/buyCover';
 import { ApiResponse } from './api';
-import { Address, IntString, Integer } from './data';
+import { Address, FloatString, IntString, Integer } from './data';
 
 export type BuyCoverParams = {
   coverId: Integer;
@@ -27,6 +27,14 @@ export type PoolAllocationRequest = {
 export type CoverRouterQuoteResponse = {
   quote: Quote;
   capacities: PoolCapacity[];
+};
+
+export type CoverRouterProductCapacityResponse = {
+  productId: Integer;
+  availableCapacity: Array<{ assetId: Integer; amount: IntString }>;
+  allocatedNxm: IntString;
+  minAnnualPrice: FloatString;
+  maxAnnualPrice: FloatString;
 };
 
 export type Quote = {

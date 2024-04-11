@@ -87,23 +87,6 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(error?.message).toBe(`Invalid coverAsset: must be one of ${coverAssetsString}`);
   });
 
-  const invalidPaymentAssets = ['BTC', '', true, {}, [], null];
-  it.each(invalidPaymentAssets)('returns an error if paymentAsset is invalid (%s)', async invalidPaymentAsset => {
-    const { error } = await getQuoteAndBuyCoverInputs(
-      1,
-      '100',
-      30,
-      CoverAsset.ETH,
-      buyerAddress,
-      invalidPaymentAsset as any,
-    );
-    const coverAssetsString = Object.keys(CoverAsset)
-      .filter(k => isNaN(+k))
-      .map(k => `CoverAsset.${k}`)
-      .join(', ');
-    expect(error?.message).toBe(`Invalid paymentAsset: must be one of ${coverAssetsString}`);
-  });
-
   const invalidAddresses = ['0x123', '', true, {}, [], null, undefined];
   it.each(invalidAddresses)(
     'returns an error if coverBuyerAddress is not a valid Ethereum address (%s)',
@@ -125,7 +108,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
         buyerAddress,
         invalidSlippage as number,
       );
-      expect(error?.message).toBe(`Invalid slippage: must be a number between 0 and ${SLIPPAGE_DENOMINATOR}`);
+      expect(error?.message).toBe('Invalid slippage: must be a number between 0 and 1');
     },
   );
 
@@ -146,7 +129,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     },
   );
 
-  it.only('returns an object with displayInfo and buyCoverInput parameters', async () => {
+  it('returns an object with displayInfo and buyCoverInput parameters', async () => {
     const coverRouterQuoteResponse: CoverRouterQuoteResponse = {
       quote: {
         totalCoverAmountInAsset: parseEther('1000').toString(),
@@ -172,7 +155,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
       28, // coverPeriod
       CoverAsset.ETH, // coverAsset
       buyerAddress, // coverBuyerAddress
-      100, // slippage
+      0.01, // slippage
       'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY', // ipfsCid
     );
 
@@ -180,12 +163,12 @@ describe('getQuoteAndBuyCoverInputs', () => {
     const expectedMaxPremiumInAsset = calculatePremiumWithCommissionAndSlippage(
       BigInt(premiumInAsset),
       DEFAULT_COMMISSION_RATIO,
-      100,
+      0.01 * SLIPPAGE_DENOMINATOR,
     );
     const expectedYearlyCostPerc = calculatePremiumWithCommissionAndSlippage(
       BigInt(annualPrice),
       DEFAULT_COMMISSION_RATIO,
-      100,
+      0.01 * SLIPPAGE_DENOMINATOR,
     );
 
     expect(error).toBeUndefined();

@@ -42,7 +42,7 @@ type CoverRouterQuoteParams = {
  * @param {Integer} coverPeriod - The duration of the cover in days (28-365).
  * @param {CoverAsset} coverAsset - The asset for which cover is being purchased (the cover must be purchased using the same asset)
  * @param {Address} coverBuyerAddress - The Ethereum address of the buyer.
- * @param {number} slippage - The acceptable slippage percentage. Must be between 0 - 100_00 (Defaults to 10 ~ 0.1%)
+ * @param {number} slippage - The acceptable slippage percentage. Must be between 0-1 (Defaults to 0.001 ~ 0.1%)
  * @param {string} ipfsCid - The IPFS CID for additional data (optional).
  * @return {Promise<GetQuoteApiResponse | ErrorApiResponse>} Returns a successful quote response or an error response.
  */
@@ -52,7 +52,7 @@ async function getQuoteAndBuyCoverInputs(
   coverPeriod: Integer,
   coverAsset: CoverAsset,
   coverBuyerAddress: Address,
-  slippage: number = DEFAULT_SLIPPAGE,
+  slippage: number = DEFAULT_SLIPPAGE / SLIPPAGE_DENOMINATOR,
   ipfsCid: string = '',
 ): Promise<GetQuoteApiResponse | ErrorApiResponse> {
   if (!process.env.COVER_ROUTER_URL) {
@@ -94,16 +94,19 @@ async function getQuoteAndBuyCoverInputs(
     return { result: undefined, error: { message: 'Invalid coverBuyerAddress: must be a valid Ethereum address' } };
   }
 
-  if (typeof slippage !== 'number' || slippage < 0 || slippage > SLIPPAGE_DENOMINATOR) {
+  if (typeof slippage !== 'number' || slippage < 0 || slippage > 1) {
     return {
       result: undefined,
-      error: { message: `Invalid slippage: must be a number between 0 and ${SLIPPAGE_DENOMINATOR}` },
+      error: { message: 'Invalid slippage: must be a number between 0 and 1' },
     };
   }
 
   if (typeof ipfsCid !== 'string') {
     return { result: undefined, error: { message: 'Invalid ipfsCid: must be a valid IPFS CID' } };
   }
+
+  // convert slippage from 0-1 to 0-100_00
+  slippage = slippage * SLIPPAGE_DENOMINATOR;
 
   try {
     const { quote, capacities } = await getQuote(productId, coverAmount, coverPeriod, coverAsset);

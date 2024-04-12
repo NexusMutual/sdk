@@ -2,7 +2,9 @@ require('dotenv').config();
 
 const fs = require('node:fs');
 const path = require('node:path');
+
 const { build } = require('tsup');
+
 const { buildLogos } = require('./build-logos');
 const { buildProducts } = require('./build-products');
 

@@ -1,6 +1,7 @@
 import mockAxios from 'jest-mock-axios';
 import { parseEther } from 'viem';
 
+import { sumPoolCapacities, getQuoteAndBuyCoverInputs } from './getQuoteAndBuyCoverInputs';
 import { calculatePremiumWithCommissionAndSlippage } from '../buyCover';
 import {
   CoverAsset,
@@ -13,7 +14,6 @@ import {
   TARGET_PRICE_DENOMINATOR,
 } from '../constants/buyCover';
 import { Address, CoverRouterProductCapacityResponse, CoverRouterQuoteResponse, PoolCapacity } from '../types';
-import { sumPoolCapacities, getQuoteAndBuyCoverInputs } from './getQuoteAndBuyCoverInputs';
 
 describe('getQuoteAndBuyCoverInputs', () => {
   let buyerAddress: Address;
@@ -72,7 +72,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     const { error } = await getQuoteAndBuyCoverInputs(
       1,
       '100',
-      invalidCoverPeriod as any,
+      invalidCoverPeriod as number,
       CoverAsset.ETH,
       buyerAddress,
     );
@@ -83,7 +83,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
   const invalidCoverAssets = ['BTC', '', true, {}, [], null, undefined];
   it.each(invalidCoverAssets)('returns an error if coverAsset is invalid (%s)', async invalidCoverAsset => {
-    const { error } = await getQuoteAndBuyCoverInputs(1, '100', 30, invalidCoverAsset as any, buyerAddress);
+    const { error } = await getQuoteAndBuyCoverInputs(1, '100', 30, invalidCoverAsset as CoverAsset, buyerAddress);
     const coverAssetsString = Object.keys(CoverAsset)
       .filter(k => isNaN(+k))
       .map(k => `CoverAsset.${k}`)
@@ -95,7 +95,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
   it.each(invalidAddresses)(
     'returns an error if coverBuyerAddress is not a valid Ethereum address (%s)',
     async invalidAddress => {
-      const { error } = await getQuoteAndBuyCoverInputs(1, '100', 30, CoverAsset.ETH, invalidAddress as any);
+      const { error } = await getQuoteAndBuyCoverInputs(1, '100', 30, CoverAsset.ETH, invalidAddress as Address);
       expect(error?.message).toBe('Invalid coverBuyerAddress: must be a valid Ethereum address');
     },
   );

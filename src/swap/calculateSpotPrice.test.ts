@@ -1,6 +1,7 @@
 import { parseEther } from 'viem';
-import { Reserves } from './reserves.type';
+
 import { calculateSpotPrice } from './calculateSpotPrice';
+import { Reserves } from './reserves.type';
 
 describe('calculateSpotPrice', () => {
   const reserves: Reserves = {

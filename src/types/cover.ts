@@ -1,6 +1,6 @@
-import { CoverAsset } from '../constants/buyCover';
 import { ApiResponse } from './api';
 import { Address, FloatString, IntString, Integer } from './data';
+import { CoverAsset } from '../constants/buyCover';
 
 export type BuyCoverParams = {
   coverId: Integer;

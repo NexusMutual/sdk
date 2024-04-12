@@ -1,6 +1,8 @@
-const { loadConfig, optimize } = require('svgo');
 const { appendFile, mkdir, readdir, readFile, writeFile, copyFile } = require('fs').promises;
 const path = require('path');
+
+const { loadConfig, optimize } = require('svgo');
+
 const { parseFilePath } = require('./utils');
 
 const GENERATED_OUTPUT_DIR = path.join(__dirname, '../generated');

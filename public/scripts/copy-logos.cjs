@@ -1,7 +1,6 @@
-#!/usr/bin/env node
-
-const path = require('node:path');
 const { mkdir, readdir, copyFile } = require('node:fs').promises;
+const path = require('node:path');
+
 const { rimraf } = require('rimraf');
 
 /**

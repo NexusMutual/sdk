@@ -12,7 +12,7 @@ import {
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
 } from '../constants/buyCover';
-import { Address, CoverRouterQuoteResponse, PoolCapacity } from '../types';
+import { Address, CoverRouterProductCapacityResponse, CoverRouterQuoteResponse, PoolCapacity } from '../types';
 import { sumPoolCapacities, getQuoteAndBuyCoverInputs } from './getQuoteAndBuyCoverInputs';
 
 describe('getQuoteAndBuyCoverInputs', () => {
@@ -22,6 +22,10 @@ describe('getQuoteAndBuyCoverInputs', () => {
     jest.mock('axios');
     process.env.COVER_ROUTER_URL = 'http://localhost:5001';
     buyerAddress = '0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5';
+  });
+
+  beforeEach(() => {
+    mockAxios.reset();
   });
 
   it('returns an error if COVER_ROUTER_URL env var is missing', async () => {
@@ -188,8 +192,78 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(result?.buyCoverInput.buyCoverParams.commissionDestination).toBe(NEXUS_MUTUAL_DAO_TREASURY_ADDRESS);
     expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe('QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY');
     expect(mockAxios.get).toHaveBeenCalledTimes(1);
+  });
 
-    mockAxios.reset();
+  it('should handle "Not enough capacity for the cover amount" error correctly - ETH', async () => {
+    mockAxios.get.mockRejectedValueOnce({
+      isAxiosError: true,
+      response: {
+        status: 400,
+        data: { error: 'Not enough capacity for the cover amount' },
+      },
+    });
+
+    const coverRouterQuoteResponse: CoverRouterProductCapacityResponse = {
+      productId: 150,
+      availableCapacity: [
+        { assetId: 0, amount: '4059218411110445069890' },
+        { assetId: 1, amount: '14226889398669105671384084' },
+        { assetId: 255, amount: '195995240000000000000000' },
+      ],
+      allocatedNxm: '5922960000000000000000',
+      minAnnualPrice: '0.0425',
+      maxAnnualPrice: '0.054178410067873985',
+    };
+
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
+
+    const { result, error } = await getQuoteAndBuyCoverInputs(
+      1,
+      parseEther('100').toString(),
+      28,
+      CoverAsset.ETH,
+      buyerAddress,
+    );
+
+    expect(result).toBeUndefined();
+    expect(error?.message).toEqual('Not enough capacity for the cover amount');
+    expect(error?.data?.maxCapacity).toEqual(coverRouterQuoteResponse.availableCapacity[0]?.amount);
+  });
+
+  it('should handle "Not enough capacity for the cover amount" error correctly - DAI', async () => {
+    mockAxios.get.mockRejectedValueOnce({
+      isAxiosError: true,
+      response: {
+        status: 400,
+        data: { error: 'Not enough capacity for the cover amount' },
+      },
+    });
+
+    const coverRouterQuoteResponse: CoverRouterProductCapacityResponse = {
+      productId: 150,
+      availableCapacity: [
+        { assetId: 0, amount: '4059218411110445069890' },
+        { assetId: 1, amount: '14226889398669105671384084' },
+        { assetId: 255, amount: '195995240000000000000000' },
+      ],
+      allocatedNxm: '5922960000000000000000',
+      minAnnualPrice: '0.0425',
+      maxAnnualPrice: '0.054178410067873985',
+    };
+
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
+
+    const { result, error } = await getQuoteAndBuyCoverInputs(
+      1,
+      parseEther('100').toString(),
+      28,
+      CoverAsset.DAI,
+      buyerAddress,
+    );
+
+    expect(result).toBeUndefined();
+    expect(error?.message).toEqual('Not enough capacity for the cover amount');
+    expect(error?.data?.maxCapacity).toEqual(coverRouterQuoteResponse.availableCapacity[1]?.amount);
   });
 });
 

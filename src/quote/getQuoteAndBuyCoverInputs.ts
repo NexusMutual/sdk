@@ -15,6 +15,7 @@ import {
 } from '../constants/buyCover';
 import {
   Address,
+  CoverRouterProductCapacityResponse,
   CoverRouterQuoteResponse,
   ErrorApiResponse,
   GetQuoteApiResponse,
@@ -31,6 +32,10 @@ type CoverRouterQuoteParams = {
   amount: IntString;
   period: Integer;
   coverAsset: CoverAsset;
+};
+
+type CoverRouterCapacityParams = {
+  period: Integer;
 };
 
 /**
@@ -149,7 +154,8 @@ async function getQuoteAndBuyCoverInputs(
 
     return { result, error: undefined };
   } catch (error: unknown) {
-    return handleError(error);
+    const errorResponse = await handleError(error, productId, coverPeriod, coverAsset);
+    return errorResponse;
   }
 }
 
@@ -164,7 +170,27 @@ async function getQuote(
 ): Promise<CoverRouterQuoteResponse> {
   const params: CoverRouterQuoteParams = { productId, amount: coverAmount, period: coverPeriod, coverAsset };
   const response = await axios.get<CoverRouterQuoteResponse>(process.env.COVER_ROUTER_URL + '/quote', { params });
+  if (!response.data) {
+    throw new Error('Failed to fetch cover quote');
+  }
   return response.data;
+}
+
+/**
+ * Calls the CoverRouter capacity endpoint to retrieve capacities for the specified cover
+ */
+async function getProductCapacity(
+  productId: Integer,
+  coverPeriod: Integer,
+  coverAsset: CoverAsset,
+): Promise<IntString | undefined> {
+  const params: CoverRouterCapacityParams = { period: coverPeriod };
+  const capacityUrl = process.env.COVER_ROUTER_URL + `/capacity/${productId}`;
+  const response = await axios.get<CoverRouterProductCapacityResponse>(capacityUrl, { params });
+  if (!response.data) {
+    throw new Error('Failed to fetch cover capacities');
+  }
+  return response.data.availableCapacity.find(av => av.assetId === coverAsset)?.amount;
 }
 
 /**
@@ -180,17 +206,21 @@ function sumPoolCapacities(capacities: PoolCapacity[]): IntString {
   return totalAmount.toString();
 }
 
-async function handleError(error: unknown): Promise<ErrorApiResponse> {
+async function handleError(
+  error: unknown,
+  productId: Integer,
+  coverPeriod: Integer,
+  coverAsset: CoverAsset,
+): Promise<ErrorApiResponse> {
   const axiosError = error as AxiosError<{ error: string }>;
   if (axiosError.isAxiosError) {
-    console.log('axiosError.response.data: ', require('util').inspect(axiosError.response?.data, { depth: null }));
-
     if (axiosError.response?.data?.error?.includes('Not enough capacity')) {
+      const maxCapacity = await getProductCapacity(productId, coverPeriod, coverAsset);
       return {
         result: undefined,
         error: {
           message: axiosError.response?.data.error,
-          data: {},
+          data: maxCapacity ? { maxCapacity } : undefined,
         },
       };
     }
@@ -198,7 +228,7 @@ async function handleError(error: unknown): Promise<ErrorApiResponse> {
 
   return {
     result: undefined,
-    error: { message: 'Something went wrong' },
+    error: { message: (error as Error).message || 'Something went wrong' },
   };
 }
 

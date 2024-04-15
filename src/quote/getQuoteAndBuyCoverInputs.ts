@@ -214,8 +214,6 @@ async function handleError(
 ): Promise<ErrorApiResponse> {
   const axiosError = error as AxiosError<{ error: string }>;
   if (axiosError.isAxiosError) {
-    console.log('axiosError.response.data: ', require('util').inspect(axiosError.response?.data, { depth: null }));
-
     if (axiosError.response?.data?.error?.includes('Not enough capacity')) {
       const maxCapacity = await getProductCapacity(productId, coverPeriod, coverAsset);
       return {

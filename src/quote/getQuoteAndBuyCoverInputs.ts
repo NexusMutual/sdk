@@ -1,5 +1,4 @@
 import axios, { AxiosError } from 'axios';
-import dotenv from 'dotenv';
 
 import { calculatePremiumWithCommissionAndSlippage } from '../buyCover/calculatePremiumWithCommissionAndSlippage';
 import {
@@ -24,8 +23,6 @@ import {
   Integer,
 } from '../types';
 
-dotenv.config();
-
 type CoverRouterQuoteParams = {
   productId: Integer;
   amount: IntString;
@@ -48,6 +45,7 @@ type CoverRouterCapacityParams = {
  * @param {Address} coverBuyerAddress - The Ethereum address of the buyer.
  * @param {number} slippage - The acceptable slippage percentage. Must be between 0-1 (Defaults to 0.001 ~ 0.1%)
  * @param {string} ipfsCid - The IPFS CID for additional data (optional).
+ * @param {string} coverRouterUrl - Used to override the default CoverRouter URL which is bundled this library.
  * @return {Promise<GetQuoteApiResponse | ErrorApiResponse>} Returns a successful quote response or an error response.
  */
 async function getQuoteAndBuyCoverInputs(
@@ -58,11 +56,8 @@ async function getQuoteAndBuyCoverInputs(
   coverBuyerAddress: Address,
   slippage: number = DEFAULT_SLIPPAGE / SLIPPAGE_DENOMINATOR,
   ipfsCid: string = '',
+  coverRouterUrl = process.env.COVER_ROUTER_URL!,
 ): Promise<GetQuoteApiResponse | ErrorApiResponse> {
-  if (!process.env.COVER_ROUTER_URL) {
-    return { result: undefined, error: { message: 'Missing COVER_ROUTER_URL env var' } };
-  }
-
   if (!Number.isInteger(productId) || productId <= 0) {
     return { result: undefined, error: { message: 'Invalid productId: must be a positive integer' } };
   }
@@ -113,7 +108,7 @@ async function getQuoteAndBuyCoverInputs(
   slippage = slippage * SLIPPAGE_DENOMINATOR;
 
   try {
-    const { quote } = await getQuote(productId, coverAmount, coverPeriod, coverAsset);
+    const { quote } = await getQuote(productId, coverAmount, coverPeriod, coverAsset, coverRouterUrl);
 
     const maxPremiumInAsset = calculatePremiumWithCommissionAndSlippage(
       BigInt(quote.premiumInAsset),
@@ -131,7 +126,7 @@ async function getQuoteAndBuyCoverInputs(
         premiumInAsset: maxPremiumInAsset.toString(),
         coverAmount,
         yearlyCostPerc: Number(yearlyCostPerc) / TARGET_PRICE_DENOMINATOR,
-        maxCapacity: (await getProductCapacity(productId, coverPeriod, coverAsset)) ?? '',
+        maxCapacity: (await getProductCapacity(productId, coverPeriod, coverAsset, coverRouterUrl)) ?? '',
       },
       buyCoverInput: {
         buyCoverParams: {
@@ -153,7 +148,7 @@ async function getQuoteAndBuyCoverInputs(
 
     return { result, error: undefined };
   } catch (error: unknown) {
-    const errorResponse = await handleError(error, productId, coverPeriod, coverAsset);
+    const errorResponse = await handleError(error, productId, coverPeriod, coverAsset, coverRouterUrl);
     return errorResponse;
   }
 }
@@ -166,9 +161,10 @@ async function getQuote(
   coverAmount: IntString,
   coverPeriod: Integer,
   coverAsset: CoverAsset,
+  coverRouterUrl: string,
 ): Promise<CoverRouterQuoteResponse> {
   const params: CoverRouterQuoteParams = { productId, amount: coverAmount, period: coverPeriod, coverAsset };
-  const response = await axios.get<CoverRouterQuoteResponse>(process.env.COVER_ROUTER_URL + '/quote', { params });
+  const response = await axios.get<CoverRouterQuoteResponse>(coverRouterUrl + '/quote', { params });
   if (!response.data) {
     throw new Error('Failed to fetch cover quote');
   }
@@ -182,9 +178,10 @@ async function getProductCapacity(
   productId: Integer,
   coverPeriod: Integer,
   coverAsset: CoverAsset,
+  coverRouterUrl: string,
 ): Promise<IntString | undefined> {
   const params: CoverRouterCapacityParams = { period: coverPeriod };
-  const capacityUrl = process.env.COVER_ROUTER_URL + `/capacity/${productId}`;
+  const capacityUrl = coverRouterUrl + `/capacity/${productId}`;
   const response = await axios.get<CoverRouterProductCapacityResponse>(capacityUrl, { params });
   if (!response.data) {
     throw new Error('Failed to fetch cover capacities');
@@ -197,11 +194,12 @@ async function handleError(
   productId: Integer,
   coverPeriod: Integer,
   coverAsset: CoverAsset,
+  coverRouterUrl: string,
 ): Promise<ErrorApiResponse> {
   const axiosError = error as AxiosError<{ error: string }>;
   if (axiosError.isAxiosError) {
     if (axiosError.response?.data?.error?.includes('Not enough capacity')) {
-      const maxCapacity = await getProductCapacity(productId, coverPeriod, coverAsset);
+      const maxCapacity = await getProductCapacity(productId, coverPeriod, coverAsset, coverRouterUrl);
       return {
         result: undefined,
         error: {

@@ -58,7 +58,7 @@ export type QuoteDisplayInfo = {
   premiumInAsset: IntString; // smallest unit (i.e. wei)
   coverAmount: IntString; // smallest unit (i.e. wei)
   yearlyCostPerc: number; // percentage expressed as number between 0 and 1
-  maxCapacity: IntString; // smallest unit (i.e. wei)
+  maxCapacity: IntString; // smallest unit (i.e. wei) defaults to empty string if failed to fetch maxCapacity
 };
 
 export type BuyCoverInput = {

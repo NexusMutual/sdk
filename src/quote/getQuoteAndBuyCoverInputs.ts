@@ -22,7 +22,6 @@ import {
   GetQuoteResponse,
   IntString,
   Integer,
-  PoolCapacity,
 } from '../types';
 
 dotenv.config();
@@ -114,7 +113,7 @@ async function getQuoteAndBuyCoverInputs(
   slippage = slippage * SLIPPAGE_DENOMINATOR;
 
   try {
-    const { quote, capacities } = await getQuote(productId, coverAmount, coverPeriod, coverAsset);
+    const { quote } = await getQuote(productId, coverAmount, coverPeriod, coverAsset);
 
     const maxPremiumInAsset = calculatePremiumWithCommissionAndSlippage(
       BigInt(quote.premiumInAsset),
@@ -132,7 +131,7 @@ async function getQuoteAndBuyCoverInputs(
         premiumInAsset: maxPremiumInAsset.toString(),
         coverAmount,
         yearlyCostPerc: Number(yearlyCostPerc) / TARGET_PRICE_DENOMINATOR,
-        maxCapacity: sumPoolCapacities(capacities),
+        maxCapacity: (await getProductCapacity(productId, coverPeriod, coverAsset)) ?? '',
       },
       buyCoverInput: {
         buyCoverParams: {
@@ -177,7 +176,7 @@ async function getQuote(
 }
 
 /**
- * Calls the CoverRouter capacity endpoint to retrieve capacities for the specified cover
+ * Calls the CoverRouter capacity endpoint to retrieve the max capacity in the coverAsset for the specified cover
  */
 async function getProductCapacity(
   productId: Integer,
@@ -191,19 +190,6 @@ async function getProductCapacity(
     throw new Error('Failed to fetch cover capacities');
   }
   return response.data.availableCapacity.find(av => av.assetId === coverAsset)?.amount;
-}
-
-/**
- * Calculates the max capacity by summing up all the amounts in the given array of pool capacities.
- */
-function sumPoolCapacities(capacities: PoolCapacity[]): IntString {
-  let totalAmount: bigint = BigInt(0);
-
-  capacities.forEach(poolCapacity => {
-    poolCapacity.capacity.forEach(capacity => (totalAmount += BigInt(capacity.amount)));
-  });
-
-  return totalAmount.toString();
 }
 
 async function handleError(
@@ -232,4 +218,4 @@ async function handleError(
   };
 }
 
-export { sumPoolCapacities, getQuoteAndBuyCoverInputs };
+export { getQuoteAndBuyCoverInputs };

@@ -1,10 +1,11 @@
 const fs = require('fs');
-const path = require('path');
-const ethers = require('ethers');
-const fetch = require('node-fetch');
 const { readdir } = require('fs').promises;
+const path = require('path');
 
 const { Cover, addresses } = require('@nexusmutual/deployments');
+const ethers = require('ethers');
+const fetch = require('node-fetch');
+
 const { parseProductCoverAssets, parseFilePath } = require('./utils');
 
 const { allPrivateProductsIds } = require(path.join(__dirname, '../src/constants/privateProducts.js'));

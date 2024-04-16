@@ -6,4 +6,3 @@ export * from './reserves.type';
 export * from './calculatePriceImpactA';
 export * from './calculatePriceImpactB';
 export * from './calculateSpotPrice';
-

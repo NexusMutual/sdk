@@ -1,7 +1,8 @@
-import { parseEther } from 'viem';
-import { Reserves } from './reserves.type';
-import { calculateExactEthForNxm } from './calculateExactEthForNxm';
 import { BigNumber } from 'ethers';
+import { parseEther } from 'viem';
+
+import { calculateExactEthForNxm } from './calculateExactEthForNxm';
+import { Reserves } from './reserves.type';
 
 describe('calculateExactEthForNxm', () => {
   const reserves: Reserves = {
@@ -16,7 +17,7 @@ describe('calculateExactEthForNxm', () => {
     ['decimal value', '0.1', 1520601154681351n],
     ['small value', '0.000000000000000001', 1n],
     ['large value', '1000000', 3762744729683749758291n],
-    ['very large value', '100000000000000', 4999999983559138938029n]
+    ['very large value', '100000000000000', 4999999983559138938029n],
   ];
 
   test.each(cases)('calculates eth out for nxm in correctly - %s', (_type, nxmIn, expectedEthOut) => {
@@ -25,8 +26,8 @@ describe('calculateExactEthForNxm', () => {
     expect(ethOutCalculated.toString()).toBe(expectedEthOut.toString());
   });
 
-
   // throws error for invalid nxmIn values
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const invalidCases: Array<[string, any, string]> = [
     ['zero value', parseEther('0'), 'NXM in value must be greater than 0'],
     ['unit negative  value', parseEther('-1'), 'NXM in value must be greater than 0'],
@@ -41,6 +42,7 @@ describe('calculateExactEthForNxm', () => {
 
   test.each(invalidCases)(
     'throws error for invalid nxm in values - %s',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (_type: string, nxmIn: any, expectedError: string) => {
       expect(() => calculateExactEthForNxm(nxmIn as bigint, reserves)).toThrow(expectedError);
     },

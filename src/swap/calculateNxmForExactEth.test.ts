@@ -1,7 +1,8 @@
-import { parseEther } from 'viem';
-import { Reserves } from './reserves.type';
-import { calculateNxmForExactEth } from './calculateNxmForExactEth';
 import { BigNumber } from 'ethers';
+import { parseEther } from 'viem';
+
+import { calculateNxmForExactEth } from './calculateNxmForExactEth';
+import { Reserves } from './reserves.type';
 
 describe('calculateNxmForExactEth', () => {
   const reserves: Reserves = {
@@ -25,14 +26,27 @@ describe('calculateNxmForExactEth', () => {
   });
 
   // throws error for invalid ethOut values
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const invalidCases: Array<[string, any, string]> = [
     ['large = ethReserve', parseEther('5000'), 'ETH out value must be greater than 0 and less than the reserves'],
-    ['large value over ethReserve', parseEther('15000'), 'ETH out value must be greater than 0 and less than the reserves'],
-    ['larger value over ethReserve', parseEther('100000'), 'ETH out value must be greater than 0 and less than the reserves'],
+    [
+      'large value over ethReserve',
+      parseEther('15000'),
+      'ETH out value must be greater than 0 and less than the reserves',
+    ],
+    [
+      'larger value over ethReserve',
+      parseEther('100000'),
+      'ETH out value must be greater than 0 and less than the reserves',
+    ],
     ['zero value', parseEther('0'), 'ETH out value must be greater than 0 and less than the reserves'],
     ['unit negative  value', parseEther('-1'), 'ETH out value must be greater than 0 and less than the reserves'],
     ['large negative value', parseEther('-1000000'), 'ETH out value must be greater than 0 and less than the reserves'],
-    ['small negative value', parseEther('-0.000000000000000001'), 'ETH out value must be greater than 0 and less than the reserves'],
+    [
+      'small negative value',
+      parseEther('-0.000000000000000001'),
+      'ETH out value must be greater than 0 and less than the reserves',
+    ],
     ['null value', null, 'ETH out value must be greater than 0 and less than the reserves'],
     ['undefined value', undefined, 'Cannot mix BigInt and other types, use explicit conversions'],
     ['string value', '1', 'Cannot mix BigInt and other types, use explicit conversions'],
@@ -42,6 +56,7 @@ describe('calculateNxmForExactEth', () => {
 
   test.each(invalidCases)(
     'throws error for invalid eth out values - %s',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (_type: string, ethOut: any, expectedError: string) => {
       expect(() => calculateNxmForExactEth(ethOut as bigint, reserves)).toThrow(expectedError);
     },

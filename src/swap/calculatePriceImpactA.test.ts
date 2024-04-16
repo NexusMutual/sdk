@@ -1,7 +1,8 @@
 import { BigNumber } from 'ethers';
+import { parseEther } from 'viem';
+
 import { calculatePriceImpactA } from './calculatePriceImpactA';
 import { Reserves } from './reserves.type';
-import { parseEther } from 'viem';
 
 describe('calculatePriceImpactB', () => {
   const reserves: Reserves = {
@@ -26,6 +27,7 @@ describe('calculatePriceImpactB', () => {
   });
 
   // throws error for invalid nxmIn values
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const invalidCases: Array<[string, any, string]> = [
     ['zero value', parseEther('0'), 'ETH in value must be greater than 0'],
     ['unit negative  value', parseEther('-1'), 'ETH in value must be greater than 0'],
@@ -40,6 +42,7 @@ describe('calculatePriceImpactB', () => {
 
   test.each(invalidCases)(
     'throws error for invalid eth in values - %s',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (_type: string, ethIn: any, expectedError: string) => {
       expect(() => calculatePriceImpactA(ethIn as bigint, reserves)).toThrow(expectedError);
     },

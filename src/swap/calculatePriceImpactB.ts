@@ -6,9 +6,9 @@ import { Reserves } from './reserves.type';
 export const calculatePriceImpactB = (nxmIn: bigint, reserves: Reserves) => {
   const { spotPriceB } = calculateSpotPrice(reserves);
   const ethOut = calculateExactEthForNxm(nxmIn, reserves);
-  const ethOutAtSpotPrice = spotPriceB * nxmIn / BigInt(1e18);
+  const ethOutAtSpotPrice = (spotPriceB * nxmIn) / BigInt(1e18);
 
   // 100 - 100 * ethOut / ethOutAtSpot
   // using BigInt(1000000) to keep 4 decimals of precision
-  return BigInt(1000000) - BigInt(1000000) * ethOut / ethOutAtSpotPrice;
+  return BigInt(1000000) - (BigInt(1000000) * ethOut) / ethOutAtSpotPrice;
 };

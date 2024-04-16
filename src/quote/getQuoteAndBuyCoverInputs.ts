@@ -45,7 +45,7 @@ type CoverRouterCapacityParams = {
  * @param {Integer} productId - The ID of the product for which cover is being purchased.
  * @param {IntString} coverAmount - The amount of cover in smallest unit of currency (i.e. wei)
  * @param {Integer} coverPeriod - The duration of the cover in days (28-365).
- * @param {CoverAsset} coverAsset - The asset for which cover is being purchased (the cover must be purchased using the same asset)
+ * @param {CoverAsset} coverAsset - The asset for which cover is being purchased; the purchase must use the same asset.
  * @param {Address} coverBuyerAddress - The Ethereum address of the buyer.
  * @param {number} slippage - The acceptable slippage percentage. Must be between 0-1 (Defaults to 0.001 ~ 0.1%)
  * @param {string} ipfsCid - The IPFS CID for additional data (optional).

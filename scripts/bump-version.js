@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+
 const semver = require('semver');
 
 const PACKAGE_JSON_PATH = path.join(__dirname, '../package.json');

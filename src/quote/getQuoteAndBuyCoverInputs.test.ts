@@ -1,7 +1,7 @@
 import mockAxios from 'jest-mock-axios';
 import { parseEther } from 'viem';
 
-import { sumPoolCapacities, getQuoteAndBuyCoverInputs } from './getQuoteAndBuyCoverInputs';
+import { getQuoteAndBuyCoverInputs } from './getQuoteAndBuyCoverInputs';
 import { calculatePremiumWithCommissionAndSlippage } from '../buyCover';
 import {
   CoverAsset,
@@ -13,7 +13,19 @@ import {
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
 } from '../constants/buyCover';
-import { Address, CoverRouterProductCapacityResponse, CoverRouterQuoteResponse, PoolCapacity } from '../types';
+import { Address, CoverRouterProductCapacityResponse, CoverRouterQuoteResponse } from '../types';
+
+const coverRouterCapacityResponse: CoverRouterProductCapacityResponse = {
+  productId: 150,
+  availableCapacity: [
+    { assetId: 0, amount: '4059218411110445069890' },
+    { assetId: 1, amount: '14226889398669105671384084' },
+    { assetId: 255, amount: '195995240000000000000000' },
+  ],
+  allocatedNxm: '5922960000000000000000',
+  minAnnualPrice: '0.0425',
+  maxAnnualPrice: '0.054178410067873985',
+};
 
 describe('getQuoteAndBuyCoverInputs', () => {
   let buyerAddress: Address;
@@ -150,7 +162,8 @@ describe('getQuoteAndBuyCoverInputs', () => {
       },
       capacities: [{ poolId: '147', capacity: [{ assetId: '1', amount: parseEther('1000').toString() }] }],
     };
-    mockAxios.get.mockResolvedValue({ data: coverRouterQuoteResponse });
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
 
     const coverAmount = parseEther('100').toString();
     const { result, error } = await getQuoteAndBuyCoverInputs(
@@ -179,7 +192,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(result?.displayInfo.premiumInAsset).toBe(expectedMaxPremiumInAsset.toString());
     expect(result?.displayInfo.coverAmount).toBe(coverAmount);
     expect(result?.displayInfo.yearlyCostPerc).toBe(Number(expectedYearlyCostPerc) / TARGET_PRICE_DENOMINATOR);
-    expect(result?.displayInfo.maxCapacity).toBe(parseEther('1000').toString());
+    expect(result?.displayInfo.maxCapacity).toBe(coverRouterCapacityResponse.availableCapacity[0]?.amount);
     expect(result?.buyCoverInput.buyCoverParams.coverId).toBe(CoverId.BUY);
     expect(result?.buyCoverInput.buyCoverParams.owner).toBe(buyerAddress);
     expect(result?.buyCoverInput.buyCoverParams.productId).toBe(1);
@@ -191,7 +204,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(result?.buyCoverInput.buyCoverParams.commissionRatio).toBe(DEFAULT_COMMISSION_RATIO);
     expect(result?.buyCoverInput.buyCoverParams.commissionDestination).toBe(NEXUS_MUTUAL_DAO_TREASURY_ADDRESS);
     expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe('QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY');
-    expect(mockAxios.get).toHaveBeenCalledTimes(1);
+    expect(mockAxios.get).toHaveBeenCalledTimes(2);
   });
 
   it('should handle "Not enough capacity for the cover amount" error correctly - ETH', async () => {
@@ -203,19 +216,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
       },
     });
 
-    const coverRouterQuoteResponse: CoverRouterProductCapacityResponse = {
-      productId: 150,
-      availableCapacity: [
-        { assetId: 0, amount: '4059218411110445069890' },
-        { assetId: 1, amount: '14226889398669105671384084' },
-        { assetId: 255, amount: '195995240000000000000000' },
-      ],
-      allocatedNxm: '5922960000000000000000',
-      minAnnualPrice: '0.0425',
-      maxAnnualPrice: '0.054178410067873985',
-    };
-
-    mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
 
     const { result, error } = await getQuoteAndBuyCoverInputs(
       1,
@@ -227,7 +228,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
     expect(result).toBeUndefined();
     expect(error?.message).toEqual('Not enough capacity for the cover amount');
-    expect(error?.data?.maxCapacity).toEqual(coverRouterQuoteResponse.availableCapacity[0]?.amount);
+    expect(error?.data?.maxCapacity).toEqual(coverRouterCapacityResponse.availableCapacity[0]?.amount);
   });
 
   it('should handle "Not enough capacity for the cover amount" error correctly - DAI', async () => {
@@ -239,19 +240,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
       },
     });
 
-    const coverRouterQuoteResponse: CoverRouterProductCapacityResponse = {
-      productId: 150,
-      availableCapacity: [
-        { assetId: 0, amount: '4059218411110445069890' },
-        { assetId: 1, amount: '14226889398669105671384084' },
-        { assetId: 255, amount: '195995240000000000000000' },
-      ],
-      allocatedNxm: '5922960000000000000000',
-      minAnnualPrice: '0.0425',
-      maxAnnualPrice: '0.054178410067873985',
-    };
-
-    mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
 
     const { result, error } = await getQuoteAndBuyCoverInputs(
       1,
@@ -263,47 +252,6 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
     expect(result).toBeUndefined();
     expect(error?.message).toEqual('Not enough capacity for the cover amount');
-    expect(error?.data?.maxCapacity).toEqual(coverRouterQuoteResponse.availableCapacity[1]?.amount);
-  });
-});
-
-describe('sumPoolCapacities', () => {
-  it('should return the sum of all pool capacities as a string', () => {
-    const capacities: PoolCapacity[] = [
-      {
-        poolId: '147',
-        capacity: [
-          { assetId: '1', amount: '100' },
-          { assetId: '1', amount: '200' },
-        ],
-      },
-      {
-        poolId: '148',
-        capacity: [
-          { assetId: '1', amount: '300' },
-          { assetId: '1', amount: '400' },
-        ],
-      },
-    ];
-    expect(sumPoolCapacities(capacities)).toBe('1000');
-  });
-
-  it('should return "0" for empty input', () => {
-    const capacities: PoolCapacity[] = [];
-    expect(sumPoolCapacities(capacities)).toBe('0');
-  });
-
-  it('handles large numbers correctly', () => {
-    const capacities: PoolCapacity[] = [
-      {
-        poolId: '147',
-        capacity: [{ assetId: '1', amount: '15369007199254740991' }],
-      },
-      {
-        poolId: '148',
-        capacity: [{ assetId: '1', amount: '1169007199254740991' }],
-      },
-    ];
-    expect(sumPoolCapacities(capacities)).toBe('16538014398509481982');
+    expect(error?.data?.maxCapacity).toEqual(coverRouterCapacityResponse.availableCapacity[1]?.amount);
   });
 });

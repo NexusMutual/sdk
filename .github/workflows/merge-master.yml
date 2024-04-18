@@ -104,10 +104,12 @@ jobs:
           name: sdk-${{ needs.version.outputs.local_version }}
           path: dist
 
+      - run: npm set-script prepare ""
+
       - name: Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        run: npm publish --ignore-scripts --access public
+        run: npm publish --access public
 
       - name: Create release
         uses: actions/github-script@v6

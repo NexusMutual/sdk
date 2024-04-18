@@ -107,7 +107,7 @@ jobs:
       - name: Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        run: npm publish --access public
+        run: npm publish --no-verify --access public
 
       - name: Create release
         uses: actions/github-script@v6

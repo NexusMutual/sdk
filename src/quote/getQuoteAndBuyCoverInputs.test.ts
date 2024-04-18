@@ -40,16 +40,35 @@ describe('getQuoteAndBuyCoverInputs', () => {
     mockAxios.reset();
   });
 
-  it('returns an error if COVER_ROUTER_URL env var is missing', async () => {
-    // Simulate missing COVER_ROUTER_URL env var by temporarily clearing it
-    const originalCoverRouterUrl = process.env.COVER_ROUTER_URL;
-    delete process.env.COVER_ROUTER_URL;
+  it('uses COVER_ROUTER_URL env var if none is supplied', async () => {
+    mockAxios.get.mockResolvedValue({ data: {} });
+    const productId = 1;
+    const amount = '100';
+    const period = 30;
+    const coverAsset = CoverAsset.ETH;
 
-    const { error } = await getQuoteAndBuyCoverInputs(1, '100', 30, CoverAsset.ETH, buyerAddress);
-    await expect(error?.message).toBe('Missing COVER_ROUTER_URL env var');
+    await getQuoteAndBuyCoverInputs(productId, amount, period, coverAsset, buyerAddress);
 
-    // Restore COVER_ROUTER_URL after test
-    process.env.COVER_ROUTER_URL = originalCoverRouterUrl;
+    const defaultGetQuoteUrl = process.env.COVER_ROUTER_URL + '/quote';
+    expect(mockAxios.get).toHaveBeenCalledWith(defaultGetQuoteUrl, {
+      params: { amount, coverAsset, period, productId },
+    });
+  });
+
+  it('allows the consumer to override COVER_ROUTER_URL', async () => {
+    mockAxios.get.mockResolvedValue({ data: {} });
+    const url = 'http://hahahahahah';
+    const productId = 1;
+    const amount = '100';
+    const period = 30;
+    const coverAsset = CoverAsset.ETH;
+
+    await getQuoteAndBuyCoverInputs(productId, amount, period, coverAsset, buyerAddress, 0, '', url);
+
+    const overrideGetQuoteUrl = url + '/quote';
+    expect(mockAxios.get).toHaveBeenCalledWith(overrideGetQuoteUrl, {
+      params: { amount, coverAsset, period, productId },
+    });
   });
 
   const invalidProductIds = [-1, 'a', true, {}, [], null, undefined];

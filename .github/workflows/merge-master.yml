@@ -104,7 +104,8 @@ jobs:
           name: sdk-${{ needs.version.outputs.local_version }}
           path: dist
 
-      - run: npm set-script prepare ""
+      - name: Remove prepare script
+        run: npm pkg delete scripts.prepare
 
       - name: Publish
         env:

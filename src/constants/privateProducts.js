@@ -35,6 +35,8 @@ const allPrivateProductsIds = [
   113, // Hats Protocol
   151, // Arcadia (Sherlock)
   159, // Liquid Collective
+  163, // Pocket Universe
+  164, // Request Finance
 ];
 
 module.exports = {

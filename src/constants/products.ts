@@ -189,10 +189,9 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   162: ProductCategoryEnum.LiquidRestaking, // Renzo (Zircuit) Pendle
   // 163: ProductCategoryEnum.Uncategorized, // Pocket Universe
   // 164: ProductCategoryEnum.Uncategorized, // Request Finance
-  // TODO categorize products below
-  // 165: ProductCategoryEnum.Uncategorized, //
-  // 166: ProductCategoryEnum.Uncategorized, //
-  // 167: ProductCategoryEnum.Uncategorized, //
-  // 168: ProductCategoryEnum.Uncategorized, //
+  165: ProductCategoryEnum.YieldOptimizer, // Etherfi Liquid Market-Neutral USD Vault
+  166: ProductCategoryEnum.YieldOptimizer, // Superform
+  167: ProductCategoryEnum.LiquidRestaking, // EigenLayer + Etherfi
+  168: ProductCategoryEnum.YieldOptimizer, // Beefy CLM + Uniswap v3
   169: ProductCategoryEnum.ETHStaking, // RockX
 };

@@ -55,7 +55,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   26: ProductCategoryEnum.Dex, // Curve All Pools (incl staking)
   // 27: ProductCategoryEnum.Uncategorized, // Curve sETH LP (eCrv)
   28: ProductCategoryEnum.Perpetuals, // dydx Perpetual
-  29: ProductCategoryEnum.RWA, // Ease v1
+  // 29: ProductCategoryEnum.Uncategorized, // Ease v1
   // 30: ProductCategoryEnum.Uncategorized, // Enzyme v3
   31: ProductCategoryEnum.YieldOptimizer, // Enzyme v4
   // 32: ProductCategoryEnum.Uncategorized, // Eth 2.0 (deposit contract)

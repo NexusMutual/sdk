@@ -30,7 +30,7 @@
     "node": ">=11.14.0"
   },
   "dependencies": {
-    "@nexusmutual/deployments": "^2.6.1",
+    "@nexusmutual/deployments": "^2.6.2",
     "axios": "^1.6.8",
     "ethers": "^5.7.2",
     "rimraf": "^5.0.1",

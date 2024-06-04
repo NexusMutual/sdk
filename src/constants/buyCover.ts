@@ -1,6 +1,7 @@
 export enum CoverAsset {
   ETH = 0,
   DAI = 1,
+  USDC = 6,
 }
 
 export enum CoverId {

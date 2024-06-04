@@ -6,7 +6,7 @@ export enum ProductCategoryEnum {
   YieldOptimizer = 'yield-optimizer',
   Perpetuals = 'perpetuals',
   SmartWallet = 'smart-wallet',
-  RWA = 'rwa',
+  Coverage = 'coverage',
   ETHStaking = 'eth-staking',
   Unity = 'unity',
   // Uncategorized = 'uncategorized',
@@ -20,7 +20,7 @@ export const categoryLabelByEnum: Record<ProductCategoryEnum, string> = {
   [ProductCategoryEnum.YieldOptimizer]: 'Yield Optimizer',
   [ProductCategoryEnum.Perpetuals]: 'Perpetuals',
   [ProductCategoryEnum.SmartWallet]: 'Smart Wallet',
-  [ProductCategoryEnum.RWA]: 'RWA Coverage',
+  [ProductCategoryEnum.Coverage]: 'Coverage',
   [ProductCategoryEnum.ETHStaking]: 'ETH Staking',
   [ProductCategoryEnum.Unity]: 'Unity',
   // [ProductCategoryEnum.Uncategorized]: 'Uncategorized',
@@ -44,7 +44,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   // 15: ProductCategoryEnum.Uncategorized, // Binance
   // 16: ProductCategoryEnum.Uncategorized, // BlockFi
   // 17: ProductCategoryEnum.Uncategorized, // Bundle: Gelt + mStable + Aave v2
-  18: ProductCategoryEnum.RWA, // Centrifuge Tinlake
+  // 18: ProductCategoryEnum.Uncategorized, // Centrifuge Tinlake
   // 19: ProductCategoryEnum.Uncategorized, // Coinbase
   20: ProductCategoryEnum.Lending, // Compound v2
   // 21: ProductCategoryEnum.Uncategorized, // Convex 3CRV (cvx3CRV)
@@ -55,7 +55,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   26: ProductCategoryEnum.Dex, // Curve All Pools (incl staking)
   // 27: ProductCategoryEnum.Uncategorized, // Curve sETH LP (eCrv)
   28: ProductCategoryEnum.Perpetuals, // dydx Perpetual
-  // 29: ProductCategoryEnum.Uncategorized, // Ease v1
+  29: ProductCategoryEnum.Coverage, // Ease v1
   // 30: ProductCategoryEnum.Uncategorized, // Enzyme v3
   31: ProductCategoryEnum.YieldOptimizer, // Enzyme v4
   // 32: ProductCategoryEnum.Uncategorized, // Eth 2.0 (deposit contract)

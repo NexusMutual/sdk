@@ -4,11 +4,12 @@ const parseProductCoverAssets = coverAssets => {
   const COVER_ASSETS_MAP = {
     0: 'ETH',
     1: 'DAI',
+    6: 'USDC',
     255: 'NXM',
   };
 
   if (coverAssets === 0) {
-    return [COVER_ASSETS_MAP[0], COVER_ASSETS_MAP[1]];
+    return [COVER_ASSETS_MAP[0], COVER_ASSETS_MAP[1], COVER_ASSETS_MAP[6]];
   }
 
   const coverAssetsBinary = coverAssets.toString(2);

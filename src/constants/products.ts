@@ -6,9 +6,7 @@ export enum ProductCategoryEnum {
   YieldOptimizer = 'yield-optimizer',
   Perpetuals = 'perpetuals',
   SmartWallet = 'smart-wallet',
-  Coverage = 'coverage',
   ETHStaking = 'eth-staking',
-  Unity = 'unity',
   // Uncategorized = 'uncategorized',
 }
 
@@ -20,9 +18,7 @@ export const categoryLabelByEnum: Record<ProductCategoryEnum, string> = {
   [ProductCategoryEnum.YieldOptimizer]: 'Yield Optimizer',
   [ProductCategoryEnum.Perpetuals]: 'Perpetuals',
   [ProductCategoryEnum.SmartWallet]: 'Smart Wallet',
-  [ProductCategoryEnum.Coverage]: 'Coverage',
   [ProductCategoryEnum.ETHStaking]: 'ETH Staking',
-  [ProductCategoryEnum.Unity]: 'Unity',
   // [ProductCategoryEnum.Uncategorized]: 'Uncategorized',
 };
 
@@ -55,7 +51,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   26: ProductCategoryEnum.Dex, // Curve All Pools (incl staking)
   // 27: ProductCategoryEnum.Uncategorized, // Curve sETH LP (eCrv)
   28: ProductCategoryEnum.Perpetuals, // dydx Perpetual
-  29: ProductCategoryEnum.Coverage, // Ease v1
+  // 29: ProductCategoryEnum.Uncategorized, // Ease v1
   // 30: ProductCategoryEnum.Uncategorized, // Enzyme v3
   31: ProductCategoryEnum.YieldOptimizer, // Enzyme v4
   // 32: ProductCategoryEnum.Uncategorized, // Eth 2.0 (deposit contract)
@@ -69,7 +65,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   // 40: ProductCategoryEnum.Uncategorized, // Hodlnaut
   // 41: ProductCategoryEnum.Uncategorized, // Kraken
   // 42: ProductCategoryEnum.Uncategorized, // Ledn
-  43: ProductCategoryEnum.Unity, // Liquid Collective
+  // 43: ProductCategoryEnum.Uncategorized, // Liquid Collective
   44: ProductCategoryEnum.Lending, // Liquity v1
   45: ProductCategoryEnum.Lending, // MakerDAO CDP
   // 46: ProductCategoryEnum.Uncategorized, // mStable
@@ -91,8 +87,8 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   62: ProductCategoryEnum.YieldOptimizer, // Set Protocol v2
   // 63: ProductCategoryEnum.Uncategorized, // Stakewise(?)
   64: ProductCategoryEnum.YieldOptimizer, // Stake DAO v1
-  65: ProductCategoryEnum.Unity, // Stakewise 3rd party (3 ETH/validator)
-  66: ProductCategoryEnum.Unity, // Stakewise operated (3 ETH/validator)
+  // 65: ProductCategoryEnum.Uncategorized, // Stakewise 3rd party (3 ETH/validator)
+  // 66: ProductCategoryEnum.Uncategorized, // Stakewise operated (3 ETH/validator)
   67: ProductCategoryEnum.Dex, // SushiSwap v1
   68: ProductCategoryEnum.Perpetuals, // Synthetix
   // 69: ProductCategoryEnum.Uncategorized, // THORChain (Thorchain Network)
@@ -108,7 +104,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   79: ProductCategoryEnum.YieldOptimizer, // Alpaca Finance v1
   80: ProductCategoryEnum.Lending, // WeFi v1
   81: ProductCategoryEnum.Lending, // Exactly v1
-  82: ProductCategoryEnum.Unity, // EtherFi 5ETH
+  // 82: ProductCategoryEnum.Uncategorized, // EtherFi 5ETH
   // 83: ProductCategoryEnum.Uncategorized, // Squeeth by Opyn (Sherlock)
   // 84: ProductCategoryEnum.Uncategorized, // Rage Trade (Sherlock)
   // 85: ProductCategoryEnum.Uncategorized, // Sentiment (Sherlock)
@@ -125,10 +121,10 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   96: ProductCategoryEnum.Dex, // Offramp.xyz v1
   97: ProductCategoryEnum.Lending, // Aave v3
   98: ProductCategoryEnum.YieldOptimizer, // Morpho Optimisers v1
-  99: ProductCategoryEnum.Unity, // Chorus One
-  100: ProductCategoryEnum.Unity, // Kiln
+  // 99: ProductCategoryEnum.Uncategorized, // Chorus One
+  // 100: ProductCategoryEnum.Uncategorized, // Kiln
   // 101: ProductCategoryEnum.Uncategorized, // Vertex (Native Protocol)
-  102: ProductCategoryEnum.Unity, // The Retail Mutual
+  // 102: ProductCategoryEnum.Uncategorized, // The Retail Mutual
   103: ProductCategoryEnum.ETHStaking, // Figment
   // 104: ProductCategoryEnum.Uncategorized, // Teller (Sherlock)
   // 105: ProductCategoryEnum.Uncategorized, // Ajna (Sherlock)
@@ -181,7 +177,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   156: ProductCategoryEnum.YieldOptimizer, // Arcadia
   157: ProductCategoryEnum.Perpetuals, // Lyra + Synthetix
   158: ProductCategoryEnum.LiquidRestaking, // EigenLayer + Renzo
-  159: ProductCategoryEnum.Unity, // Liquid Collective
+  // 159: ProductCategoryEnum.Uncategorized, // Liquid Collective
   160: ProductCategoryEnum.LiquidRestaking, // Etherfi (Zircuit) Pendle
   161: ProductCategoryEnum.LiquidRestaking, // KelpDAO (Zircuit) Pendle
   162: ProductCategoryEnum.LiquidRestaking, // Renzo (Zircuit) Pendle
@@ -192,4 +188,20 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   167: ProductCategoryEnum.LiquidRestaking, // EigenLayer + Etherfi
   168: ProductCategoryEnum.YieldOptimizer, // Beefy CLM + Uniswap v3
   169: ProductCategoryEnum.ETHStaking, // RockX
+  170: ProductCategoryEnum.YieldOptimizer, // sUSDe Pendle
+  171: ProductCategoryEnum.YieldOptimizer, // sUSDe (Karak) Pendle
+  172: ProductCategoryEnum.Lending, // Steakhouse MetaMorpho + Morpho Blue
+  173: ProductCategoryEnum.Lending, // Re7 MetaMorpho + Morpho Blue
+  174: ProductCategoryEnum.YieldOptimizer, // Index Coop
+  175: ProductCategoryEnum.Lending, // Gauntlet MetaMorpho + Morpho Blue
+  176: ProductCategoryEnum.YieldOptimizer, // Ether.fi (Karak) Pendle
+  177: ProductCategoryEnum.YieldOptimizer, // EigenLayer + Puffer + Pendle
+  178: ProductCategoryEnum.YieldOptimizer, // EigenLayer + Bedrock + Pendle
+  179: ProductCategoryEnum.YieldOptimizer, // crvUSD (Silo) Pendle
+  180: ProductCategoryEnum.Lending, // Block Analitica/B.Protocol MetaMorpho + Morpho Blue
+  181: ProductCategoryEnum.YieldOptimizer, // Beefy + Aerodrome
+  182: ProductCategoryEnum.YieldOptimizer, // ExtraFi
+  183: ProductCategoryEnum.Lending, // Moonwell
+  184: ProductCategoryEnum.Lending, //  Instadapp Fluid
+  185: ProductCategoryEnum.Lending, //  Silo Finance
 };

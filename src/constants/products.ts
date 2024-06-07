@@ -188,4 +188,20 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   167: ProductCategoryEnum.LiquidRestaking, // EigenLayer + Etherfi
   168: ProductCategoryEnum.YieldOptimizer, // Beefy CLM + Uniswap v3
   169: ProductCategoryEnum.ETHStaking, // RockX
+  170: ProductCategoryEnum.YieldOptimizer, // sUSDe Pendle
+  171: ProductCategoryEnum.YieldOptimizer, // sUSDe (Karak) Pendle
+  172: ProductCategoryEnum.Lending, // Steakhouse MetaMorpho + Morpho Blue
+  173: ProductCategoryEnum.Lending, // Re7 MetaMorpho + Morpho Blue
+  174: ProductCategoryEnum.YieldOptimizer, // Index Coop
+  175: ProductCategoryEnum.Lending, // Gauntlet MetaMorpho + Morpho Blue
+  176: ProductCategoryEnum.YieldOptimizer, // Ether.fi (Karak) Pendle
+  177: ProductCategoryEnum.YieldOptimizer, // EigenLayer + Puffer + Pendle
+  178: ProductCategoryEnum.YieldOptimizer, // EigenLayer + Bedrock + Pendle
+  179: ProductCategoryEnum.YieldOptimizer, // crvUSD (Silo) Pendle
+  180: ProductCategoryEnum.Lending, // Block Analitica/B.Protocol MetaMorpho + Morpho Blue
+  181: ProductCategoryEnum.YieldOptimizer, // Beefy + Aerodrome
+  182: ProductCategoryEnum.YieldOptimizer, // ExtraFi
+  183: ProductCategoryEnum.Lending, // Moonwell
+  184: ProductCategoryEnum.Lending, //  Instadapp Fluid
+  185: ProductCategoryEnum.Lending, //  Silo Finance
 };

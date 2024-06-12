@@ -19,7 +19,7 @@ assignees: ''
 **Product Type Name & ID** (i.e. Protocol Cover - 0):
 
 **Cover Assets**: ETH, DAI, USDC
-**
+
 **Initial Price Ratio**: 7.5%
 
 **Capacity Reduction Ratio**: 0%

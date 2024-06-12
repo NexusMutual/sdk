@@ -3,6 +3,7 @@ name: Product Listing Request
 about: Request a new product listing or edits to an existing product.
 title: "[listing] Product Listing Request"
 labels: listing
+projects: ["NexusMutual/8"]
 assignees: ''
 
 ---

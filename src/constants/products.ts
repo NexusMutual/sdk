@@ -103,7 +103,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   // 78: ProductCategoryEnum.Uncategorized, // Yield App
   79: ProductCategoryEnum.YieldOptimizer, // Alpaca Finance v1
   80: ProductCategoryEnum.Lending, // WeFi v1
-  81: ProductCategoryEnum.Lending, // Exactly v1
+  81: ProductCategoryEnum.Lending, // Exactly
   // 82: ProductCategoryEnum.Uncategorized, // EtherFi 5ETH
   // 83: ProductCategoryEnum.Uncategorized, // Squeeth by Opyn (Sherlock)
   // 84: ProductCategoryEnum.Uncategorized, // Rage Trade (Sherlock)
@@ -204,4 +204,11 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   183: ProductCategoryEnum.Lending, // Moonwell
   184: ProductCategoryEnum.Lending, //  Instadapp Fluid
   185: ProductCategoryEnum.Lending, //  Silo Finance
+  // 186: ProductCategoryEnum.Uncategorized, // DeltaPrime (UnoRe)
+  187: ProductCategoryEnum.YieldOptimizer, // Toros Finance Solana Bull 3x
+  188: ProductCategoryEnum.YieldOptimizer, // Toros Finance Ethereum Bull 3x
+  189: ProductCategoryEnum.YieldOptimizer, // Toros Finance Bitcoin Bull 3x
+  190: ProductCategoryEnum.Lending, // Notional v3 + Balancer v2 + Aura
+  191: ProductCategoryEnum.YieldOptimizer, // Overnight Finance
+  192: ProductCategoryEnum.LiquidRestaking, // Symbiotic
 };

@@ -37,6 +37,7 @@ const allPrivateProductsIds = [
   159, // Liquid Collective
   163, // Pocket Universe
   164, // Request Finance
+  186, // Delta Prime (UnoRe)
 ];
 
 module.exports = {

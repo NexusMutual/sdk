@@ -8,14 +8,19 @@ assignees: ''
 
 ---
 
+## Instructions:
+1. Make a copy of the [New Product Listing Spreadsheet](https://docs.google.com/spreadsheets/d/1KugFl4qv9plCtFXfRgd5Ip0bXpAiZo6Yqm8CnWEBOUg/edit#gid=1512129648) and give the engineering team edit permissions
+2. Fill the copy New Product Listing Spreadsheet accordingly and link it to the **New Product Listing Spreadsheet** section below
+3. Fill the **Onchain data** and **Frontend** sections for each of the new product type
+4. Delete this **Instructions** section before submitting the Product Type Listing Request issue
+
 # Product Type Listing Request
 
+**New Product Type Listing Spreadsheet**:
+
 ## Onchain data
+
 **Product Type Name**:
-
-**Product Type ID (only if updating an existing product type)**: N/A
-
-**Grace Period (in days)**:
 
 **Cover Wording PDF link**:
 
@@ -32,7 +37,6 @@ assignees: ''
 
 ### Buy Cover Copy 
 **Google Doc link** (should include Quote Details, T&Cs copy, etc.):
-
 
 ### Claim Submission Details Copy
 * **Incident Details**:

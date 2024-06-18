@@ -8,26 +8,19 @@ assignees: ''
 
 ---
 
+## Instructions:
+1. Make a copy of the [New Product Listing Spreadsheet](https://docs.google.com/spreadsheets/d/1KugFl4qv9plCtFXfRgd5Ip0bXpAiZo6Yqm8CnWEBOUg/edit#gid=1512129648) and give the engineering team edit permissions
+2. Fill the copy New Product Listing Spreadsheet accordingly and link it to the **New Product Listing Spreadsheet** section below
+3. Fill the **Onchain data** and **SDK data** sections for each of the new product
+4. Delete this **Instructions** section before submitting the Product Listing Request issue
+
 # Product Listing Request
+
+**New Product Listing Spreadsheet**:
 
 ## Onchain data
 
 **Product Name**:
-
-**Product ID (only if updating an existing product)**: N/A
-
-**Product Type Name & ID** (i.e. Protocol Cover - 0):
-
-**Cover Assets**: ETH, DAI, USDC
-
-**Initial Price Ratio**: 7.5%
-
-**Capacity Reduction Ratio**: 0%
-
-**Fixed Price** (if Yes, fixed price must be allocated to a single staking pool in the field 
-below): No 
-
-**Allowed Pools** (i.e. optional, can only be specified for fixed price products) :
 
 **Annex link (optional)**:
 

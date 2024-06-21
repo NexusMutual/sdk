@@ -211,4 +211,6 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   190: ProductCategoryEnum.Lending, // Notional v3 + Balancer v2 + Aura
   191: ProductCategoryEnum.YieldOptimizer, // Overnight Finance
   192: ProductCategoryEnum.LiquidRestaking, // Symbiotic
+  193: ProductCategoryEnum.YieldOptimizer, // Etherfi Liquid Super Symbiotic LRT Vault
+  194: ProductCategoryEnum.YieldOptimizer, // Toros Finance Andromeda Yield
 };

@@ -9,6 +9,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "list:products": "node scripts/list-products.js",
+    "list:product-types": "node scripts/list-product-types.js",
     "prepare": "husky"
   },
   "typings": "./dist/index.d.ts",

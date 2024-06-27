@@ -38,6 +38,8 @@ const allPrivateProductsIds = [
   163, // Pocket Universe
   164, // Request Finance
   186, // Delta Prime (UnoRe)
+  195, // Dialectic Moonphase
+  196, // Dialectic Chronograph
 ];
 
 module.exports = {

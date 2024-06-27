@@ -213,4 +213,16 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   192: ProductCategoryEnum.LiquidRestaking, // Symbiotic
   193: ProductCategoryEnum.YieldOptimizer, // Etherfi Liquid Super Symbiotic LRT Vault
   194: ProductCategoryEnum.YieldOptimizer, // Toros Finance Andromeda Yield
+  // 195: ProductCategoryEnum.Uncategorized, // Dialectic Moonphase
+  // 196: ProductCategoryEnum.Uncategorized, // Dialectic Chronograph
+  197: ProductCategoryEnum.YieldOptimizer, // Spectra
+  198: ProductCategoryEnum.YieldOptimizer, // Origin OUSD
+  199: ProductCategoryEnum.LiquidRestaking, // Mellow (P2P Market) + Symbiotic
+  200: ProductCategoryEnum.LiquidRestaking, // Mellow (Steakhouse Market) + Symbiotic
+  201: ProductCategoryEnum.LiquidRestaking, // Mellow (RE7 Labs Market) + Symbiotic
+  202: ProductCategoryEnum.LiquidRestaking, // Mellow (MEV Capital Market) + Symbiotic
+  203: ProductCategoryEnum.YieldOptimizer, // rstETH Symbiotic + Mellow + Pendle
+  204: ProductCategoryEnum.YieldOptimizer, // amphrETH Symbiotic + Mellow + Pendle
+  205: ProductCategoryEnum.YieldOptimizer, // steakLRT Symbiotic + Mellow + Pendle
+  206: ProductCategoryEnum.YieldOptimizer, // Re7LRT Symbiotic + Mellow + Pendle
 };

@@ -225,4 +225,6 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   204: ProductCategoryEnum.YieldOptimizer, // amphrETH Symbiotic + Mellow + Pendle
   205: ProductCategoryEnum.YieldOptimizer, // steakLRT Symbiotic + Mellow + Pendle
   206: ProductCategoryEnum.YieldOptimizer, // Re7LRT Symbiotic + Mellow + Pendle
+  207: ProductCategoryEnum.Lending, // Inverse Finance FiRM
+  208: ProductCategoryEnum.YieldOptimizer, // Inverse Finance sDOLA
 };

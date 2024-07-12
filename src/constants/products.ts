@@ -227,4 +227,11 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   206: ProductCategoryEnum.YieldOptimizer, // Re7LRT Symbiotic + Mellow + Pendle
   207: ProductCategoryEnum.Lending, // Inverse Finance FiRM
   208: ProductCategoryEnum.YieldOptimizer, // Inverse Finance sDOLA
+  209: ProductCategoryEnum.YieldOptimizer, // Ether.fi Liquid King Karak LRT Vault
+  210: ProductCategoryEnum.YieldOptimizer, // Beefy CLM + Velodrome
+  211: ProductCategoryEnum.YieldOptimizer, // Beefy CLM + Aerodrome
+  212: ProductCategoryEnum.YieldOptimizer, // Beefy CLM + Camelot
+  213: ProductCategoryEnum.YieldOptimizer, // Beefy CLM + Pancakeswap
+  214: ProductCategoryEnum.Lending, // Curve LlamaLend
+  215: ProductCategoryEnum.Dex, // Ramses Exchange
 };

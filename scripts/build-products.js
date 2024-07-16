@@ -2,7 +2,7 @@ const fs = require('fs');
 const { readdir } = require('fs').promises;
 const path = require('path');
 
-const { Cover, addresses } = require('@nexusmutual/deployments');
+const { CoverProducts, addresses } = require('@nexusmutual/deployments');
 const ethers = require('ethers');
 const fetch = require('node-fetch');
 
@@ -14,27 +14,16 @@ const { PROVIDER_URL, IPFS_GATEWAY_URL } = process.env;
 
 const ipfsURL = ipfsHash => `${IPFS_GATEWAY_URL}/ipfs/${ipfsHash}`;
 
-const fetchProductTypes = async cover => {
-  const eventFilter = cover.filters.ProductTypeSet();
-  const events = await cover.queryFilter(eventFilter);
-
-  // using sort and reduce to deduplicate events and get the latest ipfs hash
-  const ipfsHashes = events
-    // sort ascending by blockNumber to get the latest ipfs hash
-    // (ascending rather than descending due to the reduce)
-    .sort((a, b) => a.blockNumber - b.blockNumber)
-    .reduce((acc, event) => {
-      const id = event.args.id.toNumber();
-      const coverWordingURL = ipfsURL(event.args.ipfsMetadata);
-      return { ...acc, [id]: { id, coverWordingURL } };
-    }, {});
-
+const fetchProductTypes = async coverProducts => {
+  const productTypesCount = (await coverProducts.getProductTypeCount()).toNumber();
   const productTypes = [];
 
-  for (const item of Object.values(ipfsHashes)) {
-    const name = await cover.productTypeNames(item.id);
-    const { gracePeriod, claimMethod } = await cover.productTypes(item.id);
-    productTypes.push({ ...item, name, gracePeriod, claimMethod });
+  for (let id = 1; id < productTypesCount; id++) {
+    const { gracePeriod, claimMethod } = await coverProducts.getProductType(id);
+    const name = await coverProducts.getProductTypeName(id);
+    const { ipfsHash } = await coverProducts.getLatestProductTypeMetadata(id);
+    const coverWordingURL = ipfsURL(ipfsHash);
+    productTypes.push({ id, coverWordingURL, name, gracePeriod, claimMethod });
   }
 
   return productTypes;
@@ -59,35 +48,10 @@ const createLogoDict = async logosDir => {
   return map;
 };
 
-const fetchProducts = async (cover, provider) => {
-  const eventFilter = cover.filters.ProductSet();
-  const events = await cover.queryFilter(eventFilter);
-
+const fetchProducts = async coverProducts => {
   const logos = await createLogoDict(path.join(__dirname, '../src/logos'));
 
-  const sortedEvents = events
-    // sort ascending by blockNumber to get the latest ipfs hash
-    // (ascending rather than descending due to the reduce into productMetadata object below)
-    .sort((a, b) => a.blockNumber - b.blockNumber);
-
-  const productMetadata = {};
-
-  await Promise.all(
-    sortedEvents.map(async event => {
-      const id = event.args.id.toNumber();
-      const ipfsHash = event.args.ipfsMetadata;
-      productMetadata[id] = { id, ipfsHash };
-
-      const block = await provider.getBlock(event.blockNumber);
-      // Only update the timestamp if it's not already set
-      // This is to avoid overwriting the timestamp if the event was an update, not a creation (e.g. for ipfsMetadata)
-      if (!productMetadata[id].timestamp) {
-        productMetadata[id].timestamp = block.timestamp;
-      }
-    }),
-  );
-
-  const productsCount = await cover.productsCount();
+  const productsCount = await coverProducts.getProductCount();
   const ids = Array.from(Array(productsCount.toNumber()).keys());
   const batches = [];
 
@@ -99,10 +63,10 @@ const fetchProducts = async (cover, provider) => {
 
   for (const batch of batches) {
     const promises = batch.map(async id => {
-      const { productType, isDeprecated, useFixedPrice, coverAssets } = await cover.products(id);
-      const name = await cover.productNames(id);
+      const { productType, isDeprecated, useFixedPrice, coverAssets } = await coverProducts.getProduct(id);
+      const name = await coverProducts.getProductName(id);
       console.log(`Processing #${id} (${name})`);
-      const { ipfsHash, timestamp } = productMetadata[id];
+      const { ipfsHash, timestamp } = await coverProducts.getLatestProductMetadata(id);
       const metadata = ipfsHash === '' ? {} : await fetch(ipfsURL(ipfsHash)).then(res => res.json());
 
       if (logos[id] === undefined) {
@@ -144,16 +108,16 @@ const buildProducts = async () => {
   }
 
   const provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL);
-  const cover = new ethers.Contract(addresses.Cover, Cover, provider);
+  const coverProducts = new ethers.Contract(addresses.CoverProducts, CoverProducts, provider);
 
   console.log('Generating product types...');
   const productTypesPath = path.join(__dirname, '../generated/product-types.json');
-  const productTypes = await fetchProductTypes(cover);
+  const productTypes = await fetchProductTypes(coverProducts);
   fs.writeFileSync(productTypesPath, JSON.stringify(productTypes, null, 2));
 
   console.log('Generating products...');
   const productsPath = path.join(__dirname, '../generated/products.json');
-  const products = await fetchProducts(cover, provider);
+  const products = await fetchProducts(coverProducts, provider);
   fs.writeFileSync(productsPath, JSON.stringify(products, null, 2));
 
   console.log('Done.');

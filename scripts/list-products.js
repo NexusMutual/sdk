@@ -17,16 +17,16 @@ const provider = new ethers.providers.JsonRpcProvider(process.env.PROVIDER_URL);
  */
 const listProducts = async () => {
   const count = process.argv[2];
-  const abi = deployments.Cover;
-  const address = deployments.addresses.Cover;
+  const abi = deployments.CoverProducts;
+  const address = deployments.addresses.CoverProducts;
   if (!abi || !address) {
-    throw new Error(`address or abi not found for Cover contract`);
+    throw new Error(`address or abi not found for CoverProducts contract`);
   }
 
   console.log('Fetching products...');
 
-  const cover = new ethers.Contract(address, abi, provider);
-  const productsCount = (await cover.getProducts()).length;
+  const coverProducts = new ethers.Contract(address, abi, provider);
+  const productsCount = await coverProducts.getProductCount();
 
   let productIds;
   if (count) {
@@ -38,7 +38,7 @@ const listProducts = async () => {
     productIds = Array.from({ length: productsCount }, (_, i) => i);
   }
 
-  const products = await Promise.all(productIds.map(async id => ({ id, name: await cover.productNames(id) })));
+  const products = await Promise.all(productIds.map(async id => ({ id, name: await coverProducts.productNames(id) })));
   console.log('Products: \n');
   products.forEach(product => console.log(product.id, product.name));
 };

@@ -234,4 +234,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   213: ProductCategoryEnum.YieldOptimizer, // Beefy CLM + Pancakeswap
   214: ProductCategoryEnum.Lending, // Curve LlamaLend
   215: ProductCategoryEnum.Dex, // Ramses Exchange
+  216: ProductCategoryEnum.Lending, // Credit Guild
+  217: ProductCategoryEnum.YieldOptimizer, // Reserve
+  218: ProductCategoryEnum.YieldOptimizer, // Contango
 };

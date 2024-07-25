@@ -38,7 +38,9 @@ const listProducts = async () => {
     productIds = Array.from({ length: productsCount }, (_, i) => i);
   }
 
-  const products = await Promise.all(productIds.map(async id => ({ id, name: await coverProducts.productNames(id) })));
+  const products = await Promise.all(
+    productIds.map(async id => ({ id, name: await coverProducts.getProductName(id) })),
+  );
   console.log('Products: \n');
   products.forEach(product => console.log(product.id, product.name));
 };

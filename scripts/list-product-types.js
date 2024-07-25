@@ -19,9 +19,9 @@ const listProductsTypes = async () => {
   console.log('Fetching products types...\n');
 
   const coverProducts = new ethers.Contract(address, abi, provider);
-  const productsTypeCount = await coverProducts.productTypesCount();
+  const productsTypeCount = await coverProducts.getProductTypeCount();
   const productTypeNames = await Promise.all(
-    Array.from({ length: productsTypeCount }, (_, i) => coverProducts.productTypeNames(i)),
+    Array.from({ length: productsTypeCount }, (_, i) => coverProducts.getProductTypeName(i)),
   );
 
   console.log('Products Types: \n');

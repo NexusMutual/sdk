@@ -18,7 +18,7 @@ const fetchProductTypes = async coverProducts => {
   const productTypesCount = (await coverProducts.getProductTypeCount()).toNumber();
   const productTypes = [];
 
-  for (let id = 1; id < productTypesCount; id++) {
+  for (let id = 0; id < productTypesCount; id++) {
     const { gracePeriod, claimMethod } = await coverProducts.getProductType(id);
     const name = await coverProducts.getProductTypeName(id);
     const { ipfsHash } = await coverProducts.getLatestProductTypeMetadata(id);
@@ -85,7 +85,7 @@ const fetchProducts = async coverProducts => {
         metadata,
         coverAssets: parseProductCoverAssets(coverAssets),
         isPrivate,
-        timestamp,
+        timestamp: timestamp.toNumber(),
       };
     });
 

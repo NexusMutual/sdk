@@ -85,7 +85,7 @@ const fetchProducts = async coverProducts => {
         metadata,
         coverAssets: parseProductCoverAssets(coverAssets),
         isPrivate,
-        timestamp,
+        timestamp: timestamp.toNumber(),
       };
     });
 

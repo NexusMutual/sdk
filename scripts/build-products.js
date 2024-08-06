@@ -7,8 +7,8 @@ const ethers = require('ethers');
 const fetch = require('node-fetch');
 
 const { parseProductCoverAssets, parseFilePath } = require('./utils');
-
 const { allPrivateProductsIds } = require(path.join(__dirname, '../src/constants/privateProducts.js'));
+const productMetadata = require('../data/legacy-product-metadata.json');
 
 const { PROVIDER_URL, IPFS_GATEWAY_URL } = process.env;
 
@@ -48,8 +48,31 @@ const createLogoDict = async logosDir => {
   return map;
 };
 
-const fetchProducts = async coverProducts => {
+const fetchProducts = async (coverProducts, provider) => {
+  const eventFilter = coverProducts.filters.ProductSet();
+  const events = await coverProducts.queryFilter(eventFilter);
+
   const logos = await createLogoDict(path.join(__dirname, '../src/logos'));
+
+  const sortedEvents = events
+    // sort ascending by blockNumber to get the latest ipfs hash
+    // (ascending rather than descending due to the reduce into productMetadata object below)
+    .sort((a, b) => a.blockNumber - b.blockNumber);
+
+  await Promise.all(
+    sortedEvents.map(async event => {
+      const id = event.args.id.toNumber();
+      const ipfsHash = event.args.ipfsMetadata;
+      productMetadata[id] = { id, ipfsHash };
+
+      // Only update the timestamp if it's not already set
+      // This is to avoid overwriting the timestamp if the event was an update, not a creation (e.g. for ipfsMetadata)
+      if (!productMetadata[id].timestamp) {
+        const block = await provider.getBlock(event.blockNumber);
+        productMetadata[id].timestamp = block.timestamp;
+      }
+    }),
+  );
 
   const productsCount = await coverProducts.getProductCount();
   const ids = Array.from(Array(productsCount.toNumber()).keys());
@@ -66,7 +89,7 @@ const fetchProducts = async coverProducts => {
       const { productType, isDeprecated, useFixedPrice, coverAssets } = await coverProducts.getProduct(id);
       const name = await coverProducts.getProductName(id);
       console.log(`Processing #${id} (${name})`);
-      const { ipfsHash, timestamp } = await coverProducts.getLatestProductMetadata(id);
+      const { ipfsHash, timestamp } = productMetadata[id];
       const metadata = ipfsHash === '' ? {} : await fetch(ipfsURL(ipfsHash)).then(res => res.json());
 
       if (logos[id] === undefined) {
@@ -85,7 +108,7 @@ const fetchProducts = async coverProducts => {
         metadata,
         coverAssets: parseProductCoverAssets(coverAssets),
         isPrivate,
-        timestamp: timestamp.toNumber(),
+        timestamp,
       };
     });
 

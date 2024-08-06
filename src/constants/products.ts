@@ -237,4 +237,5 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   216: ProductCategoryEnum.Lending, // Credit Guild
   217: ProductCategoryEnum.YieldOptimizer, // Reserve
   218: ProductCategoryEnum.YieldOptimizer, // Contango
+  // 219: ProductCategoryEnum.Uncategorized, // Flat Money
 };

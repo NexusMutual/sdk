@@ -62,7 +62,7 @@ const fetchProducts = async (coverProducts, provider) => {
   await Promise.all(
     sortedEvents.map(async event => {
       const id = event.args.id.toNumber();
-      const ipfsHash = event.args.ipfsMetadata;
+      const { ipfsHash } = await coverProducts.getLatestProductMetadata(id);
       productMetadata[id] = { id, ipfsHash };
 
       // Only update the timestamp if it's not already set

@@ -40,7 +40,7 @@ const allPrivateProductsIds = [
   186, // Delta Prime (UnoRe)
   195, // Dialectic Moonphase
   196, // Dialectic Chronograph
-  219, // Flat Money (Sherlock)
+  220, // Flat Money (Sherlock)
 ];
 
 module.exports = {

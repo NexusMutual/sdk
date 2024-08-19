@@ -32,3 +32,13 @@ assignees: ''
 **Private or Public?**: 
 
 **Logo** (attach link to Google Drive SVG file):
+
+### Engineering Checklist
+
+- [ ] Craft transaction data payload
+- [ ] AB member to update onchain data
+- [ ] Update [SDK](https://github.com/NexusMutual/sdk)
+- [ ] Update [frontend-next](https://github.com/NexusMutual/frontend-next)
+- [ ] Update [frontend-react](https://github.com/NexusMutual/frontend-react)
+- [ ] Update [notification-processor](https://github.com/NexusMutual/notification-processor)
+- [ ] Update [event-scanner](https://github.com/NexusMutual/event-scanner) (if there are new private products)

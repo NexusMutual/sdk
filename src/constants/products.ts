@@ -1,33 +1,3 @@
-import { ProductTypes } from '../../generated/product-types';
-
-export const productFilterLabelByType = {
-  [ProductTypes.protocol]: 'Protocol Cover',
-  [ProductTypes.bundledProtocol]: 'Bundled Protocol Cover',
-  [ProductTypes.ethSlashing]: 'ETH Slashing Cover',
-  [ProductTypes.sherlockQuotaShare]: 'Sherlock Quota Share Cover',
-  [ProductTypes.nativeProtocol]: 'Native Protocol Cover',
-  [ProductTypes.theRetailMutual]: 'The Retail Mutual Cover',
-  [ProductTypes.ethSlashingUmbrella]: 'ETH Slashing Umbrella Cover',
-  [ProductTypes.openCoverTransaction]: 'OpenCover Transaction Cover',
-  [ProductTypes.fundPortfolio]: 'Fund Portfolio Cover',
-  [ProductTypes.sherlockBugBounty]: 'Sherlock Bug Bounty',
-} as const;
-
-export const productTypeByFilterLabel = {
-  [productFilterLabelByType[ProductTypes.protocol]]: ProductTypes.protocol,
-  [productFilterLabelByType[ProductTypes.bundledProtocol]]: ProductTypes.bundledProtocol,
-  [productFilterLabelByType[ProductTypes.ethSlashing]]: ProductTypes.ethSlashing,
-  [productFilterLabelByType[ProductTypes.sherlockQuotaShare]]: ProductTypes.sherlockQuotaShare,
-  [productFilterLabelByType[ProductTypes.nativeProtocol]]: ProductTypes.nativeProtocol,
-  [productFilterLabelByType[ProductTypes.theRetailMutual]]: ProductTypes.theRetailMutual,
-  [productFilterLabelByType[ProductTypes.ethSlashingUmbrella]]: ProductTypes.ethSlashingUmbrella,
-  [productFilterLabelByType[ProductTypes.openCoverTransaction]]: ProductTypes.openCoverTransaction,
-  [productFilterLabelByType[ProductTypes.fundPortfolio]]: ProductTypes.fundPortfolio,
-  [productFilterLabelByType[ProductTypes.sherlockBugBounty]]: ProductTypes.sherlockBugBounty,
-} as const;
-
-export type ProductFilterLabel = keyof typeof productTypeByFilterLabel;
-
 export enum ProductCategoryEnum {
   Lending = 'lending',
   Dex = 'dex',

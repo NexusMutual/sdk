@@ -141,11 +141,7 @@ const buildProducts = async () => {
   console.log('Generating product-types.ts...');
   const productTypesTsPath = path.join(__dirname, '../generated/product-types.ts');
 
-  // Generate ProductTypeName union type
-  const productTypeNames = productTypes.map(({ name }) => `'${name}'`);
-  fs.writeFileSync(productTypesTsPath, `export type ProductTypeName =\n  | ${productTypeNames.join('\n  | ')};\n`);
-
-  // Generate ProductType enum
+  // Generate ProductTypes enum
   const productTypeNamesCamelCased = productTypes
     .map(({ name }) => name)
     .map(name => name.replace(/ /g, ''))
@@ -154,9 +150,7 @@ const buildProducts = async () => {
     .map(name => (name.endsWith('Cover') ? name.slice(0, -5) : name));
   fs.appendFileSync(
     productTypesTsPath,
-    `\n\nexport enum ProductTypes {\n${productTypeNamesCamelCased
-      .map((name, i) => `  ${name} = ${i},`)
-      .join('\n')}\n}\n`,
+    `export enum ProductTypes {\n${productTypeNamesCamelCased.map((name, i) => `  ${name} = ${i},`).join('\n')}\n}\n`,
   );
 
   console.log('Generating products...');

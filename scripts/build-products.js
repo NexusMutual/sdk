@@ -138,10 +138,8 @@ const buildProducts = async () => {
   const productTypes = await fetchProductTypes(coverProducts);
   fs.writeFileSync(productTypesPath, JSON.stringify(productTypes, null, 2));
 
-  console.log('Generating product-types.ts...');
-  const productTypesTsPath = path.join(__dirname, '../generated/product-types.ts');
-
   // Generate ProductTypes enum
+  const generatedTypesPath = path.join(__dirname, '../generated/types.ts');
   const productTypeNamesCamelCased = productTypes
     .map(({ name }) => name)
     .map(name => name.replace(/ /g, ''))
@@ -149,8 +147,8 @@ const buildProducts = async () => {
     .map(name => `${name[0].toLowerCase()}${name.slice(1)}`)
     .map(name => (name.endsWith('Cover') ? name.slice(0, -5) : name));
   fs.appendFileSync(
-    productTypesTsPath,
-    `export enum ProductTypes {\n${productTypeNamesCamelCased.map((name, i) => `  ${name} = ${i},`).join('\n')}\n}\n`,
+    generatedTypesPath,
+    `\nexport enum ProductTypes {\n${productTypeNamesCamelCased.map((name, i) => `  ${name} = ${i},`).join('\n')}\n}\n`,
   );
 
   console.log('Generating products...');

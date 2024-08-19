@@ -23,7 +23,7 @@ const fetchProductTypes = async coverProducts => {
     const name = await coverProducts.getProductTypeName(id);
     const { ipfsHash } = await coverProducts.getLatestProductTypeMetadata(id);
     const coverWordingURL = ipfsURL(ipfsHash);
-    productTypes.push({ id, coverWordingURL, name, gracePeriod, claimMethod });
+    productTypes.push({ id, coverWordingURL, name: name.trim(), gracePeriod, claimMethod });
   }
 
   return productTypes;

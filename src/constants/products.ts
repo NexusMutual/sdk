@@ -1,5 +1,4 @@
 export enum ProductCategoryEnum {
-  All = 'all',
   Lending = 'lending',
   Dex = 'dex',
   LiquidRestaking = 'liquid-restaking',
@@ -11,7 +10,6 @@ export enum ProductCategoryEnum {
 }
 
 export const categoryLabelByEnum: Record<ProductCategoryEnum, string> = {
-  [ProductCategoryEnum.All]: 'All categories',
   [ProductCategoryEnum.Lending]: 'Lending',
   [ProductCategoryEnum.Dex]: 'DEX',
   [ProductCategoryEnum.LiquidRestaking]: 'Liquid Restaking',

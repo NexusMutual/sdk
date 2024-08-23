@@ -237,4 +237,8 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   218: ProductCategoryEnum.YieldOptimizer, // Contango
   219: ProductCategoryEnum.Uncategorized, // Flat Money (deprecated)
   220: ProductCategoryEnum.Uncategorized, // Flat Money
+  221: ProductCategoryEnum.YieldOptimizer, // Ether.fi Liquid eBTC Bitcoin LRT Vault
+  222: ProductCategoryEnum.YieldOptimizer, // Contango + Compound v3
+  223: ProductCategoryEnum.YieldOptimizer, // Contango + Aave v3
+  224: ProductCategoryEnum.YieldOptimizer, // Contango + Morpho Blue
 };

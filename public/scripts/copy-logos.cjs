@@ -1,7 +1,5 @@
-const { mkdir, readdir, copyFile } = require('node:fs').promises;
+const { readdir, copyFile } = require('node:fs').promises;
 const path = require('node:path');
-
-const { rimraf } = require('rimraf');
 
 /**
  * Usage:
@@ -15,9 +13,6 @@ const main = async argv => {
 
   const targetPath = path.resolve(argv[2]);
   const sourcePath = path.resolve(__dirname, '../logos');
-
-  await rimraf(targetPath);
-  await mkdir(targetPath);
 
   const dirents = await readdir(sourcePath, { withFileTypes: true });
   dirents.forEach(dirent => {

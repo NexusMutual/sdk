@@ -41,6 +41,7 @@ const allPrivateProductsIds = [
   195, // Dialectic Moonphase
   196, // Dialectic Chronograph
   220, // Flat Money (Sherlock)
+  227, // Base DeFi Pass
 ];
 
 module.exports = {

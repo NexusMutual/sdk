@@ -23,7 +23,7 @@ const fetchProductTypes = async coverProducts => {
     const name = await coverProducts.getProductTypeName(id);
     const { ipfsHash } = await coverProducts.getLatestProductTypeMetadata(id);
     const coverWordingURL = ipfsURL(ipfsHash);
-    productTypes.push({ id, coverWordingURL, name, gracePeriod, claimMethod });
+    productTypes.push({ id, coverWordingURL, name: name.trim(), gracePeriod, claimMethod });
   }
 
   return productTypes;
@@ -137,6 +137,19 @@ const buildProducts = async () => {
   const productTypesPath = path.join(__dirname, '../generated/product-types.json');
   const productTypes = await fetchProductTypes(coverProducts);
   fs.writeFileSync(productTypesPath, JSON.stringify(productTypes, null, 2));
+
+  // Generate ProductTypes enum
+  const generatedTypesPath = path.join(__dirname, '../generated/types.ts');
+  const productTypeNamesCamelCased = productTypes
+    .map(({ name }) => name)
+    .map(name => name.replace(/ /g, ''))
+    .map(name => name.replace(/ETH/g, 'Eth'))
+    .map(name => `${name[0].toLowerCase()}${name.slice(1)}`)
+    .map(name => (name.endsWith('Cover') ? name.slice(0, -5) : name));
+  fs.appendFileSync(
+    generatedTypesPath,
+    `\nexport enum ProductTypes {\n${productTypeNamesCamelCased.map((name, i) => `  ${name} = ${i},`).join('\n')}\n}\n`,
+  );
 
   console.log('Generating products...');
   const productsPath = path.join(__dirname, '../generated/products.json');

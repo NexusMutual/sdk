@@ -1,4 +1,4 @@
-const { readdir, copyFile } = require('node:fs').promises;
+const { readdir, copyFile, mkdir, access } = require('node:fs').promises;
 const path = require('node:path');
 
 /**
@@ -13,6 +13,12 @@ const main = async argv => {
 
   const targetPath = path.resolve(argv[2]);
   const sourcePath = path.resolve(__dirname, '../logos');
+
+  try {
+    await access(targetPath);
+  } catch (error) {
+    await mkdir(targetPath);
+  }
 
   const dirents = await readdir(sourcePath, { withFileTypes: true });
   dirents.forEach(dirent => {

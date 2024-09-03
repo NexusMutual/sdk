@@ -241,4 +241,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   222: ProductCategoryEnum.YieldOptimizer, // Contango + Compound v3
   223: ProductCategoryEnum.YieldOptimizer, // Contango + Aave v3
   224: ProductCategoryEnum.YieldOptimizer, // Contango + Morpho Blue
+  225: ProductCategoryEnum.Dex, // PancakeSwap
+  226: ProductCategoryEnum.YieldOptimizer, // Beefy + Velodrome
+  227: ProductCategoryEnum.Uncategorized, // Base
 };

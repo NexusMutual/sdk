@@ -12,9 +12,7 @@ This package only exports CommonJS modules. You can import it like this:
 
 ```js
 // Usage with ES6 modules
-import products from '@nexusmutual/sdk/products'
-import productTypes from '@nexusmutual/sdk/product-types'
-// logos?
+import { products, productTypes } from '@nexusmutual/sdk'
 ```
 
 ## Nexus Mutual contract addresses and abis
@@ -30,3 +28,30 @@ Logos should meet the following criteria:
 - svg format, with 1:1 ratio
 - no fixed width or height
 - the image should reach the edge of the viewbox
+
+## Development
+
+### Install dependencies
+
+```
+npm ci
+```
+
+### Install husky
+
+```bash
+npx husky install
+```
+
+to activate **husky** in project
+
+### ENV variables setup
+
+Copy the `.env.example` file into `.env` and populate with the required values.
+
+
+### Build locally
+
+```
+npm build
+```

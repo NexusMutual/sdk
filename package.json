@@ -4,14 +4,16 @@
   "description": "Nexus Mutual SDK",
   "scripts": {
     "build": "node scripts/build.js",
-    "lint": "eslint --max-warnings 0 .",
-    "lint:fix": "npm run lint -- --fix",
+    "lint": "eslint --quiet .",
+    "lint:fix": "eslint --fix --quiet .",
+    "format": "prettier --loglevel silent --check 'src/**/*.{js,jsx,ts,tsx}'",
+    "format:fix": "prettier --loglevel silent --write 'src/**/*.{js,jsx,ts,tsx}'",
     "test": "jest",
     "test:watch": "jest --watch",
     "list:products": "node scripts/list-products.js",
     "list:product-types": "node scripts/list-product-types.js",
     "publish:next": "npm publish --access public --tag next",
-    "prepare": "husky"
+    "prepare": "is-ci || husky install"
   },
   "typings": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -39,6 +41,8 @@
     "svgo": "^3.0.2"
   },
   "devDependencies": {
+    "@commitlint/cli": "13.2.1",
+    "@commitlint/config-conventional": "13.2.0",
     "@types/jest": "^29.5.5",
     "@typescript-eslint/eslint-plugin": "^7.5.0",
     "@typescript-eslint/parser": "^7.5.0",
@@ -55,7 +59,8 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-standard": "^5.0.0",
     "ethers": "^5.7.2",
-    "husky": "^9.0.11",
+    "husky": "8.0.3",
+    "is-ci": "3.0.1",
     "jest": "^29.7.0",
     "jest-mock-axios": "^4.7.3",
     "node-fetch": "^2.6.9",

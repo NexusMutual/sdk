@@ -243,5 +243,10 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   224: ProductCategoryEnum.YieldOptimizer, // Contango + Morpho Blue
   225: ProductCategoryEnum.Dex, // PancakeSwap
   226: ProductCategoryEnum.YieldOptimizer, // Beefy + Velodrome
-  227: ProductCategoryEnum.Uncategorized, // Base
+  227: ProductCategoryEnum.Uncategorized, // Base Defi Pass
+  228: ProductCategoryEnum.Lending, // Euler Finance v2
+  229: ProductCategoryEnum.Lending, // Morpho + Morpho Vaults
+  230: ProductCategoryEnum.Lending, // Ajna Finance
+  231: ProductCategoryEnum.Lending, // Dolomite
+  232: ProductCategoryEnum.Lending, // Steer Protocol
 };

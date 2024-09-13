@@ -42,6 +42,7 @@ const allPrivateProductsIds = [
   196, // Dialectic Chronograph
   220, // Flat Money (Sherlock)
   227, // Base DeFi Pass
+  233, // Relative Finance
 ];
 
 module.exports = {

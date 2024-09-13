@@ -42,3 +42,4 @@ assignees: ''
 - [ ] Update [frontend-react](https://github.com/NexusMutual/frontend-react)
 - [ ] Update [notification-processor](https://github.com/NexusMutual/notification-processor)
 - [ ] Update [event-scanner](https://github.com/NexusMutual/event-scanner) (if there are new private products)
+- [ ] Update [cover-router](https://github.com/NexusMutual/cover-router) .env (if there are allowed pools priority ordering)

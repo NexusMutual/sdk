@@ -254,5 +254,5 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   235: ProductCategoryEnum.Perpetuals, // GammaSwap
   236: ProductCategoryEnum.YieldOptimizer, // Etherfi Liquid Usual Stable Vault
   237: ProductCategoryEnum.YieldOptimizer, // Etherfi Liquid Elixir Stable Vault
-  238: ProductCategoryEnum.YieldOptimizer // sUSDS (Sky Savings Rate)
+  238: ProductCategoryEnum.YieldOptimizer, // sUSDS (Sky Savings Rate)
 };

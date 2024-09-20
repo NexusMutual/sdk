@@ -78,9 +78,9 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-${{ env.CACHE_KEY }}-${{ hashFiles('package-lock.json') }}
 
+      - run: npm run build
       - run: npm i
       - run: npm run lint
       - run: npm run format
       - run: npm run ts:check
       - run: npm run test
-      - run: npm run build

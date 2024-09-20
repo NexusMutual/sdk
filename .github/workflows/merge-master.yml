@@ -61,31 +61,9 @@ jobs:
               core.setFailed('Please bump version before merging');
             }
 
-  checks:
-    runs-on: ubuntu-22.04
-    needs: [version]
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - uses: actions/cache@v3
-        id: cache
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-${{ env.CACHE_KEY }}-${{ hashFiles('package-lock.json') }}
-
-      - run: npm i
-      - run: npm run lint
-      - run: npm run format
-      - run: npm run ts:check
-      - run: npm run test
-
   build:
     runs-on: ubuntu-22.04
-    needs: [checks, version]
+    needs: [version]
     steps:
       - uses: actions/checkout@v3
 
@@ -103,7 +81,20 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm i
 
-      - run: npm run build
+      - name: Build package
+        run: npm run build
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Run prettier
+        run: npm run format
+
+      - name: Check types and typescript
+        run: npm run ts:check
+
+      - name: Run tests
+        run: npm run test
 
       - uses: actions/upload-artifact@v3
         with:
@@ -112,7 +103,7 @@ jobs:
 
   publish:
     runs-on: ubuntu-22.04
-    needs: [version, checks, build]
+    needs: [version, build]
     steps:
       - uses: actions/checkout@v3
 

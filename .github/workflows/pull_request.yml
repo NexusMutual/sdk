@@ -10,6 +10,9 @@ concurrency:
 env:
   NODE_VERSION: "18"
   CACHE_KEY: ${{ secrets.CACHE_KEY }} # Change to bust caches
+  PROVIDER_URL: https://eth-mainnet.g.alchemy.com/v2/${{ secrets.ALCHEMY_API_KEY }}
+  IPFS_GATEWAY_URL: https://api.nexusmutual.io
+  COVER_ROUTER_URL: https://api.nexusmutual.io/v2
 
 jobs:
   version:

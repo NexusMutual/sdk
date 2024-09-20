@@ -65,7 +65,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   42: ProductCategoryEnum.Uncategorized, // Ledn
   43: ProductCategoryEnum.Uncategorized, // Liquid Collective
   44: ProductCategoryEnum.Lending, // Liquity v1
-  45: ProductCategoryEnum.Lending, // MakerDAO CDP
+  45: ProductCategoryEnum.Lending, // Sky Money
   46: ProductCategoryEnum.Uncategorized, // mStable
   47: ProductCategoryEnum.Uncategorized, // Nested v1
   48: ProductCategoryEnum.Uncategorized, // Nexo
@@ -249,4 +249,10 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   230: ProductCategoryEnum.Lending, // Ajna Finance
   231: ProductCategoryEnum.Lending, // Dolomite
   232: ProductCategoryEnum.Lending, // Steer Protocol
+  233: ProductCategoryEnum.Uncategorized, // Relative Finance
+  234: ProductCategoryEnum.YieldOptimizer, // AO Staking
+  235: ProductCategoryEnum.Perpetuals, // GammaSwap
+  236: ProductCategoryEnum.YieldOptimizer, // Etherfi Liquid Usual Stable Vault
+  237: ProductCategoryEnum.YieldOptimizer, // Etherfi Liquid Elixir Stable Vault
+  238: ProductCategoryEnum.YieldOptimizer, // sUSDS (Sky Savings Rate)
 };

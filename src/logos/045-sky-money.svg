@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Sky-Logo-Dark_Background-RGB" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 483.18 483.18">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#radial-gradient-7);
+      }
+
+      .cls-2 {
+        fill: url(#radial-gradient-10);
+      }
+
+      .cls-3 {
+        fill: url(#radial-gradient-8);
+      }
+
+      .cls-4 {
+        fill: url(#radial-gradient-5);
+      }
+
+      .cls-5 {
+        fill: url(#radial-gradient-4);
+      }
+
+      .cls-6 {
+        fill: url(#radial-gradient-6);
+      }
+
+      .cls-7 {
+        fill: url(#radial-gradient-12);
+      }
+
+      .cls-8 {
+        fill: url(#radial-gradient);
+      }
+
+      .cls-9 {
+        fill: url(#radial-gradient-13);
+      }
+
+      .cls-10 {
+        fill: url(#radial-gradient-2);
+      }
+
+      .cls-11 {
+        fill: url(#radial-gradient-3);
+      }
+
+      .cls-12 {
+        fill: url(#radial-gradient-14);
+      }
+
+      .cls-13 {
+        fill: url(#radial-gradient-11);
+      }
+
+      .cls-14 {
+        fill: url(#radial-gradient-9);
+      }
+    </style>
+    <radialGradient id="radial-gradient" cx="-487.23" cy="-182.8" fx="-487.23" fy="-182.8" r="1" gradientTransform="translate(-60354.73 -110781.97) rotate(-139.19) scale(243.05)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#a273ff"/>
+      <stop offset="1" stop-color="#4331e9"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-2" cx="-487.23" cy="-179.89" fx="-487.23" fy="-179.89" r="1" gradientTransform="translate(25351.51 -125770.13) rotate(-98.99) scale(247.39)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f7a7f9"/>
+      <stop offset="1" stop-color="#00ddfb"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-3" cx="241.59" cy="-265.17" fx="241.59" fy="-265.17" r="247.57" gradientTransform="translate(0 -23.58) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff3d0"/>
+      <stop offset="1" stop-color="#ffc044"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-4" cx="-486.98" cy="-179.28" fx="-486.98" fy="-179.28" r="1" gradientTransform="translate(44548.34 -120110.46) rotate(-90) scale(247.14)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#a273ff"/>
+      <stop offset=".5" stop-color="#9faeff"/>
+      <stop offset="1" stop-color="#aaf2e1"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-5" cx="-479.46" cy="-179.36" fx="-479.46" fy="-179.36" r="1" gradientTransform="translate(69868.86 105437.95) rotate(35.99) scale(246.43)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0075ff"/>
+      <stop offset="1" stop-color="#00ddfb"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-6" cx="-479.52" cy="-183.19" fx="-479.52" fy="-183.19" r="1" gradientTransform="translate(-45067.46 118846.24) rotate(90) scale(247.34)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffcd6b"/>
+      <stop offset="1" stop-color="#eb5edf"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-7" cx="-479.53" cy="-183.18" fx="-479.53" fy="-183.18" r="1" gradientTransform="translate(-45160.25 119093.65) rotate(90) scale(247.85)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d4faff"/>
+      <stop offset="1" stop-color="#00ddfb"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-8" cx="-480.82" cy="-184.32" fx="-480.82" fy="-184.32" r="1" gradientTransform="translate(-96425.62 96415.55) rotate(114.17) scale(264.81)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffd2b9"/>
+      <stop offset=".29" stop-color="#c99bed"/>
+      <stop offset="1" stop-color="#0075ff"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-9" cx="-484.75" cy="-184.1" fx="-484.75" fy="-184.1" r="1" gradientTransform="translate(-155751 -59001.13) rotate(-180) scale(321.8)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6d28ff"/>
+      <stop offset="1" stop-color="#f7a7f9"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-10" cx="-486.98" cy="-179.28" fx="-486.98" fy="-179.28" r="1" gradientTransform="translate(44548.34 -120110.46) rotate(-90) scale(247.14)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#a273ff"/>
+      <stop offset=".5" stop-color="#9faeff"/>
+      <stop offset="1" stop-color="#aaf2e1"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-11" cx="-1608.95" cy="-188.31" fx="-1608.95" fy="-188.31" r="1" gradientTransform="translate(-46334.63 398200.25) rotate(90) scale(247.34)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffcd6b"/>
+      <stop offset="1" stop-color="#eb5edf"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-12" cx="-487.23" cy="-182.8" fx="-487.23" fy="-182.8" r="1" gradientTransform="translate(-60354.73 -110781.97) rotate(-139.19) scale(243.05)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#a273ff"/>
+      <stop offset="1" stop-color="#4331e9"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-13" cx="-485.2" cy="-184.96" fx="-485.2" fy="-184.96" r="1" gradientTransform="translate(-119873.73 -45546.06) rotate(-180) scale(247.56)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff3d0"/>
+      <stop offset="1" stop-color="#ffc044"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-14" cx="-487.23" cy="-182.8" fx="-487.23" fy="-182.8" r="1" gradientTransform="translate(-60354.73 -110781.97) rotate(-139.19) scale(243.05)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#a273ff"/>
+      <stop offset="1" stop-color="#4331e9"/>
+    </radialGradient>
+  </defs>
+  <g id="Sky-Logo-Dark_Background-RGB-2" data-name="Sky-Logo-Dark_Background-RGB">
+    <g id="Sky-Logomark-RGB">
+      <path id="Element" class="cls-8" d="M46.14,99.59c7.44-10.24,15.67-19.88,24.62-28.83l3,1.65L240.01,239.56l1.58,2.03L46.14,99.59Z"/>
+      <path id="Element-2" data-name="Element" class="cls-10" d="M70.76,70.76C106.84,34.68,153.41,10.96,203.8,2.97l1.67,4.59,36.12,230.82v3.2L70.76,70.76Z"/>
+      <path id="Element-3" data-name="Element" class="cls-11" d="M351.3,26.35c11.27,5.74,22.07,12.36,32.3,19.8l-.43,3.76L242.47,240.89l-.88,.7L351.3,26.35Z"/>
+      <path id="Element-4" data-name="Element" class="cls-5" d="M483.18,241.59c0,25.35-3.99,50.54-11.82,74.66l-5.71,.92-222.28-74.67-1.78-.9h241.59Z"/>
+      <path id="Element-5" data-name="Element" class="cls-4" d="M471.36,316.24c-7.83,24.11-19.41,46.84-34.31,67.35l-5.51-.93L242.73,242.78l-1.14-1.19,229.77,74.65Z"/>
+      <path id="Element-6" data-name="Element" class="cls-6" d="M316.25,471.36c-36.26,11.78-74.79,14.81-112.45,8.85l-1.51-4.63,38.21-229.88,1.09-4.11,74.66,229.77Z"/>
+      <path id="Element-7" data-name="Element" class="cls-1" d="M203.8,480.21c-12.5-1.98-24.83-4.94-36.86-8.85l-.67-5.59,73.95-221.66,1.38-2.52-37.79,238.62Z"/>
+      <path id="Element-8" data-name="Element" class="cls-3" d="M166.94,471.36c-24.11-7.83-46.84-19.41-67.35-34.32v-4.37L239.12,244.05l2.47-2.46-74.66,229.77Z"/>
+      <path id="Element-9" data-name="Element" class="cls-14" d="M26.33,351.27C9.02,317.3,0,279.72,0,241.59l3.09-1.14H233.78l7.82,1.14L26.33,351.27Z"/>
+      <path id="Element-10" data-name="Element" class="cls-2" d="M203.78,2.98C241.45-2.99,279.99,.04,316.25,11.83l-74.66,229.77L203.78,2.98Z"/>
+      <path id="Element-11" data-name="Element" class="cls-13" d="M383.6,46.14c41.27,29.99,71.99,72.27,87.76,120.79l-229.77,74.66L383.6,46.14Z"/>
+      <path id="Element-12" data-name="Element" class="cls-7" d="M99.59,437.04c-20.51-14.9-38.55-32.94-53.45-53.45L241.59,241.59,99.59,437.04Z"/>
+      <path id="Element-13" data-name="Element" class="cls-9" d="M0,241.59c0-25.35,3.99-50.55,11.82-74.66l229.77,74.66H0Z"/>
+      <path id="Element-14" data-name="Element" class="cls-12" d="M437.05,383.58c-14.9,20.51-32.94,38.55-53.45,53.45L241.59,241.59l195.46,141.99Z"/>
+    </g>
+  </g>
+</svg>

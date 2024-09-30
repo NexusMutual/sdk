@@ -37,13 +37,7 @@ Logos should meet the following criteria:
 npm ci
 ```
 
-### Install husky
-
-```bash
-npx husky install
-```
-
-to activate **husky** in project
+This will also activate **husky** git hooks in the project, via the script `prepare`.
 
 ### ENV variables setup
 

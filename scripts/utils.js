@@ -9,7 +9,7 @@ const ethers = require('ethers');
  * @param {ethers.providers.Provider} provider - The Ethereum provider to interact with the blockchain.
  * @returns {Promise<Object>} A promise that resolves to an object mapping cover asset IDs to their symbols.
  */
-const getCoverAssetsMap = async provider => {
+const getCoverAssetsSymbols = async provider => {
   const BASE_COVER_ASSETS_MAP = { 0: 'ETH', 255: 'NXM' };
 
   const pool = new ethers.Contract(addresses.Pool, Pool, provider);
@@ -83,5 +83,5 @@ module.exports = {
   parseProductCoverAssets,
   parseCoverAssetToProductAsset,
   parseFilePath,
-  getCoverAssetsMap,
+  getCoverAssetsSymbols,
 };

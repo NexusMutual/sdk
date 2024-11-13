@@ -14,26 +14,20 @@ const getCoverAssetsMap = async provider => {
 
   const pool = new ethers.Contract(addresses.Pool, Pool, provider);
   const assets = await pool.getAssets();
-  console.log('assets: ', assets);
 
-  // Filter for cover assets and exclude ETH address, but keep track of original index
+  // Filter cover assets
   const coverAssets = assets
-    .map((asset, index) => ({ ...asset, assetId: index }))
-    .filter(
-      ({ 0: address, 1: isCoverAsset }) => isCoverAsset && address !== '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-    );
+    .map(([address, isCoverAsset], assetId) => ({ address, isCoverAsset, assetId }))
+    .filter(({ address, isCoverAsset }) => isCoverAsset && address !== '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE');
 
-  // Get symbol for each cover asset and use original index as key
-  for (const { 0: address, assetId } of coverAssets) {
+  // Get symbol for each cover asset and use assetId as key
+  const promises = coverAssets.map(async ({ address, assetId }) => {
     const token = new ethers.Contract(address, ['function symbol() view returns (string)'], provider);
     const symbol = await token.symbol();
-
-    if (!symbol) {
-      throw new Error(`Failed to get symbol for token at address ${address}`);
-    }
-
     BASE_COVER_ASSETS_MAP[assetId] = symbol;
-  }
+  });
+
+  await Promise.all(promises);
 
   return BASE_COVER_ASSETS_MAP;
 };
@@ -45,7 +39,8 @@ const getCoverAssetsMap = async provider => {
  */
 const parseProductCoverAssets = (coverAssets, coverAssetsMap) => {
   if (coverAssets === 0) {
-    return [coverAssetsMap[0], coverAssetsMap[1], coverAssetsMap[6], coverAssetsMap[7]];
+    // 0 is ALL - return ALL coverAssets except NXM
+    return Object.values(coverAssetsMap).filter(symbol => symbol !== 'NXM');
   }
 
   const coverAssetsBinary = coverAssets.toString(2);

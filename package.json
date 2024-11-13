@@ -1,6 +1,6 @@
 {
   "name": "@nexusmutual/sdk",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Nexus Mutual SDK",
   "scripts": {
     "build": "node scripts/build.js",
@@ -38,7 +38,7 @@
     "node": ">=11.14.0"
   },
   "dependencies": {
-    "@nexusmutual/deployments": "^2.9.0",
+    "@nexusmutual/deployments": "^2.10.0",
     "axios": "^1.6.8",
     "rimraf": "^5.0.1",
     "svgo": "^3.0.2"

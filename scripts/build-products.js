@@ -6,7 +6,7 @@ const { CoverProducts, addresses } = require('@nexusmutual/deployments');
 const ethers = require('ethers');
 const fetch = require('node-fetch');
 
-const { parseProductCoverAssets, parseFilePath } = require('./utils');
+const { parseProductCoverAssets, parseFilePath, getCoverAssetsSymbols } = require('./utils');
 const { allPrivateProductsIds } = require(path.join(__dirname, '../src/constants/privateProducts.js'));
 const productMetadata = require('../data/legacy-product-metadata.json');
 
@@ -83,6 +83,7 @@ const fetchProducts = async (coverProducts, provider) => {
   }
 
   const products = [];
+  const coverAssetsMap = await getCoverAssetsSymbols(provider);
 
   for (const batch of batches) {
     const promises = batch.map(async id => {
@@ -106,7 +107,7 @@ const fetchProducts = async (coverProducts, provider) => {
         useFixedPrice,
         logo: logos[id],
         metadata,
-        coverAssets: parseProductCoverAssets(coverAssets),
+        coverAssets: parseProductCoverAssets(coverAssets, coverAssetsMap),
         isPrivate,
         timestamp,
       };

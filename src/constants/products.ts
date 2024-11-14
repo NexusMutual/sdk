@@ -255,4 +255,10 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   236: ProductCategoryEnum.YieldOptimizer, // Etherfi Liquid Usual Stable Vault
   237: ProductCategoryEnum.YieldOptimizer, // Etherfi Liquid Elixir Stable Vault
   238: ProductCategoryEnum.YieldOptimizer, // sUSDS (Sky Savings Rate)
+  239: ProductCategoryEnum.Uncategorized, // Everstake
+  240: ProductCategoryEnum.Uncategorized, // Ensuro
+  241: ProductCategoryEnum.YieldOptimizer, // Savings crvUSD (scrvUSD)
+  242: ProductCategoryEnum.YieldOptimizer, // Lombard DeFi Vault
+  243: ProductCategoryEnum.Lending, // Liquity v2
+  244: ProductCategoryEnum.Dex, // CoW AMM
 };

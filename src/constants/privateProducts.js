@@ -43,6 +43,8 @@ const allPrivateProductsIds = [
   220, // Flat Money (Sherlock)
   227, // Base DeFi Pass
   233, // Relative Finance
+  239, // Everstake
+  240, // Ensuro
 ];
 
 module.exports = {

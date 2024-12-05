@@ -173,7 +173,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   154: ProductCategoryEnum.LiquidRestaking, // EigenLayer + Renzo + Pendle
   155: ProductCategoryEnum.LiquidRestaking, // EigenLayer + Swell + Pendle
   156: ProductCategoryEnum.YieldOptimizer, // Arcadia
-  157: ProductCategoryEnum.Perpetuals, // Lyra + Synthetix
+  157: ProductCategoryEnum.Perpetuals, // Derive (formerly Lyra)
   158: ProductCategoryEnum.LiquidRestaking, // EigenLayer + Renzo
   159: ProductCategoryEnum.Uncategorized, // Liquid Collective
   160: ProductCategoryEnum.LiquidRestaking, // Etherfi (Zircuit) Pendle
@@ -261,4 +261,9 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   242: ProductCategoryEnum.YieldOptimizer, // Lombard DeFi Vault
   243: ProductCategoryEnum.Lending, // Liquity v2
   244: ProductCategoryEnum.Dex, // CoW AMM
+  245: ProductCategoryEnum.Uncategorized, // Entry Plan
+  246: ProductCategoryEnum.Uncategorized, // Essential Plan
+  247: ProductCategoryEnum.Uncategorized, // Elite Plan
+  248: ProductCategoryEnum.YieldOptimizer, // Pendle
+  249: ProductCategoryEnum.Dex, // SparkDEX
 };

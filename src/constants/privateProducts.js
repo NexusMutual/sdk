@@ -48,6 +48,7 @@ const allPrivateProductsIds = [
   245, // Entry Plan
   246, // Essential Plan
   247, // Elite Plan
+  250, // Fasanara
 ];
 
 module.exports = {

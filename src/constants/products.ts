@@ -229,7 +229,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   210: ProductCategoryEnum.YieldOptimizer, // Beefy CLM + Velodrome
   211: ProductCategoryEnum.YieldOptimizer, // Beefy
   212: ProductCategoryEnum.YieldOptimizer, // Beefy CLM + Camelot
-  213: ProductCategoryEnum.YieldOptimizer, // Beefy CLM + Pancakeswap
+  213: ProductCategoryEnum.YieldOptimizer, // Beefy CLM + PancakeSwap
   214: ProductCategoryEnum.Lending, // Curve LlamaLend
   215: ProductCategoryEnum.Dex, // Ramses Exchange
   216: ProductCategoryEnum.Lending, // Credit Guild
@@ -237,7 +237,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   218: ProductCategoryEnum.YieldOptimizer, // Contango
   219: ProductCategoryEnum.Uncategorized, // Flat Money (deprecated)
   220: ProductCategoryEnum.Uncategorized, // Flat Money
-  221: ProductCategoryEnum.YieldOptimizer, // Ether.fi Liquid eBTC Bitcoin LRT Vault
+  221: ProductCategoryEnum.YieldOptimizer, // Ether.fi Liquid eBTC Bitcoin LRT
   222: ProductCategoryEnum.YieldOptimizer, // Contango + Compound v3
   223: ProductCategoryEnum.YieldOptimizer, // Contango + Aave v3
   224: ProductCategoryEnum.YieldOptimizer, // Contango
@@ -252,8 +252,8 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   233: ProductCategoryEnum.Uncategorized, // Relative Finance
   234: ProductCategoryEnum.YieldOptimizer, // AO Staking
   235: ProductCategoryEnum.Perpetuals, // GammaSwap
-  236: ProductCategoryEnum.YieldOptimizer, // Etherfi Liquid Usual Stable Vault
-  237: ProductCategoryEnum.YieldOptimizer, // Etherfi Liquid Elixir Stable Vault
+  236: ProductCategoryEnum.YieldOptimizer, // Ether.fi Liquid Usual Stable Vault
+  237: ProductCategoryEnum.YieldOptimizer, // Ether.fi Liquid Elixir Stable Vault
   238: ProductCategoryEnum.YieldOptimizer, // sUSDS (Sky Savings Rate)
   239: ProductCategoryEnum.Uncategorized, // Everstake
   240: ProductCategoryEnum.Uncategorized, // Ensuro

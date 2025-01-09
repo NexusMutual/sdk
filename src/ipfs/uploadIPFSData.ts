@@ -1,8 +1,8 @@
 import { create } from 'ipfs-http-client';
 
-import { IPFSDataTypes, DEFAULT_VERSION, ContentType } from '../types/ipfs';
+import { IPFSContentTypes, ContentType, IPFSContentAndType } from '../types/ipfs';
 
-const uploadToIPFS = async (data: Record<string, number | string | string[]>) => {
+const uploadToIPFS = async (data: IPFSContentTypes) => {
   const ipfsURL = `https://api.nexusmutual.io/ipfs-api/api/v0`;
   const ipfsClient = create({ url: ipfsURL });
   const res = await ipfsClient.add(Buffer.from(JSON.stringify(data)));
@@ -14,93 +14,106 @@ const uploadToIPFS = async (data: Record<string, number | string | string[]>) =>
 
 /**
  *  Uploads data to IPFS
- * @param {ContentType} type Represents the type of data being uploaded
- * @param  {IPFSDataTypes[typeof type]} data  Represents the data being uploaded in the form of an object
- * @param {string} version  (Optional) Represents the version of the data being uploaded
- * @returns {Promise<string>} Returns the IPFS hash of the uploaded data
+ * @param {IPFSContentAndType} [type, content] - The type of content and the content to be uploaded
+ * @returns {Promise<string>} hash Returns the IPFS hash of the uploaded data
  *
  * @example
  * ```ts
- * uploadIPFSData(ContentType.coverValidators, { validators: ['1', '2', '3'] });
+ * uploadIPFSData(ContentType.coverValidators, { version: '1.0', validators: ['1', '2', '3'] });
  *
- * uploadIPFSData(ContentType.coverQuotaShare, { quotaShare: 25 });
+ * uploadIPFSData(ContentType.coverQuotaShare, { version: '1.0', quotaShare: 25 });
  *
- * uploadIPFSData(ContentType.coverAumCoverAmountPercentage, { aumCoverAmountPercentage: 15 });
+ * uploadIPFSData(ContentType.coverAumCoverAmountPercentage, { version: '1.0', aumCoverAmountPercentage: 15 });
  *
- * uploadIPFSData(ContentType.coverWalletAddresses, { walletAddresses: ['0x1', '0x2', '0x3'] });
+ * uploadIPFSData(ContentType.coverWalletAddresses, { version: '1.0', walletAddresses: ['0x1', '0x2', '0x3'] });
  *
- * uploadIPFSData(ContentType.coverFreeText, { freeText: 'This is a free text' });
+ * uploadIPFSData(ContentType.coverFreeText, { version: '1.0', freeText: 'This is a free text' });
  * ```
  */
 
-export const uploadIPFSData = async <T extends keyof IPFSDataTypes>(
-  type: T,
-  data: IPFSDataTypes[typeof type],
-  version: string = DEFAULT_VERSION,
-): Promise<string> => {
-  let content;
+export const uploadIPFSContent = async (...[type, content]: IPFSContentAndType): Promise<string> => {
+  const version = content.version;
 
-  if (type === ContentType.coverValidators) {
-    content = data as IPFSDataTypes[ContentType.coverValidators];
-
-    if (version === DEFAULT_VERSION && !content.validators) {
-      throw new Error('Invalid data for coverValidators');
-    }
-
-    if (content.validators.length === 0) {
-      throw new Error('Validators cannot be empty');
-    }
+  if (!content) {
+    throw new Error('content cannot be empty');
   }
 
-  if (type === ContentType.coverQuotaShare) {
-    content = data as IPFSDataTypes[ContentType.coverQuotaShare];
+  switch (type) {
+    case ContentType.coverValidators:
+      if (version === '1.0' && !content.validators) {
+        throw new Error('Invalid content for coverValidators');
+      }
 
-    if (version === DEFAULT_VERSION && !content.quotaShare) {
-      throw new Error('Invalid data for coverQuotaShare');
-    }
+      if (content.validators.length === 0) {
+        throw new Error('Validators cannot be empty');
+      }
+      break;
+
+    case ContentType.coverQuotaShare:
+      if (version === '1.0' && !content.quotaShare) {
+        throw new Error('Invalid content for coverQuotaShare');
+      }
+      break;
+
+    case ContentType.coverAumCoverAmountPercentage:
+      if (version === '1.0' && !content.aumCoverAmountPercentage) {
+        throw new Error('Invalid content for coverAumCoverAmountPercentage');
+      }
+      break;
+
+    case ContentType.coverWalletAddress:
+      if (version === '1.0' && !content.walletAddress) {
+        throw new Error('Invalid content for coverWalletAddress');
+      }
+      break;
+
+    case ContentType.coverWalletAddresses:
+      if (version === '1.0') {
+        if (!content.walletAddresses || content.walletAddresses.length === 0) {
+          throw new Error('Wallet addresses cannot be empty');
+        }
+
+        // check for comma separation
+        if (content.walletAddresses.includes(',')) {
+          throw new Error('Invalid content for coverWalletAddresses. Wallet addresses should be separated by a comma');
+        }
+      }
+
+      if (version === '2.0') {
+        if (!content.walletAddresses || content.walletAddresses.length === 0) {
+          throw new Error('Wallet addresses cannot be empty');
+        }
+      }
+      break;
+
+    case ContentType.coverFreeText:
+      if (version === '1.0' && !content.freeText) {
+        throw new Error('Invalid content for coverFreeText');
+      }
+      if (content.freeText.length === 0) {
+        throw new Error('Free text cannot be empty');
+      }
+      if (typeof content.freeText !== 'string') {
+        throw new Error('Free text should be a string');
+      }
+      break;
+
+    default:
+      throw new Error('Invalid content type');
   }
 
-  if (type === ContentType.coverAumCoverAmountPercentage) {
-    content = data as IPFSDataTypes[ContentType.coverAumCoverAmountPercentage];
-
-    if (version === DEFAULT_VERSION && !content.aumCoverAmountPercentage) {
-      throw new Error('Invalid data for coverAumCoverAmountPercentage');
-    }
-  }
-
-  if (type === ContentType.coverWalletAddresses) {
-    content = data as IPFSDataTypes[ContentType.coverWalletAddresses];
-
-    if (version === DEFAULT_VERSION && !content.walletAddresses) {
-      throw new Error('Invalid data for coverWalletAddresses');
-    }
-
-    if (content.walletAddresses.length === 0) {
-      throw new Error('Wallet addresses cannot be empty');
-    }
-  }
-
-  if (type === ContentType.coverFreeText) {
-    content = data as IPFSDataTypes[ContentType.coverFreeText];
-
-    if (version === DEFAULT_VERSION && !content.freeText) {
-      throw new Error('Invalid data for coverFreeText');
-    }
-  }
-
-  if (content) {
-    const hash = await uploadToIPFS({
-      version,
-      ...content,
-    });
-    return hash;
-  }
-
-  return '';
+  const hash = await uploadToIPFS(content);
+  return hash;
 };
 
-// uploadIPFSData(ContentType.coverValidators, { validators: ['1', '2', '3'] });
+// uploadIPFSContent(ContentType.coverQuotaShare, { version: '1.0', quotaShare: 25 });
 
-// uploadIPFSData(ContentType.coverQuotaShare, { quotaShare: 25 });
+// uploadIPFSContent(ContentType.coverAumCoverAmountPercentage, { aumCoverAmountPercentage: 15 });
 
-// uploadIPFSData(ContentType.coverAumCoverAmountPercentage, { aumCoverAmountPercentage: 15 });
+// uploadIPFSContent(ContentType.coverWalletAddresses, { version: '2.0', walletAddresses: ['0x1', '0x2', '0x3'] });
+// uploadIPFSContent(ContentType.coverWalletAddresses, { version: '1.0', walletAddresses: '0x1, 0x2, 0x3' });
+
+// uploadIPFSContent(ContentType.coverFreeText, {
+//   version: '1.0',
+//   freeText: 'This is a free text',
+// });

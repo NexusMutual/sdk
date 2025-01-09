@@ -37,14 +37,6 @@ Logos should meet the following criteria:
 npm ci
 ```
 
-### Install husky
-
-```bash
-npx husky install
-```
-
-to activate **husky** in project
-
 ### ENV variables setup
 
 Copy the `.env.example` file into `.env` and populate with the required values.

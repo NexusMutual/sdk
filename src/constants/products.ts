@@ -267,4 +267,6 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   248: ProductCategoryEnum.YieldOptimizer, // Pendle
   249: ProductCategoryEnum.Dex, // SparkDEX
   250: ProductCategoryEnum.Uncategorized, // Fasanara
+  251: ProductCategoryEnum.Lending, // Term Finance
+  252: ProductCategoryEnum.YieldOptimizer, // Sturdy Finance
 };

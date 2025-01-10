@@ -1,3 +1,5 @@
+import { ProductTypes } from '..';
+
 export enum ContentType {
   coverValidators = 'coverValidators',
   coverQuotaShare = 'coverQuotaShare',
@@ -107,3 +109,53 @@ export type IPFSContentAndType =
   | [type: ContentType.assessmentCriteriaAnswers, content: AssessmentCriteriaAnswers]
   | [type: ContentType.governanceProposal, content: GovernanceProposal]
   | [type: ContentType.governanceCategory, content: GovernanceCategory];
+
+export const IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE = {
+  [ProductTypes.ethSlashing]: ContentType.coverValidators,
+  [ProductTypes.liquidCollectiveEthStaking]: ContentType.coverValidators,
+  [ProductTypes.stakewiseEthStaking]: ContentType.coverValidators,
+  [ProductTypes.sherlockQuotaShare]: ContentType.coverQuotaShare,
+  [ProductTypes.unoReQuotaShare]: ContentType.coverQuotaShare,
+  [ProductTypes.deFiPass]: ContentType.coverWalletAddress,
+  [ProductTypes.nexusMutual]: ContentType.coverWalletAddresses,
+  [ProductTypes.followOn]: ContentType.coverFreeText,
+  [ProductTypes.fundPortfolio]: ContentType.coverAumCoverAmountPercentage,
+  [ProductTypes.generalisedFundPortfolio]: ContentType.coverAumCoverAmountPercentage,
+  // ---------------------------------------------------------
+  [ProductTypes.protocol]: undefined,
+  [ProductTypes.custody]: undefined,
+  [ProductTypes.yieldToken]: undefined,
+  [ProductTypes.sherlockExcess]: undefined,
+  [ProductTypes.nativeProtocol]: undefined,
+  [ProductTypes.theRetailMutual]: undefined,
+  [ProductTypes.bundledProtocol]: undefined,
+  [ProductTypes.ethSlashingUmbrella]: undefined,
+  [ProductTypes.openCoverTransaction]: undefined,
+  [ProductTypes.sherlockBugBounty]: undefined,
+  [ProductTypes.immunefiBugBounty]: undefined,
+};
+
+export interface IPFSContentForProductType {
+  [ProductTypes.ethSlashing]: CoverValidators;
+  [ProductTypes.liquidCollectiveEthStaking]: CoverValidators;
+  [ProductTypes.stakewiseEthStaking]: CoverValidators;
+  [ProductTypes.sherlockQuotaShare]: CoverQuotaShare;
+  [ProductTypes.unoReQuotaShare]: CoverQuotaShare;
+  [ProductTypes.deFiPass]: CoverWalletAddress;
+  [ProductTypes.nexusMutual]: CoverWalletAddresses;
+  [ProductTypes.followOn]: CoverFreeText;
+  [ProductTypes.fundPortfolio]: CoverAumCoverAmountPercentage;
+  [ProductTypes.generalisedFundPortfolio]: CoverAumCoverAmountPercentage;
+  // ---------------------------------------------------------
+  [ProductTypes.protocol]: undefined;
+  [ProductTypes.custody]: undefined;
+  [ProductTypes.yieldToken]: undefined;
+  [ProductTypes.sherlockExcess]: undefined;
+  [ProductTypes.nativeProtocol]: undefined;
+  [ProductTypes.theRetailMutual]: undefined;
+  [ProductTypes.bundledProtocol]: undefined;
+  [ProductTypes.ethSlashingUmbrella]: undefined;
+  [ProductTypes.openCoverTransaction]: undefined;
+  [ProductTypes.sherlockBugBounty]: undefined;
+  [ProductTypes.immunefiBugBounty]: undefined;
+}

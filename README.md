@@ -12,7 +12,7 @@ This package only exports CommonJS modules. You can import it like this:
 
 ```js
 // Usage with ES6 modules
-import { products, productTypes } from '@nexusmutual/sdk'
+import { products, productTypes } from '@nexusmutual/sdk';
 ```
 
 ## Nexus Mutual contract addresses and abis
@@ -25,6 +25,7 @@ The `products` folder contains all protocols listed on Nexus Mutual.
 
 If you're a protocol owner and want to update any details (i.e. logo, website, etc), please submit a PR.
 Logos should meet the following criteria:
+
 - svg format, with 1:1 ratio
 - no fixed width or height
 - the image should reach the edge of the viewbox
@@ -41,9 +42,32 @@ npm ci
 
 Copy the `.env.example` file into `.env` and populate with the required values.
 
-
 ### Build locally
 
 ```
 npm build
+```
+
+## IPFS Upload Utils
+
+Use the `uploadIPFSContent` function from `src/ipfs/uploadIPFSContent.ts` to upload the content to IPFS. The function takes the following parameters:
+
+- `type`: The type of the content. Based on ContentType enum.
+- `content`: The content to be uploaded to IPFS as IPFSContentTypes.
+
+The function returns the IPFS hash of the uploaded content.
+
+### Example
+
+```typescript
+import { uploadIPFSContent, ContentType, IPFSContentTypes } from '@nexusmutual/sdk';
+
+const content: IPFSContentTypes = {
+  version: '2.0.',
+  walletAddresses: ['0x1234567890'],
+};
+
+const ipfsHash = await uploadIPFSContent(ContentType.coverWalletAddresses, content);
+
+console.log(ipfsHash);
 ```

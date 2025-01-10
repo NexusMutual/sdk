@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios';
 
+import { productsMap, productTypes, ProductTypes } from '..';
 import { calculatePremiumWithCommissionAndSlippage } from '../buyCover/calculatePremiumWithCommissionAndSlippage';
 import {
   CoverAsset,
@@ -12,6 +13,7 @@ import {
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
 } from '../constants/buyCover';
+import { uploadIPFSContent } from '../ipfs/uploadIPFSContent';
 import {
   Address,
   CoverRouterProductCapacityResponse,
@@ -22,6 +24,7 @@ import {
   IntString,
   Integer,
 } from '../types';
+import { IPFSContentForProductType, IPFSContentAndType, IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE } from '../types/ipfs';
 
 type CoverRouterQuoteParams = {
   productId: Integer;
@@ -33,6 +36,29 @@ type CoverRouterQuoteParams = {
 type CoverRouterCapacityParams = {
   period: Integer;
 };
+
+function getQuoteAndBuyCoverInputs(
+  productId: Integer,
+  coverAmount: IntString,
+  coverPeriod: Integer,
+  coverAsset: CoverAsset,
+  coverBuyerAddress: Address,
+  slippage?: number,
+  ipfsCid?: string,
+  coverRouterUrl?: string,
+): Promise<GetQuoteApiResponse | ErrorApiResponse>;
+
+function getQuoteAndBuyCoverInputs<ProductTypes extends keyof IPFSContentForProductType>(
+  productId: Integer,
+  coverAmount: IntString,
+  coverPeriod: Integer,
+  coverAsset: CoverAsset,
+  coverBuyerAddress: Address,
+  slippage?: number,
+  coverRouterUrl?: string,
+  productType?: ProductTypes,
+  ipfsContent?: IPFSContentForProductType[ProductTypes],
+): Promise<GetQuoteApiResponse | ErrorApiResponse>;
 
 /**
  * Retrieves a quote for buying cover and prepares the necessary inputs for CoverBroker.buyCover method
@@ -57,6 +83,8 @@ async function getQuoteAndBuyCoverInputs(
   slippage: number = DEFAULT_SLIPPAGE / SLIPPAGE_DENOMINATOR,
   ipfsCid: string = '',
   coverRouterUrl = process.env.COVER_ROUTER_URL!,
+  productType = productsMap[productId]?.productType as ProductTypes,
+  ipfsContent?: IPFSContentForProductType[ProductTypes],
 ): Promise<GetQuoteApiResponse | ErrorApiResponse> {
   if (!Number.isInteger(productId) || productId <= 0) {
     return { result: undefined, error: { message: 'Invalid productId: must be a positive integer' } };
@@ -104,6 +132,34 @@ async function getQuoteAndBuyCoverInputs(
     return { result: undefined, error: { message: 'Invalid ipfsCid: must be a valid IPFS CID' } };
   }
 
+  if (productType !== productsMap[productId]?.productType) {
+    return {
+      result: undefined,
+      error: {
+        message: `Invalid product type param value. The product type should be ${
+          productTypes[productsMap[productId]?.productType as ProductTypes]?.name
+        }`,
+      },
+    };
+  }
+
+  if (IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType] !== undefined && !ipfsContent) {
+    return {
+      result: undefined,
+      error: {
+        message: `Missing IPFS content. \n
+        ${productTypes[productType]?.name} requires ${IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType]} content type.`,
+      },
+    };
+  }
+
+  let ipfsData = '';
+  if (ipfsContent && IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType] !== undefined) {
+    ipfsData = await uploadIPFSContent(
+      ...([IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType], ipfsContent] as IPFSContentAndType),
+    );
+  }
+
   // convert slippage from 0-1 to 0-100_00
   slippage = slippage * SLIPPAGE_DENOMINATOR;
 
@@ -140,7 +196,7 @@ async function getQuoteAndBuyCoverInputs(
           paymentAsset: coverAsset,
           commissionRatio: DEFAULT_COMMISSION_RATIO,
           commissionDestination: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
-          ipfsData: ipfsCid,
+          ipfsData: ipfsContent ? ipfsData : ipfsCid,
         },
         poolAllocationRequests: quote.poolAllocationRequests,
       },
@@ -152,6 +208,29 @@ async function getQuoteAndBuyCoverInputs(
     return errorResponse;
   }
 }
+
+// getQuoteAndBuyCoverInputs(130, '1000000000000000000', 28, CoverAsset.ETH, '0xrdgdgd', 9, '');
+
+// getQuoteAndBuyCoverInputs(
+//   130,
+//   '1000000000000000000',
+//   28,
+//   CoverAsset.ETH,
+//   '0xrdgdgd',
+//   9,
+//   '',
+//   ProductTypes.fundPortfolio,
+//   {
+//     version: '1.0',
+//     aumCoverAmountPercentage: 100,
+//   },
+// );
+
+// eslint-disable-next-line max-len
+// getQuoteAndBuyCoverInputs(130, '1000000000000000000', 28, CoverAsset.ETH, '0xrdgdgd', 9, '', ProductTypes.nexusMutual, {
+//   version: '2.0',
+//   walletAddresses: ['0xrdgdgd'],
+// });
 
 /**
  * Calls the CoverRouter quote endpoint to retrieve the quote for the specified cover

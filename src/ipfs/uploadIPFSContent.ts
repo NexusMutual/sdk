@@ -4,10 +4,10 @@ import { IPFSContentTypes, ContentType, IPFSContentAndType, IPFSUploadServiceRes
 
 // TODO update when BE service is ready
 const uploadToIPFS = async (data: IPFSContentTypes) => {
-  const ipfsURL = process.env.IPFS_API_URL;
+  const ipfsURL = process.env.IPFS_GATEWAY_URL;
 
   if (!ipfsURL) {
-    throw new Error('IPFS_API_URL is not set');
+    throw new Error('IPFS_GATEWAY_URL is not set');
   }
 
   // POST data to BE service

@@ -1,20 +1,30 @@
-import { create } from 'ipfs-http-client';
+import axios from 'axios';
 
-import { IPFSContentTypes, ContentType, IPFSContentAndType } from '../types/ipfs';
+import { IPFSContentTypes, ContentType, IPFSContentAndType, IPFSUploadServiceResponse } from '../types/ipfs';
 
+// TODO update when BE service is ready
 const uploadToIPFS = async (data: IPFSContentTypes) => {
-  const ipfsURL = `https://api.nexusmutual.io/ipfs-api/api/v0`;
-  const ipfsClient = create({ url: ipfsURL });
-  const res = await ipfsClient.add(Buffer.from(JSON.stringify(data)));
-  const ipfsHash = res.path;
-  await ipfsClient.pin.add(ipfsHash);
+  const ipfsURL = process.env.IPFS_API_URL;
+
+  if (!ipfsURL) {
+    throw new Error('IPFS_API_URL is not set');
+  }
+
+  // POST data to BE service
+  const ipfsHash = await axios
+    .post<IPFSUploadServiceResponse>(ipfsURL, data)
+    .then(response => response.data.ipfsHash)
+    .catch(error => {
+      console.error('Error:', error);
+      throw new Error('Failed to upload data to IPFS');
+    });
 
   return ipfsHash;
 };
 
 /**
  *  Uploads data to IPFS
- * @param {IPFSContentAndType} [type, content] - The type of content and the content to be uploaded
+ * @param {IPFSContentAndType} typeAndContent  - The type of content and the content to be uploaded
  * @returns {Promise<string>} hash Returns the IPFS hash of the uploaded data
  *
  * @example
@@ -32,11 +42,11 @@ const uploadToIPFS = async (data: IPFSContentTypes) => {
  */
 
 export const uploadIPFSContent = async (...[type, content]: IPFSContentAndType): Promise<string> => {
-  const version = content.version;
-
   if (!content) {
-    throw new Error('content cannot be empty');
+    throw new Error('Content cannot be empty');
   }
+
+  const version = content.version;
 
   switch (type) {
     case ContentType.coverValidators:
@@ -90,9 +100,7 @@ export const uploadIPFSContent = async (...[type, content]: IPFSContentAndType):
       if (version === '1.0' && !content.freeText) {
         throw new Error('Invalid content for coverFreeText');
       }
-      if (content.freeText.length === 0) {
-        throw new Error('Free text cannot be empty');
-      }
+
       if (typeof content.freeText !== 'string') {
         throw new Error('Free text should be a string');
       }
@@ -105,15 +113,3 @@ export const uploadIPFSContent = async (...[type, content]: IPFSContentAndType):
   const hash = await uploadToIPFS(content);
   return hash;
 };
-
-// uploadIPFSContent(ContentType.coverQuotaShare, { version: '1.0', quotaShare: 25 });
-
-// uploadIPFSContent(ContentType.coverAumCoverAmountPercentage, { aumCoverAmountPercentage: 15 });
-
-// uploadIPFSContent(ContentType.coverWalletAddresses, { version: '2.0', walletAddresses: ['0x1', '0x2', '0x3'] });
-// uploadIPFSContent(ContentType.coverWalletAddresses, { version: '1.0', walletAddresses: '0x1, 0x2, 0x3' });
-
-// uploadIPFSContent(ContentType.coverFreeText, {
-//   version: '1.0',
-//   freeText: 'This is a free text',
-// });

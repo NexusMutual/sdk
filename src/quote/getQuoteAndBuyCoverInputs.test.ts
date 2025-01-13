@@ -33,6 +33,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
   beforeAll(() => {
     jest.mock('axios');
     process.env.COVER_ROUTER_URL = 'http://localhost:5001';
+    process.env.IPFS_GATEWAY_URL = 'http://localhost:5002';
     buyerAddress = '0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5';
   });
 
@@ -213,6 +214,77 @@ describe('getQuoteAndBuyCoverInputs', () => {
       freeText: 'test',
     });
     expect(error?.message).toBe('Failed to upload IPFS content');
+  });
+
+  it('allows the consumer to provide a valid IPFS CID', async () => {
+    const ipfsCid = 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY';
+
+    const coverRouterQuoteResponse: CoverRouterQuoteResponse = {
+      quote: {
+        totalCoverAmountInAsset: parseEther('1000').toString(),
+        annualPrice: '287',
+        premiumInNXM: parseEther('10').toString(),
+        premiumInAsset: parseEther('5').toString(),
+        poolAllocationRequests: [
+          {
+            poolId: '147',
+            coverAmountInAsset: parseEther('500').toString(),
+            skip: false,
+          },
+        ],
+      },
+      capacities: [{ poolId: '147', capacity: [{ assetId: '1', amount: parseEther('1000').toString() }] }],
+    };
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
+
+    const { result, error } = await getQuoteAndBuyCoverInputs(
+      247,
+      '100',
+      30,
+      CoverAsset.ETH,
+      buyerAddress,
+      0.1,
+      ipfsCid,
+    );
+
+    expect(error).toBeUndefined();
+    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe(ipfsCid);
+  });
+
+  it('allows the consumer to provide a valid IPFS content', async () => {
+    mockAxios.post.mockResolvedValueOnce({
+      data: {
+        ipfsHash: 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY',
+      },
+    });
+
+    const coverRouterQuoteResponse: CoverRouterQuoteResponse = {
+      quote: {
+        totalCoverAmountInAsset: parseEther('1000').toString(),
+        annualPrice: '287',
+        premiumInNXM: parseEther('10').toString(),
+        premiumInAsset: parseEther('5').toString(),
+        poolAllocationRequests: [
+          {
+            poolId: '147',
+            coverAmountInAsset: parseEther('500').toString(),
+            skip: false,
+          },
+        ],
+      },
+      capacities: [{ poolId: '147', capacity: [{ assetId: '1', amount: parseEther('1000').toString() }] }],
+    };
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
+
+    const { result, error } = await getQuoteAndBuyCoverInputs(247, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
+      version: '2.0',
+      walletAddresses: ['testAddress1', 'testAddress2'],
+    });
+
+    expect(error).toBeUndefined();
+    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe('QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY');
   });
 
   it('returns an object with displayInfo and buyCoverInput parameters', async () => {

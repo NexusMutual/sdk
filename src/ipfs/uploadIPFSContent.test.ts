@@ -6,7 +6,7 @@ import { ContentType } from '../types/ipfs';
 describe('uploadIPFSContent', () => {
   beforeAll(() => {
     jest.mock('axios');
-    process.env.IPFS_API_URL = 'http://localhost:5001';
+    process.env.IPFS_GATEWAY_URL = 'http://localhost:5001';
   });
 
   beforeEach(() => {

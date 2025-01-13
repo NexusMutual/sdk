@@ -164,6 +164,57 @@ describe('getQuoteAndBuyCoverInputs', () => {
     },
   );
 
+  it('returns an error if ipfsData is not a valid IPFS content for the product type - ETH Slashing', async () => {
+    const { error } = await getQuoteAndBuyCoverInputs(82, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
+      version: '1.0',
+      freeText: 'test',
+    });
+    expect(error?.message).toBe('Invalid content for coverValidators');
+  });
+
+  // eslint-disable-next-line max-len
+  it('returns an error if ipfsData is not a valid IPFS content for the product type - ETH Slashing, empty validators', async () => {
+    const { error } = await getQuoteAndBuyCoverInputs(82, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
+      version: '1.0',
+      validators: [],
+    });
+    expect(error?.message).toBe('Validators cannot be empty');
+  });
+
+  it('returns an error if ipfsData is not a valid IPFS content for the product type - UnoRe Quota Share', async () => {
+    const { error } = await getQuoteAndBuyCoverInputs(107, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
+      version: '1.0',
+      freeText: 'test',
+    });
+    expect(error?.message).toBe('Invalid content for coverQuotaShare');
+  });
+
+  it('returns an error if ipfsData is not a valid IPFS content for the product type - Fund Portfolio', async () => {
+    const { error } = await getQuoteAndBuyCoverInputs(195, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
+      version: '1.0',
+      freeText: 'test',
+    });
+    expect(error?.message).toBe('Invalid content for coverAumCoverAmountPercentage');
+  });
+
+  it('returns an error if ipfsData is not a valid IPFS content for the product type - Nexus Mutual Cover', async () => {
+    const { error } = await getQuoteAndBuyCoverInputs(247, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
+      version: '1.0',
+      freeText: 'test',
+    });
+    expect(error?.message).toBe('Wallet addresses cannot be empty');
+  });
+
+  it('returns an error if the ipfs content could not be uploaded', async () => {
+    mockAxios.get.mockRejectedValueOnce({ message: 'Failed to upload IPFS content' });
+
+    const { error } = await getQuoteAndBuyCoverInputs(1, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
+      version: '1.0',
+      freeText: 'test',
+    });
+    expect(error?.message).toBe('Failed to upload IPFS content');
+  });
+
   it('returns an object with displayInfo and buyCoverInput parameters', async () => {
     const coverRouterQuoteResponse: CoverRouterQuoteResponse = {
       quote: {

@@ -159,3 +159,7 @@ export interface IPFSContentForProductType {
   [ProductTypes.sherlockBugBounty]: undefined;
   [ProductTypes.immunefiBugBounty]: undefined;
 }
+
+export type IPFSUploadServiceResponse = {
+  ipfsHash: string;
+};

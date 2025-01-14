@@ -14,6 +14,7 @@ import {
   TARGET_PRICE_DENOMINATOR,
 } from '../constants/buyCover';
 import { uploadIPFSContent } from '../ipfs/uploadIPFSContent';
+import { validateIPFSCid } from '../ipfs/validateIPFSCid';
 import {
   Address,
   CoverRouterProductCapacityResponse,
@@ -126,11 +127,19 @@ async function getQuoteAndBuyCoverInputs(
     };
   }
 
-  if (
-    (typeof ipfsCidOrContent !== 'string' && !ipfsCidOrContent?.version) ||
-    (typeof ipfsCidOrContent === 'string' && ipfsCidOrContent !== '' && !/^Qm[a-zA-Z0-9]{44}$/.test(ipfsCidOrContent))
-  ) {
+  if (typeof ipfsCidOrContent !== 'string' && !ipfsCidOrContent?.version) {
     return { result: undefined, error: { message: 'Invalid ipfsCid: must be a valid IPFS CID' } };
+  }
+
+  if (typeof ipfsCidOrContent === 'string' && ipfsCidOrContent !== '') {
+    try {
+      validateIPFSCid(ipfsCidOrContent);
+    } catch (error) {
+      return {
+        result: undefined,
+        error: { message: 'Invalid ipfsCid: must be a valid IPFS CID' },
+      };
+    }
   }
 
   const productType = productsMap[productId]?.productType as ProductTypes;

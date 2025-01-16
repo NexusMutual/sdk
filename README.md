@@ -71,3 +71,66 @@ const ipfsHash = await uploadIPFSContent(ContentType.coverWalletAddresses, conte
 
 console.log(ipfsHash);
 ```
+
+## getQuoteAndBuyCoverInputs
+
+Use the `getQuoteAndBuyCoverInputs` function from `src/cover/getQuoteAndBuyCoverInputs.ts` to get the inputs required to get a quote and buy cover. The function has 2 overloads. One allows you to pass an IPFS Cid for the cover metadata, and the other allows you to pass the cover metadata directly. The function returns the inputs required to get a quote and buy cover.
+
+### Example
+
+1st overload:
+
+```typescript
+import { getQuoteAndBuyCoverInputs } from '@nexusmutual/sdk';
+
+const productId = 1;
+const coverAmount = '100';
+const coverPeriod = 30;
+const coverAsset = CoverAsset.ETH;
+const buyerAddress = '0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5';
+const ipfsCid = 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY';
+
+const quoteAndBuyCoverInputs = await getQuoteAndBuyCoverInputs(
+  productId,
+  coverAmount,
+  coverPeriod,
+  coverAsset,
+  buyerAddress,
+  undefined,
+  ipfsCid,
+);
+
+console.log(quoteAndBuyCoverInputs);
+```
+
+2nd overload:
+
+```typescript
+import { getQuoteAndBuyCoverInputs, IPFSContentTypes } from '@nexusmutual/sdk';
+
+const productId = 247;
+const coverAmount = '100';
+const coverPeriod = 30;
+const coverAsset = CoverAsset.ETH;
+const buyerAddress = '0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5';
+const ipfsContent: IPFSContentTypes = {
+  version: '2.0.',
+  walletAddresses: ['0x1234567890'],
+};
+
+const quoteAndBuyCoverInputs = await getQuoteAndBuyCoverInputs(
+  productId,
+  coverAmount,
+  coverPeriod,
+  coverAsset,
+  buyerAddress,
+  ipfsContent,
+);
+
+console.log(quoteAndBuyCoverInputs);
+```
+
+If you pass The `ipfsContent` param, the function will upload the content to IPFS and use the IPFS hash returned for the buy cover inputs `ipfsData` param. If you pass the `ipfsCid` param, the function will use the IPFS hash directly.
+
+The `ipfsCid` param must be a valid IPFS Cid.
+The `ipfsContent` param must be a valid `IPFSContentTypes` - the allowed types can be found in `src/types/ipfs.ts`.

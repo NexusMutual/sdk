@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios';
 
+import { productsMap, productTypes, ProductTypes } from '..';
 import { calculatePremiumWithCommissionAndSlippage } from '../buyCover/calculatePremiumWithCommissionAndSlippage';
 import {
   CoverAsset,
@@ -12,6 +13,8 @@ import {
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
 } from '../constants/buyCover';
+import { uploadIPFSContent } from '../ipfs/uploadIPFSContent';
+import { validateIPFSCid } from '../ipfs/validateIPFSCid';
 import {
   Address,
   CoverRouterProductCapacityResponse,
@@ -22,6 +25,7 @@ import {
   IntString,
   Integer,
 } from '../types';
+import { IPFSContentForProductType, IPFSContentAndType, IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE } from '../types/ipfs';
 
 type CoverRouterQuoteParams = {
   productId: Integer;
@@ -33,6 +37,29 @@ type CoverRouterQuoteParams = {
 type CoverRouterCapacityParams = {
   period: Integer;
 };
+
+function getQuoteAndBuyCoverInputs(
+  productId: Integer,
+  coverAmount: IntString,
+  coverPeriod: Integer,
+  coverAsset: CoverAsset,
+  coverBuyerAddress: Address,
+  slippage?: number,
+  ipfsCid?: string,
+  coverRouterUrl?: string,
+): Promise<GetQuoteApiResponse | ErrorApiResponse>;
+
+// overload with ipfsContent instead of Cid
+function getQuoteAndBuyCoverInputs<ProductTypes extends keyof IPFSContentForProductType>(
+  productId: Integer,
+  coverAmount: IntString,
+  coverPeriod: Integer,
+  coverAsset: CoverAsset,
+  coverBuyerAddress: Address,
+  slippage?: number,
+  ipfsContent?: IPFSContentForProductType[ProductTypes],
+  coverRouterUrl?: string,
+): Promise<GetQuoteApiResponse | ErrorApiResponse>;
 
 /**
  * Retrieves a quote for buying cover and prepares the necessary inputs for CoverBroker.buyCover method
@@ -55,7 +82,7 @@ async function getQuoteAndBuyCoverInputs(
   coverAsset: CoverAsset,
   coverBuyerAddress: Address,
   slippage: number = DEFAULT_SLIPPAGE / SLIPPAGE_DENOMINATOR,
-  ipfsCid: string = '',
+  ipfsCidOrContent: string | IPFSContentForProductType[ProductTypes] = '',
   coverRouterUrl = process.env.COVER_ROUTER_URL!,
 ): Promise<GetQuoteApiResponse | ErrorApiResponse> {
   if (!Number.isInteger(productId) || productId <= 0) {
@@ -100,8 +127,58 @@ async function getQuoteAndBuyCoverInputs(
     };
   }
 
-  if (typeof ipfsCid !== 'string') {
+  if (typeof ipfsCidOrContent !== 'string' && !ipfsCidOrContent?.version) {
     return { result: undefined, error: { message: 'Invalid ipfsCid: must be a valid IPFS CID' } };
+  }
+
+  if (typeof ipfsCidOrContent === 'string' && ipfsCidOrContent !== '') {
+    try {
+      validateIPFSCid(ipfsCidOrContent);
+    } catch (error) {
+      return {
+        result: undefined,
+        error: { message: 'Invalid ipfsCid: must be a valid IPFS CID' },
+      };
+    }
+  }
+
+  const productType = productsMap[productId]?.productType as ProductTypes;
+  if (productType === undefined) {
+    return {
+      result: undefined,
+      error: {
+        message: `Invalid product`,
+      },
+    };
+  }
+
+  if (IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType] !== undefined && !ipfsCidOrContent) {
+    return {
+      result: undefined,
+      error: {
+        message: `Missing IPFS content. \n
+        ${productTypes[productType]?.name} requires ${IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType]} content type.`,
+      },
+    };
+  }
+
+  let ipfsData = ipfsCidOrContent as string;
+
+  if (
+    typeof ipfsCidOrContent !== 'string' &&
+    IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType] !== undefined &&
+    ipfsCidOrContent
+  ) {
+    try {
+      ipfsData = await uploadIPFSContent(
+        ...([IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType], ipfsCidOrContent] as IPFSContentAndType),
+      );
+    } catch (error) {
+      return {
+        result: undefined,
+        error: { message: (error as Error).message || 'Failed to upload IPFS content' },
+      };
+    }
   }
 
   // convert slippage from 0-1 to 0-100_00
@@ -140,7 +217,7 @@ async function getQuoteAndBuyCoverInputs(
           paymentAsset: coverAsset,
           commissionRatio: DEFAULT_COMMISSION_RATIO,
           commissionDestination: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
-          ipfsData: ipfsCid,
+          ipfsData,
         },
         poolAllocationRequests: quote.poolAllocationRequests,
       },

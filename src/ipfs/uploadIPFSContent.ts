@@ -57,11 +57,20 @@ export const uploadIPFSContent = async (...[type, content]: IPFSContentAndType):
       if (content.validators.length === 0) {
         throw new Error('Validators cannot be empty');
       }
+
+      if (!['1.0'].includes(version)) {
+        throw new Error('Invalid version');
+      }
+
       break;
 
     case ContentType.coverQuotaShare:
       if (version === '1.0' && !content.quotaShare) {
         throw new Error('Invalid content for coverQuotaShare');
+      }
+
+      if (!['1.0'].includes(version)) {
+        throw new Error('Invalid version');
       }
       break;
 
@@ -69,11 +78,19 @@ export const uploadIPFSContent = async (...[type, content]: IPFSContentAndType):
       if (version === '1.0' && !content.aumCoverAmountPercentage) {
         throw new Error('Invalid content for coverAumCoverAmountPercentage');
       }
+
+      if (!['1.0'].includes(version)) {
+        throw new Error('Invalid version');
+      }
       break;
 
     case ContentType.coverWalletAddress:
       if (version === '1.0' && !content.walletAddress) {
         throw new Error('Invalid content for coverWalletAddress');
+      }
+
+      if (!['1.0'].includes(version)) {
+        throw new Error('Invalid version');
       }
       break;
 
@@ -94,6 +111,10 @@ export const uploadIPFSContent = async (...[type, content]: IPFSContentAndType):
           throw new Error('Wallet addresses cannot be empty');
         }
       }
+
+      if (!['1.0', '2.0'].includes(version)) {
+        throw new Error('Invalid version');
+      }
       break;
 
     case ContentType.coverFreeText:
@@ -103,6 +124,10 @@ export const uploadIPFSContent = async (...[type, content]: IPFSContentAndType):
 
       if (typeof content.freeText !== 'string') {
         throw new Error('Free text should be a string');
+      }
+
+      if (!['1.0'].includes(version)) {
+        throw new Error('Invalid version');
       }
       break;
 

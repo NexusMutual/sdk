@@ -12,6 +12,8 @@ const productMetadata = require('../data/legacy-product-metadata.json');
 
 const { PROVIDER_URL, IPFS_GATEWAY_URL } = process.env;
 
+const DEFAULT_MIN_PRICE_RATIO = 1_00; // 1%
+
 const ipfsURL = ipfsHash => `${IPFS_GATEWAY_URL}/ipfs/${ipfsHash}`;
 
 const fetchProductTypes = async coverProducts => {
@@ -110,7 +112,7 @@ const fetchProducts = async (coverProducts, provider) => {
         coverAssets: parseProductCoverAssets(coverAssets, coverAssetsMap),
         isPrivate,
         timestamp,
-        minPrice: minPrice || 100, // default to 1% if minPrice is not set
+        minPrice: minPrice || DEFAULT_MIN_PRICE_RATIO,
       };
     });
 

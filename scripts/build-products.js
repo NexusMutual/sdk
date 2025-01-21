@@ -87,7 +87,7 @@ const fetchProducts = async (coverProducts, provider) => {
 
   for (const batch of batches) {
     const promises = batch.map(async id => {
-      const { productType, isDeprecated, useFixedPrice, coverAssets } = await coverProducts.getProduct(id);
+      const { productType, isDeprecated, useFixedPrice, coverAssets, minPrice } = await coverProducts.getProduct(id);
       const name = await coverProducts.getProductName(id);
       console.log(`Processing #${id} (${name})`);
       const { ipfsHash, timestamp } = productMetadata[id];
@@ -110,6 +110,7 @@ const fetchProducts = async (coverProducts, provider) => {
         coverAssets: parseProductCoverAssets(coverAssets, coverAssetsMap),
         isPrivate,
         timestamp,
+        minPrice: minPrice || 100, // default to 1% if minPrice is not set
       };
     });
 

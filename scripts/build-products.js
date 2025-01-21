@@ -2,7 +2,7 @@ const fs = require('fs');
 const { readdir } = require('fs').promises;
 const path = require('path');
 
-const { CoverProducts, addresses } = require('@nexusmutual/deployments');
+const { CoverProducts, Cover, addresses } = require('@nexusmutual/deployments');
 const ethers = require('ethers');
 const fetch = require('node-fetch');
 
@@ -48,7 +48,7 @@ const createLogoDict = async logosDir => {
   return map;
 };
 
-const fetchProducts = async (coverProducts, provider) => {
+const fetchProducts = async (coverContract, coverProducts, provider) => {
   const eventFilter = coverProducts.filters.ProductSet();
   const events = await coverProducts.queryFilter(eventFilter);
 
@@ -84,10 +84,12 @@ const fetchProducts = async (coverProducts, provider) => {
 
   const products = [];
   const coverAssetsMap = await getCoverAssetsSymbols(provider);
+  const defaultMinPriceRatio = await coverContract.getDefaultMinPriceRatio();
+  const defaultMinPrice = defaultMinPriceRatio.toNumber();
 
   for (const batch of batches) {
     const promises = batch.map(async id => {
-      const { productType, isDeprecated, useFixedPrice, coverAssets } = await coverProducts.getProduct(id);
+      const { productType, isDeprecated, useFixedPrice, coverAssets, minPrice } = await coverProducts.getProduct(id);
       const name = await coverProducts.getProductName(id);
       console.log(`Processing #${id} (${name})`);
       const { ipfsHash, timestamp } = productMetadata[id];
@@ -98,6 +100,12 @@ const fetchProducts = async (coverProducts, provider) => {
       }
 
       const isPrivate = allPrivateProductsIds.includes(id);
+
+      let productMinPrice = minPrice || defaultMinPrice;
+
+      if (productType === 2) {
+        productMinPrice = 0;
+      }
 
       return {
         id,
@@ -110,6 +118,7 @@ const fetchProducts = async (coverProducts, provider) => {
         coverAssets: parseProductCoverAssets(coverAssets, coverAssetsMap),
         isPrivate,
         timestamp,
+        minPrice: productMinPrice,
       };
     });
 
@@ -152,9 +161,11 @@ const buildProducts = async () => {
     `\nexport enum ProductTypes {\n${productTypeNamesCamelCased.map((name, i) => `  ${name} = ${i},`).join('\n')}\n}\n`,
   );
 
+  const coverContract = new ethers.Contract(addresses.Cover, Cover, provider);
+
   console.log('Generating products...');
   const productsPath = path.join(__dirname, '../generated/products.json');
-  const products = await fetchProducts(coverProducts, provider);
+  const products = await fetchProducts(coverContract, coverProducts, provider);
   fs.writeFileSync(productsPath, JSON.stringify(products, null, 2));
 
   console.log('Done.');

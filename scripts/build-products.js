@@ -101,6 +101,12 @@ const fetchProducts = async (coverContract, coverProducts, provider) => {
 
       const isPrivate = allPrivateProductsIds.includes(id);
 
+      let productMinPrice = minPrice || defaultMinPrice;
+
+      if (productType === 2) {
+        productMinPrice = 0;
+      }
+
       return {
         id,
         name,
@@ -112,7 +118,7 @@ const fetchProducts = async (coverContract, coverProducts, provider) => {
         coverAssets: parseProductCoverAssets(coverAssets, coverAssetsMap),
         isPrivate,
         timestamp,
-        minPrice: minPrice || defaultMinPrice,
+        minPrice: productMinPrice,
       };
     });
 

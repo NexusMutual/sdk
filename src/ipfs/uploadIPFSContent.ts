@@ -2,17 +2,14 @@ import axios from 'axios';
 
 import { IPFSContentTypes, ContentType, IPFSContentAndType, IPFSUploadServiceResponse } from '../types/ipfs';
 
-// TODO update when BE service is ready
-const uploadToIPFS = async (data: IPFSContentTypes) => {
-  const ipfsURL = process.env.IPFS_GATEWAY_URL;
-
-  if (!ipfsURL) {
+const uploadToIPFS = async (ipfsUploadUrl: string | undefined, data: IPFSContentTypes) => {
+  if (!ipfsUploadUrl) {
     throw new Error('IPFS_GATEWAY_URL is not set');
   }
 
   // POST data to BE service
   const ipfsHash = await axios
-    .post<IPFSUploadServiceResponse>(ipfsURL, data)
+    .post<IPFSUploadServiceResponse>(`${ipfsUploadUrl}?pin=true`, data)
     .then(response => response.data.ipfsHash)
     .catch(error => {
       console.error('Error:', error);
@@ -40,7 +37,10 @@ const uploadToIPFS = async (data: IPFSContentTypes) => {
  * uploadIPFSData(ContentType.coverFreeText, { version: '1.0', freeText: 'This is a free text' });
  * ```
  */
-export const uploadIPFSContent = async (...[type, content]: IPFSContentAndType): Promise<string> => {
+export const uploadIPFSContent = async (
+  ipfsUploadUrl: string | undefined,
+  ...[type, content]: IPFSContentAndType
+): Promise<string> => {
   if (!content) {
     throw new Error('Content cannot be empty');
   }
@@ -134,6 +134,7 @@ export const uploadIPFSContent = async (...[type, content]: IPFSContentAndType):
       throw new Error('Invalid content type');
   }
 
-  const hash = await uploadToIPFS(content);
+  const hash = await uploadToIPFS(ipfsUploadUrl, content);
+
   return hash;
 };

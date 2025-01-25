@@ -84,6 +84,7 @@ async function getQuoteAndBuyCoverInputs(
   slippage: number = DEFAULT_SLIPPAGE / SLIPPAGE_DENOMINATOR,
   ipfsCidOrContent: string | IPFSContentForProductType[ProductTypes] = '',
   coverRouterUrl = process.env.COVER_ROUTER_URL,
+  ipfsUploadUrl = process.env.IPFS_GATEWAY_URL,
 ): Promise<GetQuoteApiResponse | ErrorApiResponse> {
   if (!Number.isInteger(productId) || productId <= 0) {
     return { result: undefined, error: { message: 'Invalid productId: must be a positive integer' } };
@@ -171,6 +172,7 @@ async function getQuoteAndBuyCoverInputs(
   ) {
     try {
       ipfsData = await uploadIPFSContent(
+        ipfsUploadUrl,
         ...([IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType], ipfsCidOrContent] as IPFSContentAndType),
       );
     } catch (error) {

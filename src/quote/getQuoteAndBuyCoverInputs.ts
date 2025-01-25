@@ -83,7 +83,7 @@ async function getQuoteAndBuyCoverInputs(
   coverBuyerAddress: Address,
   slippage: number = DEFAULT_SLIPPAGE / SLIPPAGE_DENOMINATOR,
   ipfsCidOrContent: string | IPFSContentForProductType[ProductTypes] = '',
-  coverRouterUrl = process.env.COVER_ROUTER_URL!,
+  coverRouterUrl = process.env.COVER_ROUTER_URL,
 ): Promise<GetQuoteApiResponse | ErrorApiResponse> {
   if (!Number.isInteger(productId) || productId <= 0) {
     return { result: undefined, error: { message: 'Invalid productId: must be a positive integer' } };
@@ -238,8 +238,11 @@ async function getQuote(
   coverAmount: IntString,
   coverPeriod: Integer,
   coverAsset: CoverAsset,
-  coverRouterUrl: string,
+  coverRouterUrl: string | undefined,
 ): Promise<CoverRouterQuoteResponse> {
+  if (!coverRouterUrl) {
+    throw new Error('Missing cover-router URL. Set COVER_ROUTER_URL env var or pass URL in params.');
+  }
   const params: CoverRouterQuoteParams = { productId, amount: coverAmount, period: coverPeriod, coverAsset };
   const response = await axios.get<CoverRouterQuoteResponse>(coverRouterUrl + '/quote', { params });
   if (!response.data) {
@@ -255,8 +258,11 @@ async function getProductCapacity(
   productId: Integer,
   coverPeriod: Integer,
   coverAsset: CoverAsset,
-  coverRouterUrl: string,
+  coverRouterUrl: string | undefined,
 ): Promise<IntString | undefined> {
+  if (!coverRouterUrl) {
+    throw new Error('Missing cover-router URL. Set COVER_ROUTER_URL env var or pass URL in params.');
+  }
   const params: CoverRouterCapacityParams = { period: coverPeriod };
   const capacityUrl = coverRouterUrl + `/capacity/${productId}`;
   const response = await axios.get<CoverRouterProductCapacityResponse>(capacityUrl, { params });
@@ -271,8 +277,11 @@ async function handleError(
   productId: Integer,
   coverPeriod: Integer,
   coverAsset: CoverAsset,
-  coverRouterUrl: string,
+  coverRouterUrl: string | undefined,
 ): Promise<ErrorApiResponse> {
+  if (!coverRouterUrl) {
+    throw new Error('Missing cover-router URL. Set COVER_ROUTER_URL env var or pass URL in params.');
+  }
   const axiosError = error as AxiosError<{ error: string }>;
   if (axiosError.isAxiosError) {
     if (axiosError.response?.data?.error?.includes('Not enough capacity')) {

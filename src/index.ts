@@ -2,6 +2,7 @@ import * as deployments from '@nexusmutual/deployments';
 
 import * as buyCover from './buyCover';
 import * as constants from './constants';
+import * as ipfs from './ipfs';
 import * as quote from './quote';
 import * as swap from './swap';
 import * as types from './types';
@@ -18,6 +19,7 @@ const nexusSdk = {
   ...buyCover,
   ...types,
   ...quote,
+  ...ipfs,
   ...constants,
 };
 

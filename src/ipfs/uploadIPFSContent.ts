@@ -40,7 +40,6 @@ const uploadToIPFS = async (data: IPFSContentTypes) => {
  * uploadIPFSData(ContentType.coverFreeText, { version: '1.0', freeText: 'This is a free text' });
  * ```
  */
-
 export const uploadIPFSContent = async (...[type, content]: IPFSContentAndType): Promise<string> => {
   if (!content) {
     throw new Error('Content cannot be empty');

@@ -2,6 +2,8 @@ import axios from 'axios';
 
 import { ContentType, IPFSContentAndType, IPFSUploadServiceResponse } from '../types/ipfs';
 
+const ethereumAddressRegex = /^(0x[a-f0-9]{40})$/i;
+
 const uploadToIPFS = async (ipfsUploadUrl: string | undefined, ipfsContentAndType: IPFSContentAndType) => {
   const [type, content] = ipfsContentAndType;
   if (!ipfsUploadUrl) {
@@ -40,8 +42,9 @@ const uploadToIPFS = async (ipfsUploadUrl: string | undefined, ipfsContentAndTyp
  */
 export const uploadIPFSContent = async (
   ipfsUploadUrl: string | undefined,
-  ...[type, content]: IPFSContentAndType
+  ipfsContentAndType: IPFSContentAndType,
 ): Promise<string> => {
+  const [type, content] = ipfsContentAndType;
   if (!content) {
     throw new Error('Content cannot be empty');
   }
@@ -131,11 +134,90 @@ export const uploadIPFSContent = async (
       }
       break;
 
+    case 'stakingPoolDetails':
+      if (!['1.0'].includes(version)) {
+        throw new Error('Invalid version');
+      }
+      if (!content.poolName || typeof content.poolName !== 'string' || !content.poolName.trim()) {
+        throw new Error('poolName must be a non-empty string');
+      }
+      if (!content.poolDescription || typeof content.poolDescription !== 'string' || !content.poolDescription.trim()) {
+        throw new Error('poolDescription must be a non-empty string');
+      }
+      break;
+
+    case 'claimProof':
+      if (!['1.0'].includes(version)) {
+        throw new Error('Invalid version');
+      }
+      if (typeof content.coverId !== 'number' || isNaN(content.coverId)) {
+        throw new Error('coverId must be a valid number');
+      }
+      if (!Array.isArray(content.affectedAddresses) || content.affectedAddresses.length === 0) {
+        throw new Error('affectedAddresses must be a non-empty array');
+      }
+      if (content.affectedAddresses.some(addr => !ethereumAddressRegex.test(addr))) {
+        throw new Error('all affected addresses must be valid Ethereum addresses');
+      }
+      if (!content.affectedChain || typeof content.affectedChain !== 'string' || !content.affectedChain.trim()) {
+        throw new Error('affectedChain must be a non-empty string');
+      }
+      if (
+        !content.incidentDescription ||
+        typeof content.incidentDescription !== 'string' ||
+        !content.incidentDescription.trim()
+      ) {
+        throw new Error('incidentDescription must be a non-empty string');
+      }
+      if (!Array.isArray(content.incidentTransactionHashes)) {
+        throw new Error('incidentTransactionHashes must be an array');
+      }
+      if (!Array.isArray(content.incidentEvidenceLinks)) {
+        throw new Error('incidentEvidenceLinks must be an array');
+      }
+      if (!Array.isArray(content.attachedFilesHashes)) {
+        throw new Error('attachedFilesHashes must be an array');
+      }
+      break;
+
+    case 'assessmentCriteriaAnswers':
+      if (!['1.0'].includes(version)) {
+        throw new Error('Invalid version');
+      }
+      if (!content.answers || typeof content.answers !== 'object' || Array.isArray(content.answers)) {
+        throw new Error('Answers must be an object');
+      }
+      if (Object.keys(content.answers).length === 0) {
+        throw new Error('Answers cannot be empty');
+      }
+      if (Object.values(content.answers).some(answer => typeof answer !== 'string')) {
+        throw new Error('All answers must be strings');
+      }
+      break;
+
+    case 'governanceProposal':
+      if (!['1.0'].includes(version)) {
+        throw new Error('Invalid version');
+      }
+      if (!content.proposal || typeof content.proposal !== 'string' || !content.proposal.trim()) {
+        throw new Error('Proposal must be a non-empty string');
+      }
+      break;
+
+    case 'governanceCategory':
+      if (!['1.0'].includes(version)) {
+        throw new Error('Invalid version');
+      }
+      if (!content.category || typeof content.category !== 'string' || !content.category.trim()) {
+        throw new Error(`Category must be a non-empty string`);
+      }
+      break;
+
     default:
       throw new Error('Invalid content type');
   }
 
-  const hash = await uploadToIPFS(ipfsUploadUrl, content);
+  const hash = await uploadToIPFS(ipfsUploadUrl, ipfsContentAndType);
 
   return hash;
 };

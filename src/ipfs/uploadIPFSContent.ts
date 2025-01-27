@@ -1,15 +1,16 @@
 import axios from 'axios';
 
-import { IPFSContentTypes, ContentType, IPFSContentAndType, IPFSUploadServiceResponse } from '../types/ipfs';
+import { ContentType, IPFSContentAndType, IPFSUploadServiceResponse } from '../types/ipfs';
 
-const uploadToIPFS = async (ipfsUploadUrl: string | undefined, data: IPFSContentTypes) => {
+const uploadToIPFS = async (ipfsUploadUrl: string | undefined, ipfsContentAndType: IPFSContentAndType) => {
+  const [type, content] = ipfsContentAndType;
   if (!ipfsUploadUrl) {
     throw new Error('IPFS_GATEWAY_URL is not set');
   }
 
   // POST data to BE service
   const ipfsHash = await axios
-    .post<IPFSUploadServiceResponse>(`${ipfsUploadUrl}?pin=true`, data)
+    .post<IPFSUploadServiceResponse>(`${ipfsUploadUrl}?pin=true`, { type, content })
     .then(response => response.data.ipfsHash)
     .catch(error => {
       console.error('Error:', error);

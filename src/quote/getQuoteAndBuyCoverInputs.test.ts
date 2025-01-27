@@ -33,6 +33,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
   beforeAll(() => {
     jest.mock('axios');
     process.env.COVER_ROUTER_URL = 'http://localhost:5001';
+    process.env.IPFS_GATEWAY_URL = 'http://localhost:5002';
     buyerAddress = '0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5';
   });
 
@@ -163,6 +164,128 @@ describe('getQuoteAndBuyCoverInputs', () => {
       expect(error?.message).toBe('Invalid ipfsCid: must be a valid IPFS CID');
     },
   );
+
+  it('returns an error if ipfsData is not a valid IPFS content for the product type - ETH Slashing', async () => {
+    const { error } = await getQuoteAndBuyCoverInputs(82, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
+      version: '1.0',
+      freeText: 'test',
+    });
+    expect(error?.message).toBe('Invalid content for coverValidators');
+  });
+
+  // eslint-disable-next-line max-len
+  it('returns an error if ipfsData is not a valid IPFS content for the product type - ETH Slashing, empty validators', async () => {
+    const { error } = await getQuoteAndBuyCoverInputs(82, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
+      version: '1.0',
+      validators: [],
+    });
+    expect(error?.message).toBe('Validators cannot be empty');
+  });
+
+  it('returns an error if ipfsData is not a valid IPFS content for the product type - UnoRe Quota Share', async () => {
+    const { error } = await getQuoteAndBuyCoverInputs(107, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
+      version: '1.0',
+      freeText: 'test',
+    });
+    expect(error?.message).toBe('Invalid content for coverQuotaShare');
+  });
+
+  it('returns an error if ipfsData is not a valid IPFS content for the product type - Fund Portfolio', async () => {
+    const { error } = await getQuoteAndBuyCoverInputs(195, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
+      version: '1.0',
+      freeText: 'test',
+    });
+    expect(error?.message).toBe('Invalid content for coverAumCoverAmountPercentage');
+  });
+
+  it('returns an error if ipfsData is not a valid IPFS content for the product type - Nexus Mutual Cover', async () => {
+    const { error } = await getQuoteAndBuyCoverInputs(247, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
+      version: '1.0',
+      freeText: 'test',
+    });
+    expect(error?.message).toBe('Wallet addresses cannot be empty');
+  });
+
+  it('returns an error if the ipfs content could not be uploaded', async () => {
+    mockAxios.get.mockRejectedValueOnce({ message: 'Failed to upload IPFS content' });
+
+    const { error } = await getQuoteAndBuyCoverInputs(1, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
+      version: '1.0',
+      freeText: 'test',
+    });
+    expect(error?.message).toBe('Failed to upload IPFS content');
+  });
+
+  it('allows the consumer to provide a valid IPFS CID', async () => {
+    const ipfsCid = 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY';
+
+    const coverRouterQuoteResponse: CoverRouterQuoteResponse = {
+      quote: {
+        totalCoverAmountInAsset: parseEther('1000').toString(),
+        annualPrice: '287',
+        premiumInNXM: parseEther('10').toString(),
+        premiumInAsset: parseEther('5').toString(),
+        poolAllocationRequests: [
+          {
+            poolId: '147',
+            coverAmountInAsset: parseEther('500').toString(),
+            skip: false,
+          },
+        ],
+      },
+      capacities: [{ poolId: '147', capacity: [{ assetId: '1', amount: parseEther('1000').toString() }] }],
+    };
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
+
+    const { result, error } = await getQuoteAndBuyCoverInputs(
+      247,
+      '100',
+      30,
+      CoverAsset.ETH,
+      buyerAddress,
+      0.1,
+      ipfsCid,
+    );
+
+    expect(error).toBeUndefined();
+    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe(ipfsCid);
+  });
+
+  it('allows the consumer to provide a valid IPFS content', async () => {
+    mockAxios.post.mockResolvedValueOnce({
+      data: {
+        ipfsHash: 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY',
+      },
+    });
+
+    const coverRouterQuoteResponse: CoverRouterQuoteResponse = {
+      quote: {
+        totalCoverAmountInAsset: parseEther('1000').toString(),
+        annualPrice: '287',
+        premiumInNXM: parseEther('10').toString(),
+        premiumInAsset: parseEther('5').toString(),
+        poolAllocationRequests: [
+          {
+            poolId: '147',
+            coverAmountInAsset: parseEther('500').toString(),
+            skip: false,
+          },
+        ],
+      },
+      capacities: [{ poolId: '147', capacity: [{ assetId: '1', amount: parseEther('1000').toString() }] }],
+    };
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
+
+    const { result, error } = await getQuoteAndBuyCoverInputs(247, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
+      version: '2.0',
+      walletAddresses: ['testAddress1', 'testAddress2'],
+    });
+
+    expect(error).toBeUndefined();
+    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe('QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY');
+  });
 
   it('returns an object with displayInfo and buyCoverInput parameters', async () => {
     const coverRouterQuoteResponse: CoverRouterQuoteResponse = {

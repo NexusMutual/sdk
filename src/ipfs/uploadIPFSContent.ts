@@ -7,7 +7,7 @@ const ethereumAddressRegex = /^(0x[a-f0-9]{40})$/i;
 const uploadToIPFS = async (nexusApiUrl: string, ipfsContentAndType: IPFSContentAndType) => {
   const [type, content] = ipfsContentAndType;
   if (!nexusApiUrl) {
-    throw new Error('IPFS_GATEWAY_URL is not set');
+    throw new Error('IPFS base URL not set');
   }
 
   // POST data to BE service

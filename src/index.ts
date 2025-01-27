@@ -48,6 +48,8 @@ export * from './buyCover';
 
 export * from './types';
 
+export * from './ipfs';
+
 export * from './quote';
 
 export * from './constants';

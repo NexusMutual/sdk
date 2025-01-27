@@ -164,17 +164,11 @@ async function getQuoteAndBuyCoverInputs(
   }
 
   let ipfsData = ipfsCidOrContent as string;
+  const contentType = IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType];
 
-  if (
-    typeof ipfsCidOrContent !== 'string' &&
-    IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType] !== undefined &&
-    ipfsCidOrContent
-  ) {
+  if (typeof ipfsCidOrContent !== 'string' && contentType !== undefined && ipfsCidOrContent) {
     try {
-      ipfsData = await uploadIPFSContent(
-        ipfsUploadUrl,
-        ...([IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType], ipfsCidOrContent] as IPFSContentAndType),
-      );
+      ipfsData = await uploadIPFSContent(ipfsUploadUrl, [contentType, ipfsCidOrContent] as IPFSContentAndType);
     } catch (error) {
       return {
         result: undefined,

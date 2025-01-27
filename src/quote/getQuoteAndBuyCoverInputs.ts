@@ -1,6 +1,8 @@
 import axios, { AxiosError } from 'axios';
 
-import { productsMap, productTypes, ProductTypes } from '..';
+import productTypes from '../../generated/product-types.json';
+import productsMap from '../../generated/products.json';
+import { ProductTypes } from '../../generated/types';
 import { calculatePremiumWithCommissionAndSlippage } from '../buyCover/calculatePremiumWithCommissionAndSlippage';
 import {
   CoverAsset,

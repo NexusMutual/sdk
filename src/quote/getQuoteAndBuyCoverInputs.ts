@@ -46,7 +46,7 @@ function getQuoteAndBuyCoverInputs(
   coverBuyerAddress: Address,
   slippage?: number,
   ipfsCid?: string,
-  coverRouterUrl?: string,
+  nexusApiUrl?: string,
 ): Promise<GetQuoteApiResponse | ErrorApiResponse>;
 
 // overload with ipfsContent instead of Cid
@@ -58,7 +58,7 @@ function getQuoteAndBuyCoverInputs<ProductTypes extends keyof IPFSContentForProd
   coverBuyerAddress: Address,
   slippage?: number,
   ipfsContent?: IPFSContentForProductType[ProductTypes],
-  coverRouterUrl?: string,
+  nexusApiUrl?: string,
 ): Promise<GetQuoteApiResponse | ErrorApiResponse>;
 
 /**
@@ -72,7 +72,7 @@ function getQuoteAndBuyCoverInputs<ProductTypes extends keyof IPFSContentForProd
  * @param {Address} coverBuyerAddress - The Ethereum address of the buyer.
  * @param {number} slippage - The acceptable slippage percentage. Must be between 0-1 (Defaults to 0.001 ~ 0.1%)
  * @param {string} ipfsCid - The IPFS CID for additional data (optional).
- * @param {string} coverRouterUrl - Used to override the default CoverRouter URL which is bundled this library.
+ * @param {string} nexusApiUrl - Used to override the default Nexus Mutual API URL which is bundled this library.
  * @return {Promise<GetQuoteApiResponse | ErrorApiResponse>} Returns a successful quote response or an error response.
  */
 async function getQuoteAndBuyCoverInputs(
@@ -83,8 +83,7 @@ async function getQuoteAndBuyCoverInputs(
   coverBuyerAddress: Address,
   slippage: number = DEFAULT_SLIPPAGE / SLIPPAGE_DENOMINATOR,
   ipfsCidOrContent: string | IPFSContentForProductType[ProductTypes] = '',
-  coverRouterUrl = process.env.COVER_ROUTER_URL,
-  ipfsUploadUrl = 'https://api.nexusmutal.io/v2/ipfs',
+  nexusApiUrl = 'https://api.nexusmutual.io/v2',
 ): Promise<GetQuoteApiResponse | ErrorApiResponse> {
   if (!Number.isInteger(productId) || productId <= 0) {
     return { result: undefined, error: { message: 'Invalid productId: must be a positive integer' } };
@@ -168,7 +167,7 @@ async function getQuoteAndBuyCoverInputs(
 
   if (typeof ipfsCidOrContent !== 'string' && contentType !== undefined && ipfsCidOrContent) {
     try {
-      ipfsData = await uploadIPFSContent(ipfsUploadUrl, [contentType, ipfsCidOrContent] as IPFSContentAndType);
+      ipfsData = await uploadIPFSContent(nexusApiUrl, [contentType, ipfsCidOrContent] as IPFSContentAndType);
     } catch (error) {
       return {
         result: undefined,
@@ -181,7 +180,7 @@ async function getQuoteAndBuyCoverInputs(
   slippage = slippage * SLIPPAGE_DENOMINATOR;
 
   try {
-    const { quote } = await getQuote(productId, coverAmount, coverPeriod, coverAsset, coverRouterUrl);
+    const { quote } = await getQuote(productId, coverAmount, coverPeriod, coverAsset, nexusApiUrl);
 
     const maxPremiumInAsset = calculatePremiumWithCommissionAndSlippage(
       BigInt(quote.premiumInAsset),
@@ -199,7 +198,7 @@ async function getQuoteAndBuyCoverInputs(
         premiumInAsset: maxPremiumInAsset.toString(),
         coverAmount,
         yearlyCostPerc: Number(yearlyCostPerc) / TARGET_PRICE_DENOMINATOR,
-        maxCapacity: (await getProductCapacity(productId, coverPeriod, coverAsset, coverRouterUrl)) ?? '',
+        maxCapacity: (await getProductCapacity(productId, coverPeriod, coverAsset, nexusApiUrl)) ?? '',
       },
       buyCoverInput: {
         buyCoverParams: {
@@ -221,7 +220,7 @@ async function getQuoteAndBuyCoverInputs(
 
     return { result, error: undefined };
   } catch (error: unknown) {
-    const errorResponse = await handleError(error, productId, coverPeriod, coverAsset, coverRouterUrl);
+    const errorResponse = await handleError(error, productId, coverPeriod, coverAsset, nexusApiUrl);
     return errorResponse;
   }
 }
@@ -234,13 +233,13 @@ async function getQuote(
   coverAmount: IntString,
   coverPeriod: Integer,
   coverAsset: CoverAsset,
-  coverRouterUrl: string | undefined,
+  nexusApiUrl: string | undefined,
 ): Promise<CoverRouterQuoteResponse> {
-  if (!coverRouterUrl) {
+  if (!nexusApiUrl) {
     throw new Error('Missing cover-router URL. Set COVER_ROUTER_URL env var or pass URL in params.');
   }
   const params: CoverRouterQuoteParams = { productId, amount: coverAmount, period: coverPeriod, coverAsset };
-  const response = await axios.get<CoverRouterQuoteResponse>(coverRouterUrl + '/quote', { params });
+  const response = await axios.get<CoverRouterQuoteResponse>(nexusApiUrl + '/quote', { params });
   if (!response.data) {
     throw new Error('Failed to fetch cover quote');
   }
@@ -254,13 +253,13 @@ async function getProductCapacity(
   productId: Integer,
   coverPeriod: Integer,
   coverAsset: CoverAsset,
-  coverRouterUrl: string | undefined,
+  nexusApiUrl: string | undefined,
 ): Promise<IntString | undefined> {
-  if (!coverRouterUrl) {
+  if (!nexusApiUrl) {
     throw new Error('Missing cover-router URL. Set COVER_ROUTER_URL env var or pass URL in params.');
   }
   const params: CoverRouterCapacityParams = { period: coverPeriod };
-  const capacityUrl = coverRouterUrl + `/capacity/${productId}`;
+  const capacityUrl = nexusApiUrl + `/capacity/${productId}`;
   const response = await axios.get<CoverRouterProductCapacityResponse>(capacityUrl, { params });
   if (!response.data) {
     throw new Error('Failed to fetch cover capacities');
@@ -273,15 +272,15 @@ async function handleError(
   productId: Integer,
   coverPeriod: Integer,
   coverAsset: CoverAsset,
-  coverRouterUrl: string | undefined,
+  nexusApiUrl: string | undefined,
 ): Promise<ErrorApiResponse> {
-  if (!coverRouterUrl) {
+  if (!nexusApiUrl) {
     throw new Error('Missing cover-router URL. Set COVER_ROUTER_URL env var or pass URL in params.');
   }
   const axiosError = error as AxiosError<{ error: string }>;
   if (axiosError.isAxiosError) {
     if (axiosError.response?.data?.error?.includes('Not enough capacity')) {
-      const maxCapacity = await getProductCapacity(productId, coverPeriod, coverAsset, coverRouterUrl);
+      const maxCapacity = await getProductCapacity(productId, coverPeriod, coverAsset, nexusApiUrl);
       return {
         result: undefined,
         error: {

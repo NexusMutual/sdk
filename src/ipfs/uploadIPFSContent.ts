@@ -4,15 +4,15 @@ import { ContentType, IPFSContentAndType, IPFSUploadServiceResponse } from '../t
 
 const ethereumAddressRegex = /^(0x[a-f0-9]{40})$/i;
 
-const uploadToIPFS = async (ipfsUploadUrl: string, ipfsContentAndType: IPFSContentAndType) => {
+const uploadToIPFS = async (nexusApiUrl: string, ipfsContentAndType: IPFSContentAndType) => {
   const [type, content] = ipfsContentAndType;
-  if (!ipfsUploadUrl) {
+  if (!nexusApiUrl) {
     throw new Error('IPFS_GATEWAY_URL is not set');
   }
 
   // POST data to BE service
   const ipfsHash = await axios
-    .post<IPFSUploadServiceResponse>(`${ipfsUploadUrl}?pin=true`, { type, content })
+    .post<IPFSUploadServiceResponse>(nexusApiUrl + '/ipfs', { type, content })
     .then(response => response.data.ipfsHash)
     .catch(error => {
       console.error('Error:', error);
@@ -41,7 +41,7 @@ const uploadToIPFS = async (ipfsUploadUrl: string, ipfsContentAndType: IPFSConte
  * ```
  */
 export const uploadIPFSContent = async (
-  ipfsUploadUrl: string,
+  nexusApiUrl: string,
   ipfsContentAndType: IPFSContentAndType,
 ): Promise<string> => {
   const [type, content] = ipfsContentAndType;
@@ -217,7 +217,7 @@ export const uploadIPFSContent = async (
       throw new Error('Invalid content type');
   }
 
-  const hash = await uploadToIPFS(ipfsUploadUrl, ipfsContentAndType);
+  const hash = await uploadToIPFS(nexusApiUrl, ipfsContentAndType);
 
   return hash;
 };

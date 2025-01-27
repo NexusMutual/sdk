@@ -17,7 +17,7 @@ describe('uploadIPFSContent', () => {
   it('should throw an error if content is empty', async () => {
     const res = async () => {
       // @ts-expect-error" Testing invalid input
-      await uploadIPFSContent(URL, [ContentType.coverFreeText, undefined]);
+      await uploadIPFSContent([(ContentType.coverFreeText, undefined)], URL);
     };
     expect(res).rejects.toThrow('Content cannot be empty');
   });
@@ -25,7 +25,7 @@ describe('uploadIPFSContent', () => {
   it('should throw an error if content is invalid for coverValidators', async () => {
     const res = async () => {
       // @ts-expect-error" Testing invalid input
-      await uploadIPFSContent(URL, [ContentType.coverValidators, { version: '1.0' }]);
+      await uploadIPFSContent([(ContentType.coverValidators, { version: '1.0' })], URL);
     };
     expect(res).rejects.toThrow('Invalid content for coverValidators');
   });
@@ -33,7 +33,7 @@ describe('uploadIPFSContent', () => {
   it('should throw an error if content is invalid for coverQuotaShare', async () => {
     const res = async () => {
       // @ts-expect-error" Testing invalid input
-      await uploadIPFSContent(URL, [ContentType.coverQuotaShare, { version: '1.0' }]);
+      await uploadIPFSContent([(ContentType.coverQuotaShare, { version: '1.0' })], URL);
     };
     expect(res).rejects.toThrow('Invalid content for coverQuotaShare');
   });
@@ -41,7 +41,7 @@ describe('uploadIPFSContent', () => {
   it('should throw an error if content is invalid for coverAumCoverAmountPercentage', async () => {
     const res = async () => {
       // @ts-expect-error" Testing invalid input
-      await uploadIPFSContent(URL, [ContentType.coverAumCoverAmountPercentage, { version: '1.0' }]);
+      await uploadIPFSContent([(ContentType.coverAumCoverAmountPercentage, { version: '1.0' })], URL);
     };
     expect(res).rejects.toThrow('Invalid content for coverAumCoverAmountPercentage');
   });
@@ -49,24 +49,24 @@ describe('uploadIPFSContent', () => {
   it('should throw an error if content is invalid for coverWalletAddress', async () => {
     const res = async () => {
       // @ts-expect-error" Testing invalid input
-      await uploadIPFSContent(URL, [ContentType.coverWalletAddress, { version: '1.0' }]);
+      await uploadIPFSContent([(ContentType.coverWalletAddress, { version: '1.0' })], URL);
     };
     expect(res).rejects.toThrow('Invalid content for coverWalletAddress');
   });
 
   it('should throw an error if content is invalid for coverWalletAddresses - empty array', async () => {
     const res = async () => {
-      await uploadIPFSContent(URL, [ContentType.coverWalletAddresses, { version: '1.0', walletAddresses: '' }]);
+      await uploadIPFSContent([ContentType.coverWalletAddresses, { version: '1.0', walletAddresses: '' }], URL);
     };
     expect(res).rejects.toThrow('Wallet addresses cannot be empty');
   });
 
   it('should throw an error if content is invalid for coverWalletAddresses - no comma', async () => {
     const res = async () => {
-      await uploadIPFSContent(URL, [
-        ContentType.coverWalletAddresses,
-        { version: '1.0', walletAddresses: '0x1234 0x32523' },
-      ]);
+      await uploadIPFSContent(
+        [ContentType.coverWalletAddresses, { version: '1.0', walletAddresses: '0x1234 0x32523' }],
+        URL,
+      );
     };
     expect(res).rejects.toThrow(
       'Invalid content for coverWalletAddresses. Wallet addresses should be separated by a comma',
@@ -75,7 +75,7 @@ describe('uploadIPFSContent', () => {
 
   it('should throw an error if content is invalid for coverWalletAddresses - v2.0 empty array', async () => {
     const res = async () => {
-      await uploadIPFSContent(URL, [ContentType.coverWalletAddresses, { version: '2.0', walletAddresses: [] }]);
+      await uploadIPFSContent([ContentType.coverWalletAddresses, { version: '2.0', walletAddresses: [] }], URL);
     };
     expect(res).rejects.toThrow('Wallet addresses cannot be empty');
   });
@@ -83,14 +83,14 @@ describe('uploadIPFSContent', () => {
   it('should throw an error if content is invalid for coverFreeText', async () => {
     const res = async () => {
       // @ts-expect-error" Testing invalid input
-      await uploadIPFSContent(URL, [ContentType.coverFreeText, { version: '1.0' }]);
+      await uploadIPFSContent([(ContentType.coverFreeText, { version: '1.0' })], URL);
     };
     expect(res).rejects.toThrow('Invalid content for coverFreeText');
   });
 
   it('should throw an error if content is invalid for coverFreeText - empty string', async () => {
     const res = async () => {
-      await uploadIPFSContent(URL, [ContentType.coverFreeText, { version: '1.0', freeText: '' }]);
+      await uploadIPFSContent([ContentType.coverFreeText, { version: '1.0', freeText: '' }], URL);
     };
     expect(res).rejects.toThrow('Invalid content for coverFreeText');
   });
@@ -98,7 +98,7 @@ describe('uploadIPFSContent', () => {
   it('should throw an error if content is invalid for coverFreeText - number', async () => {
     const res = async () => {
       // @ts-expect-error" Testing invalid input
-      await uploadIPFSContent(URL, [ContentType.coverFreeText, { version: '1.0', freeText: 5 }]);
+      await uploadIPFSContent([ContentType.coverFreeText, { version: '1.0', freeText: 5 }], URL);
     };
     expect(res).rejects.toThrow('Free text should be a string');
   });
@@ -110,7 +110,7 @@ describe('uploadIPFSContent', () => {
       },
     });
 
-    await uploadIPFSContent(URL, [ContentType.coverFreeText, { version: '1.0', freeText: 'test' }]);
+    await uploadIPFSContent([ContentType.coverFreeText, { version: '1.0', freeText: 'test' }], URL);
 
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
     expect(mockAxios.post).toHaveBeenCalledWith(`${URL}?pin=true`, {
@@ -129,7 +129,7 @@ describe('uploadIPFSContent', () => {
       },
     });
 
-    const res = await uploadIPFSContent(URL, [ContentType.coverFreeText, { version: '1.0', freeText: 'test' }]);
+    const res = await uploadIPFSContent([ContentType.coverFreeText, { version: '1.0', freeText: 'test' }], URL);
     expect(res).toEqual('QmZ4w2yH9oF');
   });
 });

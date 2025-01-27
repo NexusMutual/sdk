@@ -84,7 +84,7 @@ async function getQuoteAndBuyCoverInputs(
   slippage: number = DEFAULT_SLIPPAGE / SLIPPAGE_DENOMINATOR,
   ipfsCidOrContent: string | IPFSContentForProductType[ProductTypes] = '',
   coverRouterUrl = process.env.COVER_ROUTER_URL,
-  ipfsUploadUrl = process.env.IPFS_GATEWAY_URL,
+  ipfsUploadUrl = 'https://api.nexusmutal.io/v2/ipfs',
 ): Promise<GetQuoteApiResponse | ErrorApiResponse> {
   if (!Number.isInteger(productId) || productId <= 0) {
     return { result: undefined, error: { message: 'Invalid productId: must be a positive integer' } };

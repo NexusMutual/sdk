@@ -4,7 +4,7 @@ import { ContentType, IPFSContentAndType, IPFSUploadServiceResponse } from '../t
 
 const ethereumAddressRegex = /^(0x[a-f0-9]{40})$/i;
 
-const uploadToIPFS = async (ipfsUploadUrl: string | undefined, ipfsContentAndType: IPFSContentAndType) => {
+const uploadToIPFS = async (ipfsUploadUrl: string, ipfsContentAndType: IPFSContentAndType) => {
   const [type, content] = ipfsContentAndType;
   if (!ipfsUploadUrl) {
     throw new Error('IPFS_GATEWAY_URL is not set');
@@ -41,7 +41,7 @@ const uploadToIPFS = async (ipfsUploadUrl: string | undefined, ipfsContentAndTyp
  * ```
  */
 export const uploadIPFSContent = async (
-  ipfsUploadUrl: string | undefined,
+  ipfsUploadUrl: string,
   ipfsContentAndType: IPFSContentAndType,
 ): Promise<string> => {
   const [type, content] = ipfsContentAndType;

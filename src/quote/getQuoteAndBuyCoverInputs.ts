@@ -167,7 +167,7 @@ async function getQuoteAndBuyCoverInputs(
 
   if (typeof ipfsCidOrContent !== 'string' && contentType !== undefined && ipfsCidOrContent) {
     try {
-      ipfsData = await uploadIPFSContent(nexusApiUrl, [contentType, ipfsCidOrContent] as IPFSContentAndType);
+      ipfsData = await uploadIPFSContent([contentType, ipfsCidOrContent] as IPFSContentAndType, nexusApiUrl);
     } catch (error) {
       return {
         result: undefined,

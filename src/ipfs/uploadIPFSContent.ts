@@ -41,8 +41,8 @@ const uploadToIPFS = async (nexusApiUrl: string, ipfsContentAndType: IPFSContent
  * ```
  */
 export const uploadIPFSContent = async (
-  nexusApiUrl: string,
   ipfsContentAndType: IPFSContentAndType,
+  nexusApiUrl: string = 'https://api.nexusmutual.io/v2',
 ): Promise<string> => {
   const [type, content] = ipfsContentAndType;
   if (!content) {

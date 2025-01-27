@@ -62,12 +62,13 @@ The function returns the IPFS hash of the uploaded content.
 ```typescript
 import { uploadIPFSContent, ContentType, IPFSContentTypes } from '@nexusmutual/sdk';
 
+const nexusApiUrl = 'https://api.nexusmutual.io/v2'
 const content: IPFSContentTypes = {
   version: '2.0.',
   walletAddresses: ['0x1234567890'],
 };
 
-const ipfsHash = await uploadIPFSContent(ContentType.coverWalletAddresses, content);
+const ipfsHash = await uploadIPFSContent(nexusApiUrl, [ContentType.coverWalletAddresses, content]);
 
 console.log(ipfsHash);
 ```

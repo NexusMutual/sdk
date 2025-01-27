@@ -62,13 +62,12 @@ The function returns the IPFS hash of the uploaded content.
 ```typescript
 import { uploadIPFSContent, ContentType, IPFSContentTypes } from '@nexusmutual/sdk';
 
-const nexusApiUrl = 'https://api.nexusmutual.io/v2'
 const content: IPFSContentTypes = {
   version: '2.0',
   walletAddresses: ['0x1234567890'],
 };
 
-const ipfsHash = await uploadIPFSContent(nexusApiUrl, [ContentType.coverWalletAddresses, content]);
+const ipfsHash = await uploadIPFSContent([ContentType.coverWalletAddresses, content]);
 
 console.log(ipfsHash);
 ```
@@ -131,7 +130,7 @@ const quoteAndBuyCoverInputs = await getQuoteAndBuyCoverInputs(
 console.log(quoteAndBuyCoverInputs);
 ```
 
-If you pass The `ipfsContent` param, the function will upload the content to IPFS and use the IPFS hash returned for the buy cover inputs `ipfsData` param. If you pass the `ipfsCid` param, the function will use the IPFS hash directly.
+If the productId's type needs an IPFS upload, you can pass the `ipfsContent` param and the function will upload the content to IPFS and use the IPFS hash returned for the buy cover inputs `ipfsData` param. If you pass the `ipfsCid` param, the function will use the IPFS hash directly.
 
 The `ipfsCid` param must be a valid IPFS Cid.
 The `ipfsContent` param must be a valid `IPFSContentTypes` - the allowed types can be found in `src/types/ipfs.ts`.

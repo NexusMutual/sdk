@@ -64,7 +64,7 @@ import { uploadIPFSContent, ContentType, IPFSContentTypes } from '@nexusmutual/s
 
 const nexusApiUrl = 'https://api.nexusmutual.io/v2'
 const content: IPFSContentTypes = {
-  version: '2.0.',
+  version: '2.0',
   walletAddresses: ['0x1234567890'],
 };
 
@@ -82,7 +82,7 @@ Use the `getQuoteAndBuyCoverInputs` function from `src/cover/getQuoteAndBuyCover
 1st overload:
 
 ```typescript
-import { getQuoteAndBuyCoverInputs } from '@nexusmutual/sdk';
+import { CoverAsset, getQuoteAndBuyCoverInputs } from '@nexusmutual/sdk';
 
 const productId = 1;
 const coverAmount = '100';
@@ -107,7 +107,7 @@ console.log(quoteAndBuyCoverInputs);
 2nd overload:
 
 ```typescript
-import { getQuoteAndBuyCoverInputs, IPFSContentTypes } from '@nexusmutual/sdk';
+import { CoverAsset, getQuoteAndBuyCoverInputs, IPFSContentTypes } from '@nexusmutual/sdk';
 
 const productId = 247;
 const coverAmount = '100';
@@ -115,8 +115,8 @@ const coverPeriod = 30;
 const coverAsset = CoverAsset.ETH;
 const buyerAddress = '0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5';
 const ipfsContent: IPFSContentTypes = {
-  version: '2.0.',
-  walletAddresses: ['0x1234567890'],
+  version: '2.0',
+  walletAddresses: ['0x1234567890123456789012345678901234567890'],
 };
 
 const quoteAndBuyCoverInputs = await getQuoteAndBuyCoverInputs(

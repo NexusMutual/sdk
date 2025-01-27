@@ -1,4 +1,4 @@
-import { ProductTypes } from '..';
+import { ProductTypes } from '../../generated/types';
 
 export enum ContentType {
   coverValidators = 'coverValidators',

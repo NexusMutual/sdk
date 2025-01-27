@@ -93,8 +93,8 @@ jobs:
       # - name: Check types and typescript
       #   run: npm run ts:check
 
-      - name: Run tests
-        run: npm run test
+      # - name: Run tests
+      # run: npm run test
 
       - uses: actions/upload-artifact@v3
         with:

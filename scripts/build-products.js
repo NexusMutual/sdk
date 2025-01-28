@@ -16,15 +16,19 @@ const ipfsURL = ipfsHash => `https://api.nexusmutual.io/ipfs/${ipfsHash}`;
 
 const fetchProductTypes = async coverProducts => {
   const productTypesCount = (await coverProducts.getProductTypeCount()).toNumber();
-  const productTypes = [];
+  const ids = Array.from({ length: productTypesCount }, (_, i) => i);
 
-  for (let id = 0; id < productTypesCount; id++) {
-    const { gracePeriod, claimMethod } = await coverProducts.getProductType(id);
-    const name = await coverProducts.getProductTypeName(id);
-    const { ipfsHash } = await coverProducts.getLatestProductTypeMetadata(id);
-    const coverWordingURL = ipfsURL(ipfsHash);
-    productTypes.push({ id, coverWordingURL, name: name.trim(), gracePeriod, claimMethod });
-  }
+  const productTypes = await Promise.all(
+    ids.map(async id => {
+      const [{ gracePeriod, claimMethod }, name, { ipfsHash }] = await Promise.all([
+        coverProducts.getProductType(id),
+        coverProducts.getProductTypeName(id),
+        coverProducts.getLatestProductTypeMetadata(id),
+      ]);
+      const coverWordingURL = ipfsURL(ipfsHash);
+      return { id, coverWordingURL, name: name.trim(), gracePeriod, claimMethod };
+    }),
+  );
 
   return productTypes;
 };

@@ -27,7 +27,7 @@ import {
   IntString,
   Integer,
 } from '../types';
-import { IPFSContentForProductType, IPFSContentTypeTuple, IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE } from '../types/ipfs';
+import { IPFSContentForProductType, IPFSTypeContentTuple, IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE } from '../types/ipfs';
 
 type CoverRouterQuoteParams = {
   productId: Integer;
@@ -174,7 +174,7 @@ async function getQuoteAndBuyCoverInputs(
 
   if (typeof ipfsCidOrContent !== 'string' && contentType !== undefined && ipfsCidOrContent) {
     try {
-      ipfsData = await uploadIPFSContent([contentType, ipfsCidOrContent] as IPFSContentTypeTuple, nexusApiUrl);
+      ipfsData = await uploadIPFSContent([contentType, ipfsCidOrContent] as IPFSTypeContentTuple, nexusApiUrl);
     } catch (error) {
       return {
         result: undefined,

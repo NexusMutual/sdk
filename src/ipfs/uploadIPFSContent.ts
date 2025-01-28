@@ -1,11 +1,10 @@
 import axios from 'axios';
 
-import { ContentType, IPFSContentAndType, IPFSUploadServiceResponse } from '../types/ipfs';
+import { ContentType, IPFSTypeContentTuple, IPFSUploadServiceResponse } from '../types/ipfs';
 
 const ethereumAddressRegex = /^(0x[a-f0-9]{40})$/i;
 
-const uploadToIPFS = async (nexusApiUrl: string, ipfsContentAndType: IPFSContentAndType) => {
-  const [type, content] = ipfsContentAndType;
+const uploadToIPFS = async (nexusApiUrl: string, [type, content]: IPFSTypeContentTuple) => {
   if (!nexusApiUrl) {
     throw new Error('IPFS base URL not set');
   }
@@ -24,7 +23,7 @@ const uploadToIPFS = async (nexusApiUrl: string, ipfsContentAndType: IPFSContent
 
 /**
  *  Uploads data to IPFS
- * @param {IPFSContentAndType} typeAndContent  - The type of content and the content to be uploaded
+ * @param {IPFSTypeContentTuple} ipfsTypeContentTuple - A tuple of type of content and the content to be uploaded
  * @returns {Promise<string>} hash Returns the IPFS hash of the uploaded data
  *
  * @example
@@ -41,10 +40,10 @@ const uploadToIPFS = async (nexusApiUrl: string, ipfsContentAndType: IPFSContent
  * ```
  */
 export const uploadIPFSContent = async (
-  ipfsContentAndType: IPFSContentAndType,
+  ipfsTypeContentTuple: IPFSTypeContentTuple,
   nexusApiUrl: string = 'https://api.nexusmutual.io/v2',
 ): Promise<string> => {
-  const [type, content] = ipfsContentAndType;
+  const [type, content] = ipfsTypeContentTuple;
   if (!content) {
     throw new Error('Content cannot be empty');
   }
@@ -217,7 +216,7 @@ export const uploadIPFSContent = async (
       throw new Error('Invalid content type');
   }
 
-  const hash = await uploadToIPFS(nexusApiUrl, ipfsContentAndType);
+  const hash = await uploadToIPFS(nexusApiUrl, ipfsTypeContentTuple);
 
   return hash;
 };

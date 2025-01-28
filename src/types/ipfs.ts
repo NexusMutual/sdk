@@ -96,7 +96,7 @@ export type IPFSContentTypes =
   | GovernanceProposal
   | GovernanceCategory;
 
-export type IPFSContentAndType =
+export type IPFSContentTypeTuple =
   | [type: ContentType.coverValidators, content: CoverValidators]
   | [type: ContentType.coverQuotaShare, content: CoverQuotaShare]
   | [type: ContentType.coverAumCoverAmountPercentage, content: CoverAumCoverAmountPercentage]

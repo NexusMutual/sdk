@@ -1,7 +1,7 @@
 name: pull-request
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, reopened, ready_for_review]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -64,7 +64,6 @@ jobs:
 
   checks:
     runs-on: ubuntu-22.04
-    needs: [version]
     steps:
       - uses: actions/checkout@v3
 

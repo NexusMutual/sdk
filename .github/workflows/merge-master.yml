@@ -88,7 +88,7 @@ jobs:
       - name: Run prettier
         run: npm run format
 
-      - name: Checktypes and typescript
+      - name: Check types and typescript
         run: npm run ts:check
 
       - name: Run tests

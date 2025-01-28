@@ -10,9 +10,9 @@ const { parseProductCoverAssets, parseFilePath, getCoverAssetsSymbols } = requir
 const { allPrivateProductsIds } = require(path.join(__dirname, '../src/constants/privateProducts.js'));
 const productMetadata = require('../data/legacy-product-metadata.json');
 
-const { PROVIDER_URL, IPFS_GATEWAY_URL } = process.env;
+const { PROVIDER_URL } = process.env;
 
-const ipfsURL = ipfsHash => `${IPFS_GATEWAY_URL}/ipfs/${ipfsHash}`;
+const ipfsURL = ipfsHash => `https://api.nexusmutual.io/ipfs/${ipfsHash}`;
 
 const fetchProductTypes = async coverProducts => {
   const productTypesCount = (await coverProducts.getProductTypeCount()).toNumber();
@@ -132,11 +132,6 @@ const fetchProducts = async (coverContract, coverProducts, provider) => {
 const buildProducts = async () => {
   if (PROVIDER_URL === undefined) {
     console.log('PROVIDER_URL environment variable is not defined');
-    process.exit(1);
-  }
-
-  if (IPFS_GATEWAY_URL === undefined) {
-    console.log('IPFS_GATEWAY_URL environment variable is not defined');
     process.exit(1);
   }
 

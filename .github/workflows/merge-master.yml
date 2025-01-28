@@ -77,7 +77,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Build package
         run: npm run build
@@ -115,9 +115,6 @@ jobs:
         with:
           name: sdk-${{ needs.version.outputs.local_version }}
           path: dist
-
-      - name: Remove prepare script
-        run: npm pkg delete scripts.prepare
 
       - name: Publish
         env:

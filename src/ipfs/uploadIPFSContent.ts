@@ -86,16 +86,6 @@ export const uploadIPFSContent = async (
       }
       break;
 
-    case ContentType.coverWalletAddress:
-      if (version === '1.0' && !content.walletAddress) {
-        throw new Error('Invalid content for coverWalletAddress');
-      }
-
-      if (!['1.0'].includes(version)) {
-        throw new Error('Invalid version');
-      }
-      break;
-
     case ContentType.coverWalletAddresses:
       if (version === '1.0') {
         if (!content.walletAddresses || content.walletAddresses.length === 0) {
@@ -114,7 +104,17 @@ export const uploadIPFSContent = async (
         }
       }
 
-      if (!['1.0', '2.0'].includes(version)) {
+      if (version === '3.0') {
+        if (!content.wallets || content.wallets.length === 0) {
+          throw new Error('Wallets cannot be empty');
+        }
+
+        if (content.wallets.some(wallet => !wallet.wallet || !wallet.amount)) {
+          throw new Error('All wallets must have a wallet and an amount');
+        }
+      }
+
+      if (!['1.0', '2.0', '3.0'].includes(version)) {
         throw new Error('Invalid version');
       }
       break;

@@ -4,7 +4,6 @@ export enum ContentType {
   coverValidators = 'coverValidators',
   coverQuotaShare = 'coverQuotaShare',
   coverAumCoverAmountPercentage = 'coverAumCoverAmountPercentage',
-  coverWalletAddress = 'coverWalletAddress',
   coverWalletAddresses = 'coverWalletAddresses',
   coverFreeText = 'coverFreeText',
   // ---------------------------------------------------------
@@ -30,11 +29,6 @@ type CoverAumCoverAmountPercentage = {
   aumCoverAmountPercentage: number;
 };
 
-type CoverWalletAddress = {
-  version: '1.0';
-  walletAddress: string;
-};
-
 type CoverWalletAddresses =
   | {
       version: '1.0';
@@ -43,6 +37,13 @@ type CoverWalletAddresses =
   | {
       version: '2.0';
       walletAddresses: string[];
+    }
+  | {
+      version: '3.0';
+      wallets: Array<{
+        wallet: string;
+        amount: string;
+      }>;
     };
 
 type CoverFreeText = {
@@ -86,7 +87,6 @@ export type IPFSContentTypes =
   | CoverValidators
   | CoverQuotaShare
   | CoverAumCoverAmountPercentage
-  | CoverWalletAddress
   | CoverWalletAddresses
   | CoverFreeText
   // ---------------------------------------------------------
@@ -100,7 +100,6 @@ export type IPFSTypeContentTuple =
   | [type: ContentType.coverValidators, content: CoverValidators]
   | [type: ContentType.coverQuotaShare, content: CoverQuotaShare]
   | [type: ContentType.coverAumCoverAmountPercentage, content: CoverAumCoverAmountPercentage]
-  | [type: ContentType.coverWalletAddress, content: CoverWalletAddress]
   | [type: ContentType.coverWalletAddresses, content: CoverWalletAddresses]
   | [type: ContentType.coverFreeText, content: CoverFreeText]
   // ---------------------------------------------------------
@@ -116,7 +115,7 @@ export const IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE = {
   [ProductTypes.stakewiseEthStaking]: ContentType.coverValidators,
   [ProductTypes.sherlockQuotaShare]: ContentType.coverQuotaShare,
   [ProductTypes.unoReQuotaShare]: ContentType.coverQuotaShare,
-  [ProductTypes.deFiPass]: ContentType.coverWalletAddress,
+  [ProductTypes.deFiPass]: ContentType.coverWalletAddresses,
   [ProductTypes.nexusMutual]: ContentType.coverWalletAddresses,
   [ProductTypes.followOn]: ContentType.coverFreeText,
   [ProductTypes.fundPortfolio]: ContentType.coverAumCoverAmountPercentage,
@@ -141,7 +140,7 @@ export interface IPFSContentForProductType {
   [ProductTypes.stakewiseEthStaking]: CoverValidators;
   [ProductTypes.sherlockQuotaShare]: CoverQuotaShare;
   [ProductTypes.unoReQuotaShare]: CoverQuotaShare;
-  [ProductTypes.deFiPass]: CoverWalletAddress;
+  [ProductTypes.deFiPass]: CoverWalletAddresses;
   [ProductTypes.nexusMutual]: CoverWalletAddresses;
   [ProductTypes.followOn]: CoverFreeText;
   [ProductTypes.fundPortfolio]: CoverAumCoverAmountPercentage;

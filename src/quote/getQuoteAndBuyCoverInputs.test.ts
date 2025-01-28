@@ -29,11 +29,10 @@ const coverRouterCapacityResponse: CoverRouterProductCapacityResponse = {
 
 describe('getQuoteAndBuyCoverInputs', () => {
   let buyerAddress: Address;
+  const DEFAULT_NEXUS_API_URL = 'https://api.nexusmutual.io/v2';
 
   beforeAll(() => {
     jest.mock('axios');
-    process.env.COVER_ROUTER_URL = 'http://localhost:5001';
-    process.env.IPFS_GATEWAY_URL = 'http://localhost:5002';
     buyerAddress = '0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5';
   });
 
@@ -41,7 +40,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     mockAxios.reset();
   });
 
-  it('uses COVER_ROUTER_URL env var if none is supplied', async () => {
+  it('uses DEFAULT_NEXUS_API_URL if no API URL is supplied', async () => {
     mockAxios.get.mockResolvedValue({ data: {} });
     const productId = 1;
     const amount = '100';
@@ -50,13 +49,13 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
     await getQuoteAndBuyCoverInputs(productId, amount, period, coverAsset, buyerAddress);
 
-    const defaultGetQuoteUrl = process.env.COVER_ROUTER_URL + '/quote';
+    const defaultGetQuoteUrl = DEFAULT_NEXUS_API_URL + '/quote';
     expect(mockAxios.get).toHaveBeenCalledWith(defaultGetQuoteUrl, {
       params: { amount, coverAsset, period, productId },
     });
   });
 
-  it('allows the consumer to override COVER_ROUTER_URL', async () => {
+  it('allows the consumer to override nexusApiUrl param', async () => {
     mockAxios.get.mockResolvedValue({ data: {} });
     const url = 'http://hahahahahah';
     const productId = 1;

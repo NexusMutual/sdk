@@ -1,6 +1,8 @@
 import axios, { AxiosError } from 'axios';
 
-import { productsMap, productTypes, ProductTypes } from '..';
+import productTypes from '../../generated/product-types.json';
+import products from '../../generated/products.json';
+import { ProductTypes } from '../../generated/types';
 import { calculatePremiumWithCommissionAndSlippage } from '../buyCover/calculatePremiumWithCommissionAndSlippage';
 import {
   CoverAsset,
@@ -25,7 +27,7 @@ import {
   IntString,
   Integer,
 } from '../types';
-import { IPFSContentForProductType, IPFSContentAndType, IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE } from '../types/ipfs';
+import { IPFSContentForProductType, IPFSTypeContentTuple, IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE } from '../types/ipfs';
 
 type CoverRouterQuoteParams = {
   productId: Integer;
@@ -37,6 +39,15 @@ type CoverRouterQuoteParams = {
 type CoverRouterCapacityParams = {
   period: Integer;
 };
+
+type ProductDTO = Omit<(typeof products)[number], 'productType'> & {
+  productType: ProductTypes;
+};
+
+export const productsMap: Record<number, ProductDTO> = products.reduce(
+  (acc, product) => ({ ...acc, [product.id]: product }),
+  {},
+);
 
 function getQuoteAndBuyCoverInputs(
   productId: Integer,
@@ -110,9 +121,7 @@ async function getQuoteAndBuyCoverInputs(
   if (!Object.values(CoverAsset).includes(coverAsset)) {
     return {
       result: undefined,
-      error: {
-        message: `Invalid coverAsset: must be one of ${coverAssetsString}`,
-      },
+      error: { message: `Invalid coverAsset: must be one of ${coverAssetsString}` },
     };
   }
 
@@ -142,13 +151,11 @@ async function getQuoteAndBuyCoverInputs(
     }
   }
 
-  const productType = productsMap[productId]?.productType as ProductTypes;
+  const productType = productsMap[productId]?.productType;
   if (productType === undefined) {
     return {
       result: undefined,
-      error: {
-        message: `Invalid product`,
-      },
+      error: { message: `Invalid product` },
     };
   }
 
@@ -167,7 +174,7 @@ async function getQuoteAndBuyCoverInputs(
 
   if (typeof ipfsCidOrContent !== 'string' && contentType !== undefined && ipfsCidOrContent) {
     try {
-      ipfsData = await uploadIPFSContent([contentType, ipfsCidOrContent] as IPFSContentAndType, nexusApiUrl);
+      ipfsData = await uploadIPFSContent([contentType, ipfsCidOrContent] as IPFSTypeContentTuple, nexusApiUrl);
     } catch (error) {
       return {
         result: undefined,
@@ -233,11 +240,8 @@ async function getQuote(
   coverAmount: IntString,
   coverPeriod: Integer,
   coverAsset: CoverAsset,
-  nexusApiUrl: string | undefined,
+  nexusApiUrl: string,
 ): Promise<CoverRouterQuoteResponse> {
-  if (!nexusApiUrl) {
-    throw new Error('Missing cover-router URL. Set COVER_ROUTER_URL env var or pass URL in params.');
-  }
   const params: CoverRouterQuoteParams = { productId, amount: coverAmount, period: coverPeriod, coverAsset };
   const response = await axios.get<CoverRouterQuoteResponse>(nexusApiUrl + '/quote', { params });
   if (!response.data) {
@@ -253,11 +257,8 @@ async function getProductCapacity(
   productId: Integer,
   coverPeriod: Integer,
   coverAsset: CoverAsset,
-  nexusApiUrl: string | undefined,
+  nexusApiUrl: string,
 ): Promise<IntString | undefined> {
-  if (!nexusApiUrl) {
-    throw new Error('Missing cover-router URL. Set COVER_ROUTER_URL env var or pass URL in params.');
-  }
   const params: CoverRouterCapacityParams = { period: coverPeriod };
   const capacityUrl = nexusApiUrl + `/capacity/${productId}`;
   const response = await axios.get<CoverRouterProductCapacityResponse>(capacityUrl, { params });
@@ -272,11 +273,8 @@ async function handleError(
   productId: Integer,
   coverPeriod: Integer,
   coverAsset: CoverAsset,
-  nexusApiUrl: string | undefined,
+  nexusApiUrl: string,
 ): Promise<ErrorApiResponse> {
-  if (!nexusApiUrl) {
-    throw new Error('Missing cover-router URL. Set COVER_ROUTER_URL env var or pass URL in params.');
-  }
   const axiosError = error as AxiosError<{ error: string }>;
   if (axiosError.isAxiosError) {
     if (axiosError.response?.data?.error?.includes('Not enough capacity')) {

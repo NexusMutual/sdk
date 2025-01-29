@@ -4,7 +4,7 @@ import { uploadIPFSContent } from './uploadIPFSContent';
 import { ContentType } from '../types/ipfs';
 
 describe('uploadIPFSContent', () => {
-  const URL = 'https://api.test.io/upload/v2/upload';
+  const URL = 'https://api.test.io/upload/v2';
 
   beforeAll(() => {
     jest.mock('axios');
@@ -17,7 +17,7 @@ describe('uploadIPFSContent', () => {
   it('should throw an error if content is empty', async () => {
     const res = async () => {
       // @ts-expect-error" Testing invalid input
-      await uploadIPFSContent([(ContentType.coverFreeText, undefined)], URL);
+      await uploadIPFSContent([ContentType.coverFreeText, undefined], URL);
     };
     expect(res).rejects.toThrow('Content cannot be empty');
   });
@@ -25,7 +25,7 @@ describe('uploadIPFSContent', () => {
   it('should throw an error if content is invalid for coverValidators', async () => {
     const res = async () => {
       // @ts-expect-error" Testing invalid input
-      await uploadIPFSContent([(ContentType.coverValidators, { version: '1.0' })], URL);
+      await uploadIPFSContent([ContentType.coverValidators, { version: '1.0', content: {} }], URL);
     };
     expect(res).rejects.toThrow('Invalid content for coverValidators');
   });
@@ -33,7 +33,7 @@ describe('uploadIPFSContent', () => {
   it('should throw an error if content is invalid for coverQuotaShare', async () => {
     const res = async () => {
       // @ts-expect-error" Testing invalid input
-      await uploadIPFSContent([(ContentType.coverQuotaShare, { version: '1.0' })], URL);
+      await uploadIPFSContent([ContentType.coverQuotaShare, { version: '1.0' }], URL);
     };
     expect(res).rejects.toThrow('Invalid content for coverQuotaShare');
   });
@@ -41,7 +41,7 @@ describe('uploadIPFSContent', () => {
   it('should throw an error if content is invalid for coverAumCoverAmountPercentage', async () => {
     const res = async () => {
       // @ts-expect-error" Testing invalid input
-      await uploadIPFSContent([(ContentType.coverAumCoverAmountPercentage, { version: '1.0' })], URL);
+      await uploadIPFSContent([ContentType.coverAumCoverAmountPercentage, { version: '1.0' }], URL);
     };
     expect(res).rejects.toThrow('Invalid content for coverAumCoverAmountPercentage');
   });
@@ -49,7 +49,7 @@ describe('uploadIPFSContent', () => {
   it('should throw an error if content is invalid for coverWalletAddress', async () => {
     const res = async () => {
       // @ts-expect-error" Testing invalid input
-      await uploadIPFSContent([(ContentType.coverWalletAddress, { version: '1.0' })], URL);
+      await uploadIPFSContent([ContentType.coverWalletAddress, { version: '1.0', content: {} }], URL);
     };
     expect(res).rejects.toThrow('Invalid content for coverWalletAddress');
   });
@@ -83,7 +83,7 @@ describe('uploadIPFSContent', () => {
   it('should throw an error if content is invalid for coverFreeText', async () => {
     const res = async () => {
       // @ts-expect-error" Testing invalid input
-      await uploadIPFSContent([(ContentType.coverFreeText, { version: '1.0' })], URL);
+      await uploadIPFSContent([ContentType.coverFreeText, { version: '1.0' }], URL);
     };
     expect(res).rejects.toThrow('Invalid content for coverFreeText');
   });
@@ -103,7 +103,7 @@ describe('uploadIPFSContent', () => {
     expect(res).rejects.toThrow('Free text should be a string');
   });
 
-  it('should call the ipfs upload endpoint with the correct data', async () => {
+  it('should call the ipfs upload endpoint with the correct data for coverFreeText', async () => {
     mockAxios.post.mockResolvedValue({
       data: {
         ipfsHash: 'QmZ4w2yH',
@@ -113,7 +113,7 @@ describe('uploadIPFSContent', () => {
     await uploadIPFSContent([ContentType.coverFreeText, { version: '1.0', freeText: 'test' }], URL);
 
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
-    expect(mockAxios.post).toHaveBeenCalledWith(`${URL}?pin=true`, {
+    expect(mockAxios.post).toHaveBeenCalledWith(URL + '/ipfs', {
       type: ContentType.coverFreeText,
       content: {
         version: '1.0',
@@ -122,7 +122,7 @@ describe('uploadIPFSContent', () => {
     });
   });
 
-  it('should return a hash if content is valid', async () => {
+  it('should return a hash if content is valid for coverFreeText', async () => {
     mockAxios.post.mockResolvedValue({
       data: {
         ipfsHash: 'QmZ4w2yH9oF',
@@ -131,5 +131,38 @@ describe('uploadIPFSContent', () => {
 
     const res = await uploadIPFSContent([ContentType.coverFreeText, { version: '1.0', freeText: 'test' }], URL);
     expect(res).toEqual('QmZ4w2yH9oF');
+  });
+
+  it('should throw an error if content is invalid for defiPassContent - no wallets', async () => {
+    const res = async () => {
+      // @ts-expect-error Testing invalid input
+      await uploadIPFSContent([ContentType.defiPassContent, { version: '1.0' }], URL);
+    };
+    expect(res).rejects.toThrow('Invalid content for defiPassContent');
+  });
+
+  it('should throw an error if content is invalid for defiPassContent - empty array', async () => {
+    const res = async () => {
+      await uploadIPFSContent([ContentType.defiPassContent, { version: '1.0', wallets: [] }], URL);
+    };
+    expect(res).rejects.toThrow('Wallets cannot be empty');
+  });
+
+  it('should throw an error if content is invalid for defiPassContent coverDesignatedWallets - no amount', async () => {
+    const res = async () => {
+      await uploadIPFSContent(
+        // @ts-expect-error Testing invalid input
+        [ContentType.defiPassContent, { version: '1.0', wallets: [{ wallet: '0x1234' }] }],
+        URL,
+      );
+    };
+    expect(res).rejects.toThrow('All wallets must have a wallet and an amount');
+  });
+
+  it('should throw an error if content is invalid for defiPassContent walletAddress - no address', async () => {
+    const res = async () => {
+      await uploadIPFSContent([ContentType.defiPassContent, { version: '1.0', walletAddress: '' }], URL);
+    };
+    expect(res).rejects.toThrow('Wallet address cannot be empty');
   });
 });

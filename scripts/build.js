@@ -31,9 +31,6 @@ const main = async () => {
     clean: true,
     dts: true,
     publicDir: 'public',
-    define: {
-      'process.env.COVER_ROUTER_URL': JSON.stringify(process.env.COVER_ROUTER_URL),
-    },
   });
 
   // Copy over all processed logo files to dist

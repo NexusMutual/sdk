@@ -1,7 +1,7 @@
 name: pull-request
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, reopened, ready_for_review]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -11,8 +11,6 @@ env:
   NODE_VERSION: '18'
   CACHE_KEY: ${{ secrets.CACHE_KEY }} # Change to bust caches
   PROVIDER_URL: https://eth-mainnet.g.alchemy.com/v2/${{ secrets.ALCHEMY_API_KEY }}
-  IPFS_GATEWAY_URL: https://api.nexusmutual.io
-  COVER_ROUTER_URL: https://api.nexusmutual.io/v2
 
 jobs:
   version:
@@ -66,7 +64,6 @@ jobs:
 
   checks:
     runs-on: ubuntu-22.04
-    needs: [version]
     steps:
       - uses: actions/checkout@v3
 
@@ -82,7 +79,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Build package
         run: npm run build
@@ -93,8 +90,8 @@ jobs:
       - name: Run prettier
         run: npm run format
 
-      # - name: Check types and typescript
-      #   run: npm run ts:check
+      - name: Check types and typescript
+        run: npm run ts:check
 
-      # - name: Run tests
-      #   run: npm run test
+      - name: Run tests
+        run: npm run test

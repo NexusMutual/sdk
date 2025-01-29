@@ -205,6 +205,22 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(error?.message).toBe('Wallet addresses cannot be empty');
   });
 
+  it('returns an error if ipfsData is not a valid IPFS content for the product type - Defi Pass', async () => {
+    const { error } = await getQuoteAndBuyCoverInputs(227, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
+      version: '1.0',
+      wallets: [],
+    });
+    expect(error?.message).toBe('Wallets cannot be empty');
+  });
+
+  it('returns an error if ipfsData is not a valid IPFS content for the product type - empty address Defi Pass', async () => {
+    const { error } = await getQuoteAndBuyCoverInputs(227, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
+      version: '1.0',
+      walletAddress: '',
+    });
+    expect(error?.message).toBe('Wallet address cannot be empty');
+  });
+
   it('returns an error if the ipfs content could not be uploaded', async () => {
     mockAxios.get.mockRejectedValueOnce({ message: 'Failed to upload IPFS content' });
 

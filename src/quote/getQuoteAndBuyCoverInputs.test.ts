@@ -205,7 +205,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(error?.message).toBe('Wallet addresses cannot be empty');
   });
 
-  it('returns an error if ipfsData is not a valid IPFS content for the product type - Defi Pass', async () => {
+  it('returns an error if ipfsData is not a valid IPFS content for Defi Pass', async () => {
     const { error } = await getQuoteAndBuyCoverInputs(227, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
       version: '1.0',
       wallets: [],
@@ -213,7 +213,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(error?.message).toBe('Wallets cannot be empty');
   });
 
-  it('returns an error if ipfsData is not a valid IPFS content for the product type - empty address Defi Pass', async () => {
+  it('returns an error if ipfsData is not a valid IPFS content for the Defi Pass - empty address', async () => {
     const { error } = await getQuoteAndBuyCoverInputs(227, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
       version: '1.0',
       walletAddress: '',

@@ -133,6 +133,36 @@ export const uploadIPFSContent = async (
       }
       break;
 
+    case ContentType.defiPassContent:
+      if (version === '1.0' && !('wallets' in content) && !('walletAddress' in content)) {
+        throw new Error('Invalid content for defiPassContent');
+      }
+
+      if (version === '1.0' && 'wallets' in content) {
+        if (!content.wallets || content.wallets.length === 0) {
+          throw new Error('Wallets cannot be empty');
+        }
+
+        if (content.wallets.some(wallet => !wallet.wallet || !wallet.amount)) {
+          throw new Error('All wallets must have a wallet and an amount');
+        }
+      }
+
+      if (version === '1.0' && 'walletAddress' in content) {
+        if (!content.walletAddress) {
+          throw new Error('Wallet address cannot be empty');
+        }
+
+        if (!ethereumAddressRegex.test(content.walletAddress)) {
+          throw new Error('Wallet address must be a valid Ethereum address');
+        }
+      }
+
+      if (!['1.0'].includes(version)) {
+        throw new Error('Invalid version');
+      }
+      break;
+
     case 'stakingPoolDetails':
       if (!['1.0'].includes(version)) {
         throw new Error('Invalid version');

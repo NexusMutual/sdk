@@ -103,7 +103,7 @@ describe('uploadIPFSContent', () => {
     expect(res).rejects.toThrow('Free text should be a string');
   });
 
-  it('should call the ipfs upload endpoint with the correct data', async () => {
+  it('should call the ipfs upload endpoint with the correct data for coverFreeText', async () => {
     mockAxios.post.mockResolvedValue({
       data: {
         ipfsHash: 'QmZ4w2yH',
@@ -122,7 +122,7 @@ describe('uploadIPFSContent', () => {
     });
   });
 
-  it('should return a hash if content is valid', async () => {
+  it('should return a hash if content is valid for coverFreeText', async () => {
     mockAxios.post.mockResolvedValue({
       data: {
         ipfsHash: 'QmZ4w2yH9oF',
@@ -131,5 +131,38 @@ describe('uploadIPFSContent', () => {
 
     const res = await uploadIPFSContent([ContentType.coverFreeText, { version: '1.0', freeText: 'test' }], URL);
     expect(res).toEqual('QmZ4w2yH9oF');
+  });
+
+  it('should throw an error if content is invalid for defiPassContent - no wallets', async () => {
+    const res = async () => {
+      // @ts-expect-error Testing invalid input
+      await uploadIPFSContent([ContentType.defiPassContent, { version: '1.0' }], URL);
+    };
+    expect(res).rejects.toThrow('Invalid content for defiPassContent');
+  });
+
+  it('should throw an error if content is invalid for defiPassContent - empty array', async () => {
+    const res = async () => {
+      await uploadIPFSContent([ContentType.defiPassContent, { version: '1.0', wallets: [] }], URL);
+    };
+    expect(res).rejects.toThrow('Wallets cannot be empty');
+  });
+
+  it('should throw an error if content is invalid for defiPassContent coverDesignatedWallets - no amount', async () => {
+    const res = async () => {
+      await uploadIPFSContent(
+        // @ts-expect-error Testing invalid input
+        [ContentType.defiPassContent, { version: '1.0', wallets: [{ wallet: '0x1234' }] }],
+        URL,
+      );
+    };
+    expect(res).rejects.toThrow('All wallets must have a wallet and an amount');
+  });
+
+  it('should throw an error if content is invalid for defiPassContent walletAddress - no address', async () => {
+    const res = async () => {
+      await uploadIPFSContent([ContentType.defiPassContent, { version: '1.0', walletAddress: '' }], URL);
+    };
+    expect(res).rejects.toThrow('Wallet address cannot be empty');
   });
 });

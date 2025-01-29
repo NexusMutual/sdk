@@ -1,4 +1,4 @@
-import { ProductTypes } from '..';
+import { ProductTypes } from '../../generated/types';
 
 export enum ContentType {
   coverValidators = 'coverValidators',
@@ -7,6 +7,8 @@ export enum ContentType {
   coverWalletAddress = 'coverWalletAddress',
   coverWalletAddresses = 'coverWalletAddresses',
   coverFreeText = 'coverFreeText',
+  coverDesignatedWallets = 'coverDesignatedWallets',
+  defiPassContent = 'defiPassContent',
   // ---------------------------------------------------------
   stakingPoolDetails = 'stakingPoolDetails',
   claimProof = 'claimProof',
@@ -50,6 +52,16 @@ type CoverFreeText = {
   freeText: string;
 };
 
+type CoverDesignatedWallets = {
+  version: '1.0';
+  wallets: Array<{
+    wallet: string;
+    amount: string;
+  }>;
+};
+
+type DefiPassContent = CoverWalletAddress | CoverDesignatedWallets;
+
 type StakingPoolDetails = {
   version: '1.0';
   poolName: string;
@@ -89,6 +101,8 @@ export type IPFSContentTypes =
   | CoverWalletAddress
   | CoverWalletAddresses
   | CoverFreeText
+  | CoverDesignatedWallets
+  | DefiPassContent
   // ---------------------------------------------------------
   | StakingPoolDetails
   | ClaimProof
@@ -96,13 +110,15 @@ export type IPFSContentTypes =
   | GovernanceProposal
   | GovernanceCategory;
 
-export type IPFSContentAndType =
+export type IPFSTypeContentTuple =
   | [type: ContentType.coverValidators, content: CoverValidators]
   | [type: ContentType.coverQuotaShare, content: CoverQuotaShare]
   | [type: ContentType.coverAumCoverAmountPercentage, content: CoverAumCoverAmountPercentage]
   | [type: ContentType.coverWalletAddress, content: CoverWalletAddress]
   | [type: ContentType.coverWalletAddresses, content: CoverWalletAddresses]
   | [type: ContentType.coverFreeText, content: CoverFreeText]
+  | [type: ContentType.coverDesignatedWallets, content: CoverDesignatedWallets]
+  | [type: ContentType.defiPassContent, content: DefiPassContent]
   // ---------------------------------------------------------
   | [type: ContentType.stakingPoolDetails, content: StakingPoolDetails]
   | [type: ContentType.claimProof, content: ClaimProof]
@@ -116,7 +132,7 @@ export const IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE = {
   [ProductTypes.stakewiseEthStaking]: ContentType.coverValidators,
   [ProductTypes.sherlockQuotaShare]: ContentType.coverQuotaShare,
   [ProductTypes.unoReQuotaShare]: ContentType.coverQuotaShare,
-  [ProductTypes.deFiPass]: ContentType.coverWalletAddress,
+  [ProductTypes.deFiPass]: ContentType.defiPassContent,
   [ProductTypes.nexusMutual]: ContentType.coverWalletAddresses,
   [ProductTypes.followOn]: ContentType.coverFreeText,
   [ProductTypes.fundPortfolio]: ContentType.coverAumCoverAmountPercentage,
@@ -141,7 +157,7 @@ export interface IPFSContentForProductType {
   [ProductTypes.stakewiseEthStaking]: CoverValidators;
   [ProductTypes.sherlockQuotaShare]: CoverQuotaShare;
   [ProductTypes.unoReQuotaShare]: CoverQuotaShare;
-  [ProductTypes.deFiPass]: CoverWalletAddress;
+  [ProductTypes.deFiPass]: DefiPassContent;
   [ProductTypes.nexusMutual]: CoverWalletAddresses;
   [ProductTypes.followOn]: CoverFreeText;
   [ProductTypes.fundPortfolio]: CoverAumCoverAmountPercentage;

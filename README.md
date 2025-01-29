@@ -83,12 +83,12 @@ Use the `getQuoteAndBuyCoverInputs` function from `src/cover/getQuoteAndBuyCover
 ```typescript
 import { CoverAsset, getQuoteAndBuyCoverInputs } from '@nexusmutual/sdk';
 
-const productId = 1;
+const productId = 247; // Elite Cover Product - Nexus Mutual Cover Product Type
 const coverAmount = '100';
 const coverPeriod = 30;
 const coverAsset = CoverAsset.ETH;
 const buyerAddress = '0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5';
-const ipfsCid = 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY';
+const ipfsCid = 'QmXUzXDMbeKSCewUie34vPD7mCAGnshi4ULRy4h7DLmoRS';
 
 const quoteAndBuyCoverInputs = await getQuoteAndBuyCoverInputs(
   productId,
@@ -108,7 +108,7 @@ console.log(quoteAndBuyCoverInputs);
 ```typescript
 import { CoverAsset, getQuoteAndBuyCoverInputs, IPFSContentTypes } from '@nexusmutual/sdk';
 
-const productId = 247;
+const productId = 247; // Elite Cover Product - Nexus Mutual Cover Product Type
 const coverAmount = '100';
 const coverPeriod = 30;
 const coverAsset = CoverAsset.ETH;
@@ -124,6 +124,7 @@ const quoteAndBuyCoverInputs = await getQuoteAndBuyCoverInputs(
   coverPeriod,
   coverAsset,
   buyerAddress,
+  undefined,
   ipfsContent,
 );
 
@@ -134,3 +135,36 @@ If the productId's type needs an IPFS upload, you can pass the `ipfsContent` par
 
 The `ipfsCid` param must be a valid IPFS Cid.
 The `ipfsContent` param must be a valid `IPFSContentTypes` - the allowed types can be found in `src/types/ipfs.ts`.
+
+### Product Types and IPFS Content Mapping
+
+The following table shows the mapping between product types and their required IPFS content types:
+
+| Product Type | Content Type | Content Structure | Description |
+|-------------|--------------|-------------------|-------------|
+| ethSlashing | coverValidators | <pre>{ version: '1.0', validators: string[] }</pre> | Array of validator addresses |
+| liquidCollectiveEthStaking | coverValidators | <pre>{ version: '1.0', validators: string[] }</pre> | Array of validator addresses |
+| stakewiseEthStaking | coverValidators | <pre>{ version: '1.0', validators: string[] }</pre> | Array of validator addresses |
+| sherlockQuotaShare | coverQuotaShare | <pre>{ version: '1.0', quotaShare: number }</pre> | Percentage value, 0 to 100 |
+| unoReQuotaShare | coverQuotaShare | <pre>{ version: '1.0', quotaShare: number }</pre> | Percentage value, 0 to 100 |
+| deFiPass | coverWalletAddress | <pre>{ version: '1.0', walletAddress: string }</pre> | Single wallet address |
+| nexusMutual | coverWalletAddresses | <pre>{ version: '1.0', walletAddresses: string }</pre> | Single wallet address |
+| nexusMutual | coverWalletAddresses | <pre>{ version: '2.0', walletAddresses: string[] }</pre> | Array of wallet addresses |
+| followOn | coverFreeText | <pre>{ version: '1.0', freeText: string }</pre> | Free text description |
+| fundPortfolio | coverAumCoverAmountPercentage | <pre>{ version: '1.0', aumCoverAmountPercentage: number }</pre> | Percentage value, 0 to 100 |
+| generalisedFundPortfolio | coverAumCoverAmountPercentage | <pre>{ version: '1.0', aumCoverAmountPercentage: number }</pre> | Percentage value, 0 to 100 |
+
+Note: The following product types do not require IPFS content:
+- protocol
+- custody
+- yieldToken
+- sherlockExcess
+- nativeProtocol
+- theRetailMutual
+- bundledProtocol
+- ethSlashingUmbrella
+- openCoverTransaction
+- sherlockBugBounty
+- immunefiBugBounty
+
+For a complete list of products and product types, see [products.json](https://sdk.nexusmutual.io/data/products.json) and [product-types.json](https://sdk.nexusmutual.io/data/product-types.json).

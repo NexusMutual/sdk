@@ -10,21 +10,25 @@ const { parseProductCoverAssets, parseFilePath, getCoverAssetsSymbols } = requir
 const { allPrivateProductsIds } = require(path.join(__dirname, '../src/constants/privateProducts.js'));
 const productMetadata = require('../data/legacy-product-metadata.json');
 
-const { PROVIDER_URL, IPFS_GATEWAY_URL } = process.env;
+const { PROVIDER_URL } = process.env;
 
-const ipfsURL = ipfsHash => `${IPFS_GATEWAY_URL}/ipfs/${ipfsHash}`;
+const ipfsURL = ipfsHash => `https://api.nexusmutual.io/ipfs/${ipfsHash}`;
 
 const fetchProductTypes = async coverProducts => {
   const productTypesCount = (await coverProducts.getProductTypeCount()).toNumber();
-  const productTypes = [];
+  const ids = Array.from({ length: productTypesCount }, (_, i) => i);
 
-  for (let id = 0; id < productTypesCount; id++) {
-    const { gracePeriod, claimMethod } = await coverProducts.getProductType(id);
-    const name = await coverProducts.getProductTypeName(id);
-    const { ipfsHash } = await coverProducts.getLatestProductTypeMetadata(id);
-    const coverWordingURL = ipfsURL(ipfsHash);
-    productTypes.push({ id, coverWordingURL, name: name.trim(), gracePeriod, claimMethod });
-  }
+  const productTypes = await Promise.all(
+    ids.map(async id => {
+      const [{ gracePeriod, claimMethod }, name, { ipfsHash }] = await Promise.all([
+        coverProducts.getProductType(id),
+        coverProducts.getProductTypeName(id),
+        coverProducts.getLatestProductTypeMetadata(id),
+      ]);
+      const coverWordingURL = ipfsURL(ipfsHash);
+      return { id, coverWordingURL, name: name.trim(), gracePeriod, claimMethod };
+    }),
+  );
 
   return productTypes;
 };
@@ -132,11 +136,6 @@ const fetchProducts = async (coverContract, coverProducts, provider) => {
 const buildProducts = async () => {
   if (PROVIDER_URL === undefined) {
     console.log('PROVIDER_URL environment variable is not defined');
-    process.exit(1);
-  }
-
-  if (IPFS_GATEWAY_URL === undefined) {
-    console.log('IPFS_GATEWAY_URL environment variable is not defined');
     process.exit(1);
   }
 

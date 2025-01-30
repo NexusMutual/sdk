@@ -126,7 +126,7 @@ export type IPFSTypeContentTuple =
   | [type: ContentType.governanceProposal, content: GovernanceProposal]
   | [type: ContentType.governanceCategory, content: GovernanceCategory];
 
-export const IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE = {
+export const IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE: Record<ProductTypes, ContentType | undefined> = {
   [ProductTypes.ethSlashing]: ContentType.coverValidators,
   [ProductTypes.liquidCollectiveEthStaking]: ContentType.coverValidators,
   [ProductTypes.stakewiseEthStaking]: ContentType.coverValidators,
@@ -149,6 +149,7 @@ export const IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE = {
   [ProductTypes.openCoverTransaction]: undefined,
   [ProductTypes.sherlockBugBounty]: undefined,
   [ProductTypes.immunefiBugBounty]: undefined,
+  [ProductTypes.crypto]: undefined,
 };
 
 export interface IPFSContentForProductType {
@@ -174,6 +175,7 @@ export interface IPFSContentForProductType {
   [ProductTypes.openCoverTransaction]: undefined;
   [ProductTypes.sherlockBugBounty]: undefined;
   [ProductTypes.immunefiBugBounty]: undefined;
+  [ProductTypes.crypto]: undefined;
 }
 
 export type IPFSUploadServiceResponse = {

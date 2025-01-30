@@ -134,7 +134,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   111: ProductCategoryEnum.Uncategorized, // WeFi (UnoRe)
   112: ProductCategoryEnum.Uncategorized, // ZkTsunami (UnoRe)
   113: ProductCategoryEnum.Uncategorized, // Hats Protocol
-  114: ProductCategoryEnum.YieldOptimizer, // MakerDAO DSR (sDAI)
+  114: ProductCategoryEnum.YieldOptimizer, // DAI Savings Rate (sDAI)
   115: ProductCategoryEnum.Lending, // Spark Lending v1
   116: ProductCategoryEnum.YieldOptimizer, // DefiEdge
   117: ProductCategoryEnum.ETHStaking, // Stakewise v3
@@ -254,7 +254,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   235: ProductCategoryEnum.Perpetuals, // GammaSwap
   236: ProductCategoryEnum.YieldOptimizer, // Ether.fi Liquid Usual Stable Vault
   237: ProductCategoryEnum.YieldOptimizer, // Ether.fi Liquid Elixir Stable Vault
-  238: ProductCategoryEnum.YieldOptimizer, // sUSDS (Sky Savings Rate)
+  238: ProductCategoryEnum.YieldOptimizer, // Sky Savings Rate (sUSDS)
   239: ProductCategoryEnum.Uncategorized, // Everstake
   240: ProductCategoryEnum.Uncategorized, // Ensuro
   241: ProductCategoryEnum.YieldOptimizer, // Savings crvUSD (scrvUSD)
@@ -269,4 +269,10 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   250: ProductCategoryEnum.Uncategorized, // Fasanara
   251: ProductCategoryEnum.Lending, // Term Finance
   252: ProductCategoryEnum.YieldOptimizer, // Sturdy Finance
+  253: ProductCategoryEnum.YieldOptimizer, // Ethena USDe Depeg
+  254: ProductCategoryEnum.Lending, // Maple
+  255: ProductCategoryEnum.Lending, // Syrup
+  256: ProductCategoryEnum.Dex, // Uniswap v4
+  257: ProductCategoryEnum.Dex, // Balancer v3
+  258: ProductCategoryEnum.Perpetuals, // RFX
 };

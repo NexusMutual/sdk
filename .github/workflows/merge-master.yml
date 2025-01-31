@@ -94,7 +94,7 @@ jobs:
       - name: Run tests
         run: npm run test
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: sdk-${{ needs.version.outputs.local_version }}
           path: dist

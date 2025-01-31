@@ -1,4 +1,21 @@
+import { z } from 'zod';
+
 import { ProductTypes } from '../../generated/types';
+import {
+  coverValidatorsSchema,
+  coverQuotaShareSchema,
+  coverAumCoverAmountPercentageSchema,
+  coverWalletAddressSchema,
+  coverWalletAddressesSchema,
+  coverFreeTextSchema,
+  coverDesignatedWalletsSchema,
+  defiPassContentSchema,
+  stakingPoolDetailsSchema,
+  claimProofSchema,
+  assessmentCriteriaAnswersSchema,
+  governanceProposalSchema,
+  governanceCategorySchema,
+} from '../ipfs/schemas';
 
 export enum ContentType {
   coverValidators = 'coverValidators',
@@ -17,82 +34,19 @@ export enum ContentType {
   governanceCategory = 'governanceCategory',
 }
 
-type CoverValidators = {
-  version: '1.0';
-  validators: string[];
-};
-
-type CoverQuotaShare = {
-  version: '1.0';
-  quotaShare: number;
-};
-
-type CoverAumCoverAmountPercentage = {
-  version: '1.0';
-  aumCoverAmountPercentage: number;
-};
-
-type CoverWalletAddress = {
-  version: '1.0';
-  walletAddress: string;
-};
-
-type CoverWalletAddresses =
-  | {
-      version: '1.0';
-      walletAddresses: string;
-    }
-  | {
-      version: '2.0';
-      walletAddresses: string[];
-    };
-
-type CoverFreeText = {
-  version: '1.0';
-  freeText: string;
-};
-
-type CoverDesignatedWallets = {
-  version: '1.0';
-  wallets: Array<{
-    wallet: string;
-    amount: string;
-  }>;
-};
-
-type DefiPassContent = CoverWalletAddress | CoverDesignatedWallets;
-
-type StakingPoolDetails = {
-  version: '1.0';
-  poolName: string;
-  poolDescription: string;
-};
-
-type ClaimProof = {
-  version: '1.0';
-  coverId: number;
-  affectedAddresses: string[];
-  affectedChain: string;
-  incidentDescription: string;
-  incidentTransactionHashes: string[];
-  incidentEvidenceLinks: string[];
-  attachedFilesHashes: string[];
-};
-
-type AssessmentCriteriaAnswers = {
-  version: '1.0';
-  answers: Record<string, string>;
-};
-
-type GovernanceProposal = {
-  version: '1.0';
-  proposal: string;
-};
-
-type GovernanceCategory = {
-  version: '1.0';
-  category: string;
-};
+export type CoverValidators = z.infer<typeof coverValidatorsSchema>;
+export type CoverQuotaShare = z.infer<typeof coverQuotaShareSchema>;
+export type CoverAumCoverAmountPercentage = z.infer<typeof coverAumCoverAmountPercentageSchema>;
+export type CoverWalletAddress = z.infer<typeof coverWalletAddressSchema>;
+export type CoverWalletAddresses = z.infer<typeof coverWalletAddressesSchema>;
+export type CoverFreeText = z.infer<typeof coverFreeTextSchema>;
+export type CoverDesignatedWallets = z.infer<typeof coverDesignatedWalletsSchema>;
+export type DefiPassContent = z.infer<typeof defiPassContentSchema>;
+export type StakingPoolDetails = z.infer<typeof stakingPoolDetailsSchema>;
+export type ClaimProof = z.infer<typeof claimProofSchema>;
+export type AssessmentCriteriaAnswers = z.infer<typeof assessmentCriteriaAnswersSchema>;
+export type GovernanceProposal = z.infer<typeof governanceProposalSchema>;
+export type GovernanceCategory = z.infer<typeof governanceCategorySchema>;
 
 export type IPFSContentTypes =
   | CoverValidators

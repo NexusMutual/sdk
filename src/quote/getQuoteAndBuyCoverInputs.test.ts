@@ -13,7 +13,14 @@ import {
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
 } from '../constants/buyCover';
-import { Address, CoverRouterProductCapacityResponse, CoverRouterQuoteResponse } from '../types';
+import {
+  Address,
+  CoverFreeText,
+  CoverRouterProductCapacityResponse,
+  CoverRouterQuoteResponse,
+  CoverValidators,
+  DefiPassContent,
+} from '../types';
 
 const coverRouterCapacityResponse: CoverRouterProductCapacityResponse = {
   productId: 150,
@@ -30,6 +37,7 @@ const coverRouterCapacityResponse: CoverRouterProductCapacityResponse = {
 describe('getQuoteAndBuyCoverInputs', () => {
   let buyerAddress: Address;
   const DEFAULT_NEXUS_API_URL = 'https://api.nexusmutual.io/v2';
+  const TEST_API_URL = 'https://api.test.io/v2';
 
   beforeAll(() => {
     jest.mock('axios');
@@ -79,6 +87,9 @@ describe('getQuoteAndBuyCoverInputs', () => {
       30,
       CoverAsset.ETH,
       buyerAddress,
+      0,
+      '',
+      TEST_API_URL,
     );
     expect(error?.message).toBe('Invalid productId: must be a positive integer');
   });
@@ -93,6 +104,9 @@ describe('getQuoteAndBuyCoverInputs', () => {
         30,
         CoverAsset.ETH,
         buyerAddress,
+        0,
+        '',
+        TEST_API_URL,
       );
       expect(error?.message).toBe('Invalid coverAmount: must be a positive integer string');
     },
@@ -106,6 +120,9 @@ describe('getQuoteAndBuyCoverInputs', () => {
       invalidCoverPeriod as number,
       CoverAsset.ETH,
       buyerAddress,
+      0,
+      '',
+      TEST_API_URL,
     );
     expect(error?.message).toBe(
       `Invalid coverPeriod: must be between ${MINIMUM_COVER_PERIOD} and ${MAXIMUM_COVER_PERIOD} days`,
@@ -142,6 +159,8 @@ describe('getQuoteAndBuyCoverInputs', () => {
         CoverAsset.ETH,
         buyerAddress,
         invalidSlippage as number,
+        undefined,
+        TEST_API_URL,
       );
       expect(error?.message).toBe('Invalid slippage: must be a number between 0 and 1');
     },
@@ -159,66 +178,174 @@ describe('getQuoteAndBuyCoverInputs', () => {
         buyerAddress,
         0.1,
         invalidData as string,
+        TEST_API_URL,
       );
       expect(error?.message).toBe('Invalid ipfsCid: must be a valid IPFS CID');
     },
   );
 
   it('returns an error if ipfsData is not a valid IPFS content for the product type - ETH Slashing', async () => {
-    const { error } = await getQuoteAndBuyCoverInputs(82, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
-      version: '1.0',
-      freeText: 'test',
-    });
-    expect(error?.message).toBe('Invalid content for coverValidators');
+    const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
+    const { error } = await getQuoteAndBuyCoverInputs(
+      82,
+      '100',
+      30,
+      CoverAsset.ETH,
+      buyerAddress,
+      0.1,
+      invalidContent,
+      TEST_API_URL,
+    );
+    expect(JSON.parse(error?.message || '')).toEqual([
+      {
+        code: 'invalid_type',
+        expected: 'array',
+        received: 'undefined',
+        path: ['validators'],
+        message: 'Required',
+      },
+    ]);
   });
 
-  // eslint-disable-next-line max-len
-  it('returns an error if ipfsData is not a valid IPFS content for the product type - ETH Slashing, empty validators', async () => {
-    const { error } = await getQuoteAndBuyCoverInputs(82, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
-      version: '1.0',
-      validators: [],
-    });
-    expect(error?.message).toBe('Validators cannot be empty');
+  it('returns an error if ipfsData content has an empty validators field for ETH Slashing product type', async () => {
+    const emptyValidators: CoverValidators = { version: '1.0', validators: [] };
+    const { error } = await getQuoteAndBuyCoverInputs(
+      82,
+      '100',
+      30,
+      CoverAsset.ETH,
+      buyerAddress,
+      0.1,
+      emptyValidators,
+      TEST_API_URL,
+    );
+    expect(JSON.parse(error?.message || '')).toEqual([
+      {
+        code: 'too_small',
+        minimum: 1,
+        type: 'array',
+        inclusive: true,
+        exact: false,
+        message: 'At least one validator address is required',
+        path: ['validators'],
+      },
+    ]);
   });
 
   it('returns an error if ipfsData is not a valid IPFS content for the product type - UnoRe Quota Share', async () => {
-    const { error } = await getQuoteAndBuyCoverInputs(107, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
-      version: '1.0',
-      freeText: 'test',
-    });
-    expect(error?.message).toBe('Invalid content for coverQuotaShare');
+    const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
+    const { error } = await getQuoteAndBuyCoverInputs(
+      107,
+      '100',
+      30,
+      CoverAsset.ETH,
+      buyerAddress,
+      0.1,
+      invalidContent,
+      TEST_API_URL,
+    );
+    expect(JSON.parse(error?.message || '')).toEqual([
+      {
+        code: 'invalid_type',
+        expected: 'number',
+        received: 'undefined',
+        path: ['quotaShare'],
+        message: 'Required',
+      },
+    ]);
   });
 
   it('returns an error if ipfsData is not a valid IPFS content for the product type - Fund Portfolio', async () => {
-    const { error } = await getQuoteAndBuyCoverInputs(195, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
-      version: '1.0',
-      freeText: 'test',
-    });
-    expect(error?.message).toBe('Invalid content for coverAumCoverAmountPercentage');
+    const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
+    const { error } = await getQuoteAndBuyCoverInputs(
+      195,
+      '100',
+      30,
+      CoverAsset.ETH,
+      buyerAddress,
+      0.1,
+      invalidContent,
+      TEST_API_URL,
+    );
+    expect(JSON.parse(error?.message || '')).toEqual([
+      {
+        code: 'invalid_type',
+        expected: 'number',
+        received: 'undefined',
+        path: ['aumCoverAmountPercentage'],
+        message: 'Required',
+      },
+    ]);
   });
 
   it('returns an error if ipfsData is not a valid IPFS content for the product type - Nexus Mutual Cover', async () => {
-    const { error } = await getQuoteAndBuyCoverInputs(247, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
-      version: '1.0',
-      freeText: 'test',
-    });
-    expect(error?.message).toBe('Wallet addresses cannot be empty');
+    const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
+    const { error } = await getQuoteAndBuyCoverInputs(
+      247,
+      '100',
+      30,
+      CoverAsset.ETH,
+      buyerAddress,
+      0.1,
+      invalidContent,
+      TEST_API_URL,
+    );
+    expect(JSON.parse(error?.message || '')).toEqual([
+      {
+        code: 'invalid_type',
+        expected: 'string',
+        received: 'undefined',
+        path: ['walletAddresses'],
+        message: 'Required',
+      },
+    ]);
   });
 
   it('returns an error if ipfsData is not a valid IPFS content for Defi Pass', async () => {
-    const { error } = await getQuoteAndBuyCoverInputs(227, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
-      version: '1.0',
-      wallets: [],
-    });
-    expect(error?.message).toBe('Wallets cannot be empty');
+    const emptyWalletsContent: DefiPassContent = { version: '1.0', wallets: [] };
+    const { error } = await getQuoteAndBuyCoverInputs(
+      227,
+      '100',
+      30,
+      CoverAsset.ETH,
+      buyerAddress,
+      0.1,
+      emptyWalletsContent,
+      TEST_API_URL,
+    );
+    expect(JSON.parse(error?.message || '')).toEqual([
+      {
+        code: 'too_small',
+        minimum: 1,
+        type: 'array',
+        inclusive: true,
+        exact: false,
+        path: ['wallets'],
+        message: 'At least one wallet object is required',
+      },
+    ]);
   });
 
   it('returns an error if ipfsData is not a valid IPFS content for the Defi Pass - empty address', async () => {
-    const { error } = await getQuoteAndBuyCoverInputs(227, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
-      version: '1.0',
-      walletAddress: '',
-    });
-    expect(error?.message).toBe('Wallet address cannot be empty');
+    const emptyWalletString: DefiPassContent = { version: '1.0', walletAddress: '' };
+    const { error } = await getQuoteAndBuyCoverInputs(
+      227,
+      '100',
+      30,
+      CoverAsset.ETH,
+      buyerAddress,
+      0.1,
+      emptyWalletString,
+      TEST_API_URL,
+    );
+    expect(JSON.parse(error?.message || '')).toEqual([
+      {
+        validation: 'regex',
+        code: 'invalid_string',
+        message: 'Invalid Ethereum address',
+        path: ['walletAddress'],
+      },
+    ]);
   });
 
   it('returns an error if the ipfs content could not be uploaded', async () => {
@@ -293,9 +420,10 @@ describe('getQuoteAndBuyCoverInputs', () => {
     mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
     mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
 
+    const validEthAddress = '0x1234567890123456789012345678901234567890';
     const { result, error } = await getQuoteAndBuyCoverInputs(247, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
       version: '2.0',
-      walletAddresses: ['testAddress1', 'testAddress2'],
+      walletAddresses: [validEthAddress],
     });
 
     expect(error).toBeUndefined();

@@ -1,4 +1,4 @@
-import { CID } from 'multiformats';
+import isIPFS from 'is-ipfs';
 
 /**
  * Wrapper method for IPFS CID string validation
@@ -6,6 +6,6 @@ import { CID } from 'multiformats';
  * @param ipfsCid - The CID string to validate.
  * @throws Throw an error if CID is not valid
  */
-export const validateIPFSCid = (ipfsCid: string): void => {
-  CID.parse(ipfsCid);
+export const validateIPFSCid = (ipfsCid: string): boolean => {
+  return isIPFS.cid(ipfsCid);
 };

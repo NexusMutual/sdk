@@ -140,9 +140,8 @@ async function getQuoteAndBuyCoverInputs(
   }
 
   if (typeof ipfsCidOrContent === 'string' && ipfsCidOrContent !== '') {
-    try {
-      validateIPFSCid(ipfsCidOrContent);
-    } catch (error: unknown) {
+    const isValidCID = validateIPFSCid(ipfsCidOrContent);
+    if (!isValidCID) {
       return {
         result: undefined,
         error: { message: 'Invalid ipfsCid: must be a valid IPFS CID' },

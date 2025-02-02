@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { validateIPFSContent } from './validateIPFSContent';
+import { version as sdkVersion } from '../../generated/version.json';
 import { IPFSTypeContentTuple, IPFSUploadServiceResponse } from '../types/ipfs';
 
 const uploadToIPFS = async (nexusApiUrl: string, [type, content]: IPFSTypeContentTuple) => {
@@ -8,16 +9,16 @@ const uploadToIPFS = async (nexusApiUrl: string, [type, content]: IPFSTypeConten
     throw new Error('IPFS base URL not set');
   }
 
-  // POST data to BE service
-  const ipfsHash = await axios
-    .post<IPFSUploadServiceResponse>(nexusApiUrl + '/ipfs', { type, content })
-    .then(response => response.data.ipfsHash)
-    .catch(error => {
-      console.error('Error:', error);
-      throw new Error('Failed to upload data to IPFS');
-    });
+  const ipfsUploadUrl = nexusApiUrl + '/ipfs' + `?sdk=${sdkVersion}`;
 
-  return ipfsHash;
+  // POST data to BE service
+  try {
+    const { data } = await axios.post<IPFSUploadServiceResponse>(ipfsUploadUrl, { type, content });
+    return data.ipfsHash;
+  } catch (error: unknown) {
+    console.error('Error:', error);
+    throw new Error('Failed to upload data to IPFS');
+  }
 };
 
 /**
@@ -38,7 +39,7 @@ const uploadToIPFS = async (nexusApiUrl: string, [type, content]: IPFSTypeConten
  * uploadIPFSData(ContentType.coverFreeText, { version: '1.0', freeText: 'This is a free text' });
  * ```
  */
-export const uploadIPFSContent = async (
+export const uploadIPFSContent = (
   ipfsTypeContentTuple: IPFSTypeContentTuple,
   nexusApiUrl: string = 'https://api.nexusmutual.io/v2',
 ): Promise<string> => {
@@ -49,7 +50,5 @@ export const uploadIPFSContent = async (
 
   validateIPFSContent(type, content);
 
-  const hash = await uploadToIPFS(nexusApiUrl, ipfsTypeContentTuple);
-
-  return hash;
+  return uploadToIPFS(nexusApiUrl, ipfsTypeContentTuple);
 };

@@ -9,16 +9,25 @@ const { buildLogos } = require('./build-logos');
 const { buildProducts } = require('./build-products');
 
 const main = async () => {
+  // Clean directories
   const dist = path.join(__dirname, '../dist');
+  const generated = path.join(__dirname, '../generated');
   if (fs.existsSync(dist)) {
     fs.rmSync(dist, { recursive: true });
   }
-
-  const generated = path.join(__dirname, '../generated');
   if (fs.existsSync(generated)) {
     fs.rmSync(generated, { recursive: true });
   }
 
+  // Create generated directory and its initial content
+  fs.mkdirSync(generated, { recursive: true });
+
+  // Generate version file
+  const sdkVersionPath = path.join(generated, 'version.json');
+  const { version } = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8'));
+  fs.writeFileSync(sdkVersionPath, JSON.stringify({ version }, null, 2));
+
+  // Build assets
   await buildLogos();
   await buildProducts();
 
@@ -69,6 +78,9 @@ const main = async () => {
   const generatedDir = path.join(__dirname, '../generated');
   fs.copyFileSync(path.join(generatedDir, 'products.json'), path.join(dist, 'data/products.json'));
   fs.copyFileSync(path.join(generatedDir, 'product-types.json'), path.join(dist, 'data/product-types.json'));
+
+  // Copy version.json from generated to dist
+  fs.copyFileSync(path.join(generatedDir, 'version.json'), path.join(dist, 'data/version.json'));
 };
 
 main()

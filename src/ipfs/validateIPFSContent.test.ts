@@ -99,32 +99,64 @@ describe('validateIPFSContent', () => {
   });
 
   describe('coverWalletAddresses', () => {
-    const validContentV1: CoverWalletAddresses = {
-      version: '1.0',
-      walletAddresses: validEthAddress,
-    };
+    describe('v1', () => {
+      it('should validate correct v1 content', () => {
+        const validContentSingleAddress: CoverWalletAddresses = {
+          version: '1.0',
+          walletAddresses: validEthAddress,
+        };
+        expect(() => validateIPFSContent(ContentType.coverWalletAddresses, validContentSingleAddress)).not.toThrow();
+      });
 
-    const validContentV2: CoverWalletAddresses = {
-      version: '2.0',
-      walletAddresses: [validEthAddress],
-    };
+      it('should reject invalid single ethereum address', () => {
+        const invalidContent: CoverWalletAddresses = {
+          version: '1.0',
+          walletAddresses: '0xinvalid',
+        };
+        expect(() => validateIPFSContent(ContentType.coverWalletAddresses, invalidContent)).toThrow();
+      });
 
-    it('should validate correct v1 content', () => {
-      expect(() => validateIPFSContent(ContentType.coverWalletAddresses, validContentV1)).not.toThrow();
+      it('should validate valid comma-separated ethereum addresses', () => {
+        const validContentMultipleAddress: CoverWalletAddresses = {
+          version: '1.0',
+          walletAddresses: `${validEthAddress},${validEthAddress}`,
+        };
+        expect(() => validateIPFSContent(ContentType.coverWalletAddresses, validContentMultipleAddress)).not.toThrow();
+      });
+
+      it('should validate valid comma-separated ethereum addresses with spaces', () => {
+        const validContentWithSpaces: CoverWalletAddresses = {
+          version: '1.0',
+          walletAddresses: `${validEthAddress}, ${validEthAddress}`,
+        };
+        expect(() => validateIPFSContent(ContentType.coverWalletAddresses, validContentWithSpaces)).not.toThrow();
+      });
+
+      it('should reject if any address in comma-separated list is invalid', () => {
+        const invalidContent: CoverWalletAddresses = {
+          version: '1.0',
+          walletAddresses: `${validEthAddress},${invalidEthAddress}`,
+        };
+        expect(() => validateIPFSContent(ContentType.coverWalletAddresses, invalidContent)).toThrow();
+      });
     });
 
-    it('should validate correct v2 content', () => {
-      expect(() => validateIPFSContent(ContentType.coverWalletAddresses, validContentV2)).not.toThrow();
-    });
+    describe('v2', () => {
+      it('should validate correct v2 content', () => {
+        const validContentV2: CoverWalletAddresses = {
+          version: '2.0',
+          walletAddresses: [validEthAddress, validEthAddress],
+        };
+        expect(() => validateIPFSContent(ContentType.coverWalletAddresses, validContentV2)).not.toThrow();
+      });
 
-    it('should reject invalid ethereum address in v1', () => {
-      const invalidContent: CoverWalletAddresses = { version: '1.0', walletAddresses: '0xinvalid' };
-      expect(() => validateIPFSContent(ContentType.coverWalletAddresses, invalidContent)).toThrow();
-    });
-
-    it('should reject invalid ethereum address in v2', () => {
-      const invalidContent: CoverWalletAddresses = { version: '2.0', walletAddresses: ['0xinvalid'] };
-      expect(() => validateIPFSContent(ContentType.coverWalletAddresses, invalidContent)).toThrow();
+      it('should reject invalid ethereum address in v2', () => {
+        const invalidContent: CoverWalletAddresses = {
+          version: '2.0',
+          walletAddresses: ['0xinvalid'],
+        };
+        expect(() => validateIPFSContent(ContentType.coverWalletAddresses, invalidContent)).toThrow();
+      });
     });
   });
 

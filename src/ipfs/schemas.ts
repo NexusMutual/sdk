@@ -31,7 +31,10 @@ export const coverWalletAddressSchema = z.object({
 export const coverWalletAddressesSchema = z.discriminatedUnion('version', [
   z.object({
     version: z.literal(VERSION_1_0),
-    walletAddresses: z.string().regex(ethereumAddressRegex, 'Invalid Ethereum address'),
+    walletAddresses: z.string().refine(val => {
+      const addresses = val.split(',').map(addr => addr.trim());
+      return addresses.every(addr => ethereumAddressRegex.test(addr));
+    }, 'Invalid Ethereum address(es)'),
   }),
   z.object({
     version: z.literal(VERSION_2_0),

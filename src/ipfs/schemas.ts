@@ -1,40 +1,40 @@
 import { z } from 'zod';
 
-const VERSION_1 = '1.0' as const;
-const VERSION_2 = '2.0' as const;
+const VERSION_1_0 = '1.0' as const;
+const VERSION_2_0 = '2.0' as const;
 
 // Ethereum address regex (case insensitive)
 const ethereumAddressRegex = /^0x[a-f0-9]{40}$/i;
 
 export const coverValidatorsSchema = z.object({
-  version: z.literal(VERSION_1),
+  version: z.literal(VERSION_1_0),
   validators: z
     .array(z.string().regex(ethereumAddressRegex, 'Invalid Ethereum address'))
     .min(1, 'At least one validator address is required'),
 });
 
 export const coverQuotaShareSchema = z.object({
-  version: z.literal(VERSION_1),
+  version: z.literal(VERSION_1_0),
   quotaShare: z.number().min(0).max(100),
 });
 
 export const coverAumCoverAmountPercentageSchema = z.object({
-  version: z.literal(VERSION_1),
+  version: z.literal(VERSION_1_0),
   aumCoverAmountPercentage: z.number().min(0).max(100),
 });
 
 export const coverWalletAddressSchema = z.object({
-  version: z.literal(VERSION_1),
+  version: z.literal(VERSION_1_0),
   walletAddress: z.string().regex(ethereumAddressRegex, 'Invalid Ethereum address'),
 });
 
 export const coverWalletAddressesSchema = z.discriminatedUnion('version', [
   z.object({
-    version: z.literal(VERSION_1),
+    version: z.literal(VERSION_1_0),
     walletAddresses: z.string().regex(ethereumAddressRegex, 'Invalid Ethereum address'),
   }),
   z.object({
-    version: z.literal(VERSION_2),
+    version: z.literal(VERSION_2_0),
     walletAddresses: z
       .array(z.string().regex(ethereumAddressRegex, 'Invalid Ethereum address'))
       .min(1, 'At least one wallet address is required'),
@@ -42,12 +42,12 @@ export const coverWalletAddressesSchema = z.discriminatedUnion('version', [
 ]);
 
 export const coverFreeTextSchema = z.object({
-  version: z.literal(VERSION_1),
+  version: z.literal(VERSION_1_0),
   freeText: z.string().min(1, 'Free text cannot be empty'),
 });
 
 export const coverDesignatedWalletsSchema = z.object({
-  version: z.literal(VERSION_1),
+  version: z.literal(VERSION_1_0),
   wallets: z
     .array(
       z.object({
@@ -61,13 +61,13 @@ export const coverDesignatedWalletsSchema = z.object({
 export const defiPassContentSchema = z.union([coverWalletAddressSchema, coverDesignatedWalletsSchema]);
 
 export const stakingPoolDetailsSchema = z.object({
-  version: z.literal(VERSION_1),
+  version: z.literal(VERSION_1_0),
   poolName: z.string().min(1, 'Pool name cannot be empty'),
   poolDescription: z.string().min(1, 'Pool description cannot be empty'),
 });
 
 export const claimProofSchema = z.object({
-  version: z.literal(VERSION_1),
+  version: z.literal(VERSION_1_0),
   coverId: z.number().int().positive(),
   affectedAddresses: z
     .array(z.string().regex(ethereumAddressRegex, 'Invalid Ethereum address'))
@@ -86,16 +86,16 @@ export const claimProofSchema = z.object({
 });
 
 export const assessmentCriteriaAnswersSchema = z.object({
-  version: z.literal(VERSION_1),
+  version: z.literal(VERSION_1_0),
   answers: z.record(z.string()).refine(obj => Object.keys(obj).length > 0, 'Answers object cannot be empty'),
 });
 
 export const governanceProposalSchema = z.object({
-  version: z.literal(VERSION_1),
+  version: z.literal(VERSION_1_0),
   proposal: z.string().min(1, 'Proposal cannot be empty'),
 });
 
 export const governanceCategorySchema = z.object({
-  version: z.literal(VERSION_1),
+  version: z.literal(VERSION_1_0),
   category: z.string().min(1, 'Category cannot be empty'),
 });

@@ -56,6 +56,7 @@ export const coverDesignatedWalletsSchema = z.object({
       z.object({
         wallet: z.string().regex(ethereumAddressRegex, 'Invalid Ethereum address'),
         amount: z.string().regex(/^\d+$/, 'Amount must be a valid wei value'),
+        currency: z.string().min(1, 'Currency cannot be empty'),
       }),
     )
     .min(1, 'At least one wallet object is required'),
@@ -70,22 +71,27 @@ export const stakingPoolDetailsSchema = z.object({
 });
 
 export const claimProofSchema = z.object({
+  // mandatory fields
   version: z.literal(VERSION_1_0),
   coverId: z.number().int().positive(),
+  affectedChain: z.string().min(1, 'Affected chain cannot be empty'),
   affectedAddresses: z
     .array(z.string().regex(ethereumAddressRegex, 'Invalid Ethereum address'))
     .min(1, 'At least one affected address is required'),
-  affectedChain: z.string().min(1, 'Affected chain cannot be empty'),
   incidentDescription: z.string().min(1, 'Incident description cannot be empty'),
+  // optional fields
   incidentTransactionHashes: z
     .array(z.string().min(1, 'Transaction hash cannot be an empty string'))
-    .min(1, 'At least one transaction hash is required'),
+    .min(1, 'At least one transaction hash is required')
+    .optional(),
   incidentEvidenceLinks: z
     .array(z.string().url().min(1, 'Evidence link cannot be an empty string'))
-    .min(1, 'At least one evidence link is required'),
+    .min(1, 'At least one evidence link is required')
+    .optional(),
   attachedFilesHashes: z
     .array(z.string().min(1, 'Attached file hash cannot be an empty string'))
-    .min(1, 'At least one attached file hash is required'),
+    .min(1, 'At least one attached file hash is required')
+    .optional(),
 });
 
 export const assessmentCriteriaAnswersSchema = z.object({

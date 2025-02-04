@@ -1,6 +1,7 @@
 import mockAxios from 'jest-mock-axios';
 
 import { uploadIPFSContent } from './uploadIPFSContent';
+import { version } from '../../generated/version.json';
 import { ContentType, CoverFreeText } from '../types/ipfs';
 
 describe('uploadIPFSContent', () => {
@@ -35,7 +36,7 @@ describe('uploadIPFSContent', () => {
     await uploadIPFSContent([ContentType.coverFreeText, coverFreeTextContent], URL);
 
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
-    expect(mockAxios.post).toHaveBeenCalledWith(URL + '/ipfs', {
+    expect(mockAxios.post).toHaveBeenCalledWith(URL + '/ipfs' + `?sdk=${version}`, {
       type: ContentType.coverFreeText,
       content: coverFreeTextContent,
     });

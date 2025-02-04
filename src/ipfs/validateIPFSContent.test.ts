@@ -188,6 +188,7 @@ describe('validateIPFSContent', () => {
         {
           wallet: validEthAddress,
           amount: '1000000000000000000',
+          currency: 'USDC',
         },
       ],
     };
@@ -199,7 +200,7 @@ describe('validateIPFSContent', () => {
     it('should reject invalid ethereum address', () => {
       const invalidWallet: CoverDesignatedWallets = {
         version: '1.0',
-        wallets: [{ wallet: invalidEthAddress, amount: '1000000000000000000' }],
+        wallets: [{ wallet: invalidEthAddress, amount: '1000000000000000000', currency: 'USDC' }],
       };
       expect(() => validateIPFSContent(ContentType.coverDesignatedWallets, invalidWallet)).toThrow();
     });
@@ -207,7 +208,7 @@ describe('validateIPFSContent', () => {
     it('should reject invalid amount format', () => {
       const invalidAmount: CoverDesignatedWallets = {
         version: '1.0',
-        wallets: [{ wallet: validEthAddress, amount: 'invalid' }],
+        wallets: [{ wallet: validEthAddress, amount: 'invalid', currency: 'USDC' }],
       };
       expect(() => validateIPFSContent(ContentType.coverDesignatedWallets, invalidAmount)).toThrow();
     });
@@ -220,6 +221,14 @@ describe('validateIPFSContent', () => {
       expect(() => validateIPFSContent(ContentType.coverDesignatedWallets, invalidContent)).toThrow(
         'At least one wallet object is required',
       );
+    });
+
+    it('should reject empty currency', () => {
+      const invalidContent: CoverDesignatedWallets = {
+        version: '1.0',
+        wallets: [{ wallet: validEthAddress, amount: '1000000000000000000', currency: '' }],
+      };
+      expect(() => validateIPFSContent(ContentType.coverDesignatedWallets, invalidContent)).toThrow();
     });
   });
 
@@ -246,6 +255,42 @@ describe('validateIPFSContent', () => {
   });
 
   describe('claimProof', () => {
+    const validMandatoryContent: ClaimProof = {
+      version: '1.0',
+      coverId: 1,
+      affectedAddresses: [validEthAddress],
+      affectedChain: 'Ethereum',
+      incidentDescription: 'Test incident',
+    };
+
+    it('should validate with only mandatory fields', () => {
+      expect(() => validateIPFSContent(ContentType.claimProof, validMandatoryContent)).not.toThrow();
+    });
+
+    it('should reject empty mandatory fields', () => {
+      const invalidMandatoryContents = [
+        { ...validMandatoryContent, affectedChain: '' },
+        { ...validMandatoryContent, affectedAddresses: [] },
+        { ...validMandatoryContent, incidentDescription: '' },
+      ];
+
+      invalidMandatoryContents.forEach(content => {
+        expect(() => validateIPFSContent(ContentType.claimProof, content)).toThrow();
+      });
+    });
+
+    it('should reject empty strings in optional arrays', () => {
+      const invalidOptionalContents = [
+        { ...validMandatoryContent, incidentTransactionHashes: [''] },
+        { ...validMandatoryContent, incidentEvidenceLinks: [''] },
+        { ...validMandatoryContent, attachedFilesHashes: [''] },
+      ];
+
+      invalidOptionalContents.forEach(content => {
+        expect(() => validateIPFSContent(ContentType.claimProof, content)).toThrow();
+      });
+    });
+
     const validContent: ClaimProof = {
       version: '1.0',
       coverId: 1,

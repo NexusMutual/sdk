@@ -1,6 +1,6 @@
 {
   "name": "@nexusmutual/sdk",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "Nexus Mutual SDK",
   "scripts": {
     "build": "node scripts/build.js",
@@ -40,11 +40,12 @@
   "dependencies": {
     "@nexusmutual/deployments": "^2.11.0",
     "axios": "^1.6.8",
-    "multiformats": "^8.0.6",
-    "svgo": "^3.0.2"
+    "is-ipfs": "^6.0.2",
+    "svgo": "^3.0.2",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "13.2.1",
+    "@commitlint/cli": "19.6.1",
     "@commitlint/config-conventional": "13.2.0",
     "@types/jest": "^29.5.5",
     "@typescript-eslint/eslint-plugin": "^7.5.0",

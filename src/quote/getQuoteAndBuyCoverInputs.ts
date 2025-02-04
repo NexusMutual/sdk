@@ -15,8 +15,7 @@ import {
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
 } from '../constants/buyCover';
-import { uploadIPFSContent } from '../ipfs/uploadIPFSContent';
-import { validateIPFSCid } from '../ipfs/validateIPFSCid';
+import { uploadIPFSContent, validateIPFSCid } from '../ipfs';
 import {
   Address,
   CoverRouterProductCapacityResponse,
@@ -141,9 +140,8 @@ async function getQuoteAndBuyCoverInputs(
   }
 
   if (typeof ipfsCidOrContent === 'string' && ipfsCidOrContent !== '') {
-    try {
-      validateIPFSCid(ipfsCidOrContent);
-    } catch (error) {
+    const isValidCID = validateIPFSCid(ipfsCidOrContent);
+    if (!isValidCID) {
       return {
         result: undefined,
         error: { message: 'Invalid ipfsCid: must be a valid IPFS CID' },
@@ -175,7 +173,7 @@ async function getQuoteAndBuyCoverInputs(
   if (typeof ipfsCidOrContent !== 'string' && contentType !== undefined && ipfsCidOrContent) {
     try {
       ipfsData = await uploadIPFSContent([contentType, ipfsCidOrContent] as IPFSTypeContentTuple, nexusApiUrl);
-    } catch (error) {
+    } catch (error: unknown) {
       return {
         result: undefined,
         error: { message: (error as Error).message || 'Failed to upload IPFS content' },

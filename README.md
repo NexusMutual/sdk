@@ -168,3 +168,26 @@ Note: The following product types do not require IPFS content:
 - immunefiBugBounty
 
 For a complete list of products and product types, see [products.json](https://sdk.nexusmutual.io/data/products.json) and [product-types.json](https://sdk.nexusmutual.io/data/product-types.json).
+
+### Validation Errors
+
+IPFS content is validated using [Zod schemas](https://www.npmjs.com/package/zod), if validation fails, the error response will contain a stringified array of Zod validation errors in the `error.message` field. These errors provide detailed information about what went wrong during validation.
+
+Example error response:
+```json
+{
+  "result": undefined,
+  "error": {
+    "message": "[{\"code\":\"too_small\",\"minimum\":1,\"type\":\"array\",\"inclusive\":true,\"exact\":false,\"message\":\"At least one transaction hash is required\",\"path\":[\"incidentTransactionHashes\"]}]"
+  }
+}
+```
+
+
+Each Zod error object in the array includes:
+- `code`: The type of validation error
+- `message`: A human-readable error message
+- `path`: The path to the invalid field
+- Additional context-specific fields
+
+For more information about Zod error handling and validation, see the [Zod Error Handling documentation](https://zod.dev/?id=error-handling).

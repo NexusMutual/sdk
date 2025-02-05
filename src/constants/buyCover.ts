@@ -59,6 +59,7 @@ export const BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE: Record<ProductTypes, nu
   [ProductTypes.nexusMutual]: NEXUS_MUTUAL_COVER_COMMISSION_RATIO,
   [ProductTypes.generalisedFundPortfolio]: GENERALISED_FUND_PORTFOLIO_COMMISSION_RATIO,
   [ProductTypes.crypto]: CRYPTO_COVER_COMMISSION_RATIO,
+  [ProductTypes.nativeSyndicate]: NO_COMMISSION,
 };
 
 export const BUY_COVER_COMMISSION_DESTINATION_BY_PRODUCT_TYPE: Record<ProductTypes, Address> = {
@@ -84,4 +85,5 @@ export const BUY_COVER_COMMISSION_DESTINATION_BY_PRODUCT_TYPE: Record<ProductTyp
   [ProductTypes.nexusMutual]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   [ProductTypes.generalisedFundPortfolio]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   [ProductTypes.crypto]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
+  [ProductTypes.nativeSyndicate]: NO_COMMISSION_DESTINATION,
 };

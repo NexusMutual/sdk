@@ -65,6 +65,6 @@ describe('uploadIPFSContent', () => {
     const res = async () => {
       await uploadIPFSContent([ContentType.coverFreeText, coverFreeTextContent], '');
     };
-    expect(res).rejects.toThrow('IPFS base URL not set');
+    expect(res).rejects.toThrow('Nexus API URL not set');
   });
 });

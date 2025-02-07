@@ -48,29 +48,6 @@ export const productsMap: Record<number, ProductDTO> = products.reduce(
   {},
 );
 
-function getQuoteAndBuyCoverInputs(
-  productId: Integer,
-  coverAmount: IntString,
-  coverPeriod: Integer,
-  coverAsset: CoverAsset,
-  coverBuyerAddress: Address,
-  slippage?: number,
-  ipfsCid?: string, // deprecated - passing ipfsCid now returns an error
-  nexusApiUrl?: string,
-): Promise<GetQuoteApiResponse | ErrorApiResponse>;
-
-// overload with ipfsContent instead of Cid
-function getQuoteAndBuyCoverInputs<ProductTypes extends keyof IPFSContentForProductType>(
-  productId: Integer,
-  coverAmount: IntString,
-  coverPeriod: Integer,
-  coverAsset: CoverAsset,
-  coverBuyerAddress: Address,
-  slippage?: number,
-  ipfsContent?: IPFSContentForProductType[ProductTypes],
-  nexusApiUrl?: string,
-): Promise<GetQuoteApiResponse | ErrorApiResponse>;
-
 /**
  * Retrieves a quote for buying cover and prepares the necessary inputs for CoverBroker.buyCover method
  * The cover must be purchased using the same asset as the cover
@@ -92,7 +69,7 @@ async function getQuoteAndBuyCoverInputs(
   coverAsset: CoverAsset,
   coverBuyerAddress: Address,
   slippage: number = DEFAULT_SLIPPAGE / SLIPPAGE_DENOMINATOR,
-  ipfsContent?: string | IPFSContentForProductType[ProductTypes],
+  ipfsContent?: IPFSContentForProductType[ProductTypes],
   nexusApiUrl = 'https://api.nexusmutual.io/v2',
 ): Promise<GetQuoteApiResponse | ErrorApiResponse> {
   if (!Number.isInteger(productId) || productId <= 0) {
@@ -158,8 +135,7 @@ async function getQuoteAndBuyCoverInputs(
       };
     }
 
-    // ipfsContent as IPFS CID is no longer supported
-    if (typeof ipfsContent === 'string' || typeof ipfsContent?.version !== 'string') {
+    if (typeof ipfsContent?.version !== 'string') {
       return {
         result: undefined,
         error: { message: 'Invalid IPFS content. Must have version field as string' },

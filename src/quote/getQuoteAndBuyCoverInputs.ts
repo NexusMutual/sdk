@@ -15,7 +15,7 @@ import {
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
 } from '../constants/buyCover';
-import { uploadIPFSContent, validateIPFSCid } from '../ipfs';
+import { uploadIPFSContent } from '../ipfs';
 import {
   Address,
   CoverRouterProductCapacityResponse,
@@ -55,7 +55,7 @@ function getQuoteAndBuyCoverInputs(
   coverAsset: CoverAsset,
   coverBuyerAddress: Address,
   slippage?: number,
-  ipfsCid?: string,
+  ipfsCid?: string, // deprecated - passing ipfsCid now returns an error
   nexusApiUrl?: string,
 ): Promise<GetQuoteApiResponse | ErrorApiResponse>;
 
@@ -81,7 +81,7 @@ function getQuoteAndBuyCoverInputs<ProductTypes extends keyof IPFSContentForProd
  * @param {CoverAsset} coverAsset - The asset for which cover is being purchased; the purchase must use the same asset.
  * @param {Address} coverBuyerAddress - The Ethereum address of the buyer.
  * @param {number} slippage - The acceptable slippage percentage. Must be between 0-1 (Defaults to 0.001 ~ 0.1%)
- * @param {string} ipfsCid - The IPFS CID for additional data (optional).
+ * @param {string} ipfsContent - The IPFS CID for additional data (optional).
  * @param {string} nexusApiUrl - Used to override the default Nexus Mutual API URL which is bundled this library.
  * @return {Promise<GetQuoteApiResponse | ErrorApiResponse>} Returns a successful quote response or an error response.
  */
@@ -92,7 +92,7 @@ async function getQuoteAndBuyCoverInputs(
   coverAsset: CoverAsset,
   coverBuyerAddress: Address,
   slippage: number = DEFAULT_SLIPPAGE / SLIPPAGE_DENOMINATOR,
-  ipfsCidOrContent: string | IPFSContentForProductType[ProductTypes] = '',
+  ipfsContent?: string | IPFSContentForProductType[ProductTypes],
   nexusApiUrl = 'https://api.nexusmutual.io/v2',
 ): Promise<GetQuoteApiResponse | ErrorApiResponse> {
   if (!Number.isInteger(productId) || productId <= 0) {
@@ -135,44 +135,40 @@ async function getQuoteAndBuyCoverInputs(
     };
   }
 
-  if (typeof ipfsCidOrContent !== 'string' && !ipfsCidOrContent?.version) {
-    return { result: undefined, error: { message: 'Invalid ipfsCid: must be a valid IPFS CID' } };
-  }
-
-  if (typeof ipfsCidOrContent === 'string' && ipfsCidOrContent !== '') {
-    const isValidCID = validateIPFSCid(ipfsCidOrContent);
-    if (!isValidCID) {
-      return {
-        result: undefined,
-        error: { message: 'Invalid ipfsCid: must be a valid IPFS CID' },
-      };
-    }
-  }
-
   const productType = productsMap[productId]?.productType;
   if (productType === undefined) {
     return {
       result: undefined,
-      error: { message: `Invalid product` },
+      error: { message: 'Invalid product' },
     };
   }
 
-  if (IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType] !== undefined && !ipfsCidOrContent) {
-    return {
-      result: undefined,
-      error: {
-        message: `Missing IPFS content. \n
-        ${productTypes[productType]?.name} requires ${IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType]} content type.`,
-      },
-    };
-  }
+  let ipfsData: string = '';
+  const requiredContentType = IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType];
+  const isIpfsRequired = requiredContentType !== undefined;
 
-  let ipfsData = ipfsCidOrContent as string;
-  const contentType = IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType];
+  if (isIpfsRequired) {
+    if (!ipfsContent) {
+      const productTypeName = productTypes[productType]?.name;
+      return {
+        result: undefined,
+        error: {
+          message: `Missing IPFS content. \n${productTypeName} requires ${requiredContentType} content type.`,
+        },
+      };
+    }
 
-  if (typeof ipfsCidOrContent !== 'string' && contentType !== undefined && ipfsCidOrContent) {
+    // ipfsContent as IPFS CID is no longer supported
+    if (typeof ipfsContent === 'string' || typeof ipfsContent?.version !== 'string') {
+      return {
+        result: undefined,
+        error: { message: 'Invalid IPFS content. Must have version field as string' },
+      };
+    }
+
+    const contentType = IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType];
     try {
-      ipfsData = await uploadIPFSContent([contentType, ipfsCidOrContent] as IPFSTypeContentTuple, nexusApiUrl);
+      ipfsData = await uploadIPFSContent([contentType, ipfsContent] as IPFSTypeContentTuple, nexusApiUrl);
     } catch (error: unknown) {
       return {
         result: undefined,

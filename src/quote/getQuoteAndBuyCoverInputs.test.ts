@@ -1,7 +1,8 @@
 import mockAxios from 'jest-mock-axios';
 import { parseEther } from 'viem';
 
-import { getQuoteAndBuyCoverInputs } from './getQuoteAndBuyCoverInputs';
+import { getQuoteAndBuyCoverInputs, productsMap } from './getQuoteAndBuyCoverInputs';
+import productTypes from '../../generated/product-types.json';
 import { calculatePremiumWithCommissionAndSlippage } from '../buyCover';
 import {
   CoverAsset,
@@ -19,7 +20,9 @@ import {
   CoverRouterProductCapacityResponse,
   CoverRouterQuoteResponse,
   CoverValidators,
+  CoverWalletAddresses,
   DefiPassContent,
+  IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE,
 } from '../types';
 
 const coverRouterCapacityResponse: CoverRouterProductCapacityResponse = {
@@ -38,6 +41,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
   let buyerAddress: Address;
   const DEFAULT_NEXUS_API_URL = 'https://api.nexusmutual.io/v2';
   const TEST_API_URL = 'https://api.test.io/v2';
+  const validEthAddress = '0x1234567890123456789012345678901234567890';
 
   beforeAll(() => {
     jest.mock('axios');
@@ -49,7 +53,9 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   it('uses DEFAULT_NEXUS_API_URL if no API URL is supplied', async () => {
-    mockAxios.get.mockResolvedValue({ data: {} });
+    // Mock both the quote and capacity responses
+    mockAxios.get.mockResolvedValueOnce({ data: {} }); // quote response
+
     const productId = 1;
     const amount = '100';
     const period = 30;
@@ -57,10 +63,9 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
     await getQuoteAndBuyCoverInputs(productId, amount, period, coverAsset, buyerAddress);
 
+    const expectedParams = { amount, coverAsset, period, productId };
     const defaultGetQuoteUrl = DEFAULT_NEXUS_API_URL + '/quote';
-    expect(mockAxios.get).toHaveBeenCalledWith(defaultGetQuoteUrl, {
-      params: { amount, coverAsset, period, productId },
-    });
+    expect(mockAxios.get).toHaveBeenCalledWith(defaultGetQuoteUrl, { params: expectedParams });
   });
 
   it('allows the consumer to override nexusApiUrl param', async () => {
@@ -71,12 +76,11 @@ describe('getQuoteAndBuyCoverInputs', () => {
     const period = 30;
     const coverAsset = CoverAsset.ETH;
 
-    await getQuoteAndBuyCoverInputs(productId, amount, period, coverAsset, buyerAddress, 0, '', url);
+    await getQuoteAndBuyCoverInputs(productId, amount, period, coverAsset, buyerAddress, 0, undefined, url);
 
     const overrideGetQuoteUrl = url + '/quote';
-    expect(mockAxios.get).toHaveBeenCalledWith(overrideGetQuoteUrl, {
-      params: { amount, coverAsset, period, productId },
-    });
+    const expectedParams = { amount, coverAsset, period, productId };
+    expect(mockAxios.get).toHaveBeenCalledWith(overrideGetQuoteUrl, { params: expectedParams });
   });
 
   const invalidProductIds = [-1, 'a', true, {}, [], null, undefined];
@@ -88,7 +92,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
       CoverAsset.ETH,
       buyerAddress,
       0,
-      '',
+      undefined,
       TEST_API_URL,
     );
     expect(error?.message).toBe('Invalid productId: must be a positive integer');
@@ -105,7 +109,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
         CoverAsset.ETH,
         buyerAddress,
         0,
-        '',
+        undefined,
         TEST_API_URL,
       );
       expect(error?.message).toBe('Invalid coverAmount: must be a positive integer string');
@@ -121,7 +125,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
       CoverAsset.ETH,
       buyerAddress,
       0,
-      '',
+      undefined,
       TEST_API_URL,
     );
     expect(error?.message).toBe(
@@ -166,23 +170,52 @@ describe('getQuoteAndBuyCoverInputs', () => {
     },
   );
 
-  const invalidIpfsData = [123, true, {}, [], null];
-  it.each(invalidIpfsData)(
-    'returns an error if ipfsData is not a valid IPFS base32 hash value (%s)',
-    async invalidData => {
-      const { error } = await getQuoteAndBuyCoverInputs(
-        1,
-        '100',
-        30,
-        CoverAsset.ETH,
-        buyerAddress,
-        0.1,
-        invalidData as string,
-        TEST_API_URL,
-      );
-      expect(error?.message).toBe('Invalid ipfsCid: must be a valid IPFS CID');
-    },
-  );
+  const invalidVersionTests = [
+    ['QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY', 'IPFS CID string'],
+    ['some random string', 'random string'],
+    [{}, 'empty object'],
+    [{ freeText: 'test' }, 'object without version'],
+    [[], 'empty array'],
+    [1, 'number'],
+    [{ version: null }, 'object with null version'],
+    [{ version: undefined }, 'object with undefined version'],
+    [{ version: 123 }, 'object with non-string version'],
+  ] as const;
+
+  it.each(invalidVersionTests)('returns Invalid IPFS content error when ipfsContent has %s', async invalidContent => {
+    const { error } = await getQuoteAndBuyCoverInputs(
+      247,
+      '100',
+      30,
+      CoverAsset.ETH,
+      buyerAddress,
+      0.1,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      invalidContent as any,
+    );
+
+    expect(error?.message).toBe('Invalid IPFS content. Must have version field as string');
+  });
+
+  it('returns Missing IPFS content error when ipfsContent is not provided for required product type', async () => {
+    const productId = 247; // Assuming this is a product that requires IPFS content
+    const expectedProductType = productsMap[productId]?.productType;
+    const expectedContentType = IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[expectedProductType!];
+    const expectedProductName = productTypes[expectedProductType!]?.name;
+
+    const { error } = await getQuoteAndBuyCoverInputs(
+      productId,
+      '100',
+      30,
+      CoverAsset.ETH,
+      buyerAddress,
+      0.1,
+      undefined,
+    );
+
+    const expectedErr = `Missing IPFS content. \n${expectedProductName} requires ${expectedContentType} content type.`;
+    expect(error?.message).toBe(expectedErr);
+  });
 
   it('returns an error if ipfsData is not a valid IPFS content for the product type - ETH Slashing', async () => {
     const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
@@ -358,9 +391,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(error?.message).toBe('Failed to upload IPFS content');
   });
 
-  it('allows the consumer to provide a valid IPFS CID', async () => {
-    const ipfsCid = 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY';
-
+  it('allows the consumer to skip passing ipfsContent if the productType does not need it', async () => {
     const coverRouterQuoteResponse: CoverRouterQuoteResponse = {
       quote: {
         totalCoverAmountInAsset: parseEther('1000').toString(),
@@ -377,21 +408,27 @@ describe('getQuoteAndBuyCoverInputs', () => {
       },
       capacities: [{ poolId: '147', capacity: [{ assetId: '1', amount: parseEther('1000').toString() }] }],
     };
-    mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
-    mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
+    mockAxios.get
+      .mockResolvedValueOnce({ data: coverRouterQuoteResponse })
+      .mockResolvedValueOnce({ data: coverRouterCapacityResponse });
+    mockAxios.post.mockResolvedValueOnce({ data: { ipfsHash: 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY' } });
 
+    // productId 1 (productType 0: Protocol) does not require ipfsContent
+    const undefinedIpfsContent = undefined;
     const { result, error } = await getQuoteAndBuyCoverInputs(
-      247,
+      1,
       '100',
       30,
       CoverAsset.ETH,
       buyerAddress,
       0.1,
-      ipfsCid,
+      undefinedIpfsContent,
     );
 
     expect(error).toBeUndefined();
-    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe(ipfsCid);
+    // ipfsContent not required so ipfsData is empty string
+    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe('');
+    expect(result?.buyCoverInput.poolAllocationRequests).not.toHaveLength(0);
   });
 
   it('allows the consumer to provide a valid IPFS content', async () => {
@@ -420,7 +457,6 @@ describe('getQuoteAndBuyCoverInputs', () => {
     mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
     mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
 
-    const validEthAddress = '0x1234567890123456789012345678901234567890';
     const { result, error } = await getQuoteAndBuyCoverInputs(247, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
       version: '2.0',
       walletAddresses: [validEthAddress],
@@ -449,16 +485,18 @@ describe('getQuoteAndBuyCoverInputs', () => {
     };
     mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
     mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
+    mockAxios.post.mockResolvedValue({ data: { ipfsHash: 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY' } });
 
     const coverAmount = parseEther('100').toString();
+    const ipfsContent: CoverWalletAddresses = { version: '2.0', walletAddresses: [validEthAddress] };
     const { result, error } = await getQuoteAndBuyCoverInputs(
-      1, // productId
+      247, // productId
       coverAmount,
       28, // coverPeriod
       CoverAsset.ETH, // coverAsset
       buyerAddress, // coverBuyerAddress
       0.01, // slippage
-      'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY', // ipfsCid
+      ipfsContent,
     );
 
     const { premiumInAsset, annualPrice } = coverRouterQuoteResponse.quote;
@@ -480,7 +518,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(result?.displayInfo.maxCapacity).toBe(coverRouterCapacityResponse.availableCapacity[0]?.amount);
     expect(result?.buyCoverInput.buyCoverParams.coverId).toBe(CoverId.BUY);
     expect(result?.buyCoverInput.buyCoverParams.owner).toBe(buyerAddress);
-    expect(result?.buyCoverInput.buyCoverParams.productId).toBe(1);
+    expect(result?.buyCoverInput.buyCoverParams.productId).toBe(247);
     expect(result?.buyCoverInput.buyCoverParams.coverAsset).toBe(CoverAsset.ETH);
     expect(result?.buyCoverInput.buyCoverParams.amount).toBe(coverAmount);
     expect(result?.buyCoverInput.buyCoverParams.period).toBe(28 * 60 * 60 * 24);

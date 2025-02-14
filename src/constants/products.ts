@@ -6,6 +6,7 @@ export enum ProductCategoryEnum {
   Perpetuals = 'perpetuals',
   SmartWallet = 'smart-wallet',
   ETHStaking = 'eth-staking',
+  Depeg = 'depeg',
   Uncategorized = 'uncategorized',
 }
 
@@ -17,6 +18,7 @@ export const categoryLabelByEnum: Record<ProductCategoryEnum, string> = {
   [ProductCategoryEnum.Perpetuals]: 'Perpetuals',
   [ProductCategoryEnum.SmartWallet]: 'Smart Wallet',
   [ProductCategoryEnum.ETHStaking]: 'ETH Staking',
+  [ProductCategoryEnum.Depeg]: 'Depeg',
   [ProductCategoryEnum.Uncategorized]: 'Uncategorized',
 };
 
@@ -269,10 +271,24 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   250: ProductCategoryEnum.Uncategorized, // Fasanara
   251: ProductCategoryEnum.Lending, // Term Finance
   252: ProductCategoryEnum.YieldOptimizer, // Sturdy Finance
-  253: ProductCategoryEnum.YieldOptimizer, // Ethena USDe Depeg
+  253: ProductCategoryEnum.Depeg, // Ethena USDe Depeg
   254: ProductCategoryEnum.Lending, // Maple
   255: ProductCategoryEnum.Lending, // Syrup
   256: ProductCategoryEnum.Dex, // Uniswap v4
   257: ProductCategoryEnum.Dex, // Balancer v3
   258: ProductCategoryEnum.Perpetuals, // RFX
+  259: ProductCategoryEnum.Uncategorized, // Bittensor
+  260: ProductCategoryEnum.Uncategorized, // Covered Edge
+  261: ProductCategoryEnum.Depeg, // USDS Depeg
+  262: ProductCategoryEnum.Depeg, // Level USD Depeg
+  263: ProductCategoryEnum.Depeg, // Tether USDT0 Depeg
+  264: ProductCategoryEnum.Depeg, // Resolv USR Depeg
+  265: ProductCategoryEnum.Depeg, // Treehouse ETH Depeg
+  266: ProductCategoryEnum.Depeg, // Super OETH Depeg
+  267: ProductCategoryEnum.Depeg, // WBTC Depeg
+  268: ProductCategoryEnum.Depeg, // Ether.fi eBTC Depeg
+  269: ProductCategoryEnum.YieldOptimizer, // vfat
+  270: ProductCategoryEnum.Uncategorized, // Entry Cover
+  271: ProductCategoryEnum.Uncategorized, // Essential Cover
+  272: ProductCategoryEnum.Uncategorized, // Elite Cover
 };

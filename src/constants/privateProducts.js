@@ -49,6 +49,8 @@ const allPrivateProductsIds = [
   246, // Essential Plan
   247, // Elite Plan
   250, // Fasanara
+  259, // Bittensor
+  260, // Covered Edge
 ];
 
 module.exports = {

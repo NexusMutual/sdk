@@ -45,9 +45,6 @@ const allPrivateProductsIds = [
   233, // Relative Finance
   239, // Everstake
   240, // Ensuro
-  245, // Entry Plan
-  246, // Essential Plan
-  247, // Elite Plan
   250, // Fasanara
   259, // Bittensor
   260, // Covered Edge

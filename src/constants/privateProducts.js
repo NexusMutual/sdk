@@ -48,6 +48,7 @@ const allPrivateProductsIds = [
   250, // Fasanara
   259, // Bittensor
   260, // Covered Edge
+  273, // L1 Advisors Cover
 ];
 
 module.exports = {

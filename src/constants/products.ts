@@ -291,4 +291,5 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   270: ProductCategoryEnum.Uncategorized, // Entry Cover (deprecated)
   271: ProductCategoryEnum.Uncategorized, // Essential Cover (deprecated)
   272: ProductCategoryEnum.Uncategorized, // Elite Cover (deprecated)
+  273: ProductCategoryEnum.Uncategorized, // L1 Advisors Cover
 };

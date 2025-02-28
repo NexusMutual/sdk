@@ -47,8 +47,9 @@ const allPrivateProductsIds = [
   240, // Ensuro
   250, // Fasanara
   259, // Bittensor
-  260, // Covered Edge
+  260, // DeFi Covered
   273, // L1 Advisors Cover
+  274, // Figment ETH Slashing
 ];
 
 module.exports = {

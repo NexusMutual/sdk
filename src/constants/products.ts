@@ -92,7 +92,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   67: ProductCategoryEnum.Dex, // SushiSwap v1
   68: ProductCategoryEnum.Perpetuals, // Synthetix
   69: ProductCategoryEnum.Uncategorized, // THORChain (Thorchain Network) (deprecated)
-  70: ProductCategoryEnum.Dex, // Trader Joe v2.1
+  70: ProductCategoryEnum.Dex, // LFJ
   71: ProductCategoryEnum.Dex, // Uniswap v2
   72: ProductCategoryEnum.Dex, // Uniswap v3
   73: ProductCategoryEnum.YieldOptimizer, // Vector v1
@@ -142,7 +142,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   117: ProductCategoryEnum.ETHStaking, // Stakewise v3
   118: ProductCategoryEnum.Lending, // Compound v3
   123: ProductCategoryEnum.YieldOptimizer, // Yearn v3
-  124: ProductCategoryEnum.Dex, // Velodrome v2
+  124: ProductCategoryEnum.Dex, // Velodrome
   125: ProductCategoryEnum.Perpetuals, // GMX v2
   126: ProductCategoryEnum.YieldOptimizer, // dHedge
   127: ProductCategoryEnum.Lending, // Term Finance
@@ -278,7 +278,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   257: ProductCategoryEnum.Dex, // Balancer v3
   258: ProductCategoryEnum.Perpetuals, // RFX
   259: ProductCategoryEnum.Uncategorized, // Bittensor
-  260: ProductCategoryEnum.Uncategorized, // Covered Edge
+  260: ProductCategoryEnum.Uncategorized, // DeFi Covered
   261: ProductCategoryEnum.Depeg, // USDS Depeg
   262: ProductCategoryEnum.Depeg, // Level USD Depeg
   263: ProductCategoryEnum.Depeg, // Tether USDT0 Depeg
@@ -292,4 +292,6 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   271: ProductCategoryEnum.Uncategorized, // Essential Cover (deprecated)
   272: ProductCategoryEnum.Uncategorized, // Elite Cover (deprecated)
   273: ProductCategoryEnum.Uncategorized, // L1 Advisors Cover
+  274: ProductCategoryEnum.Uncategorized, // Figment ETH Slashing
+  275: ProductCategoryEnum.YieldOptimizer, // PoolTogether
 };

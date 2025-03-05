@@ -139,3 +139,14 @@ jobs:
             } catch (error) {
               core.setFailed(error.message);
             }
+
+  rebase-dev:
+    needs: [publish]
+    uses: NexusMutual/workflows/.github/workflows/rebase.yml@master
+    with:
+      environment: production
+      base-ref: master
+      target-ref: dev
+    secrets:
+      DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
+      DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}

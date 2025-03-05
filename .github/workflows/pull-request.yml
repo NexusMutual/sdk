@@ -75,7 +75,7 @@ jobs:
         id: cache
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-${{ env.CACHE_KEY }}-${{ hashFiles('package-lock.json') }}
+          key: node-modules-cache-node-${{ env.NODE_VERSION }}-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'

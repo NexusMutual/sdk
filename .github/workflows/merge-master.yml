@@ -7,7 +7,6 @@ on:
 
 env:
   NODE_VERSION: '18'
-  CACHE_KEY: ${{ secrets.CACHE_KEY }} # Change to bust caches
   PROVIDER_URL: https://eth-mainnet.g.alchemy.com/v2/${{ secrets.ALCHEMY_API_KEY }}
 
 jobs:
@@ -73,7 +72,7 @@ jobs:
         id: cache
         with:
           path: node_modules
-          key: ${{ runner.os }}-${{ env.CACHE_KEY }}-${{ hashFiles('package-lock.json') }}
+          key: node-modules-cache-node-${{ env.NODE_VERSION }}-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'

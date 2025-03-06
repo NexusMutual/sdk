@@ -7,6 +7,7 @@ export enum ProductCategoryEnum {
   SmartWallet = 'smart-wallet',
   ETHStaking = 'eth-staking',
   Depeg = 'depeg',
+  Custody = 'custody',
   Uncategorized = 'uncategorized',
 }
 
@@ -19,6 +20,7 @@ export const categoryLabelByEnum: Record<ProductCategoryEnum, string> = {
   [ProductCategoryEnum.SmartWallet]: 'Smart Wallet',
   [ProductCategoryEnum.ETHStaking]: 'ETH Staking',
   [ProductCategoryEnum.Depeg]: 'Depeg',
+  [ProductCategoryEnum.Custody]: 'Custody',
   [ProductCategoryEnum.Uncategorized]: 'Uncategorized',
 };
 
@@ -294,4 +296,14 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   273: ProductCategoryEnum.Uncategorized, // L1 Advisors Cover
   274: ProductCategoryEnum.Uncategorized, // Figment ETH Slashing
   275: ProductCategoryEnum.YieldOptimizer, // PoolTogether
+  276: ProductCategoryEnum.Custody, // Coinbase
+  277: ProductCategoryEnum.Custody, // Kraken
+  278: ProductCategoryEnum.Uncategorized, // Binance
+  279: ProductCategoryEnum.Uncategorized, // OKX
+  280: ProductCategoryEnum.Uncategorized, // Deribit
+  281: ProductCategoryEnum.Uncategorized, // Bitmex
+  282: ProductCategoryEnum.Uncategorized, // Bybit
+  283: ProductCategoryEnum.Dex, // Shadow
+  284: ProductCategoryEnum.Uncategorized, // Cork
+  285: ProductCategoryEnum.YieldOptimizer, // Rings
 };

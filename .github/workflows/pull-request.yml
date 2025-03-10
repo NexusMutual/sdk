@@ -8,8 +8,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_VERSION: '18'
-  CACHE_KEY: ${{ secrets.CACHE_KEY }} # Change to bust caches
+  NODE_VERSION: '22.14'
   PROVIDER_URL: https://eth-mainnet.g.alchemy.com/v2/${{ secrets.ALCHEMY_API_KEY }}
 
 jobs:
@@ -25,61 +24,43 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Get local version
-        id: local_version
+      - name: Validate potential version bump
+        id: validate_version_bump
         run: |
-          version=$(cat ./package.json | jq --raw-output .version)
-          echo $version
-          echo "value=$version" >> $GITHUB_OUTPUT
-
-      - name: Get registry version
-        id: registry_version
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        run: |
-          package_name="$(cat ./package.json | jq --raw-output .name)"
-          echo $package_name
-          version=$(npm view $package_name version)
-          echo $version
-          echo "value=$version" >> $GITHUB_OUTPUT
-
-      - name: Validate version
-        uses: actions/github-script@v6
-        with:
-          result-encoding: string
-          script: |
-            const local_version = '${{ steps.local_version.outputs.value }}';
-            const registry_version = '${{ steps.registry_version.outputs.value }}';
-            core.info(`Repository version: ${local_version}`);
-            core.info(`Registry version: ${registry_version}`);
-            if (registry_version === local_version) {
-              core.setFailed('Please bump version before merging');
-            }
+          # Check if conventional commits would trigger a version bump
+          BUMP=$(timeout 5s npx conventional-recommended-bump --config .github/config/conventional-bump-setup.js --verbose | head -n1) || true
+          
+          echo "Conventional commit analysis result: $BUMP"
+          
+          if [[ "$BUMP" == *"No version bump needed"* ]]; then
+            echo "::error::Forbidden to release a version without a version bump"
+            echo "::warning::Commit messages must include changes beyond 'docs', 'style', 'test', or 'ci'"
+            echo "Please ensure your commits reflect meaningful changes to trigger an automatic version bump."
+            exit 1
+          fi
 
   checks:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-
-      - uses: actions/cache@v3
-        id: cache
-        with:
-          path: ~/.npm
-          key: node-modules-cache-node-${{ env.NODE_VERSION }}-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          cache: "npm"
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci --ignore-scripts
+        run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund
 
       - name: Build package
         run: npm run build

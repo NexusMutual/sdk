@@ -6,6 +6,7 @@ const COMMIT_TYPES = {
   build: 'patch',
   chore: 'patch',
   refactor: 'patch',
+  revert: 'patch',
   docs: null,
   style: null,
   test: null,

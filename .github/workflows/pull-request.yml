@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_VERSION: '22.14'
+  NODE_VERSION: 22
   PROVIDER_URL: https://eth-mainnet.g.alchemy.com/v2/${{ secrets.ALCHEMY_API_KEY }}
 
 jobs:
@@ -37,7 +37,7 @@ jobs:
         id: validate_version_bump
         run: |
           # Check if conventional commits would trigger a version bump
-          BUMP=$(timeout 5s npx conventional-recommended-bump --config .github/config/conventional-bump-setup.js --verbose | head -n1) || true
+          BUMP=$(timeout 5s npx conventional-recommended-bump --config .github/config/conventional-bump-setup.js) || true
           
           echo "Conventional commit analysis result: $BUMP"
           

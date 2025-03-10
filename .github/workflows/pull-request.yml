@@ -19,11 +19,6 @@ jobs:
       local_version: ${{ steps.local_version.outputs.value }}
       registry_version: ${{ steps.registry_version.outputs.value }}
     steps:
-      - name: GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0

@@ -16,11 +16,6 @@ jobs:
       rc_version: ${{ steps.rc_version.outputs.value }}
       needs_bump: ${{ steps.bump_version.outputs.needs_bump }}
     steps:
-      - name: GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
       - uses: actions/checkout@v4
         with:
           ref: dev

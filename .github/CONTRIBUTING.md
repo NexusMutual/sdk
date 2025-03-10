@@ -29,7 +29,7 @@ Must be one of the following:
 - **build**: The commit introduces a change that affect the build system or external dependencies.
 - **ci**: The commit involves changes to the continuous integration (CI) configuration or scripts used to automate build, testing, and deployment processes.
 - **perf**: The commit introduces a change that improves performance.
-- **revert**: The commit commit reverts a previous commit.
+- **revert**: The commit reverts a previous commit.
 
 ##### Scope (optional)
 

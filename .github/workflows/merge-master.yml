@@ -7,7 +7,7 @@ on:
 
 env:
   NODE_VERSION: 22
-  PROVIDER_URL: https://eth-mainnet.g.alchemy.com/v2/${{ secrets.ALCHEMY_API_KEY }}
+  PROVIDER_URL: ${{ secrets.PROVIDER_URL }}
 
 jobs:
   bump-version:

@@ -28,25 +28,23 @@ Must be one of the following:
 - **chore**: Necessary technical tasks to take care of the product or repository, not related to any specific feature or user story. These tasks are like routine maintenance, such as releasing the product or updating code for the repository (e.g. updating ci, build scripts etc; no production code change)
 - **build**: The commit introduces a change that affect the build system or external dependencies.
 - **ci**: The commit involves changes to the continuous integration (CI) configuration or scripts used to automate build, testing, and deployment processes.
-- **perf**: The commit introduces a change that affect the build system or external dependencies.
-- **revert**: The commit introduces a change that affect the build system or external dependencies.
+- **perf**: The commit introduces a change that improves performance.
+- **revert**: The commit commit reverts a previous commit.
+
 ##### Scope (optional)
 
 The scope should be specifying the module affected by the commit change (as perceived by the person reading the changelog generated from commit messages).
 For example `listings`, `swap`, `quote`, `buy-cover`, etc.
 
-
 ##### Summary
 
 It should convey what the code changes do, rather than how they were implemented. It is not necessary to provide every detail in the description; instead, focus on the high-level overview of the modifications.
 
-
 Use the summary field to provide a succinct description of the change:
 
-* use the imperative, present tense: "change" not "changed" nor "changes"
-* don't capitalize the first letter
-* no dot (.) at the end
-
+- use the imperative, present tense: "change" not "changed" nor "changes"
+- don't capitalize the first letter
+- no dot (.) at the end
 
 ### Example
 

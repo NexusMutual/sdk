@@ -10,7 +10,22 @@ env:
   PROVIDER_URL: ${{ secrets.PROVIDER_URL }}
 
 jobs:
+  setup:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund
+
   rc-version:
+    needs: setup
     runs-on: ubuntu-22.04
     outputs:
       rc_version: ${{ steps.rc_version.outputs.value }}
@@ -69,10 +84,11 @@ jobs:
           echo "RC version: $rc_version"
           echo "value=$rc_version" >> $GITHUB_OUTPUT
 
-  build:
+  build-and-checks:
     runs-on: ubuntu-22.04
-    needs: [rc-version]
-    if: ${{ needs.rc-version.outputs.needs_bump == 'true' }}
+    needs: setup
+    outputs:
+      artifact_name: sdk-next-${{ needs.rc-version.outputs.rc_version }}
     steps:
       - uses: actions/checkout@v4
 
@@ -85,14 +101,12 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund
 
+      # run build script to generate `/generated` dir which is needed by ts:check and test scripts
       - name: Build package
         run: npm run build
 
       - name: Run linter
         run: npm run lint
-
-      - name: Run prettier
-        run: npm run format
 
       - name: Check types and typescript
         run: npm run ts:check
@@ -107,7 +121,7 @@ jobs:
 
   publish:
     runs-on: ubuntu-22.04
-    needs: [rc-version, build]
+    needs: [rc-version, build-and-checks]
     if: ${{ needs.rc-version.outputs.needs_bump == 'true' }}
     environment: production
     steps:
@@ -126,7 +140,7 @@ jobs:
       - name: Remove prepare script
         run: npm pkg delete scripts.prepare
 
-      # Ephemeral version bump to publish next rc version
+      # Ephemeral rc version bump to publish next rc version
       - name: Update package.json version
         run: |
           npm version ${{ needs.rc-version.outputs.rc_version }} --no-git-tag-version

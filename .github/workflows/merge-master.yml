@@ -10,7 +10,22 @@ env:
   PROVIDER_URL: ${{ secrets.PROVIDER_URL }}
 
 jobs:
+  setup:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund
+
   bump-version:
+    needs: setup
     uses: NexusMutual/workflows/.github/workflows/bump.yml@master
     with:
       environment: production
@@ -29,9 +44,9 @@ jobs:
       DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
       DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
 
-  build:
+  build-and-checks:
     runs-on: ubuntu-22.04
-    needs: bump-version
+    needs: setup
     steps:
       - uses: actions/checkout@v4
 
@@ -44,14 +59,12 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund
 
+      # run build script to generate `/generated` dir which is needed by ts:check and test scripts
       - name: Build package
         run: npm run build
 
       - name: Run linter
         run: npm run lint
-
-      - name: Run prettier
-        run: npm run format
 
       - name: Check types and typescript
         run: npm run ts:check
@@ -66,11 +79,11 @@ jobs:
 
   publish:
     runs-on: ubuntu-22.04
-    needs: build
+    needs: [bump-version, build-and-checks]
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: master
+          ref: master # ensures the new version bump commit is checked out
 
       - uses: actions/setup-node@v4
         with:
@@ -89,7 +102,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: npm publish --access public --ignore-scripts
-      
+
   git-tag-release:
     needs: publish
     uses: NexusMutual/workflows/.github/workflows/git-tag-github-release.yml@master
@@ -105,7 +118,7 @@ jobs:
     uses: NexusMutual/workflows/.github/workflows/rebase.yml@master
     with:
       environment: production
-      base-ref: master
+      source-ref: master
       target-ref: dev
     secrets:
       DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}

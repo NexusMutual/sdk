@@ -6,7 +6,7 @@ on:
       - dev
 
 env:
-  NODE_VERSION: '22.14'
+  NODE_VERSION: 22
   PROVIDER_URL: https://eth-mainnet.g.alchemy.com/v2/${{ secrets.ALCHEMY_API_KEY }}
 
 jobs:
@@ -35,7 +35,7 @@ jobs:
       - name: Bump version based on conventional commits
         id: bump_version
         run: |
-          BUMP=$(timeout 5s npx conventional-recommended-bump --config .github/config/conventional-bump-setup.js --verbose | head -n1) || true
+          BUMP=$(timeout 5s npx conventional-recommended-bump --config .github/config/conventional-bump-setup.js) || true
           if [ -n "$BUMP" ] && [[ "$BUMP" != *"No version bump needed"* ]]; then
             npm version "$BUMP" --no-git-tag-version
             echo "needs_bump=true" >> $GITHUB_OUTPUT

@@ -6,77 +6,43 @@ on:
       - master
 
 env:
-  NODE_VERSION: '18'
+  NODE_VERSION: '22.14'
   PROVIDER_URL: https://eth-mainnet.g.alchemy.com/v2/${{ secrets.ALCHEMY_API_KEY }}
 
 jobs:
-  version:
-    runs-on: ubuntu-22.04
-    outputs:
-      local_version: ${{ steps.local_version.outputs.value }}
-      registry_version: ${{ steps.registry_version.outputs.value }}
-    steps:
-      - name: GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Get local version
-        id: local_version
-        run: |
-          version=$(cat ./package.json | jq --raw-output .version)
-          echo $version
-          echo "value=$version" >> $GITHUB_OUTPUT
-
-      - name: Get registry version
-        id: registry_version
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        run: |
-          package_name="$(cat ./package.json | jq --raw-output .name)"
-          echo $package_name
-          version=$(npm view $package_name version || echo "0.0.0")
-          echo $version
-          echo "value=$version" >> $GITHUB_OUTPUT
-
-      - name: Validate version
-        uses: actions/github-script@v6
-        with:
-          result-encoding: string
-          script: |
-            const local_version = '${{ steps.local_version.outputs.value }}';
-            const registry_version = '${{ steps.registry_version.outputs.value }}';
-            core.info(`Repository version: ${local_version}`);
-            core.info(`Registry version: ${registry_version}`);
-            if (registry_version === local_version) {
-              core.setFailed('Please bump version before merging');
-            }
+  bump-version:
+    uses: NexusMutual/workflows/.github/workflows/bump.yml@a09534b91b0eaad1f8c9787578cc83a03974cf33
+    with:
+      environment: production
+      ref: master
+      bump-command: |
+        BUMP=$(timeout 5s npx conventional-recommended-bump --config .github/config/conventional-bump-setup.js --verbose | head -n1) || true
+        if [ -n "$BUMP" ] && [[ "$BUMP" != *"No version bump needed"* ]]; then
+          npm version "$BUMP" --no-git-tag-version
+        else
+          echo "::error::Forbidden to release a version without a version bump"
+          echo "::warning::Commit messages on the dev branch must include changes beyond 'docs', 'style', 'test', or 'ci'"
+          echo "Please ensure your commits reflect meaningful changes to trigger an automatic version bump."
+          exit 1
+        fi
+    secrets:
+      DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
+      DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
 
   build:
     runs-on: ubuntu-22.04
-    needs: [version]
+    needs: bump-version
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-
-      - uses: actions/cache@v3
-        id: cache
-        with:
-          path: node_modules
-          key: node-modules-cache-node-${{ env.NODE_VERSION }}-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          cache: "npm"
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci --ignore-scripts
+        run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund
 
       - name: Build package
         run: npm run build
@@ -95,24 +61,25 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: sdk-${{ needs.version.outputs.local_version }}
+          name: sdk-${{ needs.bump-version.outputs.bumped_version }}
           path: dist
 
   publish:
     runs-on: ubuntu-22.04
-    needs: [version, build]
-    environment: production
+    needs: build
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          ref: master
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://registry.npmjs.org'
 
       - uses: actions/download-artifact@v4
         with:
-          name: sdk-${{ needs.version.outputs.local_version }}
+          name: sdk-${{ needs.bump-version.outputs.bumped_version }}
           path: dist
 
       - name: Remove prepare script
@@ -122,26 +89,19 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: npm publish --access public --ignore-scripts
-
-      - name: Create release
-        uses: actions/github-script@v6
-        with:
-          github-token: '${{ github.token }}'
-          script: |
-            try {
-              const response = await github.rest.repos.createRelease({
-                name: "${{ needs.version.outputs.local_version }}",
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                tag_name: "${{ needs.version.outputs.local_version }}",
-                generate_release_notes: true,
-              });
-            } catch (error) {
-              core.setFailed(error.message);
-            }
+      
+  git-tag-release:
+    needs: publish
+    uses: NexusMutual/workflows/.github/workflows/git-tag-github-release.yml@a09534b91b0eaad1f8c9787578cc83a03974cf33
+    with:
+      environment: production
+      ref: master
+    secrets:
+      DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
+      DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
 
   rebase-dev:
-    needs: [publish]
+    needs: publish
     uses: NexusMutual/workflows/.github/workflows/rebase.yml@master
     with:
       environment: production

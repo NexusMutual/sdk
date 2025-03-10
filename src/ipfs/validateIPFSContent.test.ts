@@ -193,8 +193,40 @@ describe('validateIPFSContent', () => {
       ],
     };
 
+    const validContentWithDecimalAmount: CoverDesignatedWallets = {
+      version: '1.0',
+      wallets: [
+        {
+          wallet: validEthAddress,
+          amount: '1.5',
+          currency: 'USDC',
+        },
+        {
+          wallet: validEthAddress,
+          amount: '100,5',
+          currency: 'USDC',
+        },
+        {
+          wallet: validEthAddress,
+          amount: '1,000.5',
+          currency: 'USDC',
+        },
+        {
+          wallet: validEthAddress,
+          amount: '1.000.000,5',
+          currency: 'USDC',
+        },
+      ],
+    };
+
     it('should validate correct content', () => {
       expect(() => validateIPFSContent(ContentType.coverDesignatedWallets, validContent)).not.toThrow();
+    });
+
+    it('should validate correct content with decimal amount', () => {
+      expect(() =>
+        validateIPFSContent(ContentType.coverDesignatedWallets, validContentWithDecimalAmount),
+      ).not.toThrow();
     });
 
     it('should reject invalid ethereum address', () => {

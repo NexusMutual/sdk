@@ -55,7 +55,7 @@ export const coverDesignatedWalletsSchema = z.object({
     .array(
       z.object({
         wallet: z.string().regex(ethereumAddressRegex, 'Invalid Ethereum address'),
-        amount: z.string().regex(/^\d+$/, 'Amount must be a valid wei value'),
+        amount: z.string().regex(/^(?!,$)[\d,.]+$/, 'Amount must be a valid number'),
         currency: z.string().min(1, 'Currency cannot be empty'),
       }),
     )

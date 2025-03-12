@@ -66,6 +66,7 @@ jobs:
       environment: production
       ref: master
       bump-command: |
+        echo 'Executing npm version bump: ${{ needs.validate-version-bump.outputs.bump_type }}'
         npm version "${{ needs.validate-version-bump.outputs.bump_type }}" --no-git-tag-version
     secrets:
       DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}

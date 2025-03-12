@@ -1,19 +1,28 @@
 name: release
 
 on:
-  push:
-    branches:
-      - master
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
 
 env:
   NODE_VERSION: 22
   PROVIDER_URL: ${{ secrets.PROVIDER_URL }}
 
 jobs:
-  setup:
+  validate-version-bump:
     runs-on: ubuntu-22.04
+    outputs:
+      bump_type: ${{ steps.check-bump.outputs.bump_type }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: dev
+          # needs commit history and tags to determine version bump
+          fetch-depth: 0
+          fetch-tags: true
 
       - uses: actions/setup-node@v4
         with:
@@ -24,31 +33,51 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund
 
+      - id: check-bump
+        run: |
+          echo "Running conventional-recommended-bump to check for version changes..."
+          BUMP=$(timeout 5s npx conventional-recommended-bump --config .github/config/conventional-bump-setup.js) || true
+
+          if [ -n "$BUMP" ] && [[ "$BUMP" != *"No version bump needed"* ]]; then
+            echo "bump_type=$BUMP" >> $GITHUB_OUTPUT
+            echo "Version bump of type '$BUMP' will be applied"
+          else
+            echo "::error::Forbidden to release a version without a version bump"
+            echo "::warning::Commit messages on the dev branch must include changes beyond 'docs', 'style', 'test', or 'ci'"
+            echo "Please ensure your commits reflect meaningful changes to trigger an automatic version bump."
+            exit 1
+          fi
+
+  ff-master:
+    needs: validate-version-bump
+    uses: NexusMutual/workflows/.github/workflows/fast-forward.yml@master
+    with:
+      environment: production
+      source-ref: dev
+      target-ref: master
+    secrets:
+      DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
+      DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
+
   bump-version:
-    needs: setup
+    needs: [validate-version-bump, ff-master]
     uses: NexusMutual/workflows/.github/workflows/bump.yml@master
     with:
       environment: production
       ref: master
       bump-command: |
-        BUMP=$(timeout 5s npx conventional-recommended-bump --config .github/config/conventional-bump-setup.js) || true
-        if [ -n "$BUMP" ] && [[ "$BUMP" != *"No version bump needed"* ]]; then
-          npm version "$BUMP" --no-git-tag-version
-        else
-          echo "::error::Forbidden to release a version without a version bump"
-          echo "::warning::Commit messages on the dev branch must include changes beyond 'docs', 'style', 'test', or 'ci'"
-          echo "Please ensure your commits reflect meaningful changes to trigger an automatic version bump."
-          exit 1
-        fi
+        npm version "${{ needs.validate-version-bump.outputs.bump_type }}" --no-git-tag-version
     secrets:
       DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
       DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
 
   build-and-checks:
     runs-on: ubuntu-22.04
-    needs: setup
+    needs: bump-version
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: master
 
       - uses: actions/setup-node@v4
         with:
@@ -59,7 +88,7 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund
 
-      # run build script to generate `/generated` dir which is needed by ts:check and test scripts
+      # Run build script to generate `/generated` dir which is needed by ts:check and test scripts
       - name: Build package
         run: npm run build
 
@@ -80,10 +109,11 @@ jobs:
   publish:
     runs-on: ubuntu-22.04
     needs: [bump-version, build-and-checks]
+    environment: production
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: master # ensures the new version bump commit is checked out
+          ref: master
 
       - uses: actions/setup-node@v4
         with:
@@ -113,6 +143,7 @@ jobs:
       DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
       DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
 
+  # pull master version bump commit back to dev
   rebase-dev:
     needs: publish
     uses: NexusMutual/workflows/.github/workflows/rebase.yml@master

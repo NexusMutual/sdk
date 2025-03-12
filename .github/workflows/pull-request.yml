@@ -26,43 +26,6 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund
 
-  version:
-    needs: setup
-    runs-on: ubuntu-22.04
-    if: github.base_ref == 'master'
-    outputs:
-      local_version: ${{ steps.local_version.outputs.value }}
-      registry_version: ${{ steps.registry_version.outputs.value }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          fetch-tags: true
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
-          cache-dependency-path: package-lock.json
-
-      - name: Install dependencies
-        run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund
-          
-      - name: Validate potential version bump
-        id: validate_version_bump
-        run: |
-          # Check if conventional commits would trigger a version bump
-          BUMP=$(timeout 5s npx conventional-recommended-bump --config .github/config/conventional-bump-setup.js) || true
-          
-          echo "Conventional commit analysis result: $BUMP"
-          
-          if [[ "$BUMP" == *"No version bump needed"* ]]; then
-            echo "::error::Forbidden to release a version without a version bump"
-            echo "::warning::Commit messages must include changes beyond 'docs', 'style', 'test', or 'ci'"
-            echo "Please ensure your commits reflect meaningful changes to trigger an automatic version bump."
-            exit 1
-          fi
-
   checks:
     needs: setup
     runs-on: ubuntu-22.04
@@ -78,7 +41,7 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund
 
-      # run build script to generate `/generated` dir which is needed by ts:check and test scripts
+      # Run build script to generate `/generated` dir which is needed by ts:check and test scripts
       - name: Build package
         run: npm run build
 

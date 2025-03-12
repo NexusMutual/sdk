@@ -1,4 +1,4 @@
-name: release-next
+name: Release next
 
 on:
   pull_request:

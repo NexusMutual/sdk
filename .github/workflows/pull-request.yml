@@ -16,6 +16,7 @@ jobs:
     # Skip CI for draft PRs since this workflow is triggered once its review for review
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-22.04
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
 
@@ -29,8 +30,8 @@ jobs:
         run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund
 
       # Run build script to generate `/generated` dir which is needed by ts:check and test scripts
-      - name: Build package
-        run: npm run build
+      - name: TypeScript build
+        run: npm run ts:build
 
       - name: Run linter
         run: npm run lint

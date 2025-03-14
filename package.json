@@ -10,6 +10,7 @@
     "format:fix": "prettier --loglevel silent --write 'src/**/*.{js,jsx,ts,tsx}'",
     "test": "jest",
     "test:watch": "jest --watch",
+    "ts:build": "npm run build",
     "ts:check": "npm run ts:check-types && npm run ts:circular-check",
     "ts:check-types": "tsc --noEmit",
     "ts:circular-check": "dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T ./src/**/*.ts",

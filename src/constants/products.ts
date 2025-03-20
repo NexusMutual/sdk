@@ -306,4 +306,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   283: ProductCategoryEnum.Dex, // Shadow
   284: ProductCategoryEnum.Uncategorized, // Cork
   285: ProductCategoryEnum.YieldOptimizer, // Rings
+  286: ProductCategoryEnum.Depeg, // DOLA Depeg
+  287: ProductCategoryEnum.Uncategorized, // Ensuro Yield
+  288: ProductCategoryEnum.Lending, // Coinshift USDL Morpho Vault
 };

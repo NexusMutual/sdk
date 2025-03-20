@@ -2,7 +2,7 @@ import mockAxios from 'jest-mock-axios';
 import { parseEther } from 'viem';
 
 import { getQuoteAndBuyCoverInputs } from './getQuoteAndBuyCoverInputs';
-import { calculatePremiumWithCommissionAndSlippage } from '../buyCover';
+import { calculatePremiumWithCommissionAndSlippage } from '../cover';
 import {
   CoverAsset,
   CoverId,
@@ -13,7 +13,7 @@ import {
   NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
-} from '../constants/buyCover';
+} from '../constants/cover';
 import {
   Address,
   CoverFreeText,

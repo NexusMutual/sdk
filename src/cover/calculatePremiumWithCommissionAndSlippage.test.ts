@@ -1,10 +1,11 @@
 import { formatEther, parseEther } from 'viem';
 
 import { calculatePremiumWithCommissionAndSlippage } from './calculatePremiumWithCommissionAndSlippage';
-import { COMMISSION_DENOMINATOR } from '../constants/buyCover';
+import { COMMISSION_DENOMINATOR } from '../constants/cover';
 
 const BUY_COVER_COMMISSION_RATIO = 1500;
 
+// TODO: Cover class tests
 describe('#calculatePremiumWithCommissionAndSlippage', () => {
   let priceValue = parseEther('0');
 

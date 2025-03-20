@@ -1,3 +1,1 @@
-export * from './uploadIPFSContent';
-export * from './validateIPFSCid';
-export * from './validateIPFSContent';
+export * from './Ipfs';

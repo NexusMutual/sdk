@@ -105,6 +105,7 @@ export const IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE: Record<ProductTypes, ContentType
   [ProductTypes.immunefiBugBounty]: undefined,
   [ProductTypes.crypto]: undefined,
   [ProductTypes.nativeSyndicate]: undefined,
+  [ProductTypes.spearbitCantina]: undefined,
 };
 
 export interface IPFSContentForProductType {
@@ -132,6 +133,7 @@ export interface IPFSContentForProductType {
   [ProductTypes.immunefiBugBounty]: undefined;
   [ProductTypes.crypto]: undefined;
   [ProductTypes.nativeSyndicate]: undefined;
+  [ProductTypes.spearbitCantina]: undefined;
 }
 
 export type IPFSUploadServiceResponse = {

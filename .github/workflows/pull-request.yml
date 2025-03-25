@@ -1,4 +1,4 @@
-name: pull-request
+name: Pull Request
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
@@ -8,87 +8,33 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_VERSION: '18'
-  CACHE_KEY: ${{ secrets.CACHE_KEY }} # Change to bust caches
-  PROVIDER_URL: https://eth-mainnet.g.alchemy.com/v2/${{ secrets.ALCHEMY_API_KEY }}
+  NODE_VERSION: 22
+  PROVIDER_URL: ${{ secrets.PROVIDER_URL }}
 
 jobs:
-  version:
-    runs-on: ubuntu-22.04
-    if: github.base_ref == 'master'
-    outputs:
-      local_version: ${{ steps.local_version.outputs.value }}
-      registry_version: ${{ steps.registry_version.outputs.value }}
-    steps:
-      - name: GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Get local version
-        id: local_version
-        run: |
-          version=$(cat ./package.json | jq --raw-output .version)
-          echo $version
-          echo "value=$version" >> $GITHUB_OUTPUT
-
-      - name: Get registry version
-        id: registry_version
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        run: |
-          package_name="$(cat ./package.json | jq --raw-output .name)"
-          echo $package_name
-          version=$(npm view $package_name version)
-          echo $version
-          echo "value=$version" >> $GITHUB_OUTPUT
-
-      - name: Validate version
-        uses: actions/github-script@v6
-        with:
-          result-encoding: string
-          script: |
-            const local_version = '${{ steps.local_version.outputs.value }}';
-            const registry_version = '${{ steps.registry_version.outputs.value }}';
-            core.info(`Repository version: ${local_version}`);
-            core.info(`Registry version: ${registry_version}`);
-            if (registry_version === local_version) {
-              core.setFailed('Please bump version before merging');
-            }
-
   checks:
+    # Skip CI for draft PRs since this workflow is triggered once its review for review
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-22.04
+    timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-
-      - uses: actions/cache@v3
-        id: cache
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-${{ env.CACHE_KEY }}-${{ hashFiles('package-lock.json') }}
+          cache: "npm"
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci --ignore-scripts
+        run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund
 
-      - name: Build package
-        run: npm run build
+      # Run build script to generate `/generated` dir which is needed by ts:check and test scripts
+      - name: TypeScript build
+        run: npm run ts:build
 
       - name: Run linter
         run: npm run lint
-
-      - name: Run prettier
-        run: npm run format
 
       - name: Check types and typescript
         run: npm run ts:check

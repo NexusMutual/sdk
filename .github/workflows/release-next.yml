@@ -1,0 +1,136 @@
+name: Release next
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - dev
+
+env:
+  NODE_VERSION: 22
+  PROVIDER_URL: ${{ secrets.PROVIDER_URL }}
+
+jobs:
+  rc-version:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-22.04
+    outputs:
+      rc_version: ${{ steps.rc_version.outputs.value }}
+      needs_bump: ${{ steps.bump_version.outputs.needs_bump }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund
+
+      # Ephemeral version bump to determine RC version
+      - name: Bump version based on conventional commits
+        id: bump_version
+        run: |
+          BUMP=$(timeout 5s npx conventional-recommended-bump --config .github/config/conventional-bump-setup.js) || true
+          if [ -n "$BUMP" ] && [[ "$BUMP" != *"No version bump needed"* ]]; then
+            npm version "$BUMP" --no-git-tag-version
+            echo "needs_bump=true" >> $GITHUB_OUTPUT
+          else
+            echo "No version bump needed"
+            echo "needs_bump=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Determine RC version
+        id: rc_version
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        run: |
+          package_name="$(cat ./package.json | jq --raw-output .name)"
+          base_version="$(cat ./package.json | jq --raw-output .version)"
+          echo "Base version: $base_version"
+          
+          # Find the latest RC version for this base version
+          latest_rc=$(npm view $package_name versions --json 2>/dev/null | jq -r '.[]' 2>/dev/null | grep "^$base_version-rc[0-9]\+$" | sort -V | tail -n 1 || echo "")
+          
+          if [ -z "$latest_rc" ]; then
+            # No previous RC version found, start with rc1
+            rc_version="${base_version}-rc1"
+          else
+            # Extract RC number and increment it
+            rc_num=$(echo $latest_rc | sed -E "s/${base_version}-rc([0-9]+)/\1/")
+            next_rc=$((rc_num + 1))
+            rc_version="${base_version}-rc${next_rc}"
+          fi
+          
+          echo "RC version: $rc_version"
+          echo "value=$rc_version" >> $GITHUB_OUTPUT
+
+  build-and-checks:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-22.04
+    needs: rc-version # needs rc-version for upload artifact name
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund
+
+      # Run build script to generate `/generated` dir which is needed by ts:check and test scripts
+      - name: Build package
+        run: npm run build
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Check types and typescript
+        run: npm run ts:check
+
+      - name: Run tests
+        run: npm run test
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sdk-next-${{ needs.rc-version.outputs.rc_version }}
+          path: dist
+
+  publish:
+    if: github.event.pull_request.merged == true && needs.rc-version.outputs.needs_bump == 'true'
+    runs-on: ubuntu-22.04
+    needs: [rc-version, build-and-checks]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://registry.npmjs.org'
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: sdk-next-${{ needs.rc-version.outputs.rc_version }}
+          path: dist
+
+      - name: Remove prepare script
+        run: npm pkg delete scripts.prepare
+
+      # Ephemeral rc version bump to publish next rc version
+      - name: RC version bump
+        run: |
+          npm version ${{ needs.rc-version.outputs.rc_version }} --no-git-tag-version
+
+      - name: Publish with next tag
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        run: npm publish --tag next --access public --ignore-scripts

@@ -298,11 +298,11 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   275: ProductCategoryEnum.YieldOptimizer, // PoolTogether
   276: ProductCategoryEnum.Custody, // Coinbase
   277: ProductCategoryEnum.Custody, // Kraken
-  278: ProductCategoryEnum.Uncategorized, // Binance
-  279: ProductCategoryEnum.Uncategorized, // OKX
-  280: ProductCategoryEnum.Uncategorized, // Deribit
-  281: ProductCategoryEnum.Uncategorized, // Bitmex
-  282: ProductCategoryEnum.Uncategorized, // Bybit
+  278: ProductCategoryEnum.Custody, // Binance
+  279: ProductCategoryEnum.Custody, // OKX
+  280: ProductCategoryEnum.Custody, // Deribit
+  281: ProductCategoryEnum.Custody, // Bitmex
+  282: ProductCategoryEnum.Custody, // Bybit
   283: ProductCategoryEnum.Dex, // Shadow
   284: ProductCategoryEnum.Uncategorized, // Cork
   285: ProductCategoryEnum.YieldOptimizer, // Rings

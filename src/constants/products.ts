@@ -311,5 +311,5 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   288: ProductCategoryEnum.Lending, // Coinshift USDL Morpho Vault
   289: ProductCategoryEnum.Lending, // B-Tier Morpho Vaults
   290: ProductCategoryEnum.Lending, // B-Tier Euler v2 Markets
-  291: ProductCategoryEnum.Uncategorized, // Ouroboros
+  291: ProductCategoryEnum.Uncategorized, // OC Cover
 };

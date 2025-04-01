@@ -25,4 +25,4 @@ To update this document, follow the steps below:
 - 2025-04-01: Renamed `Euler Finance v2` to `Blue Chip Euler v2 Markets`. We're renaming this existing listing and updating the Annex.
 - 2025-04-01: Added new listing `B-Tier Morpho Vaults`.
 - 2025-04-01: Added new listing `B-Tier Euler v2 Markets`.
-- 2025-04-01: Added new listing `Ouroboros`. `Private` listing.
+- 2025-04-01: Added new listing `OC Cover`. `Private` listing.

@@ -248,8 +248,8 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   225: ProductCategoryEnum.Dex, // PancakeSwap
   226: ProductCategoryEnum.YieldOptimizer, // Beefy + Velodrome (deprecated)
   227: ProductCategoryEnum.Uncategorized, // Base Defi Pass
-  228: ProductCategoryEnum.Lending, // Euler Finance v2
-  229: ProductCategoryEnum.Lending, // Morpho + Morpho Vaults
+  228: ProductCategoryEnum.Lending, // Blue Chip Euler v2 Markets
+  229: ProductCategoryEnum.Lending, // Blue Chip Morpho Vaults
   230: ProductCategoryEnum.Lending, // Ajna Finance
   231: ProductCategoryEnum.Lending, // Dolomite
   232: ProductCategoryEnum.Lending, // Steer Protocol
@@ -309,4 +309,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   286: ProductCategoryEnum.Depeg, // DOLA Depeg
   287: ProductCategoryEnum.Uncategorized, // Ensuro Yield
   288: ProductCategoryEnum.Lending, // Coinshift USDL Morpho Vault
+  289: ProductCategoryEnum.Lending, // B-Tier Morpho Vaults
+  290: ProductCategoryEnum.Lending, // B-Tier Euler v2 Markets
+  291: ProductCategoryEnum.Uncategorized, // Ouroboros
 };

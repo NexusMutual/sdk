@@ -16,5 +16,12 @@ To update this document, follow the steps below:
 ## Product Types Updates
 
 - 2025-03-26: Updated `Native Syndicate Cover` cover wording.
+- 2025-04-01: Updated `Elite Cover` updating the Annex and the UI copy for this listing.
+- 2025-04-01: Updated `Beefy` updating the Annex and the UI copy for this listing.
+- 2025-04-01: Renamed `Morpho + Morpho Vaults` to `Blue Chip Morpho Vaults`. We're renaming this existing listing and updating the Annex.
+- 2025-04-01: Renamed `Euler Finance v2` to `Blue Chip Euler v2 Markets`. We're renaming this existing listing and updating the Annex.
+- 2025-04-01: Added new listing `B-Tier Morpho Vaults`. 
+- 2025-04-01: Added new listing `B-Tier Euler v2 Markets`. 
+- 2025-04-01: Added new listing `Ouroboros`. `Private` listing.
 
 ## Listings Updates

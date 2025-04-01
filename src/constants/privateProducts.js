@@ -50,6 +50,7 @@ const allPrivateProductsIds = [
   260, // DeFi Covered
   273, // L1 Advisors Cover
   274, // Figment ETH Slashing
+  291, // Ouroboros
 ];
 
 module.exports = {

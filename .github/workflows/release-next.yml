@@ -1,3 +1,31 @@
+# Release Next Workflow
+#
+# This workflow is responsible for creating and publishing release candidate (RC) versions
+# to npm with the '@next' tag when changes are pushed to the dev branch.
+#
+# Workflow Behavior:
+# - Triggered on push to dev branch
+# - Checks if commits since the last tag warrant a version bump using conventional commits
+# - If a version bump is needed, publishes an RC version to npm with the '@next' tag
+# - RC versions follow the pattern: {new_version}-rc{number} (e.g., 1.2.0-rc1, 1.2.0-rc2)
+# - RC number increments for each new RC of the same base version
+#
+# Scenarios:
+# 1. Feature branch merged to dev with commits that trigger a version bump:
+#    - Workflow determines the next semantic version (e.g., 0.2.0 from 0.1.0)
+#    - Publishes first RC (e.g., 0.2.0-rc1) or increments RC number (e.g., 0.2.0-rc2)
+#    - No commits are made to the repository, only published to npm
+#
+# 2. Feature branch merged to dev with commits that don't trigger a version bump:
+#    - Workflow exits early with no action
+#
+# 3. Version bump commit from master rebased to dev (via release.yml workflow):
+#    - Contains [skip ci] in the commit message to prevent this workflow from running
+#    - Prevents publishing RC versions based on the version bump commit itself
+#
+# NOTE: This workflow does NOT commit any changes to git. It only publishes to npm.
+# The actual version bump commit happens in the main release.yml workflow.
+
 name: Release next
 
 on:
@@ -10,11 +38,31 @@ env:
   PROVIDER_URL: ${{ secrets.PROVIDER_URL }}
 
 jobs:
+  # First step: Determine if the commits since last tag require a version bump
+  # Outputs:
+  # - bump_type: The type of semantic version bump (major, minor, patch)
+  # - triggers_bump: 'true' if a version bump is needed, 'false' otherwise
+  check-version-bump:
+    uses: NexusMutual/workflows/.github/workflows/check-version-bump.yml@master
+    with:
+      ref: ${{ github.ref_name }}
+      environment: production
+      bump-command: |
+        timeout 5s npx conventional-recommended-bump --config .github/config/conventional-bump-setup.js
+    secrets:
+      DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
+      DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
+
+  # Second step: Determine the RC version number
+  # This job only runs if a version bump is needed
+  # It calculates the next RC version based on the new base version and existing RC versions
+  # NOTE: the version bump is not committed to the repository, it is only used to determine the RC version
   rc-version:
+    if: needs.check-version-bump.outputs.triggers_bump == 'true'
     runs-on: ubuntu-22.04
+    needs: check-version-bump
     outputs:
       rc_version: ${{ steps.rc_version.outputs.value }}
-      needs_bump: ${{ steps.bump_version.outputs.needs_bump }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -24,25 +72,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
-          cache-dependency-path: package-lock.json
 
-      - name: Install dependencies
-        run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund
+      # Only install minimal dependencies needed for npm version commands
+      - name: Setup npm
+        run: npm install -g npm@latest
 
-      # Ephemeral version bump to determine RC version
+      # Update package.json version locally (not committed)
+      # This is needed to determine the base version for the RC
       - name: Bump version based on conventional commits
-        id: bump_version
         run: |
-          BUMP=$(timeout 5s npx conventional-recommended-bump --config .github/config/conventional-bump-setup.js) || true
-          if [ -n "$BUMP" ] && [[ "$BUMP" != *"No version bump needed"* ]]; then
-            npm version "$BUMP" --no-git-tag-version
-            echo "needs_bump=true" >> $GITHUB_OUTPUT
-          else
-            echo "No version bump needed"
-            echo "needs_bump=false" >> $GITHUB_OUTPUT
-          fi
+          npm version "${{ needs.check-version-bump.outputs.bump_type }}" --no-git-tag-version
 
+      # Look up existing RC versions on npm and determine the next RC number
+      # For example: 1.2.0-rc1, 1.2.0-rc2, etc.
       - name: Determine RC version
         id: rc_version
         env:
@@ -68,10 +110,11 @@ jobs:
           echo "RC version: $rc_version"
           echo "value=$rc_version" >> $GITHUB_OUTPUT
 
+  # Third step: Build and run checks on the code
+  # This job runs automatically when rc-version completes
   build-and-checks:
-    if: needs.rc-version.outputs.needs_bump == 'true'
     runs-on: ubuntu-22.04
-    needs: rc-version # needs rc-version for upload artifact name
+    needs: [check-version-bump, rc-version]
     steps:
       - uses: actions/checkout@v4
 
@@ -97,15 +140,16 @@ jobs:
       - name: Run tests
         run: npm run test
 
+      # Save the build artifacts for the publish job
       - uses: actions/upload-artifact@v4
         with:
           name: sdk-next-${{ needs.rc-version.outputs.rc_version }}
           path: dist
 
+  # Final step: Publish the RC version to npm with the '@next' tag
   publish:
-    if: needs.rc-version.outputs.needs_bump == 'true'
     runs-on: ubuntu-22.04
-    needs: [rc-version, build-and-checks]
+    needs: [check-version-bump, rc-version, build-and-checks]
     steps:
       - uses: actions/checkout@v4
 
@@ -114,19 +158,23 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://registry.npmjs.org'
 
+      # Download the build artifacts from the build-and-checks job
       - uses: actions/download-artifact@v4
         with:
           name: sdk-next-${{ needs.rc-version.outputs.rc_version }}
           path: dist
 
+      # Remove the prepare script to avoid running it during npm publish
       - name: Remove prepare script
         run: npm pkg delete scripts.prepare
 
-      # Ephemeral rc version bump to publish next rc version
+      # Set the RC version in package.json for publishing
+      # This is a local change only and not committed to the repository
       - name: RC version bump
         run: |
           npm version ${{ needs.rc-version.outputs.rc_version }} --no-git-tag-version
 
+      # Publish the package to npm with the '@next' tag
       - name: Publish with next tag
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

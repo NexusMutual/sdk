@@ -1,3 +1,25 @@
+# Release Workflow
+#
+# This workflow is responsible for creating official releases:
+# - Verifies that a version bump is needed based on conventional commits
+# - Fast-forwards master branch from dev
+# - Bumps the version in package.json and creates a version commit on master
+# - Publishes to npm with the '@latest' tag
+# - Creates a git tag and GitHub release
+# - Rebases the version bump commit back to dev branch
+#
+# Workflow Behavior:
+# - Triggered manually via workflow_dispatch
+# - Ensures code can only be released if it contains commits that justify a version bump
+# - Creates proper versioning in both npm and git
+# - Maintains synchronization between master and dev branches
+#
+# Relationship with release-next.yml:
+# - release-next.yml publishes RC versions with the '@next' tag during development
+# - This workflow publishes final versions with the '@latest' tag
+# - The rebase-dev job ensures the version bump commit is pulled back to dev with [skip ci]
+#   which prevents release-next.yml from running again on this commit
+
 name: Release
 
 on:
@@ -12,44 +34,43 @@ env:
   PROVIDER_URL: ${{ secrets.PROVIDER_URL }}
 
 jobs:
+  # First step: Determine if the commits since last tag require a version bump
+  # Outputs:
+  # - bump_type: The type of semantic version bump (major, minor, patch)
+  # - triggers_bump: 'true' if a version bump is needed, 'false' otherwise
+  check-version-bump:
+    uses: NexusMutual/workflows/.github/workflows/check-version-bump.yml@master
+    with:
+      ref: dev
+      environment: production
+      bump-command: |
+        timeout 5s npx conventional-recommended-bump --config .github/config/conventional-bump-setup.js
+    secrets:
+      DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
+      DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
+
+  # This job verifies that a version bump is needed and fails if not
+  # We need this additional validation step to fail the workflow if no version bump is detected
   validate-version-bump:
+    needs: check-version-bump
     runs-on: ubuntu-22.04
-    outputs:
-      bump_type: ${{ steps.check-bump.outputs.bump_type }}
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: dev
-          # needs commit history and tags to determine version bump
-          fetch-depth: 0
-          fetch-tags: true
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
-          cache-dependency-path: package-lock.json
-
-      - name: Install dependencies
-        run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund
-
-      - id: check-bump
+      - name: Verify version bump is needed
+        if: needs.check-version-bump.outputs.triggers_bump != 'true'
         run: |
-          echo "Running conventional-recommended-bump to check for version changes..."
-          BUMP=$(timeout 5s npx conventional-recommended-bump --config .github/config/conventional-bump-setup.js) || true
+          echo "::error::Forbidden to release a version without a version bump"
+          echo "::warning::Commit messages on the dev branch must include changes beyond 'docs', 'style', 'test', or 'ci'"
+          echo "Please ensure your commits reflect meaningful changes to trigger an automatic version bump."
+          exit 1
+          
+      - name: Confirm version bump
+        run: |
+          echo "Version bump of type '${{ needs.check-version-bump.outputs.bump_type }}' will be applied"
 
-          if [ -n "$BUMP" ] && [[ "$BUMP" != *"No version bump needed"* ]]; then
-            echo "bump_type=$BUMP" >> $GITHUB_OUTPUT
-            echo "Version bump of type '$BUMP' will be applied"
-          else
-            echo "::error::Forbidden to release a version without a version bump"
-            echo "::warning::Commit messages on the dev branch must include changes beyond 'docs', 'style', 'test', or 'ci'"
-            echo "Please ensure your commits reflect meaningful changes to trigger an automatic version bump."
-            exit 1
-          fi
-
+  # Second step: Fast-forward master branch to match dev
+  # This ensures master contains all changes from dev before creating the release
   ff-master:
-    needs: validate-version-bump
+    needs: [check-version-bump, validate-version-bump]
     uses: NexusMutual/workflows/.github/workflows/fast-forward.yml@master
     with:
       environment: production
@@ -59,19 +80,23 @@ jobs:
       DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
       DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
 
+  # Third step: Apply the version bump to package.json and create a commit
+  # This creates the official version bump commit on the master branch
   bump-version:
-    needs: [validate-version-bump, ff-master]
+    needs: [check-version-bump, ff-master]
     uses: NexusMutual/workflows/.github/workflows/bump.yml@master
     with:
       environment: production
       ref: master
       bump-command: |
-        echo 'Executing npm version bump: ${{ needs.validate-version-bump.outputs.bump_type }}'
-        npm version "${{ needs.validate-version-bump.outputs.bump_type }}" --no-git-tag-version
+        echo 'Executing npm version bump: ${{ needs.check-version-bump.outputs.bump_type }}'
+        npm version "${{ needs.check-version-bump.outputs.bump_type }}" --no-git-tag-version
     secrets:
       DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
       DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
 
+  # Fourth step: Build the code and run all checks
+  # Ensures the release is stable before publishing
   build-and-checks:
     runs-on: ubuntu-22.04
     needs: bump-version
@@ -102,11 +127,14 @@ jobs:
       - name: Run tests
         run: npm run test
 
+      # Save build artifacts for the publish job
       - uses: actions/upload-artifact@v4
         with:
           name: sdk-${{ needs.bump-version.outputs.bumped_version }}
           path: dist
 
+  # Fifth step: Publish the package to npm with the '@latest' tag
+  # This makes the new version the default when users run `npm install`
   publish:
     runs-on: ubuntu-22.04
     needs: [bump-version, build-and-checks]
@@ -121,19 +149,24 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://registry.npmjs.org'
 
+      # Download the build artifacts from the build-and-checks job
       - uses: actions/download-artifact@v4
         with:
           name: sdk-${{ needs.bump-version.outputs.bumped_version }}
           path: dist
 
+      # Remove the prepare script to avoid running it during npm publish
       - name: Remove prepare script
         run: npm pkg delete scripts.prepare
 
+      # Publish the package to npm with the '@latest' tag (default)
       - name: Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: npm publish --access public --ignore-scripts
 
+  # Sixth step: Create a git tag and GitHub release
+  # This marks the commit in git history and creates a release on GitHub
   git-tag-release:
     needs: publish
     uses: NexusMutual/workflows/.github/workflows/git-tag-github-release.yml@master
@@ -144,7 +177,9 @@ jobs:
       DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
       DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
 
-  # Pull master version bump commit back to dev
+  # Final step: Rebase the version bump commit back to dev
+  # This ensures dev branch has the version bump commit
+  # The commit includes [skip ci] so release-next.yml won't run on this commit
   rebase-dev:
     needs: publish
     uses: NexusMutual/workflows/.github/workflows/rebase.yml@master

@@ -51,6 +51,7 @@ const allPrivateProductsIds = [
   273, // L1 Advisors Cover
   274, // Figment ETH Slashing
   291, // OC Cover
+  292, // Usual Bug Bounty
 ];
 
 module.exports = {

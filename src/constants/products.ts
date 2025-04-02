@@ -312,4 +312,5 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   289: ProductCategoryEnum.Lending, // B-Tier Morpho Vaults
   290: ProductCategoryEnum.Lending, // B-Tier Euler v2 Markets
   291: ProductCategoryEnum.Uncategorized, // OC Cover
+  292: ProductCategoryEnum.Uncategorized, // Usual Bug Bounty
 };

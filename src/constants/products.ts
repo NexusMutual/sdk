@@ -313,4 +313,6 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   290: ProductCategoryEnum.Lending, // B-Tier Euler v2 Markets
   291: ProductCategoryEnum.Uncategorized, // OC Cover
   292: ProductCategoryEnum.Uncategorized, // Usual Bug Bounty
+  293: ProductCategoryEnum.Depeg, // Resupply USD (reUSD) Depeg
+  294: ProductCategoryEnum.YieldOptimizer, // Origin Sonic (OS)
 };

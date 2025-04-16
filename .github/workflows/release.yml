@@ -62,7 +62,6 @@ jobs:
           echo "::warning::Commit messages on the dev branch must include changes beyond 'docs', 'style', 'test', or 'ci'"
           echo "Please ensure your commits reflect meaningful changes to trigger an automatic version bump."
           exit 1
-          
       - name: Confirm version bump
         run: |
           echo "Version bump of type '${{ needs.check-version-bump.outputs.bump_type }}' will be applied"
@@ -177,7 +176,7 @@ jobs:
       DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
       DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
 
-  # Final step: Rebase the version bump commit back to dev
+  # Seventh step: Rebase the version bump commit back to dev
   # This ensures dev branch has the version bump commit
   # The commit includes [skip ci] so release-next.yml won't run on this commit
   rebase-dev:
@@ -187,6 +186,36 @@ jobs:
       environment: production
       source-ref: master
       target-ref: dev
+    secrets:
+      DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
+      DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
+
+  # Final step: Create PRs to update SDK version in dependent repositories
+  sdk-bump-prs:
+    needs: [bump-version, rebase-dev]
+    strategy:
+      matrix:
+        include:
+          - repo: frontend-next
+            base-branch: develop
+          - repo: frontend-react
+            base-branch: dev
+          - repo: event-scanner
+            base-branch: dev
+          - repo: notification-processor
+            base-branch: dev
+          - repo: order-book
+            base-branch: dev
+      fail-fast: false # Allow other matrix jobs to continue even if one fails
+    uses: NexusMutual/workflows/.github/workflows/open-pr.yml@master
+    with:
+      environment: production
+      repository: ${{ matrix.repo }}
+      base-branch: ${{ matrix.base-branch }}
+      branch-name: 'build/nexusmutual-sdk-version-bump-${{ needs.bump-version.outputs.bumped_version }}-${{ github.run_id }}'
+      change-command: npm i @nexusmutual/sdk@${{ needs.bump-version.outputs.bumped_version }}
+      commit-message: 'chore: update @nexusmutual/sdk to ${{ needs.bump-version.outputs.bumped_version }}'
+      pr-body: 'updated @nexusmutual/sdk to [${{ needs.bump-version.outputs.bumped_version }}](https://github.com/NexusMutual/sdk/releases/tag/v${{ needs.bump-version.outputs.bumped_version }})'
     secrets:
       DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
       DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}

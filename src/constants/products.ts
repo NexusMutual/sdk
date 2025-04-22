@@ -315,4 +315,8 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   292: ProductCategoryEnum.Uncategorized, // Usual Bug Bounty
   293: ProductCategoryEnum.Depeg, // Resupply USD (reUSD) Depeg
   294: ProductCategoryEnum.YieldOptimizer, // Origin Sonic (OS)
+  295: ProductCategoryEnum.LiquidRestaking, // Byzantine Finance
+  296: ProductCategoryEnum.Uncategorized, // Brava Conservative Cover
+  297: ProductCategoryEnum.Uncategorized, // Brava Balanced Cover
+  298: ProductCategoryEnum.Uncategorized, // Brava Advanced Cover
 };

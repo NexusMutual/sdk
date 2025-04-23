@@ -18,3 +18,5 @@ To update this document, follow the steps below:
 - 2025-03-26: Updated `Native Syndicate Cover` cover wording.
 
 ## Listings Updates
+
+- 2025-23-04: Updated the Annex for `Fasanara`.

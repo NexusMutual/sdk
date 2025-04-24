@@ -20,6 +20,15 @@ const fetchProductTypes = async coverProducts => {
 
   const productTypes = await Promise.all(
     ids.map(async id => {
+      if (id === 2) {
+        const [name, { ipfsHash }] = await Promise.all([
+          coverProducts.getProductTypeName(id),
+          coverProducts.getLatestProductTypeMetadata(id),
+        ]);
+        const coverWordingURL = ipfsURL(ipfsHash);
+        return { id, coverWordingURL, name: name.trim(), gracePeriod: 0, claimMethod: 1 };
+      }
+
       const [{ gracePeriod, claimMethod }, name, { ipfsHash }] = await Promise.all([
         coverProducts.getProductType(id),
         coverProducts.getProductTypeName(id),

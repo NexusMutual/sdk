@@ -16,7 +16,7 @@ const ipfsURL = ipfsHash => `https://api.nexusmutual.io/ipfs/${ipfsHash}`;
 
 const fetchProductTypes = async coverProducts => {
   const productTypesCount = (await coverProducts.getProductTypeCount()).toNumber();
-  const ids = Array.from({ length: productTypesCount }, (_, i) => i);
+  const ids = Array.from({ length: productTypesCount }, (_, i) => i).filter(i => i !== 2);
 
   const productTypes = await Promise.all(
     ids.map(async id => {

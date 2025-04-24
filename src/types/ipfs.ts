@@ -94,7 +94,6 @@ export const IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE: Record<ProductTypes, ContentType
   // ---------------------------------------------------------
   [ProductTypes.protocol]: undefined,
   [ProductTypes.custody]: undefined,
-  [ProductTypes.yieldToken]: undefined,
   [ProductTypes.sherlockExcess]: undefined,
   [ProductTypes.nativeProtocol]: undefined,
   [ProductTypes.theRetailMutual]: undefined,
@@ -122,7 +121,6 @@ export interface IPFSContentForProductType {
   // ---------------------------------------------------------
   [ProductTypes.protocol]: undefined;
   [ProductTypes.custody]: undefined;
-  [ProductTypes.yieldToken]: undefined;
   [ProductTypes.sherlockExcess]: undefined;
   [ProductTypes.nativeProtocol]: undefined;
   [ProductTypes.theRetailMutual]: undefined;

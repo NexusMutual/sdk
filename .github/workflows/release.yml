@@ -213,7 +213,7 @@ jobs:
       repository: ${{ matrix.repo }}
       base-branch: ${{ matrix.base-branch }}
       branch-name: 'build/nexusmutual-sdk-version-bump-${{ needs.bump-version.outputs.bumped_version }}-${{ github.run_id }}'
-      change-command: npm i @nexusmutual/sdk@${{ needs.bump-version.outputs.bumped_version }}
+      change-command: npm i --save-exact @nexusmutual/sdk@${{ needs.bump-version.outputs.bumped_version }}
       commit-message: 'chore: update @nexusmutual/sdk to ${{ needs.bump-version.outputs.bumped_version }}'
       pr-body: 'updated @nexusmutual/sdk to [${{ needs.bump-version.outputs.bumped_version }}](https://github.com/NexusMutual/sdk/releases/tag/v${{ needs.bump-version.outputs.bumped_version }})'
     secrets:

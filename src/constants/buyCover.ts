@@ -22,6 +22,7 @@ export const DEFAULT_SLIPPAGE = 10; // 0.1%
 
 // Commission ratios
 export const DEFAULT_COMMISSION_RATIO = 15_00; // 15%
+export const SHERLOCK_BUG_BOUNTY_COMMISSION_RATIO = 5_00; // 5%
 export const TRM_COMMISSION_RATIO = 10_00; // 10%
 export const FUND_PORTFOLIO_COMMISSION_RATIO = 10_00; // 10%
 export const DEFI_PASS_COMMISSION_RATIO = 10_00; // 10%
@@ -35,6 +36,7 @@ export const NO_COMMISSION_DESTINATION = zeroAddress as Address;
 export const UNITY_ADDRESS = '0x95aBC2A62eE543217CF7640B277BA13D056d904A' as Address;
 export const NEXUS_MUTUAL_DAO_TREASURY_ADDRESS = '0x8e53D04644E9ab0412a8c6bd228C84da7664cFE3';
 export const IMMUNEFI_ADDRESS = '0x9c2F47079eb7Def5dd01Dd7E1138583f82376bDc' as Address;
+export const SPEARBIT_CANTINA_ADDRESS = '0x3Dcb7CFbB431A11CAbb6f7F2296E2354f488Efc2' as Address;
 
 export const BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE: Record<ProductTypes, number> = {
   [ProductTypes.ethSlashing]: DEFAULT_COMMISSION_RATIO,
@@ -52,7 +54,7 @@ export const BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE: Record<ProductTypes, nu
   [ProductTypes.ethSlashingUmbrella]: DEFAULT_COMMISSION_RATIO,
   [ProductTypes.openCoverTransaction]: DEFAULT_COMMISSION_RATIO,
   [ProductTypes.fundPortfolio]: FUND_PORTFOLIO_COMMISSION_RATIO,
-  [ProductTypes.sherlockBugBounty]: DEFAULT_COMMISSION_RATIO,
+  [ProductTypes.sherlockBugBounty]: SHERLOCK_BUG_BOUNTY_COMMISSION_RATIO,
   [ProductTypes.deFiPass]: DEFI_PASS_COMMISSION_RATIO,
   [ProductTypes.followOn]: NO_COMMISSION,
   [ProductTypes.immunefiBugBounty]: DEFAULT_COMMISSION_RATIO,
@@ -60,6 +62,7 @@ export const BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE: Record<ProductTypes, nu
   [ProductTypes.generalisedFundPortfolio]: GENERALISED_FUND_PORTFOLIO_COMMISSION_RATIO,
   [ProductTypes.crypto]: CRYPTO_COVER_COMMISSION_RATIO,
   [ProductTypes.nativeSyndicate]: NO_COMMISSION,
+  [ProductTypes.spearbitCantina]: DEFAULT_COMMISSION_RATIO,
 };
 
 export const BUY_COVER_COMMISSION_DESTINATION_BY_PRODUCT_TYPE: Record<ProductTypes, Address> = {
@@ -86,4 +89,5 @@ export const BUY_COVER_COMMISSION_DESTINATION_BY_PRODUCT_TYPE: Record<ProductTyp
   [ProductTypes.generalisedFundPortfolio]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   [ProductTypes.crypto]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   [ProductTypes.nativeSyndicate]: NO_COMMISSION_DESTINATION,
+  [ProductTypes.spearbitCantina]: SPEARBIT_CANTINA_ADDRESS,
 };

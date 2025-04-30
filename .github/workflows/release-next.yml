@@ -5,8 +5,8 @@
 #
 # Workflow Behavior:
 # - Triggered on push to dev branch
-# - Checks if commits since the last tag warrant a version bump using conventional commits
-# - If a version bump is needed, publishes an RC version to npm with the '@next' tag
+# - Checks if commits since the last tag triggers a version bump using conventional commits
+# - If a version bump is triggered, publishes an RC version to npm with the '@next' tag
 # - RC versions follow the pattern: {new_version}-rc{number} (e.g., 1.2.0-rc1, 1.2.0-rc2)
 # - RC number increments for each new RC of the same base version
 #
@@ -38,7 +38,7 @@ env:
   PROVIDER_URL: ${{ secrets.PROVIDER_URL }}
 
 jobs:
-  # First step: Determine if the commits since last tag require a version bump
+  # First step: Determine if the commits since last tag triggers a version bump
   # Outputs:
   # - bump_type: The type of semantic version bump (major, minor, patch)
   # - triggers_bump: 'true' if a version bump is needed, 'false' otherwise
@@ -67,7 +67,6 @@ jobs:
       bump-type: ${{ needs.check-version-bump.outputs.bump_type }}
 
   # Third step: Build and run checks on the code
-  # This job runs automatically when rc-version completes
   build-and-checks:
     runs-on: ubuntu-22.04
     needs: rc-version
@@ -106,6 +105,7 @@ jobs:
   publish:
     runs-on: ubuntu-22.04
     needs: [rc-version, build-and-checks]
+    environment: production
     steps:
       - uses: actions/checkout@v4
 
@@ -125,7 +125,7 @@ jobs:
         run: npm pkg delete scripts.prepare
 
       # Set the RC version in package.json for publishing
-      # This is a local change only and not committed to the repository
+      # This is an ephemeral change only for publishing and not committed to the repository
       - name: RC version bump
         run: |
           npm version ${{ needs.rc-version.outputs.rc_version }} --no-git-tag-version

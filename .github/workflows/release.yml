@@ -169,7 +169,7 @@ jobs:
   # Seventh step: Create a git tag and GitHub release
   # This marks the commit in git history and creates a release on GitHub
   git-tag-release:
-    needs: publish
+    needs: build-and-checks
     uses: NexusMutual/workflows/.github/workflows/git-tag-github-release.yml@master
     with:
       environment: production
@@ -182,7 +182,7 @@ jobs:
   # This ensures dev branch has the version bump commit
   # The commit includes [skip ci] so release-next.yml won't run on this commit
   rebase-dev:
-    needs: publish
+    needs: build-and-checks
     uses: NexusMutual/workflows/.github/workflows/rebase.yml@master
     with:
       environment: production
@@ -194,7 +194,7 @@ jobs:
 
   # Final step: Create PRs to update SDK version in dependent repositories
   sdk-bump-prs:
-    needs: [bump-version, rebase-dev]
+    needs: [bump-version, publish]
     strategy:
       matrix:
         include:

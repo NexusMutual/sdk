@@ -39,7 +39,7 @@
     "node": ">=11.14.0"
   },
   "dependencies": {
-    "@nexusmutual/deployments": "^2.12.0",
+    "@nexusmutual/deployments": "^2.12.1",
     "axios": "^1.6.8",
     "is-ipfs": "^6.0.2",
     "svgo": "^3.0.2",

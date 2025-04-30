@@ -319,4 +319,6 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   296: ProductCategoryEnum.Uncategorized, // Brava Conservative Cover
   297: ProductCategoryEnum.Uncategorized, // Brava Balanced Cover
   298: ProductCategoryEnum.Uncategorized, // Brava Advanced Cover
+  299: ProductCategoryEnum.Lending, // Extrafi Xlend
+  300: ProductCategoryEnum.Dex, // Ambient Finance
 };

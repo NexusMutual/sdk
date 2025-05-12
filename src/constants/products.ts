@@ -281,7 +281,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   258: ProductCategoryEnum.Perpetuals, // RFX
   259: ProductCategoryEnum.Uncategorized, // Bittensor
   260: ProductCategoryEnum.Uncategorized, // DeFi Covered
-  261: ProductCategoryEnum.Depeg, // USDS Depeg
+  261: ProductCategoryEnum.Depeg, // Sky USDS Depeg
   262: ProductCategoryEnum.Depeg, // Level USD Depeg
   263: ProductCategoryEnum.Depeg, // Tether USDT0 Depeg
   264: ProductCategoryEnum.Depeg, // Resolv USR Depeg
@@ -306,7 +306,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   283: ProductCategoryEnum.Dex, // Shadow
   284: ProductCategoryEnum.Uncategorized, // Cork
   285: ProductCategoryEnum.YieldOptimizer, // Rings
-  286: ProductCategoryEnum.Depeg, // DOLA Depeg
+  286: ProductCategoryEnum.Depeg, // Inverse DOLA Depeg
   287: ProductCategoryEnum.Uncategorized, // Ensuro Yield
   288: ProductCategoryEnum.Lending, // Coinshift USDL Morpho Vault
   289: ProductCategoryEnum.Lending, // B-Tier Morpho Vaults
@@ -321,4 +321,6 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   298: ProductCategoryEnum.Uncategorized, // Brava Advanced Cover
   299: ProductCategoryEnum.Lending, // Extrafi Xlend
   300: ProductCategoryEnum.Dex, // Ambient Finance
+  301: ProductCategoryEnum.Lending, // Kinetic
+  302: ProductCategoryEnum.YieldOptimizer, // Revert Finance
 };

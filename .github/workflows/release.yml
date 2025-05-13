@@ -49,8 +49,8 @@ jobs:
       DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
       DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
 
-  # This job verifies that a version bump is needed and fails if not
-  # We need this additional validation step to fail the workflow if no version bump is detected
+  # Second step: Fails the workflow if the commits since last tag does not trigger a version bump
+  # This ensures we don't create releases without meaningful changes
   validate-version-bump:
     needs: check-version-bump
     runs-on: ubuntu-22.04
@@ -66,7 +66,7 @@ jobs:
         run: |
           echo "Version bump of type '${{ needs.check-version-bump.outputs.bump_type }}' will be applied"
 
-  # Second step: Fast-forward master branch to match dev
+  # Third step: Fast-forward master branch to match dev
   # This ensures master contains all changes from dev before creating the release
   ff-master:
     needs: [check-version-bump, validate-version-bump]
@@ -79,8 +79,10 @@ jobs:
       DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
       DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
 
-  # Third step: Apply the version bump to package.json and create a commit
+  # Fourth step: Apply the version bump to package.json and create a commit
   # This creates the official version bump commit on the master branch
+  # Outputs:
+  # - bumped_version: The new version number
   bump-version:
     needs: [check-version-bump, ff-master]
     uses: NexusMutual/workflows/.github/workflows/bump.yml@master
@@ -94,7 +96,7 @@ jobs:
       DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
       DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
 
-  # Fourth step: Build the code and run all checks
+  # Fifth step: Build the code and run all checks
   # Ensures the release is stable before publishing
   build-and-checks:
     runs-on: ubuntu-22.04
@@ -132,7 +134,7 @@ jobs:
           name: sdk-${{ needs.bump-version.outputs.bumped_version }}
           path: dist
 
-  # Fifth step: Publish the package to npm with the '@latest' tag
+  # Sixth step: Publish the package to npm with the '@latest' tag
   # This makes the new version the default when users run `npm install`
   publish:
     runs-on: ubuntu-22.04
@@ -164,10 +166,10 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: npm publish --access public --ignore-scripts
 
-  # Sixth step: Create a git tag and GitHub release
+  # Seventh step: Create a git tag and GitHub release
   # This marks the commit in git history and creates a release on GitHub
   git-tag-release:
-    needs: publish
+    needs: build-and-checks
     uses: NexusMutual/workflows/.github/workflows/git-tag-github-release.yml@master
     with:
       environment: production
@@ -176,11 +178,11 @@ jobs:
       DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
       DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
 
-  # Seventh step: Rebase the version bump commit back to dev
+  # Eighth step: Rebase the version bump commit back to dev
   # This ensures dev branch has the version bump commit
   # The commit includes [skip ci] so release-next.yml won't run on this commit
   rebase-dev:
-    needs: publish
+    needs: build-and-checks
     uses: NexusMutual/workflows/.github/workflows/rebase.yml@master
     with:
       environment: production
@@ -192,29 +194,34 @@ jobs:
 
   # Final step: Create PRs to update SDK version in dependent repositories
   sdk-bump-prs:
-    needs: [bump-version, rebase-dev]
+    needs: [bump-version, publish]
     strategy:
       matrix:
         include:
           - repo: frontend-next
             base-branch: develop
+            change-type: feat
           - repo: frontend-react
             base-branch: dev
+            change-type: feat
           - repo: event-scanner
             base-branch: dev
+            change-type: build
           - repo: notification-processor
             base-branch: dev
+            change-type: build
           - repo: order-book
             base-branch: dev
+            change-type: build
       fail-fast: false # Allow other matrix jobs to continue even if one fails
     uses: NexusMutual/workflows/.github/workflows/open-pr.yml@master
     with:
       environment: production
       repository: ${{ matrix.repo }}
       base-branch: ${{ matrix.base-branch }}
-      branch-name: 'build/nexusmutual-sdk-version-bump-${{ needs.bump-version.outputs.bumped_version }}-${{ github.run_id }}'
+      branch-name: '${{ matrix.change-type }}/nexusmutual-sdk-version-bump-${{ needs.bump-version.outputs.bumped_version }}-${{ github.run_id }}'
       change-command: npm i --save-exact @nexusmutual/sdk@${{ needs.bump-version.outputs.bumped_version }}
-      commit-message: 'chore: update @nexusmutual/sdk to ${{ needs.bump-version.outputs.bumped_version }}'
+      commit-message: '${{ matrix.change-type }}: update @nexusmutual/sdk to ${{ needs.bump-version.outputs.bumped_version }}'
       pr-body: 'updated @nexusmutual/sdk to [${{ needs.bump-version.outputs.bumped_version }}](https://github.com/NexusMutual/sdk/releases/tag/v${{ needs.bump-version.outputs.bumped_version }})'
     secrets:
       DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}

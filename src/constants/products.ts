@@ -323,4 +323,6 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   300: ProductCategoryEnum.Dex, // Ambient Finance
   301: ProductCategoryEnum.Lending, // Kinetic
   302: ProductCategoryEnum.YieldOptimizer, // Revert Finance
+  303: ProductCategoryEnum.Lending, // WBTC / eUSD Morpho Market
+  304: ProductCategoryEnum.SmartWallet, // Stackup
 };

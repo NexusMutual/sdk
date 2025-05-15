@@ -5,13 +5,13 @@ import products from '../../generated/products.json';
 import { ProductTypes } from '../../generated/types';
 import { calculatePremiumWithCommissionAndSlippage } from '../buyCover/calculatePremiumWithCommissionAndSlippage';
 import {
+  BUY_COVER_COMMISSION_DESTINATION_BY_PRODUCT_TYPE,
+  BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE,
   CoverAsset,
   CoverId,
-  DEFAULT_COMMISSION_RATIO,
   DEFAULT_SLIPPAGE,
   MAXIMUM_COVER_PERIOD,
   MINIMUM_COVER_PERIOD,
-  NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
 } from '../constants/buyCover';
@@ -57,6 +57,8 @@ function getQuoteAndBuyCoverInputs(
   slippage?: number,
   ipfsCid?: string,
   nexusApiUrl?: string,
+  commissionRatio?: number,
+  commissionDestination?: Address,
 ): Promise<GetQuoteApiResponse | ErrorApiResponse>;
 
 // overload with ipfsContent instead of Cid
@@ -69,6 +71,8 @@ function getQuoteAndBuyCoverInputs<ProductTypes extends keyof IPFSContentForProd
   slippage?: number,
   ipfsContent?: IPFSContentForProductType[ProductTypes],
   nexusApiUrl?: string,
+  commissionRatio?: number,
+  commissionDestination?: Address,
 ): Promise<GetQuoteApiResponse | ErrorApiResponse>;
 
 /**
@@ -81,8 +85,10 @@ function getQuoteAndBuyCoverInputs<ProductTypes extends keyof IPFSContentForProd
  * @param {CoverAsset} coverAsset - The asset for which cover is being purchased; the purchase must use the same asset.
  * @param {Address} coverBuyerAddress - The Ethereum address of the buyer.
  * @param {number} slippage - The acceptable slippage percentage. Must be between 0-1 (Defaults to 0.001 ~ 0.1%)
- * @param {string} ipfsCid - The IPFS CID for additional data (optional).
+ * @param {string} ipfsCidOrContent - The IPFS CID or content for additional data (optional).
  * @param {string} nexusApiUrl - Used to override the default Nexus Mutual API URL which is bundled this library.
+ * @param {number} commissionRatio - The commission ratio for the cover purchase (optional).
+ * @param {Address} commissionDestination - The address to which the commission is sent (optional).
  * @return {Promise<GetQuoteApiResponse | ErrorApiResponse>} Returns a successful quote response or an error response.
  */
 async function getQuoteAndBuyCoverInputs(
@@ -94,6 +100,8 @@ async function getQuoteAndBuyCoverInputs(
   slippage: number = DEFAULT_SLIPPAGE / SLIPPAGE_DENOMINATOR,
   ipfsCidOrContent: string | IPFSContentForProductType[ProductTypes] = '',
   nexusApiUrl = 'https://api.nexusmutual.io/v2',
+  commissionRatio?: number,
+  commissionDestination?: Address,
 ): Promise<GetQuoteApiResponse | ErrorApiResponse> {
   if (!Number.isInteger(productId) || productId <= 0) {
     return { result: undefined, error: { message: 'Invalid productId: must be a positive integer' } };
@@ -189,12 +197,12 @@ async function getQuoteAndBuyCoverInputs(
 
     const maxPremiumInAsset = calculatePremiumWithCommissionAndSlippage(
       BigInt(quote.premiumInAsset),
-      DEFAULT_COMMISSION_RATIO,
+      commissionRatio || BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE[productType],
       slippage,
     );
     const yearlyCostPerc = calculatePremiumWithCommissionAndSlippage(
       BigInt(quote.annualPrice),
-      DEFAULT_COMMISSION_RATIO,
+      commissionRatio || BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE[productType],
       slippage,
     );
 
@@ -215,8 +223,8 @@ async function getQuoteAndBuyCoverInputs(
           period: coverPeriod * 60 * 60 * 24, // seconds
           maxPremiumInAsset: maxPremiumInAsset.toString(),
           paymentAsset: coverAsset,
-          commissionRatio: DEFAULT_COMMISSION_RATIO,
-          commissionDestination: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
+          commissionRatio: commissionRatio || BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE[productType],
+          commissionDestination: commissionDestination || BUY_COVER_COMMISSION_DESTINATION_BY_PRODUCT_TYPE[productType],
           ipfsData,
         },
         poolAllocationRequests: quote.poolAllocationRequests,

@@ -19,4 +19,5 @@ To update this document, follow the steps below:
 
 ## Listings Updates
 
-- 2025-23-04: Updated the Annex for `Fasanara`.
+- 2025-04-23: Updated the Annex for `Fasanara`.
+- 2025-05-21: Updated `Fasanara` listing annex.

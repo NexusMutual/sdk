@@ -60,7 +60,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
     const defaultGetQuoteUrl = DEFAULT_NEXUS_API_URL + '/quote';
     expect(mockAxios.get).toHaveBeenCalledWith(defaultGetQuoteUrl, {
-      params: { amount, coverAsset, period, productId },
+      params: { amount, coverAsset, period, productId, paymentAsset: coverAsset },
     });
   });
 
@@ -76,7 +76,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
     const overrideGetQuoteUrl = url + '/quote';
     expect(mockAxios.get).toHaveBeenCalledWith(overrideGetQuoteUrl, {
-      params: { amount, coverAsset, period, productId },
+      params: { amount, coverAsset, period, productId, paymentAsset: coverAsset },
     });
   });
 
@@ -140,7 +140,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(error?.message).toBe(`Invalid coverAsset: must be one of ${coverAssetsString}`);
   });
 
-  it.only('returns an error if paymentAsset is invalid (%s)', async () => {
+  it('returns an error if paymentAsset is invalid (%s)', async () => {
     const { error } = await getQuoteAndBuyCoverInputs(
       1,
       '100',

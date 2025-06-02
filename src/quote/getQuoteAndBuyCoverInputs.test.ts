@@ -6,6 +6,7 @@ import { calculatePremiumWithCommissionAndSlippage } from '../buyCover';
 import {
   CoverAsset,
   CoverId,
+  PaymentAsset,
   DEFAULT_COMMISSION_RATIO,
   MAXIMUM_COVER_PERIOD,
   MINIMUM_COVER_PERIOD,
@@ -137,6 +138,24 @@ describe('getQuoteAndBuyCoverInputs', () => {
       .map(k => `CoverAsset.${k}`)
       .join(', ');
     expect(error?.message).toBe(`Invalid coverAsset: must be one of ${coverAssetsString}`);
+  });
+
+  it.only('returns an error if paymentAsset is invalid (%s)', async () => {
+    const { error } = await getQuoteAndBuyCoverInputs(
+      1,
+      '100',
+      30,
+      CoverAsset.ETH,
+      buyerAddress,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      PaymentAsset.USDC,
+    );
+
+    expect(error?.message).toBe(`Invalid payment asset: must be one of ${CoverAsset.ETH} or NXM`);
   });
 
   const invalidAddresses = ['0x123', '', true, {}, [], null, undefined];

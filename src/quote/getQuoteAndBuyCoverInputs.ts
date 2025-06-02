@@ -12,6 +12,7 @@ import {
   DEFAULT_SLIPPAGE,
   MAXIMUM_COVER_PERIOD,
   MINIMUM_COVER_PERIOD,
+  PaymentAsset,
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
 } from '../constants/buyCover';
@@ -26,13 +27,14 @@ import {
   IntString,
   Integer,
 } from '../types';
-import { IPFSContentForProductType, IPFSTypeContentTuple, IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE } from '../types/ipfs';
+import { IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE, IPFSContentForProductType, IPFSTypeContentTuple } from '../types/ipfs';
 
 type CoverRouterQuoteParams = {
   productId: Integer;
   amount: IntString;
   period: Integer;
   coverAsset: CoverAsset;
+  paymentAsset: PaymentAsset;
 };
 
 type CoverRouterCapacityParams = {
@@ -59,6 +61,7 @@ function getQuoteAndBuyCoverInputs(
   nexusApiUrl?: string,
   commissionRatio?: number,
   commissionDestination?: Address,
+  paymentAsset?: PaymentAsset,
 ): Promise<GetQuoteApiResponse | ErrorApiResponse>;
 
 // overload with ipfsContent instead of Cid
@@ -73,6 +76,7 @@ function getQuoteAndBuyCoverInputs<ProductTypes extends keyof IPFSContentForProd
   nexusApiUrl?: string,
   commissionRatio?: number,
   commissionDestination?: Address,
+  paymentAsset?: PaymentAsset,
 ): Promise<GetQuoteApiResponse | ErrorApiResponse>;
 
 /**
@@ -89,6 +93,7 @@ function getQuoteAndBuyCoverInputs<ProductTypes extends keyof IPFSContentForProd
  * @param {string} nexusApiUrl - Used to override the default Nexus Mutual API URL which is bundled this library.
  * @param {number} commissionRatio - The commission ratio for the cover purchase (optional).
  * @param {Address} commissionDestination - The address to which the commission is sent (optional).
+ * @param {PaymentAsset} paymentAsset - The asset with which cover is being purchased.
  * @return {Promise<GetQuoteApiResponse | ErrorApiResponse>} Returns a successful quote response or an error response.
  */
 async function getQuoteAndBuyCoverInputs(
@@ -102,6 +107,7 @@ async function getQuoteAndBuyCoverInputs(
   nexusApiUrl = 'https://api.nexusmutual.io/v2',
   commissionRatio?: number,
   commissionDestination?: Address,
+  paymentAsset: PaymentAsset | CoverAsset = coverAsset,
 ): Promise<GetQuoteApiResponse | ErrorApiResponse> {
   if (!Number.isInteger(productId) || productId <= 0) {
     return { result: undefined, error: { message: 'Invalid productId: must be a positive integer' } };
@@ -129,6 +135,13 @@ async function getQuoteAndBuyCoverInputs(
     return {
       result: undefined,
       error: { message: `Invalid coverAsset: must be one of ${coverAssetsString}` },
+    };
+  }
+
+  if (paymentAsset !== PaymentAsset.NXM && paymentAsset !== coverAsset) {
+    return {
+      result: undefined,
+      error: { message: `Invalid payment asset: must be one of ${coverAsset} or NXM` },
     };
   }
 
@@ -193,7 +206,14 @@ async function getQuoteAndBuyCoverInputs(
   slippage = slippage * SLIPPAGE_DENOMINATOR;
 
   try {
-    const { quote } = await getQuote(productId, coverAmount, coverPeriod, coverAsset, nexusApiUrl);
+    const { quote } = await getQuote(
+      productId,
+      coverAmount,
+      coverPeriod,
+      coverAsset,
+      nexusApiUrl,
+      paymentAsset as PaymentAsset,
+    );
 
     const maxPremiumInAsset = calculatePremiumWithCommissionAndSlippage(
       BigInt(quote.premiumInAsset),
@@ -247,8 +267,15 @@ async function getQuote(
   coverPeriod: Integer,
   coverAsset: CoverAsset,
   nexusApiUrl: string,
+  paymentAsset: PaymentAsset,
 ): Promise<CoverRouterQuoteResponse> {
-  const params: CoverRouterQuoteParams = { productId, amount: coverAmount, period: coverPeriod, coverAsset };
+  const params: CoverRouterQuoteParams = {
+    productId,
+    amount: coverAmount,
+    period: coverPeriod,
+    coverAsset,
+    paymentAsset,
+  };
   const response = await axios.get<CoverRouterQuoteResponse>(nexusApiUrl + '/quote', { params });
   if (!response.data) {
     throw new Error('Failed to fetch cover quote');

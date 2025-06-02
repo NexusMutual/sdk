@@ -6,6 +6,14 @@ export enum CoverAsset {
   ETH = 0,
   DAI = 1,
   USDC = 6,
+  cbBTC = 7,
+}
+export enum PaymentAsset {
+  ETH = 0,
+  DAI = 1,
+  USDC = 6,
+  cbBTC = 7,
+  NXM = 255,
 }
 
 export enum CoverId {

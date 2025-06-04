@@ -325,4 +325,5 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   302: ProductCategoryEnum.YieldOptimizer, // Revert Finance
   303: ProductCategoryEnum.Lending, // WBTC / eUSD Morpho Market
   304: ProductCategoryEnum.SmartWallet, // Stackup
+  305: ProductCategoryEnum.YieldOptimizer, // YO Protocol
 };

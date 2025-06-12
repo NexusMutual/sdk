@@ -20,15 +20,15 @@ export interface GetQuoteAndBuyCoverInputsParams {
   /**
    * Amount of cover to buy, as a string
    */
-  coverAmount: string;
+  amount: string;
 
   /**
    * Cover period in days
    */
-  coverPeriod: number;
+  period: number;
 
   /**
-   * Asset to use for cover payment
+   * Asset to use for cover
    * Must be a valid CoverAsset enum value
    */
   coverAsset: number;
@@ -37,7 +37,12 @@ export interface GetQuoteAndBuyCoverInputsParams {
    * Address of the cover buyer
    * Must be a valid Ethereum address
    */
-  coverBuyerAddress: string;
+  buyerAddress: string;
+
+  /**
+   * ID of the cover to edit
+   */
+  coverId?: number;
 
   /**
    * Optional slippage tolerance percentage
@@ -49,4 +54,20 @@ export interface GetQuoteAndBuyCoverInputsParams {
    * Optional IPFS CID string or content object to upload
    */
   ipfsCidOrContent?: string | Record<string, unknown>;
+
+  /**
+   * Optional commission ratio
+   */
+  commissionRatio?: number;
+
+  /**
+   * Optional address of the commission receiver
+   */
+  commissionDestination?: string;
+
+  /**
+   * Asset to use for cover payment
+   * Must be a valid PaymentAsset enum value
+   */
+  paymentAsset?: number;
 }

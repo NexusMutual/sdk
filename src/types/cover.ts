@@ -1,6 +1,6 @@
 import { ApiResponse } from './api';
 import { Address, FloatString, IntString, Integer } from './data';
-import { CoverAsset } from '../constants/cover';
+import { CoverAsset, PaymentAsset } from '../constants/cover';
 
 export type BuyCoverParams = {
   coverId: Integer;
@@ -23,6 +23,15 @@ export type PoolAllocationRequest = {
 };
 
 /* Cover Router Service */
+
+export type QuoteParams = {
+  productId: number;
+  amount: string;
+  period: number;
+  coverAsset: CoverAsset;
+  paymentAsset?: PaymentAsset;
+  coverEditId?: number;
+};
 
 export type CoverRouterQuoteResponse = {
   quote: Quote;

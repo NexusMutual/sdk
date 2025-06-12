@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+
 import { NexusSDKConfig } from './types';
 
 /**
@@ -25,12 +26,28 @@ export class NexusSDKBase {
   // TODO: validation if options is empty? empty options might lead to axios failing
   protected async sendRequest<T>(endpoint: string, options: AxiosRequestConfig = {}): Promise<T> {
     const url = `${this.apiUrl}${endpoint}`;
+    const requestOptions: AxiosRequestConfig = {};
+
+    if (options.headers) {
+      requestOptions.headers = options.headers;
+    }
+    if (options.params) {
+      requestOptions.params = options.params;
+    }
 
     try {
-      const response: AxiosResponse<T> = await axios({
-        url,
-        ...options,
-      });
+      let response: AxiosResponse<T>;
+      if (!options.method || options.method.toUpperCase() === 'GET') {
+        response = await axios.get<T>(url, requestOptions);
+      } else if (options.method.toUpperCase() === 'POST') {
+        response = await axios.post<T>(url, options.data, requestOptions);
+      } else {
+        // fallback for PUT, DELETE, etc.
+        response = await axios.request<T>({
+          url,
+          ...options,
+        });
+      }
 
       return response.data;
     } catch (error) {

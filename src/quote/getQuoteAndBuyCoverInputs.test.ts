@@ -1,11 +1,8 @@
 import mockAxios from 'jest-mock-axios';
 import { parseEther } from 'viem';
 
-import { getQuoteAndBuyCoverInputs } from './getQuoteAndBuyCoverInputs';
-import { calculatePremiumWithCommissionAndSlippage } from '../cover';
 import {
   CoverAsset,
-  CoverId,
   PaymentAsset,
   DEFAULT_COMMISSION_RATIO,
   MAXIMUM_COVER_PERIOD,
@@ -14,6 +11,8 @@ import {
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
 } from '../constants/cover';
+import { Cover } from '../cover';
+import { Quote } from '../quote';
 import {
   Address,
   CoverFreeText,
@@ -22,6 +21,8 @@ import {
   CoverValidators,
   DefiPassContent,
 } from '../types';
+jest.mock('axios', () => mockAxios);
+jest.setTimeout(10_000);
 
 const coverRouterCapacityResponse: CoverRouterProductCapacityResponse = {
   productId: 150,
@@ -35,14 +36,45 @@ const coverRouterCapacityResponse: CoverRouterProductCapacityResponse = {
   maxAnnualPrice: '0.054178410067873985',
 };
 
+const coverRouterQuoteResponse: CoverRouterQuoteResponse = {
+  quote: {
+    totalCoverAmountInAsset: parseEther('1000').toString(),
+    annualPrice: '287',
+    premiumInNXM: parseEther('10').toString(),
+    premiumInAsset: parseEther('5').toString(),
+    poolAllocationRequests: [
+      {
+        poolId: '147',
+        coverAmountInAsset: parseEther('500').toString(),
+        skip: false,
+      },
+    ],
+  },
+  capacities: [{ poolId: '147', capacity: [{ assetId: '1', amount: parseEther('1000').toString() }] }],
+};
+
+const quoteParams = {
+  productId: 1,
+  amount: '100',
+  period: 30,
+  coverAsset: CoverAsset.ETH,
+  slippage: 0,
+  ipfsCidOrContent: '',
+  buyerAddress: '',
+  paymentAsset: CoverAsset.ETH,
+};
+
 describe('getQuoteAndBuyCoverInputs', () => {
   let buyerAddress: Address;
   const DEFAULT_NEXUS_API_URL = 'https://api.nexusmutual.io/v2';
-  const TEST_API_URL = 'https://api.test.io/v2';
+  let quoteApi: Quote;
+  let coverApi: Cover;
 
   beforeAll(() => {
-    jest.mock('axios');
     buyerAddress = '0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5';
+    quoteParams.buyerAddress = '0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5';
+    coverApi = new Cover();
+    quoteApi = new Quote();
   });
 
   beforeEach(() => {
@@ -56,7 +88,13 @@ describe('getQuoteAndBuyCoverInputs', () => {
     const period = 30;
     const coverAsset = CoverAsset.ETH;
 
-    await getQuoteAndBuyCoverInputs(productId, amount, period, coverAsset, buyerAddress);
+    await quoteApi.getQuoteAndBuyCoverInputs({
+      productId,
+      amount,
+      period,
+      coverAsset,
+      buyerAddress,
+    });
 
     const defaultGetQuoteUrl = DEFAULT_NEXUS_API_URL + '/quote';
     expect(mockAxios.get).toHaveBeenCalledWith(defaultGetQuoteUrl, {
@@ -67,12 +105,21 @@ describe('getQuoteAndBuyCoverInputs', () => {
   it('allows the consumer to override nexusApiUrl param', async () => {
     mockAxios.get.mockResolvedValue({ data: {} });
     const url = 'http://hahahahahah';
+    const quoteApi = new Quote({ apiUrl: url });
     const productId = 1;
     const amount = '100';
     const period = 30;
     const coverAsset = CoverAsset.ETH;
 
-    await getQuoteAndBuyCoverInputs(productId, amount, period, coverAsset, buyerAddress, 0, '', url);
+    await quoteApi.getQuoteAndBuyCoverInputs({
+      productId,
+      amount,
+      period,
+      coverAsset,
+      buyerAddress,
+      slippage: 0,
+      ipfsCidOrContent: '',
+    });
 
     const overrideGetQuoteUrl = url + '/quote';
     expect(mockAxios.get).toHaveBeenCalledWith(overrideGetQuoteUrl, {
@@ -82,16 +129,10 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
   const invalidProductIds = [-1, 'a', true, {}, [], null, undefined];
   it.each(invalidProductIds)('returns an error if productId is not a positive integer (%s)', async invalidProductId => {
-    const { error } = await getQuoteAndBuyCoverInputs(
-      invalidProductId as number,
-      '100',
-      30,
-      CoverAsset.ETH,
-      buyerAddress,
-      0,
-      '',
-      TEST_API_URL,
-    );
+    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      productId: invalidProductId as number,
+    });
     expect(error?.message).toBe('Invalid productId: must be a positive integer');
   });
 
@@ -99,32 +140,20 @@ describe('getQuoteAndBuyCoverInputs', () => {
   it.each(invalidCoverAmounts)(
     'returns an error if coverAmount is not a positive integer string (%s)',
     async invalidCoverAmount => {
-      const { error } = await getQuoteAndBuyCoverInputs(
-        1,
-        invalidCoverAmount as string,
-        30,
-        CoverAsset.ETH,
-        buyerAddress,
-        0,
-        '',
-        TEST_API_URL,
-      );
+      const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
+        ...quoteParams,
+        amount: invalidCoverAmount as string,
+      });
       expect(error?.message).toBe('Invalid coverAmount: must be a positive integer string');
     },
   );
 
   const invalidCoverPeriods = [-1, 27, 366, '30', 'abc', true, {}, [], null, undefined];
   it.each(invalidCoverPeriods)('returns an error if coverPeriod is invalid (%s)', async invalidCoverPeriod => {
-    const { error } = await getQuoteAndBuyCoverInputs(
-      1,
-      '100',
-      invalidCoverPeriod as number,
-      CoverAsset.ETH,
-      buyerAddress,
-      0,
-      '',
-      TEST_API_URL,
-    );
+    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      period: invalidCoverPeriod as number,
+    });
     expect(error?.message).toBe(
       `Invalid coverPeriod: must be between ${MINIMUM_COVER_PERIOD} and ${MAXIMUM_COVER_PERIOD} days`,
     );
@@ -132,7 +161,10 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
   const invalidCoverAssets = ['BTC', '', true, {}, [], null, undefined];
   it.each(invalidCoverAssets)('returns an error if coverAsset is invalid (%s)', async invalidCoverAsset => {
-    const { error } = await getQuoteAndBuyCoverInputs(1, '100', 30, invalidCoverAsset as CoverAsset, buyerAddress);
+    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      coverAsset: invalidCoverAsset as CoverAsset,
+    });
     const coverAssetsString = Object.keys(CoverAsset)
       .filter(k => isNaN(+k))
       .map(k => `CoverAsset.${k}`)
@@ -141,29 +173,23 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   it('returns an error if paymentAsset is invalid (%s)', async () => {
-    const { error } = await getQuoteAndBuyCoverInputs(
-      1,
-      '100',
-      30,
-      CoverAsset.ETH,
-      buyerAddress,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      PaymentAsset.USDC,
-    );
+    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      paymentAsset: PaymentAsset.USDC,
+    });
 
-    expect(error?.message).toBe(`Invalid payment asset: must be one of ${CoverAsset.ETH} or NXM`);
+    expect(error?.message).toBe(`Invalid payment asset: must be same as cover asset or NXM`);
   });
 
   const invalidAddresses = ['0x123', '', true, {}, [], null, undefined];
   it.each(invalidAddresses)(
     'returns an error if coverBuyerAddress is not a valid Ethereum address (%s)',
     async invalidAddress => {
-      const { error } = await getQuoteAndBuyCoverInputs(1, '100', 30, CoverAsset.ETH, invalidAddress as Address);
-      expect(error?.message).toBe('Invalid coverBuyerAddress: must be a valid Ethereum address');
+      const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
+        ...quoteParams,
+        buyerAddress: invalidAddress as Address,
+      });
+      expect(error?.message).toBe('Invalid buyerAddress: must be a valid Ethereum address');
     },
   );
 
@@ -171,50 +197,38 @@ describe('getQuoteAndBuyCoverInputs', () => {
   it.each(invalidSlippages)(
     `returns an error if slippage is not a number between 0 and ${SLIPPAGE_DENOMINATOR} (%s)`,
     async invalidSlippage => {
-      const { error } = await getQuoteAndBuyCoverInputs(
-        1,
-        '100',
-        30,
-        CoverAsset.ETH,
-        buyerAddress,
-        invalidSlippage as number,
-        undefined,
-        TEST_API_URL,
-      );
+      const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
+        ...quoteParams,
+        slippage: invalidSlippage as number,
+      });
       expect(error?.message).toBe('Invalid slippage: must be a number between 0 and 1');
     },
   );
 
-  const invalidIpfsData = [123, true, {}, [], null];
+  const invalidIpfsData = [123, true];
   it.each(invalidIpfsData)(
     'returns an error if ipfsData is not a valid IPFS base32 hash value (%s)',
     async invalidData => {
-      const { error } = await getQuoteAndBuyCoverInputs(
-        1,
-        '100',
-        30,
-        CoverAsset.ETH,
-        buyerAddress,
-        0.1,
-        invalidData as string,
-        TEST_API_URL,
-      );
-      expect(error?.message).toBe('Invalid ipfsCid: must be a valid IPFS CID');
+      const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
+        ...quoteParams,
+        // @ts-expect-error invalid ipfsCidOrContent
+        ipfsCidOrContent: invalidData,
+      });
+      mockAxios.get.mockResolvedValue({ data: {} });
+      expect(error?.message).toBe('Invalid ipfsCidOrContent: must be a string CID or content object');
     },
   );
 
   it('returns an error if ipfsData is not a valid IPFS content for the product type - ETH Slashing', async () => {
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
+
     const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
-    const { error } = await getQuoteAndBuyCoverInputs(
-      82,
-      '100',
-      30,
-      CoverAsset.ETH,
-      buyerAddress,
-      0.1,
-      invalidContent,
-      TEST_API_URL,
-    );
+    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      productId: 82,
+      ipfsCidOrContent: invalidContent,
+    });
     expect(JSON.parse(error?.message || '')).toEqual([
       {
         code: 'invalid_type',
@@ -228,16 +242,11 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
   it('returns an error if ipfsData content has an empty validators field for ETH Slashing product type', async () => {
     const emptyValidators: CoverValidators = { version: '1.0', validators: [] };
-    const { error } = await getQuoteAndBuyCoverInputs(
-      82,
-      '100',
-      30,
-      CoverAsset.ETH,
-      buyerAddress,
-      0.1,
-      emptyValidators,
-      TEST_API_URL,
-    );
+    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      productId: 82,
+      ipfsCidOrContent: emptyValidators,
+    });
     expect(JSON.parse(error?.message || '')).toEqual([
       {
         code: 'too_small',
@@ -253,16 +262,11 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
   it('returns an error if ipfsData is not a valid IPFS content for the product type - UnoRe Quota Share', async () => {
     const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
-    const { error } = await getQuoteAndBuyCoverInputs(
-      107,
-      '100',
-      30,
-      CoverAsset.ETH,
-      buyerAddress,
-      0.1,
-      invalidContent,
-      TEST_API_URL,
-    );
+    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      productId: 107,
+      ipfsCidOrContent: invalidContent,
+    });
     expect(JSON.parse(error?.message || '')).toEqual([
       {
         code: 'invalid_type',
@@ -276,16 +280,11 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
   it('returns an error if ipfsData is not a valid IPFS content for the product type - Fund Portfolio', async () => {
     const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
-    const { error } = await getQuoteAndBuyCoverInputs(
-      195,
-      '100',
-      30,
-      CoverAsset.ETH,
-      buyerAddress,
-      0.1,
-      invalidContent,
-      TEST_API_URL,
-    );
+    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      productId: 195,
+      ipfsCidOrContent: invalidContent,
+    });
     expect(JSON.parse(error?.message || '')).toEqual([
       {
         code: 'invalid_type',
@@ -299,16 +298,11 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
   it('returns an error if ipfsData is not a valid IPFS content for the product type - Nexus Mutual Cover', async () => {
     const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
-    const { error } = await getQuoteAndBuyCoverInputs(
-      247,
-      '100',
-      30,
-      CoverAsset.ETH,
-      buyerAddress,
-      0.1,
-      invalidContent,
-      TEST_API_URL,
-    );
+    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      ipfsCidOrContent: invalidContent,
+      productId: 247,
+    });
     expect(JSON.parse(error?.message || '')).toEqual([
       {
         code: 'invalid_type',
@@ -322,16 +316,11 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
   it('returns an error if ipfsData is not a valid IPFS content for Defi Pass', async () => {
     const emptyWalletsContent: DefiPassContent = { version: '1.0', wallets: [] };
-    const { error } = await getQuoteAndBuyCoverInputs(
-      227,
-      '100',
-      30,
-      CoverAsset.ETH,
-      buyerAddress,
-      0.1,
-      emptyWalletsContent,
-      TEST_API_URL,
-    );
+    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      ipfsCidOrContent: emptyWalletsContent,
+      productId: 227,
+    });
     expect(JSON.parse(error?.message || '')).toEqual([
       {
         code: 'too_small',
@@ -347,16 +336,11 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
   it('returns an error if ipfsData is not a valid IPFS content for the Defi Pass - empty address', async () => {
     const emptyWalletString: DefiPassContent = { version: '1.0', walletAddress: '' };
-    const { error } = await getQuoteAndBuyCoverInputs(
-      227,
-      '100',
-      30,
-      CoverAsset.ETH,
-      buyerAddress,
-      0.1,
-      emptyWalletString,
-      TEST_API_URL,
-    );
+    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      productId: 227,
+      ipfsCidOrContent: emptyWalletString,
+    });
     expect(JSON.parse(error?.message || '')).toEqual([
       {
         validation: 'regex',
@@ -365,16 +349,6 @@ describe('getQuoteAndBuyCoverInputs', () => {
         path: ['walletAddress'],
       },
     ]);
-  });
-
-  it('returns an error if the ipfs content could not be uploaded', async () => {
-    mockAxios.get.mockRejectedValueOnce({ message: 'Failed to upload IPFS content' });
-
-    const { error } = await getQuoteAndBuyCoverInputs(1, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
-      version: '1.0',
-      freeText: 'test',
-    });
-    expect(error?.message).toBe('Failed to upload IPFS content');
   });
 
   it('allows the consumer to provide a valid IPFS CID', async () => {
@@ -399,15 +373,11 @@ describe('getQuoteAndBuyCoverInputs', () => {
     mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
     mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
 
-    const { result, error } = await getQuoteAndBuyCoverInputs(
-      247,
-      '100',
-      30,
-      CoverAsset.ETH,
-      buyerAddress,
-      0.1,
-      ipfsCid,
-    );
+    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      productId: 247,
+      ipfsCidOrContent: coverRouterQuoteResponse,
+    });
 
     expect(error).toBeUndefined();
     expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe(ipfsCid);
@@ -440,9 +410,13 @@ describe('getQuoteAndBuyCoverInputs', () => {
     mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
 
     const validEthAddress = '0x1234567890123456789012345678901234567890';
-    const { result, error } = await getQuoteAndBuyCoverInputs(247, '100', 30, CoverAsset.ETH, buyerAddress, 0.1, {
-      version: '2.0',
-      walletAddresses: [validEthAddress],
+    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      productId: 247,
+      ipfsCidOrContent: {
+        version: '2.0',
+        walletAddresses: [validEthAddress],
+      },
     });
 
     expect(error).toBeUndefined();
@@ -470,26 +444,20 @@ describe('getQuoteAndBuyCoverInputs', () => {
     mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
 
     const coverAmount = parseEther('100').toString();
-    const { result, error } = await getQuoteAndBuyCoverInputs(
-      1, // productId
-      coverAmount,
-      28, // coverPeriod
-      CoverAsset.ETH, // coverAsset
-      buyerAddress, // coverBuyerAddress
-      0.01, // slippage
-      'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY', // ipfsCid
-    );
+    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      amount: coverAmount,
+      ipfsCidOrContent: 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY',
+    });
 
     const { premiumInAsset, annualPrice } = coverRouterQuoteResponse.quote;
-    const expectedMaxPremiumInAsset = calculatePremiumWithCommissionAndSlippage(
+    const expectedMaxPremiumInAsset = coverApi.calculatePremiumWithCommissionAndSlippage(
       BigInt(premiumInAsset),
       DEFAULT_COMMISSION_RATIO,
-      0.01 * SLIPPAGE_DENOMINATOR,
     );
-    const expectedYearlyCostPerc = calculatePremiumWithCommissionAndSlippage(
+    const expectedYearlyCostPerc = coverApi.calculatePremiumWithCommissionAndSlippage(
       BigInt(annualPrice),
       DEFAULT_COMMISSION_RATIO,
-      0.01 * SLIPPAGE_DENOMINATOR,
     );
 
     expect(error).toBeUndefined();
@@ -497,12 +465,12 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(result?.displayInfo.coverAmount).toBe(coverAmount);
     expect(result?.displayInfo.yearlyCostPerc).toBe(Number(expectedYearlyCostPerc) / TARGET_PRICE_DENOMINATOR);
     expect(result?.displayInfo.maxCapacity).toBe(coverRouterCapacityResponse.availableCapacity[0]?.amount);
-    expect(result?.buyCoverInput.buyCoverParams.coverId).toBe(CoverId.BUY);
+    expect(result?.buyCoverInput.buyCoverParams.coverId).toBe(0);
     expect(result?.buyCoverInput.buyCoverParams.owner).toBe(buyerAddress);
     expect(result?.buyCoverInput.buyCoverParams.productId).toBe(1);
     expect(result?.buyCoverInput.buyCoverParams.coverAsset).toBe(CoverAsset.ETH);
     expect(result?.buyCoverInput.buyCoverParams.amount).toBe(coverAmount);
-    expect(result?.buyCoverInput.buyCoverParams.period).toBe(28 * 60 * 60 * 24);
+    expect(result?.buyCoverInput.buyCoverParams.period).toBe(30 * 60 * 60 * 24);
     expect(result?.buyCoverInput.buyCoverParams.maxPremiumInAsset).toBe(expectedMaxPremiumInAsset.toString());
     expect(result?.buyCoverInput.buyCoverParams.paymentAsset).toBe(CoverAsset.ETH);
     expect(result?.buyCoverInput.buyCoverParams.commissionRatio).toBe(DEFAULT_COMMISSION_RATIO);
@@ -512,6 +480,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   it('should handle "Not enough capacity for the cover amount" error correctly - ETH', async () => {
+    mockAxios.reset();
     mockAxios.get.mockRejectedValueOnce({
       isAxiosError: true,
       response: {
@@ -519,16 +488,9 @@ describe('getQuoteAndBuyCoverInputs', () => {
         data: { error: 'Not enough capacity for the cover amount' },
       },
     });
-
     mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
 
-    const { result, error } = await getQuoteAndBuyCoverInputs(
-      1,
-      parseEther('100').toString(),
-      28,
-      CoverAsset.ETH,
-      buyerAddress,
-    );
+    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs(quoteParams);
 
     expect(result).toBeUndefined();
     expect(error?.message).toEqual('Not enough capacity for the cover amount');
@@ -546,13 +508,12 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
     mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
 
-    const { result, error } = await getQuoteAndBuyCoverInputs(
-      1,
-      parseEther('100').toString(),
-      28,
-      CoverAsset.DAI,
-      buyerAddress,
-    );
+    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      amount: parseEther('100').toString(),
+      coverAsset: CoverAsset.DAI,
+      paymentAsset: PaymentAsset.DAI,
+    });
 
     expect(result).toBeUndefined();
     expect(error?.message).toEqual('Not enough capacity for the cover amount');

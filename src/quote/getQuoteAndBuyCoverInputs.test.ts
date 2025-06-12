@@ -11,7 +11,6 @@ import {
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
 } from '../constants/cover';
-import { Cover } from '../cover';
 import { Quote } from '../quote';
 import {
   Address,
@@ -68,12 +67,10 @@ describe('getQuoteAndBuyCoverInputs', () => {
   let buyerAddress: Address;
   const DEFAULT_NEXUS_API_URL = 'https://api.nexusmutual.io/v2';
   let quoteApi: Quote;
-  let coverApi: Cover;
 
   beforeAll(() => {
     buyerAddress = '0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5';
     quoteParams.buyerAddress = '0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5';
-    coverApi = new Cover();
     quoteApi = new Quote();
   });
 
@@ -451,11 +448,11 @@ describe('getQuoteAndBuyCoverInputs', () => {
     });
 
     const { premiumInAsset, annualPrice } = coverRouterQuoteResponse.quote;
-    const expectedMaxPremiumInAsset = coverApi.calculatePremiumWithCommissionAndSlippage(
+    const expectedMaxPremiumInAsset = quoteApi.calculatePremiumWithCommissionAndSlippage(
       BigInt(premiumInAsset),
       DEFAULT_COMMISSION_RATIO,
     );
-    const expectedYearlyCostPerc = coverApi.calculatePremiumWithCommissionAndSlippage(
+    const expectedYearlyCostPerc = quoteApi.calculatePremiumWithCommissionAndSlippage(
       BigInt(annualPrice),
       DEFAULT_COMMISSION_RATIO,
     );

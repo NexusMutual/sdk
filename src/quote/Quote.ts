@@ -5,17 +5,17 @@ import products from '../../generated/products.json';
 import { ProductTypes } from '../../generated/types';
 import {
   CoverAsset,
-  CoverId,
   DEFAULT_COMMISSION_RATIO,
   DEFAULT_SLIPPAGE,
   MAXIMUM_COVER_PERIOD,
   MINIMUM_COVER_PERIOD,
   NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
+  PaymentAsset,
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
-} from '../constants/cover';
-import { Cover } from '../cover/Cover';
-import { Ipfs } from '../ipfs/Ipfs';
+} from '../constants';
+import { Cover } from '../cover';
+import { Ipfs } from '../ipfs';
 import { NexusSDKBase } from '../nexus-sdk-base';
 import {
   CoverRouterProductCapacityResponse,
@@ -23,9 +23,12 @@ import {
   ErrorApiResponse,
   GetQuoteApiResponse,
   GetQuoteResponse,
+  GetQuoteAndBuyCoverInputsParams,
+  NexusSDKConfig,
+  QuoteParams,
+  IPFSTypeContentTuple,
+  IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE,
 } from '../types';
-import { IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE, IPFSTypeContentTuple } from '../types/ipfs';
-import { GetQuoteAndBuyCoverInputsParams, NexusSDKConfig } from '../types/sdk';
 
 type ProductDTO = Omit<(typeof products)[number], 'productType'> & {
   productType: ProductTypes;
@@ -65,12 +68,14 @@ export class Quote extends NexusSDKBase {
   ): Promise<GetQuoteApiResponse | ErrorApiResponse> {
     const {
       productId,
-      coverAmount,
-      coverPeriod,
+      amount,
+      period,
       coverAsset,
-      coverBuyerAddress,
+      buyerAddress,
       slippage = DEFAULT_SLIPPAGE / SLIPPAGE_DENOMINATOR,
       ipfsCidOrContent = '',
+      paymentAsset = coverAsset,
+      coverId = 0,
     } = params;
 
     // Cast coverAsset to the proper enum type
@@ -80,11 +85,11 @@ export class Quote extends NexusSDKBase {
       return { result: undefined, error: { message: 'Invalid productId: must be a positive integer' } };
     }
 
-    if (typeof coverAmount !== 'string' || !/^\d+$/.test(coverAmount) || parseInt(coverAmount, 10) <= 0) {
+    if (typeof amount !== 'string' || !/^\d+$/.test(amount) || parseInt(amount, 10) <= 0) {
       return { result: undefined, error: { message: 'Invalid coverAmount: must be a positive integer string' } };
     }
 
-    if (!Number.isInteger(coverPeriod) || coverPeriod < MINIMUM_COVER_PERIOD || coverPeriod > MAXIMUM_COVER_PERIOD) {
+    if (!Number.isInteger(period) || period < MINIMUM_COVER_PERIOD || period > MAXIMUM_COVER_PERIOD) {
       return {
         result: undefined,
         error: {
@@ -105,8 +110,18 @@ export class Quote extends NexusSDKBase {
       };
     }
 
-    if (!/^0x[a-fA-F0-9]{40}$/.test(coverBuyerAddress)) {
-      return { result: undefined, error: { message: 'Invalid coverBuyerAddress: must be a valid Ethereum address' } };
+    if (paymentAsset !== PaymentAsset.NXM && paymentAsset !== coverAsset) {
+      return {
+        result: undefined,
+        error: { message: `Invalid payment asset: must be same as cover asset or NXM` },
+      };
+    }
+
+    // Cast coverAsset to the proper enum type
+    const paymentAssetEnum = paymentAsset as unknown as PaymentAsset;
+
+    if (!/^0x[a-fA-F0-9]{40}$/.test(buyerAddress)) {
+      return { result: undefined, error: { message: 'Invalid buyerAddress: must be a valid Ethereum address' } };
     }
 
     if (typeof slippage !== 'number' || slippage < 0 || slippage > 1) {
@@ -173,10 +188,21 @@ export class Quote extends NexusSDKBase {
 
     // Convert slippage from 0-1 to 0-100_00
     const slippageValue = slippage * SLIPPAGE_DENOMINATOR;
+    const quoteParams: QuoteParams = {
+      productId,
+      amount,
+      period,
+      coverAsset: coverAssetEnum,
+      paymentAsset: paymentAssetEnum,
+    };
+
+    if (coverId) {
+      quoteParams.coverEditId = coverId;
+    }
 
     try {
       // Get quote using helper method
-      const { quote } = await this.getQuote(productId, coverAmount, coverPeriod, coverAssetEnum);
+      const { quote } = await this.getQuote(quoteParams);
 
       const maxPremiumInAsset = this.cover.calculatePremiumWithCommissionAndSlippage(
         BigInt(quote.premiumInAsset),
@@ -190,23 +216,23 @@ export class Quote extends NexusSDKBase {
       );
 
       // Get product capacity using helper method
-      const maxCapacity = (await this.getProductCapacity(productId, coverPeriod, coverAssetEnum)) ?? '';
+      const maxCapacity = (await this.getProductCapacity(productId, period, coverAssetEnum)) ?? '';
 
       const result: GetQuoteResponse = {
         displayInfo: {
           premiumInAsset: maxPremiumInAsset.toString(),
-          coverAmount,
+          coverAmount: amount,
           yearlyCostPerc: Number(yearlyCostPerc) / TARGET_PRICE_DENOMINATOR,
           maxCapacity,
         },
         buyCoverInput: {
           buyCoverParams: {
-            coverId: CoverId.BUY,
-            owner: coverBuyerAddress,
+            coverId,
+            owner: buyerAddress,
             productId,
             coverAsset: coverAssetEnum,
-            amount: coverAmount,
-            period: coverPeriod * 60 * 60 * 24, // seconds
+            amount,
+            period: period * 60 * 60 * 24, // seconds
             maxPremiumInAsset: maxPremiumInAsset.toString(),
             paymentAsset: coverAssetEnum,
             commissionRatio: DEFAULT_COMMISSION_RATIO,
@@ -219,25 +245,16 @@ export class Quote extends NexusSDKBase {
 
       return { result, error: undefined };
     } catch (error: unknown) {
-      return this.handleQuoteError(error, productId, coverPeriod, coverAssetEnum);
+      return this.handleQuoteError(error, productId, period, coverAssetEnum);
     }
   }
 
   /**
    * Calls the CoverRouter quote endpoint to retrieve the quote for the specified cover
-   * @param productId Product ID
-   * @param coverAmount Cover amount
-   * @param coverPeriod Cover period in days
-   * @param coverAsset Cover asset
+   * @param params All params needed to buy a cover
    * @returns Quote response
    */
-  private async getQuote(
-    productId: number,
-    coverAmount: string,
-    coverPeriod: number,
-    coverAsset: CoverAsset,
-  ): Promise<CoverRouterQuoteResponse> {
-    const params = { productId, amount: coverAmount, period: coverPeriod, coverAsset };
+  private async getQuote(params: QuoteParams): Promise<CoverRouterQuoteResponse> {
     const options: AxiosRequestConfig = {
       method: 'GET',
       params,

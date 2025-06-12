@@ -1,3 +1,5 @@
+import { BigNumber } from 'ethers';
+
 import { Reserves } from './reserves.type';
 
 /**
@@ -44,14 +46,14 @@ export class Swap {
     }
 
     // Calculate the constant product (k) for the market maker model
-    const k = reserves.nxmB * reserves.ethReserve;
+    const k = reserves.nxmA * reserves.ethReserve;
 
     // Simulate the swap and calculate the new reserves
     const ethReservesAfter = reserves.ethReserve + ethIn;
     const nxmReservesAfter = k / ethReservesAfter;
 
     // Calculate the amount of NXM that will flow out of the pool
-    const nxmOut = reserves.nxmB - nxmReservesAfter;
+    const nxmOut = reserves.nxmA - nxmReservesAfter;
 
     if (nxmOut < 0n) {
       throw new Error('Cannot swap this amount');
@@ -67,19 +69,23 @@ export class Swap {
    * @returns Amount of ETH in
    */
   public calculateEthForExactNxm(nxmOut: bigint, reserves: Reserves): bigint {
+    if (BigNumber.isBigNumber(nxmOut)) {
+      throw new Error('Cannot mix BigInt and other types, use explicit conversions');
+    }
+
     if (nxmOut <= 0n) {
       throw new Error('NXM out value must be greater than 0');
     }
 
-    if (nxmOut >= reserves.nxmB) {
+    if (nxmOut >= reserves.nxmA) {
       throw new Error('Not enough NXM in the pool');
     }
 
     // Calculate the constant product (k) for the market maker model
-    const k = reserves.nxmB * reserves.ethReserve;
+    const k = reserves.nxmA * reserves.ethReserve;
 
     // Simulate the swap and calculate the new reserves
-    const nxmReservesAfter = reserves.nxmB - nxmOut;
+    const nxmReservesAfter = reserves.nxmA - nxmOut;
     const ethReservesAfter = k / nxmReservesAfter;
 
     // Calculate the amount of ETH that will flow into the pool
@@ -123,10 +129,13 @@ export class Swap {
    * @returns Price impact
    */
   public calculatePriceImpactA(tokenAmount: bigint, reserves: Reserves): bigint {
-    const spotPrice = this.calculateSpotPrice(reserves).spotPriceA;
-    const totalOutput = this.calculateExactEthForNxm(tokenAmount, reserves);
-    const estimatedPrice = (totalOutput * 10000n) / tokenAmount;
-    const priceImpact = 10000n - (estimatedPrice * 10000n) / spotPrice;
+    const { spotPriceA } = this.calculateSpotPrice(reserves);
+    const nxmOut = this.calculateExactNxmForEth(tokenAmount, reserves);
+    const nxmOutAtSpotPrice = (tokenAmount * BigInt(1e18)) / spotPriceA;
+
+    // 100 - 100 * nxmOut / nxmOutAtSpot
+    // using BigInt(1000000) to keep 4 decimals of precision
+    const priceImpact = 1000000n - (nxmOut * 1000000n) / nxmOutAtSpotPrice;
     return priceImpact;
   }
 
@@ -137,10 +146,11 @@ export class Swap {
    * @returns Price impact
    */
   public calculatePriceImpactB(tokenAmount: bigint, reserves: Reserves): bigint {
-    const spotPrice = this.calculateSpotPrice(reserves).spotPriceB;
-    const totalOutput = this.calculateExactNxmForEth(tokenAmount, reserves);
-    const estimatedPrice = (totalOutput * 10000n) / tokenAmount;
-    const priceImpact = 10000n - (estimatedPrice * 10000n) / spotPrice;
+    const { spotPriceB } = this.calculateSpotPrice(reserves);
+    const ethOut = this.calculateExactEthForNxm(tokenAmount, reserves);
+    const ethOutAtSpotPrice = (spotPriceB * tokenAmount) / BigInt(1e18);
+
+    const priceImpact = 1000000n - (ethOut * 1000000n) / ethOutAtSpotPrice;
     return priceImpact;
   }
 
@@ -150,8 +160,9 @@ export class Swap {
    * @returns Spot price object with spotPriceA and spotPriceB
    */
   public calculateSpotPrice(reserves: Reserves): { spotPriceA: bigint; spotPriceB: bigint } {
-    const spotPriceA = (reserves.ethReserve * 10000n) / reserves.nxmB;
-    const spotPriceB = (reserves.nxmB * 10000n) / reserves.ethReserve;
+    const oneEth = BigInt(1e18);
+    const spotPriceA = (reserves.ethReserve * oneEth) / reserves.nxmA;
+    const spotPriceB = (reserves.ethReserve * oneEth) / reserves.nxmB;
     return { spotPriceA, spotPriceB };
   }
 }

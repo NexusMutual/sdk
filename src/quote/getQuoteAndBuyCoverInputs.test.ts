@@ -376,7 +376,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
       ...quoteParams,
       productId: 247,
-      ipfsCidOrContent: coverRouterQuoteResponse,
+      ipfsCidOrContent: 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY',
     });
 
     expect(error).toBeUndefined();
@@ -480,7 +480,8 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   it('should handle "Not enough capacity for the cover amount" error correctly - ETH', async () => {
-    mockAxios.reset();
+    mockAxios.get.mockReset();
+
     mockAxios.get.mockRejectedValueOnce({
       isAxiosError: true,
       response: {

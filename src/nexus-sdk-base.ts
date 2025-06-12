@@ -52,7 +52,10 @@ export class NexusSDKBase {
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        throw new Error(`API request failed: ${error.response.status} ${error.response.statusText}`);
+        const errorMessage = error.response.data.error || error.response.statusText;
+        if (!errorMessage.includes('Not enough capacity')) {
+          throw new Error(`API request failed: ${error.response.status} ${errorMessage}`);
+        }
       }
       throw error;
     }

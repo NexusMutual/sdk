@@ -1,6 +1,6 @@
 import { ApiResponse } from './api';
 import { Address, FloatString, IntString, Integer } from './data';
-import { CoverAsset } from '../constants/buyCover';
+import { CoverAsset, PaymentAsset } from '../constants/cover';
 
 export type BuyCoverParams = {
   coverId: Integer;
@@ -24,6 +24,15 @@ export type PoolAllocationRequest = {
 
 /* Cover Router Service */
 
+export type QuoteParams = {
+  productId: number;
+  amount: string;
+  period: number;
+  coverAsset: CoverAsset;
+  paymentAsset?: PaymentAsset;
+  coverEditId?: number;
+};
+
 export type CoverRouterQuoteResponse = {
   quote: Quote;
   capacities: PoolCapacity[];
@@ -37,7 +46,7 @@ export type CoverRouterProductCapacityResponse = {
   maxAnnualPrice: FloatString;
 };
 
-export type Quote = {
+type Quote = {
   totalCoverAmountInAsset: IntString; // smallest unit (i.e. wei)
   annualPrice: IntString; // percentage expressed as number between 0 and 100_00
   premiumInNXM: IntString; // smallest unit (i.e. wei)

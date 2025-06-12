@@ -1,8 +1,8 @@
 import * as deployments from '@nexusmutual/deployments';
 
-import * as buyCover from './buyCover';
 import * as constants from './constants';
 import * as ipfs from './ipfs';
+import { NexusSDK } from './nexus-sdk';
 import * as quote from './quote';
 import * as swap from './swap';
 import * as types from './types';
@@ -16,11 +16,11 @@ const nexusSdk = {
   productTypes: productTypesData,
   ...generatedTypes,
   ...swap,
-  ...buyCover,
   ...types,
   ...quote,
   ...ipfs,
   ...constants,
+  NexusSDK,
 };
 
 // Re-export everything from the deployments package (e.g. `addresses` and `abis`)
@@ -35,8 +35,6 @@ export * from '../generated/types';
 
 export * from './swap';
 
-export * from './buyCover';
-
 export * from './types';
 
 export * from './ipfs';
@@ -44,5 +42,7 @@ export * from './ipfs';
 export * from './quote';
 
 export * from './constants';
+
+export { NexusSDK } from './nexus-sdk';
 
 export default nexusSdk;

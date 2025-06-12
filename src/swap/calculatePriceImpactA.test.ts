@@ -1,8 +1,8 @@
 import { BigNumber } from 'ethers';
 import { parseEther } from 'viem';
 
-import { calculatePriceImpactA } from './calculatePriceImpactA';
 import { Reserves } from './reserves.type';
+import { Swap } from './Swap';
 
 describe('calculatePriceImpactB', () => {
   const reserves: Reserves = {
@@ -11,6 +11,7 @@ describe('calculatePriceImpactB', () => {
     ethReserve: BigInt('5000000000000000000000'),
     budget: BigInt('0'),
   };
+  const swapApi = new Swap();
 
   const cases = [
     ['unit value', '1', 200n],
@@ -22,7 +23,7 @@ describe('calculatePriceImpactB', () => {
 
   test.each(cases)('calculates price impact A - %s', (_type, ethIn, expectedPriceImpact) => {
     const ethInParsed = parseEther(ethIn.toString());
-    const priceImpact = calculatePriceImpactA(ethInParsed, reserves);
+    const priceImpact = swapApi.calculatePriceImpactA(ethInParsed, reserves);
     expect(priceImpact.toString()).toBe(expectedPriceImpact.toString());
   });
 
@@ -44,7 +45,8 @@ describe('calculatePriceImpactB', () => {
     'throws error for invalid eth in values - %s',
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (_type: string, ethIn: any, expectedError: string) => {
-      expect(() => calculatePriceImpactA(ethIn as bigint, reserves)).toThrow(expectedError);
+      console.log(expectedError);
+      expect(() => swapApi.calculatePriceImpactA(ethIn as bigint, reserves)).toThrow(expectedError);
     },
   );
 });

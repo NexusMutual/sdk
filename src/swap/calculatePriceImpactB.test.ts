@@ -1,8 +1,8 @@
 import { BigNumber } from 'ethers';
 import { parseEther } from 'viem';
 
-import { calculatePriceImpactB } from './calculatePriceImpactB';
 import { Reserves } from './reserves.type';
+import { Swap } from './Swap';
 
 describe('calculatePriceImpactB', () => {
   const reserves: Reserves = {
@@ -11,6 +11,7 @@ describe('calculatePriceImpactB', () => {
     ethReserve: BigInt('5000000000000000000000'),
     budget: BigInt('0'),
   };
+  const swapApi = new Swap();
 
   const cases = [
     ['unit value', '1', 4n],
@@ -22,7 +23,7 @@ describe('calculatePriceImpactB', () => {
 
   test.each(cases)('calculates price impact B - %s', (_type, nxmIn, expectedPriceImpact) => {
     const nxmInParsed = parseEther(nxmIn.toString());
-    const priceImpact = calculatePriceImpactB(nxmInParsed, reserves);
+    const priceImpact = swapApi.calculatePriceImpactB(nxmInParsed, reserves);
     expect(priceImpact.toString()).toBe(expectedPriceImpact.toString());
   });
 
@@ -46,7 +47,7 @@ describe('calculatePriceImpactB', () => {
     'throws error for invalid nxm in values - %s',
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (_type: string, nxmIn: any, expectedError: string) => {
-      expect(() => calculatePriceImpactB(nxmIn as bigint, reserves)).toThrow(expectedError);
+      expect(() => swapApi.calculatePriceImpactB(nxmIn as bigint, reserves)).toThrow(expectedError);
     },
   );
 });

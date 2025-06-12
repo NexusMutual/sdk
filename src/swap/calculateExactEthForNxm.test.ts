@@ -1,8 +1,8 @@
 import { BigNumber } from 'ethers';
 import { parseEther } from 'viem';
 
-import { calculateExactEthForNxm } from './calculateExactEthForNxm';
 import { Reserves } from './reserves.type';
+import { Swap } from './Swap';
 
 describe('calculateExactEthForNxm', () => {
   const reserves: Reserves = {
@@ -11,6 +11,7 @@ describe('calculateExactEthForNxm', () => {
     ethReserve: 5000000000000000000000n,
     budget: 43835000000000000000000n,
   };
+  const swapApi = new Swap();
 
   const cases = [
     ['unit value', '1', 15205969926825736n],
@@ -22,7 +23,7 @@ describe('calculateExactEthForNxm', () => {
 
   test.each(cases)('calculates eth out for nxm in correctly - %s', (_type, nxmIn, expectedEthOut) => {
     const nxmInParsed = parseEther(nxmIn.toString());
-    const ethOutCalculated = calculateExactEthForNxm(nxmInParsed, reserves);
+    const ethOutCalculated = swapApi.calculateExactEthForNxm(nxmInParsed, reserves);
     expect(ethOutCalculated.toString()).toBe(expectedEthOut.toString());
   });
 
@@ -44,7 +45,7 @@ describe('calculateExactEthForNxm', () => {
     'throws error for invalid nxm in values - %s',
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (_type: string, nxmIn: any, expectedError: string) => {
-      expect(() => calculateExactEthForNxm(nxmIn as bigint, reserves)).toThrow(expectedError);
+      expect(() => swapApi.calculateExactEthForNxm(nxmIn as bigint, reserves)).toThrow(expectedError);
     },
   );
 });

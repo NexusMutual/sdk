@@ -46,7 +46,7 @@ export type CoverRouterProductCapacityResponse = {
   maxAnnualPrice: FloatString;
 };
 
-export type Quote = {
+type Quote = {
   totalCoverAmountInAsset: IntString; // smallest unit (i.e. wei)
   annualPrice: IntString; // percentage expressed as number between 0 and 100_00
   premiumInNXM: IntString; // smallest unit (i.e. wei)

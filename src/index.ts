@@ -1,15 +1,14 @@
 import * as deployments from '@nexusmutual/deployments';
 
-import * as cover from './cover';
 import * as constants from './constants';
 import * as ipfs from './ipfs';
+import { NexusSDK } from './nexus-sdk';
 import * as quote from './quote';
 import * as swap from './swap';
 import * as types from './types';
 import productTypesData from '../generated/product-types.json';
 import productsData from '../generated/products.json';
 import * as generatedTypes from '../generated/types';
-import { NexusSDK } from './nexus-sdk';
 
 const nexusSdk = {
   ...deployments,
@@ -17,7 +16,6 @@ const nexusSdk = {
   productTypes: productTypesData,
   ...generatedTypes,
   ...swap,
-  ...cover,
   ...types,
   ...quote,
   ...ipfs,
@@ -36,8 +34,6 @@ export { default as productTypes } from '../generated/product-types.json';
 export * from '../generated/types';
 
 export * from './swap';
-
-export * from './cover';
 
 export * from './types';
 

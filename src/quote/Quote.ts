@@ -4,6 +4,7 @@ import productTypes from '../../generated/product-types.json';
 import products from '../../generated/products.json';
 import { ProductTypes } from '../../generated/types';
 import {
+  COMMISSION_DENOMINATOR,
   CoverAsset,
   DEFAULT_COMMISSION_RATIO,
   DEFAULT_SLIPPAGE,
@@ -14,7 +15,6 @@ import {
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
 } from '../constants';
-import { Cover } from '../cover';
 import { Ipfs } from '../ipfs';
 import { NexusSDKBase } from '../nexus-sdk-base';
 import {
@@ -43,18 +43,15 @@ const productsMap: Record<number, ProductDTO> = products.reduce(
  * Class for handling quote-related functionality
  */
 export class Quote extends NexusSDKBase {
-  private cover: Cover;
   private ipfs: Ipfs;
 
   /**
    * Create a new Quote instance
    * @param config SDK configuration
-   * @param cover Cover instance for calculations
    * @param ipfs IPFS instance for content upload and validation
    */
-  constructor(config: NexusSDKConfig = {}, cover?: Cover, ipfs?: Ipfs) {
+  constructor(config: NexusSDKConfig = {}, ipfs?: Ipfs) {
     super(config);
-    this.cover = cover || new Cover();
     this.ipfs = ipfs || new Ipfs(config);
   }
 
@@ -204,12 +201,12 @@ export class Quote extends NexusSDKBase {
       // Get quote using helper method
       const { quote } = await this.getQuote(quoteParams);
 
-      const maxPremiumInAsset = this.cover.calculatePremiumWithCommissionAndSlippage(
+      const maxPremiumInAsset = this.calculatePremiumWithCommissionAndSlippage(
         BigInt(quote.premiumInAsset),
         DEFAULT_COMMISSION_RATIO,
         slippageValue,
       );
-      const yearlyCostPerc = this.cover.calculatePremiumWithCommissionAndSlippage(
+      const yearlyCostPerc = this.calculatePremiumWithCommissionAndSlippage(
         BigInt(quote.annualPrice),
         DEFAULT_COMMISSION_RATIO,
         slippageValue,
@@ -336,5 +333,22 @@ export class Quote extends NexusSDKBase {
       result: undefined,
       error: { message: (error as Error).message || 'Something went wrong' },
     };
+  }
+
+  /**
+   * Calculate premium with commission and slippage
+   * @param premium Base premium
+   * @param commission Commission rate (default: 0)
+   * @param slippage Slippage tolerance (default: 0)
+   * @returns Premium with commission and slippage applied
+   */
+  public calculatePremiumWithCommissionAndSlippage(premium: bigint, commission = 0, slippage = 0): bigint {
+    const premiumWithCommission =
+      (premium * BigInt(COMMISSION_DENOMINATOR)) / BigInt(COMMISSION_DENOMINATOR - commission);
+
+    const premiumWithCommissionAndSlippage =
+      (premiumWithCommission * BigInt(SLIPPAGE_DENOMINATOR + slippage)) / BigInt(SLIPPAGE_DENOMINATOR);
+
+    return premiumWithCommissionAndSlippage;
   }
 }

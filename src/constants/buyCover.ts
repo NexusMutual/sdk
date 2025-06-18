@@ -41,7 +41,6 @@ export const NO_COMMISSION = 0; // 0%
 
 // Commission destinations
 export const NO_COMMISSION_DESTINATION = zeroAddress as Address;
-export const UNITY_ADDRESS = '0x95aBC2A62eE543217CF7640B277BA13D056d904A' as Address;
 export const NEXUS_MUTUAL_DAO_TREASURY_ADDRESS = '0x8e53D04644E9ab0412a8c6bd228C84da7664cFE3';
 export const IMMUNEFI_ADDRESS = '0x9c2F47079eb7Def5dd01Dd7E1138583f82376bDc' as Address;
 export const SPEARBIT_CANTINA_ADDRESS = '0x3Dcb7CFbB431A11CAbb6f7F2296E2354f488Efc2' as Address;
@@ -74,19 +73,19 @@ export const BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE: Record<ProductTypes, nu
 };
 
 export const BUY_COVER_COMMISSION_DESTINATION_BY_PRODUCT_TYPE: Record<ProductTypes, Address> = {
-  [ProductTypes.ethSlashing]: UNITY_ADDRESS,
-  [ProductTypes.liquidCollectiveEthStaking]: UNITY_ADDRESS,
+  [ProductTypes.ethSlashing]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
+  [ProductTypes.liquidCollectiveEthStaking]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   [ProductTypes.stakewiseEthStaking]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   [ProductTypes.sherlockQuotaShare]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   [ProductTypes.unoReQuotaShare]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
-  [ProductTypes.theRetailMutual]: UNITY_ADDRESS,
+  [ProductTypes.theRetailMutual]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   [ProductTypes.protocol]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   [ProductTypes.bundledProtocol]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   [ProductTypes.custody]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   [ProductTypes.yieldToken]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   [ProductTypes.sherlockExcess]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   [ProductTypes.nativeProtocol]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
-  [ProductTypes.ethSlashingUmbrella]: UNITY_ADDRESS,
+  [ProductTypes.ethSlashingUmbrella]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   [ProductTypes.openCoverTransaction]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   [ProductTypes.fundPortfolio]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   [ProductTypes.sherlockBugBounty]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,

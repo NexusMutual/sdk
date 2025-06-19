@@ -1,7 +1,7 @@
 import { formatEther, parseEther } from 'viem';
 
-import { COMMISSION_DENOMINATOR } from '../constants/cover';
 import { Quote } from './index';
+import { COMMISSION_DENOMINATOR } from '../constants/cover';
 
 const BUY_COVER_COMMISSION_RATIO = 1500;
 

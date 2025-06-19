@@ -23,7 +23,6 @@ export class NexusSDKBase {
    * @param options Axios request configuration
    * @returns Promise resolving to the response data
    */
-  // TODO: validation if options is empty? empty options might lead to axios failing
   protected async sendRequest<T>(endpoint: string, options: AxiosRequestConfig = {}): Promise<T> {
     const url = `${this.apiUrl}${endpoint}`;
     const requestOptions: AxiosRequestConfig = {};

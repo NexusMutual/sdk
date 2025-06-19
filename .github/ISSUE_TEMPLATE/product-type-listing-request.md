@@ -24,7 +24,7 @@ assignees: ''
 
 **Cover Wording PDF link**:
 
-## Frontend 
+## Frontend
 ### Buy Cover Page Inputs
 **User Inputs**:
 * Cover Period
@@ -35,7 +35,7 @@ assignees: ''
 
 **Commission Destination ETH address**:
 
-### Buy Cover Copy 
+### Buy Cover Copy
 **Google Doc link** (should include Quote Details, T&Cs copy, etc.):
 
 ### Claim Submission Details Copy
@@ -50,3 +50,6 @@ assignees: ''
 
 - [ ] Craft transaction data payload
 - [ ] AB member to update onchain data
+- [ ] Update [SDK](https://github.com/NexusMutual/sdk)
+- [ ] Update [frontend-next](https://github.com/NexusMutual/frontend-next)
+- [ ] Update [frontend-react](https://github.com/NexusMutual/frontend-react)

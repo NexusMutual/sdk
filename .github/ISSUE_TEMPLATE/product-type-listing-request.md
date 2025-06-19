@@ -24,7 +24,7 @@ assignees: ''
 
 **Cover Wording PDF link**:
 
-## Frontend 
+## Frontend
 ### Buy Cover Page Inputs
 **User Inputs**:
 * Cover Period
@@ -35,7 +35,7 @@ assignees: ''
 
 **Commission Destination ETH address**:
 
-### Buy Cover Copy 
+### Buy Cover Copy
 **Google Doc link** (should include Quote Details, T&Cs copy, etc.):
 
 ### Claim Submission Details Copy
@@ -53,5 +53,3 @@ assignees: ''
 - [ ] Update [SDK](https://github.com/NexusMutual/sdk)
 - [ ] Update [frontend-next](https://github.com/NexusMutual/frontend-next)
 - [ ] Update [frontend-react](https://github.com/NexusMutual/frontend-react)
-- [ ] Update [notification-processor](https://github.com/NexusMutual/notification-processor)
-- [ ] Update [event-scanner](https://github.com/NexusMutual/event-scanner) (if there are new private products)

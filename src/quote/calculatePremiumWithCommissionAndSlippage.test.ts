@@ -1,12 +1,13 @@
 import { formatEther, parseEther } from 'viem';
 
-import { calculatePremiumWithCommissionAndSlippage } from './calculatePremiumWithCommissionAndSlippage';
-import { COMMISSION_DENOMINATOR } from '../constants/buyCover';
+import { Quote } from './index';
+import { COMMISSION_DENOMINATOR } from '../constants/cover';
 
 const BUY_COVER_COMMISSION_RATIO = 1500;
 
-describe('#calculatePremiumWithCommissionAndSlippage', () => {
+describe('calculatePremiumWithCommissionAndSlippage', () => {
   let priceValue = parseEther('0');
+  const quoteApi = new Quote();
 
   const priceWithCommissionFormula = (value: string) =>
     parseFloat(((+value * COMMISSION_DENOMINATOR) / (COMMISSION_DENOMINATOR - BUY_COVER_COMMISSION_RATIO)).toFixed(12));
@@ -23,7 +24,7 @@ describe('#calculatePremiumWithCommissionAndSlippage', () => {
   it('should return 0 BigInt value for 0 price value', () => {
     const expectedValue = parseEther('0');
 
-    expect(calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO)).toStrictEqual(
+    expect(quoteApi.calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO)).toStrictEqual(
       expectedValue,
     );
   });
@@ -34,7 +35,7 @@ describe('#calculatePremiumWithCommissionAndSlippage', () => {
 
     const expectedValue = priceWithCommissionAndSlippageFormula(value);
 
-    const actualValue = calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO);
+    const actualValue = quoteApi.calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO);
     const actualValueFormatted = formatEther(actualValue);
 
     expect(parseFloat(actualValueFormatted)).toBeCloseTo(expectedValue, 4);
@@ -46,7 +47,7 @@ describe('#calculatePremiumWithCommissionAndSlippage', () => {
 
     const expectedValue = priceWithCommissionAndSlippageFormula(value);
 
-    const actualValue = calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO);
+    const actualValue = quoteApi.calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO);
     const actualValueFormatted = formatEther(actualValue);
 
     expect(parseFloat(actualValueFormatted)).toBeCloseTo(expectedValue, 4);
@@ -58,7 +59,7 @@ describe('#calculatePremiumWithCommissionAndSlippage', () => {
 
     const expectedValue = priceWithCommissionAndSlippageFormula(value);
 
-    const actualValue = calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO);
+    const actualValue = quoteApi.calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO);
     const actualValueFormatted = formatEther(actualValue);
 
     expect(parseFloat(actualValueFormatted)).toBeCloseTo(expectedValue, 4);
@@ -70,7 +71,7 @@ describe('#calculatePremiumWithCommissionAndSlippage', () => {
 
     const expectedValue = priceWithCommissionAndSlippageFormula(value);
 
-    const actualValue = calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO);
+    const actualValue = quoteApi.calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO);
     const actualValueFormatted = formatEther(actualValue);
 
     expect(parseFloat(actualValueFormatted)).toBeCloseTo(expectedValue, 4);
@@ -82,7 +83,7 @@ describe('#calculatePremiumWithCommissionAndSlippage', () => {
 
     const expectedValue = priceWithCommissionAndSlippageFormula(value);
 
-    const actualValue = calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO);
+    const actualValue = quoteApi.calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO);
     const actualValueFormatted = formatEther(actualValue);
 
     expect(parseFloat(actualValueFormatted)).toBeCloseTo(expectedValue, 4);
@@ -94,7 +95,7 @@ describe('#calculatePremiumWithCommissionAndSlippage', () => {
 
     const expectedValue = priceWithCommissionAndSlippageFormula(value);
 
-    const actualValue = calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO);
+    const actualValue = quoteApi.calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO);
     const actualValueFormatted = formatEther(actualValue);
 
     expect(parseFloat(actualValueFormatted)).toBeCloseTo(expectedValue, 4);
@@ -107,7 +108,7 @@ describe('#calculatePremiumWithCommissionAndSlippage', () => {
 
     const expectedValue = priceWithCommissionAndSlippageFormula(value, slippageValue);
 
-    const actualValue = calculatePremiumWithCommissionAndSlippage(
+    const actualValue = quoteApi.calculatePremiumWithCommissionAndSlippage(
       priceValue,
       BUY_COVER_COMMISSION_RATIO,
       slippageValue,
@@ -124,7 +125,7 @@ describe('#calculatePremiumWithCommissionAndSlippage', () => {
 
     const expectedValue = priceWithCommissionAndSlippageFormula(value, slippageValue);
 
-    const actualValue = calculatePremiumWithCommissionAndSlippage(
+    const actualValue = quoteApi.calculatePremiumWithCommissionAndSlippage(
       priceValue,
       BUY_COVER_COMMISSION_RATIO,
       slippageValue,

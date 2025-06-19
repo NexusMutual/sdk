@@ -1,15 +1,16 @@
 import mockAxios from 'jest-mock-axios';
 
-import { uploadIPFSContent } from './uploadIPFSContent';
+import { Ipfs } from './Ipfs';
 import { version } from '../../generated/version.json';
 import { ContentType, CoverFreeText } from '../types/ipfs';
+const URL = 'https://api.test.io/upload/v2';
 
 describe('uploadIPFSContent', () => {
-  const URL = 'https://api.test.io/upload/v2';
   const coverFreeTextContent: CoverFreeText = {
     version: '1.0',
     freeText: 'test',
   };
+  const ipfsApi = new Ipfs({ apiUrl: URL });
 
   beforeAll(() => {
     jest.mock('axios');
@@ -22,7 +23,7 @@ describe('uploadIPFSContent', () => {
   it('should throw an error if content is empty', async () => {
     const res = async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await uploadIPFSContent([ContentType.coverFreeText, undefined as any], URL);
+      await ipfsApi.uploadIPFSContent([ContentType.coverFreeText, undefined as any]);
     };
     expect(res).rejects.toThrow('Content cannot be empty');
   });
@@ -33,13 +34,19 @@ describe('uploadIPFSContent', () => {
       data: { ipfsHash: expectedHash },
     });
 
-    await uploadIPFSContent([ContentType.coverFreeText, coverFreeTextContent], URL);
+    await ipfsApi.uploadIPFSContent([ContentType.coverFreeText, coverFreeTextContent]);
 
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
-    expect(mockAxios.post).toHaveBeenCalledWith(URL + '/ipfs' + `?sdk=${version}`, {
-      type: ContentType.coverFreeText,
-      content: coverFreeTextContent,
-    });
+    expect(mockAxios.post).toHaveBeenCalledWith(
+      URL + '/ipfs',
+      {
+        type: ContentType.coverFreeText,
+        content: coverFreeTextContent,
+      },
+      {
+        params: { sdk: version },
+      },
+    );
   });
 
   it('should return the ipfs hash on successful upload', async () => {
@@ -48,7 +55,7 @@ describe('uploadIPFSContent', () => {
       data: { ipfsHash: expectedHash },
     });
 
-    const result = await uploadIPFSContent([ContentType.coverFreeText, coverFreeTextContent], URL);
+    const result = await ipfsApi.uploadIPFSContent([ContentType.coverFreeText, coverFreeTextContent]);
     expect(result).toEqual(expectedHash);
   });
 
@@ -56,15 +63,8 @@ describe('uploadIPFSContent', () => {
     mockAxios.post.mockRejectedValue(new Error('Network error'));
 
     const res = async () => {
-      await uploadIPFSContent([ContentType.coverFreeText, coverFreeTextContent], URL);
+      await ipfsApi.uploadIPFSContent([ContentType.coverFreeText, coverFreeTextContent]);
     };
-    expect(res).rejects.toThrow('Failed to upload data to IPFS');
-  });
-
-  it('should throw error if nexusApiUrl is not provided', async () => {
-    const res = async () => {
-      await uploadIPFSContent([ContentType.coverFreeText, coverFreeTextContent], '');
-    };
-    expect(res).rejects.toThrow('IPFS base URL not set');
+    await expect(res).rejects.toThrow('Failed to upload data to IPFS');
   });
 });

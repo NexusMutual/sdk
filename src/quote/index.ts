@@ -1,1 +1,1 @@
-export * from './getQuoteAndBuyCoverInputs';
+export * from './Quote';

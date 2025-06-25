@@ -4,13 +4,13 @@ import productTypes from '../../generated/product-types.json';
 import products from '../../generated/products.json';
 import { ProductTypes } from '../../generated/types';
 import {
+  BUY_COVER_COMMISSION_DESTINATION_BY_PRODUCT_TYPE,
+  BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE,
   COMMISSION_DENOMINATOR,
   CoverAsset,
-  DEFAULT_COMMISSION_RATIO,
   DEFAULT_SLIPPAGE,
   MAXIMUM_COVER_PERIOD,
   MINIMUM_COVER_PERIOD,
-  NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   PaymentAsset,
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
@@ -73,6 +73,8 @@ export class Quote extends NexusSDKBase {
       ipfsCidOrContent = '',
       paymentAsset = coverAsset,
       coverId = 0,
+      commissionRatio,
+      commissionDestination,
     } = params;
 
     // Cast coverAsset to the proper enum type
@@ -203,12 +205,12 @@ export class Quote extends NexusSDKBase {
 
       const maxPremiumInAsset = this.calculatePremiumWithCommissionAndSlippage(
         BigInt(quote.premiumInAsset),
-        DEFAULT_COMMISSION_RATIO,
+        commissionRatio || BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE[productType],
         slippageValue,
       );
       const yearlyCostPerc = this.calculatePremiumWithCommissionAndSlippage(
         BigInt(quote.annualPrice),
-        DEFAULT_COMMISSION_RATIO,
+        commissionRatio || BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE[productType],
         slippageValue,
       );
 
@@ -232,8 +234,9 @@ export class Quote extends NexusSDKBase {
             period: period * 60 * 60 * 24, // seconds
             maxPremiumInAsset: maxPremiumInAsset.toString(),
             paymentAsset: coverAssetEnum,
-            commissionRatio: DEFAULT_COMMISSION_RATIO,
-            commissionDestination: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
+            commissionRatio: commissionRatio || BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE[productType],
+            commissionDestination:
+              commissionDestination || BUY_COVER_COMMISSION_DESTINATION_BY_PRODUCT_TYPE[productType],
             ipfsData,
           },
           poolAllocationRequests: quote.poolAllocationRequests,

@@ -73,6 +73,7 @@ export class Quote extends NexusSDKBase {
       ipfsCidOrContent = '',
       paymentAsset = coverAsset,
       coverId = 0,
+      commissionRatio = DEFAULT_COMMISSION_RATIO,
     } = params;
 
     // Cast coverAsset to the proper enum type
@@ -203,12 +204,12 @@ export class Quote extends NexusSDKBase {
 
       const maxPremiumInAsset = this.calculatePremiumWithCommissionAndSlippage(
         BigInt(quote.premiumInAsset),
-        DEFAULT_COMMISSION_RATIO,
+        commissionRatio,
         slippageValue,
       );
       const yearlyCostPerc = this.calculatePremiumWithCommissionAndSlippage(
         BigInt(quote.annualPrice),
-        DEFAULT_COMMISSION_RATIO,
+        commissionRatio,
         slippageValue,
       );
 

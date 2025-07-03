@@ -92,13 +92,13 @@ export const IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE: Record<ProductTypes, ContentType
   [ProductTypes.fundPortfolio]: ContentType.coverAumCoverAmountPercentage,
   [ProductTypes.generalisedFundPortfolio]: ContentType.coverAumCoverAmountPercentage,
   // ---------------------------------------------------------
-  [ProductTypes.protocol]: undefined,
+  [ProductTypes.singleProtocol]: undefined,
   [ProductTypes.custody]: undefined,
   [ProductTypes.yieldToken]: undefined,
   [ProductTypes.sherlockExcess]: undefined,
   [ProductTypes.nativeProtocol]: undefined,
   [ProductTypes.theRetailMutual]: undefined,
-  [ProductTypes.bundledProtocol]: undefined,
+  [ProductTypes.multiProtocol]: undefined,
   [ProductTypes.ethSlashingUmbrella]: undefined,
   [ProductTypes.openCoverTransaction]: undefined,
   [ProductTypes.sherlockBugBounty]: undefined,
@@ -120,13 +120,13 @@ export interface IPFSContentForProductType {
   [ProductTypes.fundPortfolio]: CoverAumCoverAmountPercentage;
   [ProductTypes.generalisedFundPortfolio]: CoverAumCoverAmountPercentage;
   // ---------------------------------------------------------
-  [ProductTypes.protocol]: undefined;
+  [ProductTypes.singleProtocol]: undefined;
   [ProductTypes.custody]: undefined;
   [ProductTypes.yieldToken]: undefined;
   [ProductTypes.sherlockExcess]: undefined;
   [ProductTypes.nativeProtocol]: undefined;
   [ProductTypes.theRetailMutual]: undefined;
-  [ProductTypes.bundledProtocol]: undefined;
+  [ProductTypes.multiProtocol]: undefined;
   [ProductTypes.ethSlashingUmbrella]: undefined;
   [ProductTypes.openCoverTransaction]: undefined;
   [ProductTypes.sherlockBugBounty]: undefined;

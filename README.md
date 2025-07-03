@@ -155,13 +155,13 @@ The following table shows the mapping between product types and their required I
 | generalisedFundPortfolio | coverAumCoverAmountPercentage | <pre>{ version: '1.0', aumCoverAmountPercentage: number }</pre> | Percentage value, 0 to 100 |
 
 Note: The following product types do not require IPFS content:
-- protocol
+- singleProtocol
 - custody
 - yieldToken
 - sherlockExcess
 - nativeProtocol
 - theRetailMutual
-- bundledProtocol
+- multiProtocol
 - ethSlashingUmbrella
 - openCoverTransaction
 - sherlockBugBounty

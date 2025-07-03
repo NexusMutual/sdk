@@ -4,12 +4,12 @@ import { parseEther } from 'viem';
 import {
   CoverAsset,
   PaymentAsset,
-  DEFAULT_COMMISSION_RATIO,
   MAXIMUM_COVER_PERIOD,
   MINIMUM_COVER_PERIOD,
   NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
+  NEXUS_MUTUAL_COVER_COMMISSION_RATIO,
 } from '../constants/cover';
 import { Quote } from '../quote';
 import {
@@ -450,11 +450,11 @@ describe('getQuoteAndBuyCoverInputs', () => {
     const { premiumInAsset, annualPrice } = coverRouterQuoteResponse.quote;
     const expectedMaxPremiumInAsset = quoteApi.calculatePremiumWithCommissionAndSlippage(
       BigInt(premiumInAsset),
-      DEFAULT_COMMISSION_RATIO,
+      NEXUS_MUTUAL_COVER_COMMISSION_RATIO,
     );
     const expectedYearlyCostPerc = quoteApi.calculatePremiumWithCommissionAndSlippage(
       BigInt(annualPrice),
-      DEFAULT_COMMISSION_RATIO,
+      NEXUS_MUTUAL_COVER_COMMISSION_RATIO,
     );
 
     expect(error).toBeUndefined();
@@ -470,7 +470,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(result?.buyCoverInput.buyCoverParams.period).toBe(30 * 60 * 60 * 24);
     expect(result?.buyCoverInput.buyCoverParams.maxPremiumInAsset).toBe(expectedMaxPremiumInAsset.toString());
     expect(result?.buyCoverInput.buyCoverParams.paymentAsset).toBe(CoverAsset.ETH);
-    expect(result?.buyCoverInput.buyCoverParams.commissionRatio).toBe(DEFAULT_COMMISSION_RATIO);
+    expect(result?.buyCoverInput.buyCoverParams.commissionRatio).toBe(NEXUS_MUTUAL_COVER_COMMISSION_RATIO);
     expect(result?.buyCoverInput.buyCoverParams.commissionDestination).toBe(NEXUS_MUTUAL_DAO_TREASURY_ADDRESS);
     expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe('QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY');
     expect(mockAxios.get).toHaveBeenCalledTimes(2);

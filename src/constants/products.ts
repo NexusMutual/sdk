@@ -8,6 +8,7 @@ export enum ProductCategoryEnum {
   ETHStaking = 'eth-staking',
   Depeg = 'depeg',
   Custody = 'custody',
+  Slashing = 'slashing',
   Uncategorized = 'uncategorized',
 }
 
@@ -21,6 +22,7 @@ export const categoryLabelByEnum: Record<ProductCategoryEnum, string> = {
   [ProductCategoryEnum.ETHStaking]: 'ETH Staking',
   [ProductCategoryEnum.Depeg]: 'Depeg',
   [ProductCategoryEnum.Custody]: 'Custody',
+  [ProductCategoryEnum.Slashing]: 'Slashing',
   [ProductCategoryEnum.Uncategorized]: 'Uncategorized',
 };
 
@@ -329,4 +331,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   306: ProductCategoryEnum.Lending, // cbBTC / USDC Morpho Market
   307: ProductCategoryEnum.YieldOptimizer, // Harvest Finance
   308: ProductCategoryEnum.Lending, // InfiniFi
+  309: ProductCategoryEnum.Slashing, // Aave Umbrella Slashing
+  310: ProductCategoryEnum.Depeg, // Savings GHO (sGHO) Depeg
+  311: ProductCategoryEnum.Depeg, // fx Protocol fxUSD Depeg
 };

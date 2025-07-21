@@ -334,4 +334,8 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   309: ProductCategoryEnum.Slashing, // Aave Umbrella Slashing
   310: ProductCategoryEnum.Depeg, // Savings GHO (sGHO) Depeg
   311: ProductCategoryEnum.Depeg, // fx Protocol fxUSD Depeg
+  312: ProductCategoryEnum.Depeg, // Curve crvUSD Depeg
+  313: ProductCategoryEnum.Depeg, // Falcon USDf Depeg
+  314: ProductCategoryEnum.YieldOptimizer, // YieldFi
+  315: ProductCategoryEnum.YieldOptimizer, // Tokemak
 };

@@ -336,6 +336,6 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   311: ProductCategoryEnum.Depeg, // fx Protocol fxUSD Depeg
   312: ProductCategoryEnum.Depeg, // Curve crvUSD Depeg
   313: ProductCategoryEnum.Depeg, // Falcon USDf Depeg
-  314: ProductCategoryEnum.YieldOptimizer, // Tokemak
-  315: ProductCategoryEnum.YieldOptimizer, // YieldFi
+  314: ProductCategoryEnum.YieldOptimizer, // YieldFi
+  315: ProductCategoryEnum.YieldOptimizer, // Tokemak
 };

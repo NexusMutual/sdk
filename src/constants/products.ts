@@ -338,4 +338,5 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   313: ProductCategoryEnum.Depeg, // Falcon USDf Depeg
   314: ProductCategoryEnum.YieldOptimizer, // YieldFi
   315: ProductCategoryEnum.YieldOptimizer, // Tokemak
+  316: ProductCategoryEnum.YieldOptimizer, // Velvet Capital
 };

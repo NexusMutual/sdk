@@ -339,4 +339,10 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   314: ProductCategoryEnum.YieldOptimizer, // YieldFi
   315: ProductCategoryEnum.YieldOptimizer, // Tokemak
   316: ProductCategoryEnum.YieldOptimizer, // Velvet Capital
+  317: ProductCategoryEnum.Depeg, // Tether USDT Depeg
+  318: ProductCategoryEnum.Depeg, // Frax frxUSD Depeg
+  319: ProductCategoryEnum.YieldOptimizer, // Yo ETH Vault
+  320: ProductCategoryEnum.YieldOptimizer, // Yo USD Vault
+  321: ProductCategoryEnum.YieldOptimizer, // Tokemak autoUSD Vault
+  322: ProductCategoryEnum.YieldOptimizer, // Katana Vault Bridge
 };

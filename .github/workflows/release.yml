@@ -109,7 +109,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
+          cache: 'npm'
           cache-dependency-path: package-lock.json
 
       - name: Install dependencies
@@ -211,6 +211,9 @@ jobs:
             base-branch: dev
             change-type: build
           - repo: order-book
+            base-branch: dev
+            change-type: build
+          - repo: workers
             base-branch: dev
             change-type: build
       fail-fast: false # Allow other matrix jobs to continue even if one fails

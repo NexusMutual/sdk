@@ -1,19 +1,19 @@
 ---
 name: Product Listing Request
 about: Request a new product listing or edits to an existing product.
-title: "[listing] Product Listing Request"
+title: '[listing] Product Listing Request'
 labels: listing
-projects: ["NexusMutual/8"]
+projects: ['NexusMutual/8']
 assignees: ''
-
 ---
 
 ## Instructions:
+
 1. Make a copy of the [New Product Listing Spreadsheet](https://docs.google.com/spreadsheets/d/1KugFl4qv9plCtFXfRgd5Ip0bXpAiZo6Yqm8CnWEBOUg/edit#gid=1512129648) and give the engineering team edit permissions
 2. Fill the copy New Product Listing Spreadsheet accordingly and link it to the **New Product Listing Spreadsheet** section below
 3. Replace <PRODUCT_NAME> and fill the fields
 4. Copy the <PRODUCT_NAME> section and repeat step 3 for each new product
-4. Delete this **Instructions** section before submitting the Product Listing Request issue
+5. Delete this **Instructions** section before submitting the Product Listing Request issue
 
 # Product Listing Request
 
@@ -27,9 +27,9 @@ assignees: ''
 
 **Schedule link (optional)**:
 
-**Category** (i.e. Yield Optimizer. only for public products): N/A 
+**Category** (i.e. Yield Optimizer. only for public products): N/A
 
-**Private or Public?**: 
+**Private or Public?**:
 
 **Logo** (attach link to Google Drive SVG file):
 
@@ -41,5 +41,6 @@ assignees: ''
 - [ ] Update [frontend-next](https://github.com/NexusMutual/frontend-next)
 - [ ] Update [frontend-react](https://github.com/NexusMutual/frontend-react)
 - [ ] Update [notification-processor](https://github.com/NexusMutual/notification-processor)
+- [ ] Update [workers](https://github.com/NexusMutual/workers)
 - [ ] Update [event-scanner](https://github.com/NexusMutual/event-scanner) (if there are new private products)
 - [ ] Update [cover-router](https://github.com/NexusMutual/cover-router) .env (if there are allowed pools priority ordering)

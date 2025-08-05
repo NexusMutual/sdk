@@ -48,9 +48,9 @@ Copy the `.env.example` file into `.env` and populate with the required values.
 npm build
 ```
 
-## IPFS Upload Utils
+## IPFS Upload
 
-Use the `uploadIPFSContent` function from `src/ipfs/uploadIPFSContent.ts` to upload the content to IPFS. The function takes the following parameters:
+Use the `uploadIPFSContent` method in `Ipfs` class to upload the content to IPFS. The function takes the following parameters:
 
 - `type`: The type of the content. Based on ContentType enum.
 - `content`: The content to be uploaded to IPFS as IPFSContentTypes.
@@ -60,81 +60,159 @@ The function returns the IPFS hash of the uploaded content.
 ### Example
 
 ```typescript
-import { uploadIPFSContent, ContentType, IPFSContentTypes } from '@nexusmutual/sdk';
+import { Ipfs } from '@nexusmutual/sdk';
 
 const content: IPFSContentTypes = {
   version: '2.0',
   walletAddresses: ['0x1234567890'],
 };
 
-const ipfsHash = await uploadIPFSContent([ContentType.coverWalletAddresses, content]);
+const ipfs = new Ipfs(config: NexusSDKConfig = {});
+const ipfsHash = await ipfs.uploadIPFSContent([ContentType.coverWalletAddresses, content]);
 
 console.log(ipfsHash);
 ```
 
-## getQuoteAndBuyCoverInputs
+## Quote
 
-Use the `getQuoteAndBuyCoverInputs` function from `src/cover/getQuoteAndBuyCoverInputs.ts` to get the inputs required to get a quote and buy cover. The function has 2 overloads. One allows you to pass an IPFS Cid for the cover metadata, and the other allows you to pass the cover metadata directly. The function returns the inputs required to get a quote and buy cover.
-
-### Example
-
-1st overload:
+Use the `NexusSDK` or `Quote` class directly to get the inputs required to get a quote and buy cover.
 
 ```typescript
-import { CoverAsset, getQuoteAndBuyCoverInputs } from '@nexusmutual/sdk';
-
-const productId = 247; // Elite Cover Product - Nexus Mutual Cover Product Type
-const coverAmount = '100';
-const coverPeriod = 30;
-const coverAsset = CoverAsset.ETH;
-const buyerAddress = '0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5';
-const ipfsCid = 'QmXUzXDMbeKSCewUie34vPD7mCAGnshi4ULRy4h7DLmoRS';
-
-const quoteAndBuyCoverInputs = await getQuoteAndBuyCoverInputs(
-  productId,
-  coverAmount,
-  coverPeriod,
-  coverAsset,
-  buyerAddress,
-  undefined,
-  ipfsCid,
-);
-
-console.log(quoteAndBuyCoverInputs);
+interface NexusSDKConfig {
+  apiUrl?: string;
+}
 ```
-
-2nd overload:
+```typescript
+const nexusSDK = new NexusSDK(config: NexusSDKConfig = {}, ipfs?: Ipfs)
+````
 
 ```typescript
-import { CoverAsset, getQuoteAndBuyCoverInputs, IPFSContentTypes } from '@nexusmutual/sdk';
+const quote = new Quote(config: NexusSDKConfig = {}, ipfs?: Ipfs)
+````
 
-const productId = 247; // Elite Cover Product - Nexus Mutual Cover Product Type
-const coverAmount = '100';
-const coverPeriod = 30;
-const coverAsset = CoverAsset.ETH;
-const buyerAddress = '0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5';
-const ipfsContent: IPFSContentTypes = {
-  version: '2.0',
-  walletAddresses: ['0x1234567890123456789012345678901234567890'],
-};
+### Params
+```typescript
+export interface GetQuoteAndBuyCoverInputsParams {
+  /**
+   * ID of the product to buy cover for
+   */
+  productId: number;
 
-const quoteAndBuyCoverInputs = await getQuoteAndBuyCoverInputs(
-  productId,
-  coverAmount,
-  coverPeriod,
-  coverAsset,
-  buyerAddress,
-  undefined,
-  ipfsContent,
-);
+  /**
+   * Amount of cover to buy, as a string
+   */
+  amount: string;
 
-console.log(quoteAndBuyCoverInputs);
+  /**
+   * Cover period in days
+   */
+  period: number;
+
+  /**
+   * Asset to use for cover
+   * Must be a valid CoverAsset enum value
+   */
+  coverAsset: number;
+
+  /**
+   * Address of the cover buyer
+   * Must be a valid Ethereum address
+   */
+  buyerAddress: string;
+
+  /**
+   * ID of the cover to edit
+   */
+  coverId?: number;
+
+  /**
+   * Optional slippage tolerance percentage
+   * Value between 0-1 (defaults to 0.001 ~ 0.1%)
+   */
+  slippage?: number;
+
+  /**
+   * Optional IPFS CID string or content object to upload
+   */
+  ipfsCidOrContent?: string | Record<string, unknown>;
+
+  /**
+   * Optional commission ratio
+   */
+  commissionRatio?: number;
+
+  /**
+   * Optional address of the commission receiver
+   */
+  commissionDestination?: string;
+
+  /**
+   * Asset to use for cover payment
+   * Must be a valid PaymentAsset enum value
+   */
+  paymentAsset?: number;
+}
 ```
 
-If the productId's type needs an IPFS upload, you can pass the `ipfsContent` param and the function will upload the content to IPFS and use the IPFS hash returned for the buy cover inputs `ipfsData` param. If you pass the `ipfsCid` param, the function will use the IPFS hash directly.
+### Example 1
 
-The `ipfsCid` param must be a valid IPFS Cid.
-The `ipfsContent` param must be a valid `IPFSContentTypes` - the allowed types can be found in `src/types/ipfs.ts`.
+```typescript
+import { NexusSDK } from '@nexusmutual/sdk';
+
+const productId = 247; // Elite Cover Product - Nexus Mutual Cover Product Type
+const amount = '100';
+const period = 30;
+const coverAsset = CoverAsset.ETH;
+const paymentAsset = CoverAsset.ETH;
+const buyerAddress = '0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5';
+const ipfsCidOrContent = 'QmXUzXDMbeKSCewUie34vPD7mCAGnshi4ULRy4h7DLmoRS';
+
+const nexusSDK = new NexusSDK();
+
+const { result, error } = await nexusSDK.quote.getQuoteAndBuyCoverInputs({
+  productId,
+  amount,
+  period,
+  coverAsset,
+  paymentAsset,
+  buyerAddress,
+  ipfsCidOrContent,
+});
+
+console.log(result);
+```
+
+### Example 2
+
+```typescript
+import { Quote } from '@nexusmutual/sdk';
+
+const productId = 247; // Elite Cover Product - Nexus Mutual Cover Product Type
+const amount = '100';
+const period = 30;
+const coverAsset = CoverAsset.ETH;
+const paymentAsset = CoverAsset.ETH;
+const buyerAddress = '0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5';
+const ipfsCidOrContent = 'QmXUzXDMbeKSCewUie34vPD7mCAGnshi4ULRy4h7DLmoRS';
+
+const quote = new Quote();
+
+const { result, error } = await quote.getQuoteAndBuyCoverInputs({
+  productId,
+  amount,
+  period,
+  coverAsset,
+  paymentAsset,
+  buyerAddress,
+  ipfsCidOrContent,
+});
+
+console.log(result);
+```
+
+If the productId's type needs an IPFS upload, you can pass the `ipfsCidOrContent` param and the function will upload the content to IPFS and use the IPFS hash returned or you can pass the hash if you manually uploaded.
+
+The `ipfsCidOrContent` param must be a valid IPFS Cid or a valid `IPFSContentTypes` - the allowed types can be found in `src/types/ipfs.ts`.
 
 ### Product Types and IPFS Content Mapping
 

@@ -52,6 +52,7 @@ const allPrivateProductsIds = [
   274, // Figment ETH Slashing
   291, // OC Cover
   292, // Usual Bug Bounty
+  323, // Colend Single Protocol Cover
 ];
 
 module.exports = {

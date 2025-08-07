@@ -346,5 +346,5 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   321: ProductCategoryEnum.YieldOptimizer, // Tokemak autoUSD Vault
   322: ProductCategoryEnum.YieldOptimizer, // Katana Vault Bridge
   323: ProductCategoryEnum.Uncategorized, // Colend Single Protocol Cover
-  324: ProductCategoryEnum.Depeg, // Nest Credit Vaults Protocol Cover
+  324: ProductCategoryEnum.Uncategorized, // Nest Credit Vaults Protocol Cover
 };

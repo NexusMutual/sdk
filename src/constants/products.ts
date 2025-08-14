@@ -347,4 +347,5 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   322: ProductCategoryEnum.YieldOptimizer, // Katana Vault Bridge
   323: ProductCategoryEnum.Uncategorized, // Colend Single Protocol Cover
   324: ProductCategoryEnum.Uncategorized, // Nest Credit Vaults Protocol Cover
+  325: ProductCategoryEnum.Uncategorized, // Etherex Single Protocol Cover
 };

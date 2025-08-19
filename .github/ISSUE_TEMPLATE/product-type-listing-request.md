@@ -2,8 +2,7 @@
 name: Product Type Listing Request
 about: Request a new product type listing or updates to an existing product type.
 title: "[listing] Product Type Listing Request"
-labels: listing
-projects: ["NexusMutual/8"]
+labels: ''
 assignees: ''
 
 ---

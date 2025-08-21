@@ -348,4 +348,8 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   323: ProductCategoryEnum.Uncategorized, // Colend Single Protocol Cover
   324: ProductCategoryEnum.Uncategorized, // Nest Credit Vaults Protocol Cover
   325: ProductCategoryEnum.Uncategorized, // Etherex Single Protocol Cover
+  326: ProductCategoryEnum.Depeg, // Avant avUSDx Depeg
+  327: ProductCategoryEnum.Lending, // HyperLend
+  328: ProductCategoryEnum.Lending, // HypurrFi
+  329: ProductCategoryEnum.Lending, // 40 Acres
 };

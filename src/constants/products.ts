@@ -352,4 +352,6 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   327: ProductCategoryEnum.Lending, // HyperLend
   328: ProductCategoryEnum.Lending, // HypurrFi
   329: ProductCategoryEnum.Lending, // 40 Acres
+  330: ProductCategoryEnum.Dex, // SushiSwap
+  331: ProductCategoryEnum.YieldOptimizer, // Superform
 };

@@ -53,6 +53,7 @@ const allPrivateProductsIds = [
   291, // OC Cover
   292, // Usual Bug Bounty
   323, // Colend Single Protocol Cover
+  334, // Noon DeFi Deployment
 ];
 
 module.exports = {

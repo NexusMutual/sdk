@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
+import { ethers } from 'ethers';
 import isIPFS from 'is-ipfs';
 
 import {
@@ -57,7 +58,12 @@ export class Ipfs extends NexusSDKBase {
 
     try {
       const response = await this.sendRequest<IPFSUploadServiceResponse>(ipfsUploadUrl, options);
-      return response.ipfsHash;
+
+      const ipfs32Bytes = ethers.utils.hexlify(ethers.utils.base58.decode(response.ipfsHash).slice(2));
+
+      const ipfsHash = type === ContentType.claimProof ? ipfs32Bytes : response.ipfsHash; // Use 32bytes for claimProof
+
+      return ipfsHash;
     } catch (error) {
       console.error('Error:', error);
       throw new Error('Failed to upload data to IPFS', { cause: error });

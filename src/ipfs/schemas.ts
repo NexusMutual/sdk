@@ -70,29 +70,50 @@ export const stakingPoolDetailsSchema = z.object({
   poolDescription: z.string().min(1, 'Pool description cannot be empty'),
 });
 
-export const claimProofSchema = z.object({
-  // mandatory fields
-  version: z.literal(VERSION_1_0),
-  coverId: z.number().int().positive(),
-  affectedChain: z.string().min(1, 'Affected chain cannot be empty'),
-  affectedAddresses: z
-    .array(z.string().regex(ethereumAddressRegex, 'Invalid Ethereum address'))
-    .min(1, 'At least one affected address is required'),
-  incidentDescription: z.string().min(1, 'Incident description cannot be empty'),
-  // optional fields
-  incidentTransactionHashes: z
-    .array(z.string().min(1, 'Transaction hash cannot be an empty string'))
-    .min(1, 'At least one transaction hash is required')
-    .optional(),
-  incidentEvidenceLinks: z
-    .array(z.string().url().min(1, 'Evidence link cannot be an empty string'))
-    .min(1, 'At least one evidence link is required')
-    .optional(),
-  attachedFilesHashes: z
-    .array(z.string().min(1, 'Attached file hash cannot be an empty string'))
-    .min(1, 'At least one attached file hash is required')
-    .optional(),
-});
+export const claimProofSchema = z.discriminatedUnion('version', [
+  z.object({
+    // mandatory fields
+    version: z.literal(VERSION_1_0),
+    coverId: z.number().int().positive(),
+    affectedChain: z.string().min(1, 'Affected chain cannot be empty'),
+    affectedAddresses: z
+      .array(z.string().regex(ethereumAddressRegex, 'Invalid Ethereum address'))
+      .min(1, 'At least one affected address is required'),
+    incidentDescription: z.string().min(1, 'Incident description cannot be empty'),
+    // optional fields
+    incidentTransactionHashes: z
+      .array(z.string().min(1, 'Transaction hash cannot be an empty string'))
+      .min(1, 'At least one transaction hash is required')
+      .optional(),
+    incidentEvidenceLinks: z
+      .array(z.string().url().min(1, 'Evidence link cannot be an empty string'))
+      .min(1, 'At least one evidence link is required')
+      .optional(),
+    attachedFilesHashes: z
+      .array(z.string().min(1, 'Attached file hash cannot be an empty string'))
+      .min(1, 'At least one attached file hash is required')
+      .optional(),
+  }),
+  z.object({
+    // mandatory fields
+    version: z.literal(VERSION_2_0),
+    coverId: z.number().int().positive(),
+    affectedChain: z.string().min(1, 'Affected chain cannot be empty'),
+    affectedAddresses: z.array(
+      z.object({
+        address: z.string().regex(ethereumAddressRegex, 'Invalid Ethereum address'),
+        proof: z.string(),
+        isVerified: z.boolean(),
+      }),
+    ),
+    incidentDescription: z.string().min(1, 'Incident description cannot be empty'),
+    // optional fields
+    attachedFilesHashes: z
+      .array(z.string().min(1, 'Attached file hash cannot be an empty string'))
+      .min(1, 'At least one attached file hash is required')
+      .optional(),
+  }),
+]);
 
 export const assessmentCriteriaAnswersSchema = z.object({
   version: z.literal(VERSION_1_0),

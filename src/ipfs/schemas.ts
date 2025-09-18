@@ -129,3 +129,7 @@ export const governanceCategorySchema = z.object({
   version: z.literal(VERSION_1_0),
   category: z.string().min(1, 'Category cannot be empty'),
 });
+
+export const fileSchema = z.unknown().refine(val => val !== undefined, {
+  message: 'File must be defined',
+});

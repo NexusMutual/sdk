@@ -57,6 +57,10 @@ Use the `uploadIPFSContent` method in `Ipfs` class to upload the content to IPFS
 
 The function returns the IPFS hash of the uploaded content.
 
+For claims submission and assessment IPFS data, use the `get32BytesIPFSHash` method in `Ipfs` class to convert the IPFS hash you get from `uploadIPFSContent` to 32 bytes format. Use the `getIPFSHashFromBytes32` method to convert back to standard IPFS hash.
+
+````typescript
+
 ### Example
 
 ```typescript
@@ -71,7 +75,7 @@ const ipfs = new Ipfs(config: NexusSDKConfig = {});
 const ipfsHash = await ipfs.uploadIPFSContent([ContentType.coverWalletAddresses, content]);
 
 console.log(ipfsHash);
-```
+````
 
 ## Quote
 
@@ -82,15 +86,17 @@ interface NexusSDKConfig {
   apiUrl?: string;
 }
 ```
+
 ```typescript
 const nexusSDK = new NexusSDK(config: NexusSDKConfig = {}, ipfs?: Ipfs)
-````
+```
 
 ```typescript
 const quote = new Quote(config: NexusSDKConfig = {}, ipfs?: Ipfs)
-````
+```
 
 ### Params
+
 ```typescript
 export interface GetQuoteAndBuyCoverInputsParams {
   /**
@@ -218,21 +224,22 @@ The `ipfsCidOrContent` param must be a valid IPFS Cid or a valid `IPFSContentTyp
 
 The following table shows the mapping between product types and their required IPFS content types:
 
-| Product Type | Content Type | Content Structure | Description |
-|-------------|--------------|-------------------|-------------|
-| ethSlashing | coverValidators | <pre>{ version: '1.0', validators: string[] }</pre> | Array of validator addresses |
-| liquidCollectiveEthStaking | coverValidators | <pre>{ version: '1.0', validators: string[] }</pre> | Array of validator addresses |
-| stakewiseEthStaking | coverValidators | <pre>{ version: '1.0', validators: string[] }</pre> | Array of validator addresses |
-| sherlockQuotaShare | coverQuotaShare | <pre>{ version: '1.0', quotaShare: number }</pre> | Percentage value, 0 to 100 |
-| unoReQuotaShare | coverQuotaShare | <pre>{ version: '1.0', quotaShare: number }</pre> | Percentage value, 0 to 100 |
-| deFiPass | coverWalletAddress | <pre>{ version: '1.0', walletAddress: string }</pre> | Single wallet address |
-| nexusMutual | coverWalletAddresses | <pre>{ version: '1.0', walletAddresses: string }</pre> | Single wallet address |
-| nexusMutual | coverWalletAddresses | <pre>{ version: '2.0', walletAddresses: string[] }</pre> | Array of wallet addresses |
-| followOn | coverFreeText | <pre>{ version: '1.0', freeText: string }</pre> | Free text description |
-| fundPortfolio | coverAumCoverAmountPercentage | <pre>{ version: '1.0', aumCoverAmountPercentage: number }</pre> | Percentage value, 0 to 100 |
-| generalisedFundPortfolio | coverAumCoverAmountPercentage | <pre>{ version: '1.0', aumCoverAmountPercentage: number }</pre> | Percentage value, 0 to 100 |
+| Product Type               | Content Type                  | Content Structure                                               | Description                  |
+| -------------------------- | ----------------------------- | --------------------------------------------------------------- | ---------------------------- |
+| ethSlashing                | coverValidators               | <pre>{ version: '1.0', validators: string[] }</pre>             | Array of validator addresses |
+| liquidCollectiveEthStaking | coverValidators               | <pre>{ version: '1.0', validators: string[] }</pre>             | Array of validator addresses |
+| stakewiseEthStaking        | coverValidators               | <pre>{ version: '1.0', validators: string[] }</pre>             | Array of validator addresses |
+| sherlockQuotaShare         | coverQuotaShare               | <pre>{ version: '1.0', quotaShare: number }</pre>               | Percentage value, 0 to 100   |
+| unoReQuotaShare            | coverQuotaShare               | <pre>{ version: '1.0', quotaShare: number }</pre>               | Percentage value, 0 to 100   |
+| deFiPass                   | coverWalletAddress            | <pre>{ version: '1.0', walletAddress: string }</pre>            | Single wallet address        |
+| nexusMutual                | coverWalletAddresses          | <pre>{ version: '1.0', walletAddresses: string }</pre>          | Single wallet address        |
+| nexusMutual                | coverWalletAddresses          | <pre>{ version: '2.0', walletAddresses: string[] }</pre>        | Array of wallet addresses    |
+| followOn                   | coverFreeText                 | <pre>{ version: '1.0', freeText: string }</pre>                 | Free text description        |
+| fundPortfolio              | coverAumCoverAmountPercentage | <pre>{ version: '1.0', aumCoverAmountPercentage: number }</pre> | Percentage value, 0 to 100   |
+| generalisedFundPortfolio   | coverAumCoverAmountPercentage | <pre>{ version: '1.0', aumCoverAmountPercentage: number }</pre> | Percentage value, 0 to 100   |
 
 Note: The following product types do not require IPFS content:
+
 - singleProtocol
 - custody
 - yieldToken
@@ -252,6 +259,7 @@ For a complete list of products and product types, see [products.json](https://s
 IPFS content is validated using [Zod schemas](https://www.npmjs.com/package/zod), if validation fails, the error response will contain a stringified array of Zod validation errors in the `error.message` field. These errors provide detailed information about what went wrong during validation.
 
 Example error response:
+
 ```json
 {
   "result": undefined,
@@ -261,8 +269,8 @@ Example error response:
 }
 ```
 
-
 Each Zod error object in the array includes:
+
 - `code`: The type of validation error
 - `message`: A human-readable error message
 - `path`: The path to the invalid field

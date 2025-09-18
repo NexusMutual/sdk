@@ -58,12 +58,7 @@ export class Ipfs extends NexusSDKBase {
 
     try {
       const response = await this.sendRequest<IPFSUploadServiceResponse>(ipfsUploadUrl, options);
-
-      const ipfs32Bytes = ethers.utils.hexlify(ethers.utils.base58.decode(response.ipfsHash).slice(2));
-
-      const ipfsHash = type === ContentType.claimProof ? ipfs32Bytes : response.ipfsHash; // Use 32bytes for claimProof
-
-      return ipfsHash;
+      return response.ipfsHash;
     } catch (error) {
       console.error('Error:', error);
       throw new Error('Failed to upload data to IPFS', { cause: error });
@@ -133,5 +128,38 @@ export class Ipfs extends NexusSDKBase {
       default:
         throw new Error(`Invalid content type: ${type}`);
     }
+  }
+
+  /**
+   * Convert IPFS CID to 32-byte hex string
+   * @param ipfsCid IPFS CID to convert
+   * @returns 32-byte hex string
+   */
+  public get32BytesIPFSHash(ipfsCid: string): string {
+    if (!this.validateIPFSCid(ipfsCid)) {
+      throw new Error('Invalid IPFS hash');
+    }
+
+    const bytes = ethers.utils.hexlify(ethers.utils.base58.decode(ipfsCid).slice(2));
+    return bytes;
+  }
+
+  /**
+   * Convert 32-byte hex string back to IPFS hash
+   * @param bytes 32-byte hex string
+   * @returns IPFS CID
+   */
+  public getIPFSCidFromHexBytes(bytes: string): string {
+    if (!ethers.utils.isHexString(bytes) || ethers.utils.hexDataLength(bytes) !== 32) {
+      throw new Error('Input must be a 32-byte hex string');
+    }
+
+    const ipfsCid = ethers.utils.base58.encode(ethers.utils.arrayify('0x1220' + bytes.slice(2)));
+
+    if (!this.validateIPFSCid(ipfsCid)) {
+      throw new Error('Converted value is not a valid IPFS CID');
+    }
+
+    return ipfsCid;
   }
 }

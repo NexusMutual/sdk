@@ -357,4 +357,6 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   332: ProductCategoryEnum.Lending, // Felix
   333: ProductCategoryEnum.Uncategorized, // OpenCover Aave v3 + Blue Chip Morpho Vaults
   334: ProductCategoryEnum.Uncategorized, // Noon DeFi Deployment
+  335: ProductCategoryEnum.Depeg, // Almanak Autonomous Liquidity USD Depeg
+  336: ProductCategoryEnum.YieldOptimizer, // IPOR
 };

@@ -59,8 +59,6 @@ The function returns the IPFS hash of the uploaded content.
 
 For claims submission and assessment IPFS data, use the `get32BytesIPFSHash` method in `Ipfs` class to convert the IPFS hash you get from `uploadIPFSContent` to 32 bytes format. Use the `getIPFSHashFromBytes32` method to convert back to standard IPFS hash.
 
-````typescript
-
 ### Example
 
 ```typescript
@@ -75,7 +73,7 @@ const ipfs = new Ipfs(config: NexusSDKConfig = {});
 const ipfsHash = await ipfs.uploadIPFSContent([ContentType.coverWalletAddresses, content]);
 
 console.log(ipfsHash);
-````
+```
 
 ## Quote
 

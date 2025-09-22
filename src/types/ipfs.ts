@@ -90,7 +90,7 @@ export const IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE: Record<ProductTypes, ContentType
   [ProductTypes.nexusMutual]: ContentType.coverWalletAddresses,
   [ProductTypes.followOn]: ContentType.coverFreeText,
   [ProductTypes.fundPortfolio]: ContentType.coverAumCoverAmountPercentage,
-  [ProductTypes.generalisedFundPortfolio]: ContentType.coverAumCoverAmountPercentage,
+  [ProductTypes.generalizedFundPortfolio]: ContentType.coverAumCoverAmountPercentage,
   // ---------------------------------------------------------
   [ProductTypes.singleProtocol]: undefined,
   [ProductTypes.custody]: undefined,
@@ -118,7 +118,7 @@ export interface IPFSContentForProductType {
   [ProductTypes.nexusMutual]: CoverWalletAddresses;
   [ProductTypes.followOn]: CoverFreeText;
   [ProductTypes.fundPortfolio]: CoverAumCoverAmountPercentage;
-  [ProductTypes.generalisedFundPortfolio]: CoverAumCoverAmountPercentage;
+  [ProductTypes.generalizedFundPortfolio]: CoverAumCoverAmountPercentage;
   // ---------------------------------------------------------
   [ProductTypes.singleProtocol]: undefined;
   [ProductTypes.custody]: undefined;

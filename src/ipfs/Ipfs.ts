@@ -13,6 +13,7 @@ import {
   coverWalletAddressSchema,
   coverWalletAddressesSchema,
   defiPassContentSchema,
+  fileSchema,
   governanceCategorySchema,
   governanceProposalSchema,
   stakingPoolDetailsSchema,
@@ -124,6 +125,9 @@ export class Ipfs extends NexusSDKBase {
 
       case ContentType.governanceCategory:
         return governanceCategorySchema.parse(content);
+
+      case ContentType.file:
+        return fileSchema.parse(content);
 
       default:
         throw new Error(`Invalid content type: ${type}`);

@@ -132,5 +132,6 @@ export const governanceCategorySchema = z.object({
 
 export const fileSchema = z.object({
   version: z.literal(VERSION_1_0),
-  file: z.instanceof(Buffer, { message: 'Invalid file object' }),
+  // TODO figure out the right zod type for this
+  file: z.any(), // .instanceof(Buffer),
 });

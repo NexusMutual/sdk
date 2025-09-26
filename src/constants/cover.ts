@@ -26,7 +26,7 @@ export const DEFAULT_SLIPPAGE = 10; // 0.1%
 
 // Commission ratios
 export const DEFAULT_COMMISSION_RATIO = 15_00; // 15%
-export const SHERLOCK_BUG_BOUNTY_COMMISSION_RATIO = 5_00; // 5%
+export const SHERLOCK_BUG_BOUNTY_COMMISSION_RATIO = 10_00; // 10%
 export const TRM_COMMISSION_RATIO = 10_00; // 10%
 export const FUND_PORTFOLIO_COMMISSION_RATIO = 10_00; // 10%
 export const DEFI_PASS_COMMISSION_RATIO = 10_00; // 10%

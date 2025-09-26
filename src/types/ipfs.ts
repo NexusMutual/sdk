@@ -106,6 +106,7 @@ export const IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE: Record<ProductTypes, ContentType
   [ProductTypes.crypto]: undefined,
   [ProductTypes.nativeSyndicate]: undefined,
   [ProductTypes.spearbitCantina]: undefined,
+  [ProductTypes.leveragedLiquidation]: undefined,
 };
 
 export interface IPFSContentForProductType {

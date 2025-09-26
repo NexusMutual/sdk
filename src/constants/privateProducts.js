@@ -54,6 +54,7 @@ const allPrivateProductsIds = [
   292, // Usual Bug Bounty
   323, // Colend Single Protocol Cover
   334, // Noon DeFi Deployment
+  337, // Mellow Finance Bug Bounty Cover
 ];
 
 module.exports = {

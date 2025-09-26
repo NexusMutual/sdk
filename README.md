@@ -244,7 +244,7 @@ Note: The following product types do not require IPFS content:
 - openCoverTransaction
 - sherlockBugBounty
 - immunefiBugBounty
-
+ 
 For a complete list of products and product types, see [products.json](https://sdk.nexusmutual.io/data/products.json) and [product-types.json](https://sdk.nexusmutual.io/data/product-types.json).
 
 ### Validation Errors

@@ -34,6 +34,7 @@ export const GENERALISED_FUND_PORTFOLIO_COMMISSION_RATIO = 10_00; // 10%
 export const CRYPTO_COVER_COMMISSION_RATIO = 10_00; // 10%
 export const NEXUS_MUTUAL_COVER_COMMISSION_RATIO = 10_00; // 10%
 export const NO_COMMISSION = 0; // 0%
+export const LEVERAGED_LIQUIDATION_COMMISSION_RATIO = 10_00; // 10%
 
 // Commission destinations
 export const NO_COMMISSION_DESTINATION = zeroAddress as Address;
@@ -66,6 +67,7 @@ export const BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE: Record<ProductTypes, nu
   [ProductTypes.crypto]: CRYPTO_COVER_COMMISSION_RATIO,
   [ProductTypes.nativeSyndicate]: NO_COMMISSION,
   [ProductTypes.spearbitCantina]: DEFAULT_COMMISSION_RATIO,
+  [ProductTypes.leveragedLiquidation]: LEVERAGED_LIQUIDATION_COMMISSION_RATIO,
 };
 
 export const BUY_COVER_COMMISSION_DESTINATION_BY_PRODUCT_TYPE: Record<ProductTypes, Address> = {
@@ -93,4 +95,5 @@ export const BUY_COVER_COMMISSION_DESTINATION_BY_PRODUCT_TYPE: Record<ProductTyp
   [ProductTypes.crypto]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   [ProductTypes.nativeSyndicate]: NO_COMMISSION_DESTINATION,
   [ProductTypes.spearbitCantina]: SPEARBIT_CANTINA_ADDRESS,
+  [ProductTypes.leveragedLiquidation]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
 };

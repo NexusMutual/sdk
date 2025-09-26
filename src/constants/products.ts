@@ -359,4 +359,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   334: ProductCategoryEnum.Uncategorized, // Noon DeFi Deployment
   335: ProductCategoryEnum.Depeg, // Almanak Autonomous Liquidity USD Depeg
   336: ProductCategoryEnum.YieldOptimizer, // IPOR
+  337: ProductCategoryEnum.Uncategorized, // Mellow Finance Bug Bounty Cover
+  338: ProductCategoryEnum.Depeg, // USDai Depeg
+  339: ProductCategoryEnum.Perpetuals, // Avantis
 };

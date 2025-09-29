@@ -115,9 +115,17 @@ export const claimProofSchema = z.discriminatedUnion('version', [
   }),
 ]);
 
+/** @deprecated
+ * use assessmentReasonSchema instead
+ */
 export const assessmentCriteriaAnswersSchema = z.object({
   version: z.literal(VERSION_1_0),
   answers: z.record(z.string()).refine(obj => Object.keys(obj).length > 0, 'Answers object cannot be empty'),
+});
+
+export const assessmentReasonSchema = z.object({
+  version: z.literal(VERSION_1_0),
+  reason: z.string().min(1, 'Reason cannot be empty'),
 });
 
 export const governanceProposalSchema = z.object({

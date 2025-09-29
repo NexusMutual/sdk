@@ -4,6 +4,7 @@ import isIPFS from 'is-ipfs';
 
 import {
   assessmentCriteriaAnswersSchema,
+  assessmentReasonSchema,
   claimProofSchema,
   coverAumCoverAmountPercentageSchema,
   coverDesignatedWalletsSchema,
@@ -128,6 +129,9 @@ export class Ipfs extends NexusSDKBase {
 
       case ContentType.file:
         return fileSchema.parse(content);
+
+      case ContentType.assessmentReason:
+        return assessmentReasonSchema.parse(content);
 
       default:
         throw new Error(`Invalid content type: ${type}`);

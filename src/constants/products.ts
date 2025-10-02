@@ -362,4 +362,10 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   337: ProductCategoryEnum.Uncategorized, // Mellow Finance Bug Bounty Cover
   338: ProductCategoryEnum.Depeg, // USDai Depeg
   339: ProductCategoryEnum.Perpetuals, // Avantis
+  340: ProductCategoryEnum.Uncategorized, // wstETH (Aave)
+  341: ProductCategoryEnum.Uncategorized, // weETH (Aave)
+  342: ProductCategoryEnum.Uncategorized, // rsETH (Aave)
+  343: ProductCategoryEnum.YieldOptimizer, // StakeDAO
+  344: ProductCategoryEnum.YieldOptimizer, // Lagoon Flagship ETH Vault
+  345: ProductCategoryEnum.YieldOptimizer, // Lagoon Flagship USDC Vault
 };

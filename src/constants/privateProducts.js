@@ -55,6 +55,9 @@ const allPrivateProductsIds = [
   323, // Colend Single Protocol Cover
   334, // Noon DeFi Deployment
   337, // Mellow Finance Bug Bounty Cover
+  340, // wstETH (Aave)
+  341, // weETH (Aave)
+  342, // rsETH (Aave)
 ];
 
 module.exports = {

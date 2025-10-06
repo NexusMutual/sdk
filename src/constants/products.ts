@@ -369,4 +369,6 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   344: ProductCategoryEnum.YieldOptimizer, // Lagoon Flagship ETH Vault
   345: ProductCategoryEnum.YieldOptimizer, // Lagoon Flagship USDC Vault
   346: ProductCategoryEnum.YieldOptimizer, // Cap Pendle Market
+  347: ProductCategoryEnum.Dex, // Project X
+  348: ProductCategoryEnum.Lending, // Cap
 };

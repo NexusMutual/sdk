@@ -371,4 +371,9 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   346: ProductCategoryEnum.YieldOptimizer, // Cap Pendle Market
   347: ProductCategoryEnum.Dex, // Project X
   348: ProductCategoryEnum.Lending, // Cap
+  349: ProductCategoryEnum.Perpetuals, // Aster
+  350: ProductCategoryEnum.Perpetuals, // Lighter
+  351: ProductCategoryEnum.YieldOptimizer, // Makina
+  352: ProductCategoryEnum.Depeg, // Cap cUSD Depeg
+  353: ProductCategoryEnum.Uncategorized, // Dialectic Ellipse
 };

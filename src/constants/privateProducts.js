@@ -58,6 +58,7 @@ const allPrivateProductsIds = [
   340, // wstETH (Aave)
   341, // weETH (Aave)
   342, // rsETH (Aave)
+  353, // Dialectic Ellipse
 ];
 
 module.exports = {

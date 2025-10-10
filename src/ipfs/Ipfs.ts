@@ -60,7 +60,7 @@ export class Ipfs extends NexusSDKBase {
       return response.ipfsHash;
     } catch (error) {
       console.error('Error:', error);
-      throw new Error('Failed to upload data to IPFS');
+      throw new Error('Failed to upload data to IPFS', { cause: error });
     }
   }
 

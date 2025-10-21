@@ -234,7 +234,7 @@ The following table shows the mapping between product types and their required I
 | nexusMutual                | coverWalletAddresses          | <pre>{ version: '2.0', walletAddresses: string[] }</pre>        | Array of wallet addresses    |
 | followOn                   | coverFreeText                 | <pre>{ version: '1.0', freeText: string }</pre>                 | Free text description        |
 | fundPortfolio              | coverAumCoverAmountPercentage | <pre>{ version: '1.0', aumCoverAmountPercentage: number }</pre> | Percentage value, 0 to 100   |
-| generalisedFundPortfolio   | coverAumCoverAmountPercentage | <pre>{ version: '1.0', aumCoverAmountPercentage: number }</pre> | Percentage value, 0 to 100   |
+| generalizedFundPortfolio   | coverAumCoverAmountPercentage | <pre>{ version: '1.0', aumCoverAmountPercentage: number }</pre> | Percentage value, 0 to 100   |
 
 Note: The following product types do not require IPFS content:
 

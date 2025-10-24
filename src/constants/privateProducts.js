@@ -44,12 +44,13 @@ const allPrivateProductsIds = [
   227, // Base DeFi Pass
   233, // Relative Finance
   239, // Everstake
-  240, // Ensuro
+  240, // Ensuro (deprecated)
   250, // Fasanara
   259, // Bittensor
   260, // DeFi Covered
   273, // L1 Advisors Cover
   274, // Figment ETH Slashing
+  287, // Ensuro Yield (deprecated)
   291, // OC Cover
   292, // Usual Bug Bounty
   323, // Colend Single Protocol Cover
@@ -59,6 +60,8 @@ const allPrivateProductsIds = [
   341, // weETH (Aave)
   342, // rsETH (Aave)
   353, // Dialectic Ellipse
+  358, // DeFi Vault 1
+  359, // DeFi Vault 2
 ];
 
 module.exports = {

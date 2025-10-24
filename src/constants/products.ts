@@ -62,7 +62,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   33: ProductCategoryEnum.Uncategorized, // Euler (deprecated)
   34: ProductCategoryEnum.Perpetuals, // FODL v1
   35: ProductCategoryEnum.Uncategorized, // FTX (deprecated)
-  36: ProductCategoryEnum.Lending, // Gearbox v2
+  36: ProductCategoryEnum.Lending, // Gearbox v2 (deprecated)
   37: ProductCategoryEnum.Uncategorized, // Gemini (deprecated)
   38: ProductCategoryEnum.Perpetuals, // GMX v1
   39: ProductCategoryEnum.Lending, // Goldfinch v1
@@ -157,7 +157,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   132: ProductCategoryEnum.YieldOptimizer, // Equilibria
   133: ProductCategoryEnum.Dex, // Camelot
   134: ProductCategoryEnum.Lending, // NFTperp
-  135: ProductCategoryEnum.Lending, // Gearbox v3
+  135: ProductCategoryEnum.Lending, // Gearbox
   136: ProductCategoryEnum.ETHStaking, // pxETH
   137: ProductCategoryEnum.Lending, // fx Protocol
   138: ProductCategoryEnum.Lending, // Prisma
@@ -262,7 +262,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   237: ProductCategoryEnum.YieldOptimizer, // Ether.fi Liquid Elixir Stable Vault
   238: ProductCategoryEnum.YieldOptimizer, // Sky Savings Rate (sUSDS)
   239: ProductCategoryEnum.Uncategorized, // Everstake
-  240: ProductCategoryEnum.Uncategorized, // Ensuro
+  240: ProductCategoryEnum.Uncategorized, // Ensuro (deprecated)
   241: ProductCategoryEnum.YieldOptimizer, // Savings crvUSD (scrvUSD)
   242: ProductCategoryEnum.YieldOptimizer, // Lombard DeFi Vault
   243: ProductCategoryEnum.Lending, // Liquity v2
@@ -277,7 +277,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   252: ProductCategoryEnum.YieldOptimizer, // Sturdy Finance
   253: ProductCategoryEnum.Depeg, // Ethena USDe Depeg
   254: ProductCategoryEnum.Lending, // Maple
-  255: ProductCategoryEnum.Lending, // Syrup
+  255: ProductCategoryEnum.Lending, // Syrup (deprecated)
   256: ProductCategoryEnum.Dex, // Uniswap v4
   257: ProductCategoryEnum.Dex, // Balancer v3
   258: ProductCategoryEnum.Perpetuals, // RFX
@@ -309,7 +309,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   284: ProductCategoryEnum.Uncategorized, // Cork
   285: ProductCategoryEnum.YieldOptimizer, // Rings
   286: ProductCategoryEnum.Depeg, // Inverse DOLA Depeg
-  287: ProductCategoryEnum.Uncategorized, // Ensuro Yield
+  287: ProductCategoryEnum.Uncategorized, // Ensuro Yield (deprecated)
   288: ProductCategoryEnum.Lending, // Coinshift USDL Morpho Vault
   289: ProductCategoryEnum.Lending, // B-Tier Morpho Vaults
   290: ProductCategoryEnum.Lending, // B-Tier Euler v2 Markets
@@ -376,4 +376,10 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   351: ProductCategoryEnum.YieldOptimizer, // Makina
   352: ProductCategoryEnum.Depeg, // Cap cUSD Depeg
   353: ProductCategoryEnum.Uncategorized, // Dialectic Ellipse
+  354: ProductCategoryEnum.YieldOptimizer, // Asymmetry Finance
+  355: ProductCategoryEnum.YieldOptimizer, // Yield Basis
+  356: ProductCategoryEnum.Uncategorized, // Midas
+  357: ProductCategoryEnum.YieldOptimizer, // Aegis
+  358: ProductCategoryEnum.Uncategorized, // DeFi Vault 1
+  359: ProductCategoryEnum.Uncategorized, // DeFi Vault 2
 };

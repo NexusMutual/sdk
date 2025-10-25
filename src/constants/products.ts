@@ -157,7 +157,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   132: ProductCategoryEnum.YieldOptimizer, // Equilibria
   133: ProductCategoryEnum.Dex, // Camelot
   134: ProductCategoryEnum.Lending, // NFTperp
-  135: ProductCategoryEnum.Lending, // Gearbox
+  135: ProductCategoryEnum.YieldOptimizer, // Gearbox
   136: ProductCategoryEnum.ETHStaking, // pxETH
   137: ProductCategoryEnum.Lending, // fx Protocol
   138: ProductCategoryEnum.Lending, // Prisma

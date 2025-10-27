@@ -30,7 +30,7 @@ const fetchProductTypes = async coverProducts => {
         id,
         coverWordingURL,
         name: name.trim(),
-        gracePeriod: id === 2 ? 0 : productType.gracePeriod,
+        gracePeriod: productType.gracePeriod,
         claimMethod: productType.claimMethod,
         assessmentCooldownPeriod: productType.assessmentCooldownPeriod,
         payoutRedemptionPeriod: productType.payoutRedemptionPeriod,

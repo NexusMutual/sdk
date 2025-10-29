@@ -57,7 +57,7 @@ Use the `uploadIPFSContent` method in `Ipfs` class to upload the content to IPFS
 
 The function returns the IPFS hash of the uploaded content.
 
-For claims submission and assessment IPFS data, use the `get32BytesIPFSHash` method in `Ipfs` class to convert the IPFS hash you get from `uploadIPFSContent` to 32 bytes format. Use the `getIPFSHashFromBytes32` method to convert back to standard IPFS hash.
+For claims submission and assessment IPFS data, use the `get32BytesIPFSHash` method in `Ipfs` class to convert the IPFS hash you get from `uploadIPFSContent` to 32 bytes format. Use the `getIPFSCidFromHexBytes` method to convert back to standard IPFS hash.
 
 ### Example
 

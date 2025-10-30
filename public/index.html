@@ -42,18 +42,22 @@
     const table = document.getElementById('data');
     const addresses = await fetch('/data/addresses.json').then(r => r.json());
     const proxies = [
-      'Assessment',
+      'Assessments',
       'Cover',
       'CoverProducts',
+      'Claims',
       'Governance',
-      'IndividualClaims',
+      'Governor',
       'LimitOrders',
       'MemberRoles',
       'NXMaster',
+      'Pool',
       'ProposalCategory',
+      'Registry',
       'Ramm',
       'SafeTracker',
       'StakingProducts',
+      'SwapOperator',
       'TokenController',
       'YieldTokenIncidents',
     ];

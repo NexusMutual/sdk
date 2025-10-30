@@ -1,8 +1,10 @@
 import { AxiosRequestConfig } from 'axios';
+import { ethers } from 'ethers';
 import isIPFS from 'is-ipfs';
 
 import {
   assessmentCriteriaAnswersSchema,
+  assessmentReasonSchema,
   claimProofSchema,
   coverAumCoverAmountPercentageSchema,
   coverDesignatedWalletsSchema,
@@ -12,6 +14,7 @@ import {
   coverWalletAddressSchema,
   coverWalletAddressesSchema,
   defiPassContentSchema,
+  fileSchema,
   governanceCategorySchema,
   governanceProposalSchema,
   stakingPoolDetailsSchema,
@@ -124,8 +127,47 @@ export class Ipfs extends NexusSDKBase {
       case ContentType.governanceCategory:
         return governanceCategorySchema.parse(content);
 
+      case ContentType.file:
+        return fileSchema.parse(content);
+
+      case ContentType.assessmentReason:
+        return assessmentReasonSchema.parse(content);
+
       default:
         throw new Error(`Invalid content type: ${type}`);
     }
+  }
+
+  /**
+   * Convert IPFS CID to 32-byte hex string
+   * @param ipfsCid IPFS CID to convert
+   * @returns 32-byte hex string
+   */
+  public get32BytesIPFSHash(ipfsCid: string): string {
+    if (!this.validateIPFSCid(ipfsCid)) {
+      throw new Error('Invalid IPFS hash');
+    }
+
+    const bytes = ethers.utils.hexlify(ethers.utils.base58.decode(ipfsCid).slice(2));
+    return bytes;
+  }
+
+  /**
+   * Convert 32-byte hex string back to IPFS hash
+   * @param bytes 32-byte hex string
+   * @returns IPFS CID
+   */
+  public getIPFSCidFromHexBytes(bytes: string): string {
+    if (!ethers.utils.isHexString(bytes) || ethers.utils.hexDataLength(bytes) !== 32) {
+      throw new Error('Input must be a 32-byte hex string');
+    }
+
+    const ipfsCid = ethers.utils.base58.encode(ethers.utils.arrayify('0x1220' + bytes.slice(2)));
+
+    if (!this.validateIPFSCid(ipfsCid)) {
+      throw new Error('Converted value is not a valid IPFS CID');
+    }
+
+    return ipfsCid;
   }
 }

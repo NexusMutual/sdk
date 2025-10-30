@@ -15,6 +15,8 @@ import {
   assessmentCriteriaAnswersSchema,
   governanceProposalSchema,
   governanceCategorySchema,
+  fileSchema,
+  assessmentReasonSchema,
 } from '../ipfs/schemas';
 
 export enum ContentType {
@@ -30,8 +32,10 @@ export enum ContentType {
   stakingPoolDetails = 'stakingPoolDetails',
   claimProof = 'claimProof',
   assessmentCriteriaAnswers = 'assessmentCriteriaAnswers',
+  assessmentReason = 'assessmentReason',
   governanceProposal = 'governanceProposal',
   governanceCategory = 'governanceCategory',
+  file = 'file',
 }
 
 export type CoverValidators = z.infer<typeof coverValidatorsSchema>;
@@ -47,6 +51,8 @@ export type ClaimProof = z.infer<typeof claimProofSchema>;
 export type AssessmentCriteriaAnswers = z.infer<typeof assessmentCriteriaAnswersSchema>;
 export type GovernanceProposal = z.infer<typeof governanceProposalSchema>;
 export type GovernanceCategory = z.infer<typeof governanceCategorySchema>;
+export type File = z.infer<typeof fileSchema>;
+export type AssessmentReason = z.infer<typeof assessmentReasonSchema>;
 
 export type IPFSContentTypes =
   | CoverValidators
@@ -61,8 +67,10 @@ export type IPFSContentTypes =
   | StakingPoolDetails
   | ClaimProof
   | AssessmentCriteriaAnswers
+  | AssessmentReason
   | GovernanceProposal
-  | GovernanceCategory;
+  | GovernanceCategory
+  | File;
 
 export type IPFSTypeContentTuple =
   | [type: ContentType.coverValidators, content: CoverValidators]
@@ -77,8 +85,10 @@ export type IPFSTypeContentTuple =
   | [type: ContentType.stakingPoolDetails, content: StakingPoolDetails]
   | [type: ContentType.claimProof, content: ClaimProof]
   | [type: ContentType.assessmentCriteriaAnswers, content: AssessmentCriteriaAnswers]
+  | [type: ContentType.assessmentReason, content: AssessmentReason]
   | [type: ContentType.governanceProposal, content: GovernanceProposal]
-  | [type: ContentType.governanceCategory, content: GovernanceCategory];
+  | [type: ContentType.governanceCategory, content: GovernanceCategory]
+  | [type: ContentType.file, content: File];
 
 export const IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE: Record<ProductTypes, ContentType | undefined> = {
   [ProductTypes.ethSlashing]: ContentType.coverValidators,

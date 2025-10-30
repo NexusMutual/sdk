@@ -30,7 +30,7 @@ export const SHERLOCK_BUG_BOUNTY_COMMISSION_RATIO = 10_00; // 10%
 export const TRM_COMMISSION_RATIO = 10_00; // 10%
 export const FUND_PORTFOLIO_COMMISSION_RATIO = 10_00; // 10%
 export const DEFI_PASS_COMMISSION_RATIO = 10_00; // 10%
-export const GENERALISED_FUND_PORTFOLIO_COMMISSION_RATIO = 10_00; // 10%
+export const GENERALIZED_FUND_PORTFOLIO_COMMISSION_RATIO = 10_00; // 10%
 export const CRYPTO_COVER_COMMISSION_RATIO = 10_00; // 10%
 export const NEXUS_MUTUAL_COVER_COMMISSION_RATIO = 10_00; // 10%
 export const NO_COMMISSION = 0; // 0%
@@ -63,7 +63,7 @@ export const BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE: Record<ProductTypes, nu
   [ProductTypes.followOn]: NO_COMMISSION,
   [ProductTypes.immunefiBugBounty]: DEFAULT_COMMISSION_RATIO,
   [ProductTypes.nexusMutual]: NEXUS_MUTUAL_COVER_COMMISSION_RATIO,
-  [ProductTypes.generalizedFundPortfolio]: GENERALISED_FUND_PORTFOLIO_COMMISSION_RATIO,
+  [ProductTypes.generalizedFundPortfolio]: GENERALIZED_FUND_PORTFOLIO_COMMISSION_RATIO,
   [ProductTypes.crypto]: CRYPTO_COVER_COMMISSION_RATIO,
   [ProductTypes.nativeSyndicate]: NO_COMMISSION,
   [ProductTypes.spearbitCantina]: DEFAULT_COMMISSION_RATIO,

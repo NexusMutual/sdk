@@ -40,7 +40,7 @@
     "node": ">=11.14.0"
   },
   "dependencies": {
-    "@nexusmutual/deployments": "3.0.0-rc.0",
+    "@nexusmutual/deployments": "3.0.0",
     "axios": "^1.11.0",
     "is-ipfs": "^6.0.2",
     "svgo": "^3.0.2",

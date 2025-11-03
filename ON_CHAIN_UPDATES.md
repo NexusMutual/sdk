@@ -21,3 +21,4 @@ To update this document, follow the steps below:
 
 - 2025-04-23: Updated the Annex for `Fasanara`.
 - 2025-05-21: Updated `Fasanara` listing annex.
+- 2025-10-03: Updated `Dialectic Ellipse` listing annex

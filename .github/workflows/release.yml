@@ -201,9 +201,6 @@ jobs:
           - repo: frontend-next
             base-branch: develop
             change-type: feat
-          - repo: frontend-react
-            base-branch: dev
-            change-type: feat
           - repo: event-scanner
             base-branch: dev
             change-type: build

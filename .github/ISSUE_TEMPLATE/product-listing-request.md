@@ -1,10 +1,9 @@
 ---
 name: Product Listing Request
 about: Request a new product listing or edits to an existing product.
-title: "[listing] Product Listing Request"
+title: '[listing] Product Listing Request'
 labels: ''
 assignees: ''
-
 ---
 
 ## Instructions:
@@ -39,7 +38,6 @@ assignees: ''
 - [ ] AB member to update onchain data
 - [ ] Update [SDK](https://github.com/NexusMutual/sdk)
 - [ ] Update [frontend-next](https://github.com/NexusMutual/frontend-next)
-- [ ] Update [frontend-react](https://github.com/NexusMutual/frontend-react)
 - [ ] Update [notification-processor](https://github.com/NexusMutual/notification-processor)
 - [ ] Update [workers](https://github.com/NexusMutual/workers)
 - [ ] Update [order-book](https://github.com/NexusMutual/order-book)

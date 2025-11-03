@@ -272,6 +272,6 @@ Each Zod error object in the array includes:
 - `code`: The type of validation error
 - `message`: A human-readable error message
 - `path`: The path to the invalid field
-- Additional context-specific fields 
+- Additional context-specific fields
 
 For more information about Zod error handling and validation, see the [Zod Error Handling documentation](https://zod.dev/?id=error-handling).

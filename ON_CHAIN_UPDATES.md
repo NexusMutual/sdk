@@ -22,3 +22,16 @@ To update this document, follow the steps below:
 - 2025-04-23: Updated the Annex for `Fasanara`.
 - 2025-05-21: Updated `Fasanara` listing annex.
 - 2025-10-03: Updated `Dialectic Ellipse` listing annex
+- 2025-11-05: Updated `AUTOfinance` listing name and annex.
+- 2025-11-05: Updated `AUTOfinance autoUSD Vault` listing name and annex.
+- 2025-11-05: Updated `Blue Chip Euler v2 Vaults & Markets` listing name and annex.
+- 2025-11-05: Updated `Blue Chip Morpho Vaults & Markets` listing name and annex.
+- 2025-11-05: Updated `B-Tier Morpho Vaults & Markets` listing name and annex.
+- 2025-11-05: Updated `B-Tier Euler v2 Vaults & Markets` listing name and annex.
+- 2025-11-05: Updated `Elite Cover` listing annex.
+- 2025-11-05: Updated `Essential Cover` listing annex.
+- 2025-11-05: Updated `Entry Cover` listing annex.
+- 2025-11-05: Updated `Brava Advanced Cover` listing annex.
+- 2025-11-05: Updated `Brava Balanced Cover` listing annex.
+- 2025-11-05: Updated `Yearn v3` listing annex.
+- 2025-11-05: Updated `Beefy` listing annex.

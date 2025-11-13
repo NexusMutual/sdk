@@ -62,6 +62,8 @@ const allPrivateProductsIds = [
   353, // Dialectic Ellipse
   358, // DeFi Vault 1
   359, // DeFi Vault 2
+  360, // TermMax Markets
+  361, // Vesu
 ];
 
 module.exports = {

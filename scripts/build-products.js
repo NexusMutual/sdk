@@ -161,6 +161,7 @@ const buildProducts = async () => {
     .map(({ name }) => name)
     .map(name => name.replace(/ /g, ''))
     .map(name => name.replace(/ETH/g, 'Eth'))
+    .map(name => name.replace(/&/g, 'And'))
     .map(name => `${name[0].toLowerCase()}${name.slice(1)}`)
     .map(name => (name.endsWith('Cover') ? name.slice(0, -5) : name));
   fs.appendFileSync(

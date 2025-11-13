@@ -117,6 +117,8 @@ export const IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE: Record<ProductTypes, ContentType
   [ProductTypes.nativeSyndicate]: undefined,
   [ProductTypes.spearbitCantina]: undefined,
   [ProductTypes.leveragedLiquidation]: undefined,
+  [ProductTypes.nonEVMProtocol]: undefined,
+  [ProductTypes.kidnapAndRansom]: undefined,
 };
 
 export interface IPFSContentForProductType {
@@ -145,6 +147,9 @@ export interface IPFSContentForProductType {
   [ProductTypes.crypto]: undefined;
   [ProductTypes.nativeSyndicate]: undefined;
   [ProductTypes.spearbitCantina]: undefined;
+  [ProductTypes.leveragedLiquidation]: undefined;
+  [ProductTypes.nonEVMProtocol]: undefined;
+  [ProductTypes.kidnapAndRansom]: undefined;
 }
 
 export type IPFSUploadServiceResponse = {

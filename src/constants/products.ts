@@ -382,4 +382,6 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   357: ProductCategoryEnum.YieldOptimizer, // Aegis
   358: ProductCategoryEnum.Uncategorized, // DeFi Vault 1
   359: ProductCategoryEnum.Uncategorized, // DeFi Vault 2
+  360: ProductCategoryEnum.Uncategorized, // TermMax Markets
+  361: ProductCategoryEnum.Uncategorized, // Vesu
 };

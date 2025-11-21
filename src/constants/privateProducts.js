@@ -64,6 +64,7 @@ const allPrivateProductsIds = [
   359, // DeFi Vault 2
   360, // TermMax Markets
   361, // Vesu
+  362, // Algoquant
 ];
 
 module.exports = {

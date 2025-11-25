@@ -385,4 +385,7 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   360: ProductCategoryEnum.Uncategorized, // TermMax Markets
   361: ProductCategoryEnum.Uncategorized, // Vesu
   362: ProductCategoryEnum.Uncategorized, // Algoquant
+  363: ProductCategoryEnum.Depeg, // Solstice USX Depeg
+  364: ProductCategoryEnum.Uncategorized, // Lido
+  365: ProductCategoryEnum.Uncategorized, // Fluid Lite Vaults
 };

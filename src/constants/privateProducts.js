@@ -65,6 +65,7 @@ const allPrivateProductsIds = [
   360, // TermMax Markets
   361, // Vesu
   362, // Algoquant
+  363, // Solstice USX Depeg
 ];
 
 module.exports = {

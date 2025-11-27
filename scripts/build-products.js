@@ -108,7 +108,7 @@ const fetchProducts = async (coverContract, coverProducts, provider) => {
       const metadata = ipfsHash === '' ? {} : await fetch(ipfsURL(ipfsHash)).then(res => res.json());
 
       if (logos[id] === undefined) {
-        throw new Error(`Product id ${id} is missing a logo`);
+        logos[id] = 'nexus-mutual.svg';
       }
 
       const isPrivate = allPrivateProductsIds.includes(id);

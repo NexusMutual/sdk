@@ -66,6 +66,14 @@ const allPrivateProductsIds = [
   361, // Vesu
   362, // Algoquant
   363, // Solstice USX Depeg
+  366, // OpenCover Morpho Base Vaults
+  367, // K&R AAA
+  368, // K&R AA
+  369, // K&R A
+  370, // K&R B
+  371, // K&R C
+  372, // K&R D
+  373, // PT-cUSD-29JAN2026 (Morpho)
 ];
 
 module.exports = {

@@ -203,8 +203,10 @@ export class Quote extends NexusSDKBase {
       // Get quote using helper method
       const { quote } = await this.getQuote(quoteParams);
 
+      const premium = paymentAssetEnum === PaymentAsset.NXM ? quote.premiumInNXM : quote.premiumInAsset;
+
       const maxPremiumInAsset = this.calculatePremiumWithCommissionAndSlippage(
-        BigInt(quote.premiumInAsset),
+        BigInt(premium),
         commissionRatio || BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE[productType],
         slippageValue,
       );
@@ -233,7 +235,7 @@ export class Quote extends NexusSDKBase {
             amount,
             period: period * 60 * 60 * 24, // seconds
             maxPremiumInAsset: maxPremiumInAsset.toString(),
-            paymentAsset: coverAssetEnum,
+            paymentAsset: paymentAssetEnum,
             commissionRatio: commissionRatio || BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE[productType],
             commissionDestination:
               commissionDestination || BUY_COVER_COMMISSION_DESTINATION_BY_PRODUCT_TYPE[productType],

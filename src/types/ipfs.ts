@@ -17,6 +17,7 @@ import {
   governanceCategorySchema,
   fileSchema,
   assessmentReasonSchema,
+  productAnnexSchema,
 } from '../ipfs/schemas';
 
 export enum ContentType {
@@ -36,6 +37,7 @@ export enum ContentType {
   governanceProposal = 'governanceProposal',
   governanceCategory = 'governanceCategory',
   file = 'file',
+  productAnnex = 'productAnnex',
 }
 
 export type CoverValidators = z.infer<typeof coverValidatorsSchema>;
@@ -53,6 +55,7 @@ export type GovernanceProposal = z.infer<typeof governanceProposalSchema>;
 export type GovernanceCategory = z.infer<typeof governanceCategorySchema>;
 export type File = z.infer<typeof fileSchema>;
 export type AssessmentReason = z.infer<typeof assessmentReasonSchema>;
+export type ProductAnnex = z.infer<typeof productAnnexSchema>;
 
 export type IPFSContentTypes =
   | CoverValidators
@@ -70,7 +73,8 @@ export type IPFSContentTypes =
   | AssessmentReason
   | GovernanceProposal
   | GovernanceCategory
-  | File;
+  | File
+  | ProductAnnex;
 
 export type IPFSTypeContentTuple =
   | [type: ContentType.coverValidators, content: CoverValidators]
@@ -88,7 +92,8 @@ export type IPFSTypeContentTuple =
   | [type: ContentType.assessmentReason, content: AssessmentReason]
   | [type: ContentType.governanceProposal, content: GovernanceProposal]
   | [type: ContentType.governanceCategory, content: GovernanceCategory]
-  | [type: ContentType.file, content: File];
+  | [type: ContentType.file, content: File]
+  | [type: ContentType.productAnnex, content: ProductAnnex];
 
 export const IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE: Record<ProductTypes, ContentType | undefined> = {
   [ProductTypes.ethSlashing]: ContentType.coverValidators,

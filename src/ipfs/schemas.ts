@@ -142,3 +142,8 @@ export const fileSchema = z.object({
   version: z.literal(VERSION_1_0),
   file: z.string(),
 });
+
+export const productAnnexSchema = z.object({
+  version: z.literal(VERSION_1_0),
+  annex: z.string(),
+});

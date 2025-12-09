@@ -35,3 +35,4 @@ To update this document, follow the steps below:
 - 2025-11-05: Updated `Brava Balanced Cover` listing annex.
 - 2025-11-05: Updated `Yearn v3` listing annex.
 - 2025-11-05: Updated `Beefy` listing annex.
+- 2025-12-09: Updated `Dialectic Ellipse` listing annex.

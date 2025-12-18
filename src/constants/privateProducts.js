@@ -81,6 +81,8 @@ const allPrivateProductsIds = [
   380, // PT Ethena USDe 5FEB2026 (Aave)
   381, // PT Ethena sUSDE 15JAN2026 (Aave)
   382, // PT Ethena USDe 15JAN2026 (Aave)
+  389, // Fasanara 2
+  390, // Noon DeFi Deployment 2
 ];
 
 module.exports = {

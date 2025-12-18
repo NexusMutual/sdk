@@ -74,6 +74,13 @@ const allPrivateProductsIds = [
   371, // K&R C
   372, // K&R D
   373, // PT-cUSD-29JAN2026 (Morpho)
+  375, // Fasanara 2
+  376, // Noon DeFi Deployment 2
+  377, // IPOR TAU InfiniFi Vault
+  379, // PT Ethena sUSDE 5FEB2026 (Aave)
+  380, // PT Ethena USDe 5FEB2026 (Aave)
+  381, // PT Ethena sUSDE 15JAN2026 (Aave)
+  382, // PT Ethena USDe 15JAN2026 (Aave)
 ];
 
 module.exports = {

@@ -388,4 +388,11 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   363: ProductCategoryEnum.Depeg, // Solstice USX Depeg
   364: ProductCategoryEnum.Uncategorized, // Lido
   365: ProductCategoryEnum.Uncategorized, // Fluid Lite Vaults
+  378: ProductCategoryEnum.YieldOptimizer, // Theoriq
+  383: ProductCategoryEnum.Depeg, // Spark Savings USDC Depeg
+  384: ProductCategoryEnum.Depeg, // Spark Savings USDT Depeg
+  385: ProductCategoryEnum.Depeg, // Spark Savings ETH Depeg
+  386: ProductCategoryEnum.Depeg, // Spark Savings PYUSD Depeg
+  387: ProductCategoryEnum.Depeg, // Neutrl USD Depeg
+  388: ProductCategoryEnum.Dex, // Hybra Finance
 };

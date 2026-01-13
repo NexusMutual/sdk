@@ -395,4 +395,5 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   386: ProductCategoryEnum.Depeg, // Spark Savings PYUSD Depeg
   387: ProductCategoryEnum.Depeg, // Neutrl USD Depeg
   388: ProductCategoryEnum.Dex, // Hybra Finance
+  391: ProductCategoryEnum.YieldOptimizer, // IPOR
 };

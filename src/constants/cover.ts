@@ -43,6 +43,7 @@ export const NO_COMMISSION_DESTINATION = zeroAddress as Address;
 export const NEXUS_MUTUAL_DAO_TREASURY_ADDRESS = '0x8e53D04644E9ab0412a8c6bd228C84da7664cFE3';
 export const IMMUNEFI_ADDRESS = '0x9c2F47079eb7Def5dd01Dd7E1138583f82376bDc' as Address;
 export const SPEARBIT_CANTINA_ADDRESS = '0x3Dcb7CFbB431A11CAbb6f7F2296E2354f488Efc2' as Address;
+export const VAULT_ADDRESS = '0x5f2b6e70aa6a217e9ecd1ed7d0f8f38ce9a348a2';
 
 export const BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE: Record<ProductTypes, number> = {
   [ProductTypes.ethSlashing]: DEFAULT_COMMISSION_RATIO,
@@ -72,6 +73,7 @@ export const BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE: Record<ProductTypes, nu
   [ProductTypes.leveragedLiquidation]: LEVERAGED_LIQUIDATION_COMMISSION_RATIO,
   [ProductTypes.nonEVMProtocol]: NON_EVM_PROTOCOL_COMMISSION_RATIO,
   [ProductTypes.kidnapAndRansom]: KIDNAP_AND_RANSOM_COVER_COMMISSION_RATIO,
+  [ProductTypes.vault]: DEFAULT_COMMISSION_RATIO,
 };
 
 export const BUY_COVER_COMMISSION_DESTINATION_BY_PRODUCT_TYPE: Record<ProductTypes, Address> = {
@@ -102,4 +104,5 @@ export const BUY_COVER_COMMISSION_DESTINATION_BY_PRODUCT_TYPE: Record<ProductTyp
   [ProductTypes.leveragedLiquidation]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   [ProductTypes.nonEVMProtocol]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   [ProductTypes.kidnapAndRansom]: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
+  [ProductTypes.vault]: VAULT_ADDRESS,
 };

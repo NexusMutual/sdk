@@ -84,6 +84,8 @@ const allPrivateProductsIds = [
   389, // Fasanara 2
   390, // Noon DeFi Deployment 2
   392, // Sablier
+  393, // OpenCover Smokehouse USDC
+  394, // Ekubo Starknet
 ];
 
 module.exports = {

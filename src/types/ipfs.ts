@@ -124,6 +124,7 @@ export const IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE: Record<ProductTypes, ContentType
   [ProductTypes.leveragedLiquidation]: undefined,
   [ProductTypes.nonEVMProtocol]: undefined,
   [ProductTypes.kidnapAndRansom]: undefined,
+  [ProductTypes.vault]: undefined,
 };
 
 export interface IPFSContentForProductType {
@@ -155,6 +156,7 @@ export interface IPFSContentForProductType {
   [ProductTypes.leveragedLiquidation]: undefined;
   [ProductTypes.nonEVMProtocol]: undefined;
   [ProductTypes.kidnapAndRansom]: undefined;
+  [ProductTypes.vault]: undefined;
 }
 
 export type IPFSUploadServiceResponse = {

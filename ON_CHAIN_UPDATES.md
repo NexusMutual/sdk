@@ -37,3 +37,4 @@ To update this document, follow the steps below:
 - 2025-11-05: Updated `Beefy` listing annex.
 - 2025-12-09: Updated `Dialectic Ellipse` listing annex.
 - 2025-12-11: Updated `Defi Vault 2` listing annex.
+- 2026-01-26: Updated `K&R AAA` && `K&R AA` && `K&R A` && `K&R B` && `K&R C` && `K&R D` listings min price.

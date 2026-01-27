@@ -86,6 +86,12 @@ const allPrivateProductsIds = [
   392, // Sablier
   393, // OpenCover Smokehouse USDC
   394, // Ekubo Starknet
+  395, // OpenCover Smokehouse USDT
+  396, // OpenCover Sentora PYUSD
+  397, // OpenCover Steakhouse H Yield I USDT
+  398, // OpenCover Steakhouse Prime I USDT
+  399, // OpenCover Steakhouse H Yield I AUSD
+  400, // OpenCover Steakhouse H Yield I USDC
 ];
 
 module.exports = {

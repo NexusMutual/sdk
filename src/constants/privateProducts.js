@@ -92,6 +92,8 @@ const allPrivateProductsIds = [
   398, // OpenCover Steakhouse Prime I USDT
   399, // OpenCover Steakhouse H Yield I AUSD
   400, // OpenCover Steakhouse H Yield I USDC
+  401, // PT-stcUSD-23JUL2026 (Morpho)
+  402, // PT-cUSD-23JUL2026 (Morpho)
 ];
 
 module.exports = {

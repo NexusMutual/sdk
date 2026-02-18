@@ -1,11 +1,6 @@
 import { AxiosError, AxiosRequestConfig } from 'axios';
 
-import productTypes from '../../generated/product-types.json';
-import products from '../../generated/products.json';
-import { ProductTypes } from '../../generated/types';
 import {
-  BUY_COVER_COMMISSION_DESTINATION_BY_PRODUCT_TYPE,
-  BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE,
   COMMISSION_DENOMINATOR,
   CoverAsset,
   DEFAULT_SLIPPAGE,
@@ -17,6 +12,7 @@ import {
 } from '../constants';
 import { Ipfs } from '../ipfs';
 import { NexusSDKBase } from '../nexus-sdk-base';
+import { ProductAPI } from '../product-api/ProductAPI';
 import {
   CoverRouterProductCapacityResponse,
   CoverRouterQuoteResponse,
@@ -27,23 +23,14 @@ import {
   NexusSDKConfig,
   QuoteParams,
   IPFSTypeContentTuple,
-  IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE,
 } from '../types';
-
-type ProductDTO = Omit<(typeof products)[number], 'productType'> & {
-  productType: ProductTypes;
-};
-
-const productsMap: Record<number, ProductDTO> = products.reduce(
-  (acc, product) => ({ ...acc, [product.id]: product }),
-  {},
-);
 
 /**
  * Class for handling quote-related functionality
  */
 export class Quote extends NexusSDKBase {
   private ipfs: Ipfs;
+  private productAPI: ProductAPI;
 
   /**
    * Create a new Quote instance
@@ -53,6 +40,7 @@ export class Quote extends NexusSDKBase {
   constructor(config: NexusSDKConfig = {}, ipfs?: Ipfs) {
     super(config);
     this.ipfs = ipfs || new Ipfs(config);
+    this.productAPI = new ProductAPI(config);
   }
 
   /**
@@ -151,26 +139,30 @@ export class Quote extends NexusSDKBase {
       }
     }
 
-    const productType = productsMap[productId]?.productType;
-    if (productType === undefined) {
+    const product = await this.productAPI.getProductById(productId);
+    const productTypeId = product?.productType;
+    if (productTypeId === undefined) {
       return {
         result: undefined,
         error: { message: `Invalid product` },
       };
     }
 
-    if (IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType] !== undefined && !ipfsCidOrContent) {
+    const productType = await this.productAPI.getProductTypeById(productTypeId);
+
+    if (productType.ipfsContentType !== undefined && !ipfsCidOrContent) {
       return {
         result: undefined,
         error: {
           message: `Missing IPFS content. \n
-          ${productTypes[productType]?.name} requires ${IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType]} content type.`,
+          ${productType.name} requires ${productType.ipfsContentType} content type.`,
         },
       };
     }
 
     let ipfsData = ipfsCidOrContent as string;
-    const contentType = IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE[productType];
+    // TODO call DB api to get content type based on productType
+    const contentType = productType.ipfsContentType;
 
     // Handle uploading content to IPFS if provided as an object
     if (!isString && contentType !== undefined && ipfsCidOrContent) {
@@ -207,12 +199,12 @@ export class Quote extends NexusSDKBase {
 
       const maxPremiumInAsset = this.calculatePremiumWithCommissionAndSlippage(
         BigInt(premium),
-        commissionRatio || BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE[productType],
+        commissionRatio || +productType.commissionRatio,
         slippageValue,
       );
       const yearlyCostPerc = this.calculatePremiumWithCommissionAndSlippage(
         BigInt(quote.annualPrice),
-        commissionRatio || BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE[productType],
+        commissionRatio || +productType.commissionRatio,
         slippageValue,
       );
 
@@ -236,9 +228,8 @@ export class Quote extends NexusSDKBase {
             period: period * 60 * 60 * 24, // seconds
             maxPremiumInAsset: maxPremiumInAsset.toString(),
             paymentAsset: paymentAssetEnum,
-            commissionRatio: commissionRatio || BUY_COVER_COMMISSION_RATIO_BY_PRODUCT_TYPE[productType],
-            commissionDestination:
-              commissionDestination || BUY_COVER_COMMISSION_DESTINATION_BY_PRODUCT_TYPE[productType],
+            commissionRatio: commissionRatio || +productType.commissionRatio,
+            commissionDestination: commissionDestination || productType.commissionDestination,
             ipfsData,
           },
           poolAllocationRequests: quote.poolAllocationRequests,

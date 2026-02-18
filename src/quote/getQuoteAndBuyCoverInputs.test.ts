@@ -9,7 +9,6 @@ import {
   NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
-  NEXUS_MUTUAL_COVER_COMMISSION_RATIO,
 } from '../constants/cover';
 import { Quote } from '../quote';
 import {
@@ -20,8 +19,36 @@ import {
   CoverValidators,
   DefiPassContent,
 } from '../types';
+import { Product, ProductType } from '../types/product';
 jest.mock('axios', () => mockAxios);
 jest.setTimeout(10_000);
+
+const mockProduct: Product = {
+  id: 1,
+  productType: 1,
+  name: 'Test Product',
+  minPrice: '100',
+  coverAssets: [CoverAsset.ETH],
+  initialPriceRation: '100',
+  capacityReductionRatio: '0',
+  isDeprecated: false,
+  useFixedPrice: false,
+  metadata: '',
+  allowedPools: [],
+  logo: '',
+};
+
+const mockProductType: ProductType = {
+  id: 1,
+  name: 'Protocol',
+  metadata: '',
+  claimMethod: 0,
+  gracePeriod: '30',
+  assessmentCooldownPeriod: '0',
+  payoutRedemptionPeriod: '0',
+  commissionRatio: '500',
+  commissionDestination: NEXUS_MUTUAL_DAO_TREASURY_ADDRESS,
+};
 
 const coverRouterCapacityResponse: CoverRouterProductCapacityResponse = {
   productId: 150,
@@ -79,11 +106,15 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   it('uses DEFAULT_NEXUS_API_URL if no API URL is supplied', async () => {
-    mockAxios.get.mockResolvedValue({ data: {} });
     const productId = 1;
     const amount = '100';
     const period = 30;
     const coverAsset = CoverAsset.ETH;
+
+    mockAxios.get.mockResolvedValueOnce({ data: mockProduct });
+    mockAxios.get.mockResolvedValueOnce({ data: mockProductType });
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
 
     await quoteApi.getQuoteAndBuyCoverInputs({
       productId,
@@ -93,20 +124,22 @@ describe('getQuoteAndBuyCoverInputs', () => {
       buyerAddress,
     });
 
-    const defaultGetQuoteUrl = DEFAULT_NEXUS_API_URL + '/quote';
-    expect(mockAxios.get).toHaveBeenCalledWith(defaultGetQuoteUrl, {
-      params: { amount, coverAsset, period, productId, paymentAsset: coverAsset },
-    });
+    const defaultGetProductUrl = DEFAULT_NEXUS_API_URL + '/products/1';
+    expect(mockAxios.get).toHaveBeenCalledWith(defaultGetProductUrl, {});
   });
 
   it('allows the consumer to override nexusApiUrl param', async () => {
-    mockAxios.get.mockResolvedValue({ data: {} });
     const url = 'http://hahahahahah';
     const quoteApi = new Quote({ apiUrl: url });
     const productId = 1;
     const amount = '100';
     const period = 30;
     const coverAsset = CoverAsset.ETH;
+
+    mockAxios.get.mockResolvedValueOnce({ data: mockProduct });
+    mockAxios.get.mockResolvedValueOnce({ data: mockProductType });
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
+    mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
 
     await quoteApi.getQuoteAndBuyCoverInputs({
       productId,
@@ -118,10 +151,8 @@ describe('getQuoteAndBuyCoverInputs', () => {
       ipfsCidOrContent: '',
     });
 
-    const overrideGetQuoteUrl = url + '/quote';
-    expect(mockAxios.get).toHaveBeenCalledWith(overrideGetQuoteUrl, {
-      params: { amount, coverAsset, period, productId, paymentAsset: coverAsset },
-    });
+    const overrideGetProductUrl = url + '/products/1';
+    expect(mockAxios.get).toHaveBeenCalledWith(overrideGetProductUrl, {});
   });
 
   const invalidProductIds = [-1, 'a', true, {}, [], null, undefined];
@@ -217,8 +248,10 @@ describe('getQuoteAndBuyCoverInputs', () => {
   );
 
   it('returns an error if ipfsData is not a valid IPFS content for the product type - ETH Slashing', async () => {
-    mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
-    mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
+    const ethSlashingProduct = { ...mockProduct, id: 82, productType: 5 };
+    const ethSlashingProductType = { ...mockProductType, id: 5, ipfsContentType: 'coverValidators' };
+    mockAxios.get.mockResolvedValueOnce({ data: ethSlashingProduct });
+    mockAxios.get.mockResolvedValueOnce({ data: ethSlashingProductType });
 
     const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
     const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
@@ -238,6 +271,11 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   it('returns an error if ipfsData content has an empty validators field for ETH Slashing product type', async () => {
+    const ethSlashingProduct = { ...mockProduct, id: 82, productType: 5 };
+    const ethSlashingProductType = { ...mockProductType, id: 5, ipfsContentType: 'coverValidators' };
+    mockAxios.get.mockResolvedValueOnce({ data: ethSlashingProduct });
+    mockAxios.get.mockResolvedValueOnce({ data: ethSlashingProductType });
+
     const emptyValidators: CoverValidators = { version: '1.0', validators: [] };
     const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
       ...quoteParams,
@@ -258,6 +296,11 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   it('returns an error if ipfsData is not a valid IPFS content for the product type - UnoRe Quota Share', async () => {
+    const quotaShareProduct = { ...mockProduct, id: 107, productType: 6 };
+    const quotaShareProductType = { ...mockProductType, id: 6, ipfsContentType: 'coverQuotaShare' };
+    mockAxios.get.mockResolvedValueOnce({ data: quotaShareProduct });
+    mockAxios.get.mockResolvedValueOnce({ data: quotaShareProductType });
+
     const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
     const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
       ...quoteParams,
@@ -276,6 +319,11 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   it('returns an error if ipfsData is not a valid IPFS content for the product type - Fund Portfolio', async () => {
+    const fundPortfolioProduct = { ...mockProduct, id: 195, productType: 7 };
+    const fundPortfolioProductType = { ...mockProductType, id: 7, ipfsContentType: 'coverAumCoverAmountPercentage' };
+    mockAxios.get.mockResolvedValueOnce({ data: fundPortfolioProduct });
+    mockAxios.get.mockResolvedValueOnce({ data: fundPortfolioProductType });
+
     const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
     const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
       ...quoteParams,
@@ -294,6 +342,11 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   it('returns an error if ipfsData is not a valid IPFS content for the product type - Nexus Mutual Cover', async () => {
+    const nexusMutualCoverProduct = { ...mockProduct, id: 247, productType: 8 };
+    const nexusMutualCoverProductType = { ...mockProductType, id: 8, ipfsContentType: 'coverWalletAddresses' };
+    mockAxios.get.mockResolvedValueOnce({ data: nexusMutualCoverProduct });
+    mockAxios.get.mockResolvedValueOnce({ data: nexusMutualCoverProductType });
+
     const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
     const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
       ...quoteParams,
@@ -312,6 +365,11 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   it('returns an error if ipfsData is not a valid IPFS content for Defi Pass', async () => {
+    const defiPassProduct = { ...mockProduct, id: 227, productType: 9 };
+    const defiPassProductType = { ...mockProductType, id: 9, ipfsContentType: 'defiPassContent' };
+    mockAxios.get.mockResolvedValueOnce({ data: defiPassProduct });
+    mockAxios.get.mockResolvedValueOnce({ data: defiPassProductType });
+
     const emptyWalletsContent: DefiPassContent = { version: '1.0', wallets: [] };
     const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
       ...quoteParams,
@@ -332,6 +390,11 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   it('returns an error if ipfsData is not a valid IPFS content for the Defi Pass - empty address', async () => {
+    const defiPassProduct = { ...mockProduct, id: 227, productType: 9 };
+    const defiPassProductType = { ...mockProductType, id: 9, ipfsContentType: 'defiPassContent' };
+    mockAxios.get.mockResolvedValueOnce({ data: defiPassProduct });
+    mockAxios.get.mockResolvedValueOnce({ data: defiPassProductType });
+
     const emptyWalletString: DefiPassContent = { version: '1.0', walletAddress: '' };
     const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
       ...quoteParams,
@@ -351,6 +414,9 @@ describe('getQuoteAndBuyCoverInputs', () => {
   it('allows the consumer to provide a valid IPFS CID', async () => {
     const ipfsCid = 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY';
 
+    const nexusMutualCoverProduct = { ...mockProduct, id: 247, productType: 8 };
+    const nexusMutualCoverProductType = { ...mockProductType, id: 8, ipfsContentType: 'coverWalletAddresses' };
+
     const coverRouterQuoteResponse: CoverRouterQuoteResponse = {
       quote: {
         totalCoverAmountInAsset: parseEther('1000').toString(),
@@ -367,6 +433,8 @@ describe('getQuoteAndBuyCoverInputs', () => {
       },
       capacities: [{ poolId: '147', capacity: [{ assetId: '1', amount: parseEther('1000').toString() }] }],
     };
+    mockAxios.get.mockResolvedValueOnce({ data: nexusMutualCoverProduct });
+    mockAxios.get.mockResolvedValueOnce({ data: nexusMutualCoverProductType });
     mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
     mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
 
@@ -381,6 +449,12 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   it('allows the consumer to provide a valid IPFS content', async () => {
+    const nexusMutualCoverProduct = { ...mockProduct, id: 247, productType: 8 };
+    const nexusMutualCoverProductType = { ...mockProductType, id: 8, ipfsContentType: 'coverWalletAddresses' };
+
+    mockAxios.get.mockResolvedValueOnce({ data: nexusMutualCoverProduct });
+    mockAxios.get.mockResolvedValueOnce({ data: nexusMutualCoverProductType });
+
     mockAxios.post.mockResolvedValueOnce({
       data: {
         ipfsHash: 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY',
@@ -421,6 +495,9 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   it('returns an object with displayInfo and buyCoverInput parameters', async () => {
+    mockAxios.get.mockResolvedValueOnce({ data: mockProduct });
+    mockAxios.get.mockResolvedValueOnce({ data: mockProductType });
+
     const coverRouterQuoteResponse: CoverRouterQuoteResponse = {
       quote: {
         totalCoverAmountInAsset: parseEther('1000').toString(),
@@ -450,11 +527,11 @@ describe('getQuoteAndBuyCoverInputs', () => {
     const { premiumInAsset, annualPrice } = coverRouterQuoteResponse.quote;
     const expectedMaxPremiumInAsset = quoteApi.calculatePremiumWithCommissionAndSlippage(
       BigInt(premiumInAsset),
-      NEXUS_MUTUAL_COVER_COMMISSION_RATIO,
+      +mockProductType.commissionRatio,
     );
     const expectedYearlyCostPerc = quoteApi.calculatePremiumWithCommissionAndSlippage(
       BigInt(annualPrice),
-      NEXUS_MUTUAL_COVER_COMMISSION_RATIO,
+      +mockProductType.commissionRatio,
     );
 
     expect(error).toBeUndefined();
@@ -470,15 +547,17 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(result?.buyCoverInput.buyCoverParams.period).toBe(30 * 60 * 60 * 24);
     expect(result?.buyCoverInput.buyCoverParams.maxPremiumInAsset).toBe(expectedMaxPremiumInAsset.toString());
     expect(result?.buyCoverInput.buyCoverParams.paymentAsset).toBe(CoverAsset.ETH);
-    expect(result?.buyCoverInput.buyCoverParams.commissionRatio).toBe(NEXUS_MUTUAL_COVER_COMMISSION_RATIO);
-    expect(result?.buyCoverInput.buyCoverParams.commissionDestination).toBe(NEXUS_MUTUAL_DAO_TREASURY_ADDRESS);
+    expect(result?.buyCoverInput.buyCoverParams.commissionRatio).toBe(+mockProductType.commissionRatio);
+    expect(result?.buyCoverInput.buyCoverParams.commissionDestination).toBe(mockProductType.commissionDestination);
     expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe('QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY');
-    expect(mockAxios.get).toHaveBeenCalledTimes(2);
+    expect(mockAxios.get).toHaveBeenCalledTimes(4);
   });
 
   it('should handle "Not enough capacity for the cover amount" error correctly - ETH', async () => {
     mockAxios.get.mockReset();
 
+    mockAxios.get.mockResolvedValueOnce({ data: mockProduct });
+    mockAxios.get.mockResolvedValueOnce({ data: mockProductType });
     mockAxios.get.mockRejectedValueOnce({
       isAxiosError: true,
       response: {
@@ -496,6 +575,8 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   it('should handle "Not enough capacity for the cover amount" error correctly - DAI', async () => {
+    mockAxios.get.mockResolvedValueOnce({ data: mockProduct });
+    mockAxios.get.mockResolvedValueOnce({ data: mockProductType });
     mockAxios.get.mockRejectedValueOnce({
       isAxiosError: true,
       response: {

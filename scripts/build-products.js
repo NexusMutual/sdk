@@ -6,7 +6,7 @@ const { CoverProducts, Cover, addresses } = require('@nexusmutual/deployments');
 const ethers = require('ethers');
 const fetch = require('node-fetch');
 
-const { parseProductCoverAssets, parseFilePath, getCoverAssetsSymbols } = require('./utils');
+const { parseProductCoverAssets, parseFilePath, getCoverAssetsSymbols, fetchEventsInBatches } = require('./utils');
 const { allPrivateProductsIds } = require(path.join(__dirname, '../src/constants/privateProducts.js'));
 const productMetadata = require('../data/legacy-product-metadata.json');
 
@@ -60,9 +60,12 @@ const createLogoDict = async logosDir => {
   return map;
 };
 
+const EVENTS_START_BLOCK = 7700000;
+
 const fetchProducts = async (coverContract, coverProducts, provider) => {
   const eventFilter = coverProducts.filters.ProductSet();
-  const events = await coverProducts.queryFilter(eventFilter);
+
+  const events = await fetchEventsInBatches(coverProducts, eventFilter, EVENTS_START_BLOCK, provider);
 
   const logos = await createLogoDict(path.join(__dirname, '../src/logos'));
 

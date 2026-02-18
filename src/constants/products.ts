@@ -396,4 +396,5 @@ export const productCategoryMap: { [productId: number]: ProductCategoryEnum } = 
   387: ProductCategoryEnum.Depeg, // Neutrl USD Depeg
   388: ProductCategoryEnum.Dex, // Hybra Finance
   391: ProductCategoryEnum.YieldOptimizer, // IPOR
+  404: ProductCategoryEnum.Custody, // BingX Custody
 };

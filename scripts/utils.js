@@ -79,9 +79,39 @@ const parseFilePath = filePath => {
   return { id, filename, extension };
 };
 
+/**
+ * Fetches events in batches to avoid RPC limitations.
+ * All batches are fetched in parallel for better performance.
+ *
+ * @param {ethers.Contract} contract - The contract to query events from.
+ * @param {ethers.EventFilter} eventFilter - The event filter to apply.
+ * @param {number} startBlock - The starting block number.
+ * @param {ethers.providers.Provider} provider - The Ethereum provider to interact with the blockchain.
+ * @param {number} [batchSize=10000] - The number of blocks to query per batch.
+ * @returns {Promise<ethers.Event[]>} A promise that resolves to an array of events.
+ */
+const fetchEventsInBatches = async (contract, eventFilter, startBlock, provider, batchSize = 10_000) => {
+  const endBlock = await provider.getBlockNumber();
+  const batches = [];
+
+  for (let fromBlock = startBlock; fromBlock <= endBlock; fromBlock += batchSize) {
+    const toBlock = Math.min(fromBlock + batchSize - 1, endBlock);
+    batches.push({ fromBlock, toBlock });
+  }
+
+  const batchResults = await Promise.all(
+    batches.map(({ fromBlock, toBlock }) => {
+      return contract.queryFilter(eventFilter, fromBlock, toBlock);
+    }),
+  );
+
+  return batchResults.flat();
+};
+
 module.exports = {
   parseProductCoverAssets,
   parseCoverAssetToProductAsset,
   parseFilePath,
   getCoverAssetsSymbols,
+  fetchEventsInBatches,
 };

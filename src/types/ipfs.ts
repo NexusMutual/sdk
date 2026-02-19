@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-import { ProductTypes } from '../../generated/types';
 import {
   coverValidatorsSchema,
   coverQuotaShareSchema,
@@ -94,70 +93,6 @@ export type IPFSTypeContentTuple =
   | [type: ContentType.governanceCategory, content: GovernanceCategory]
   | [type: ContentType.file, content: File]
   | [type: ContentType.productAnnex, content: ProductAnnex];
-
-export const IPFS_CONTENT_TYPE_BY_PRODUCT_TYPE: Record<ProductTypes, ContentType | undefined> = {
-  [ProductTypes.ethSlashing]: ContentType.coverValidators,
-  [ProductTypes.liquidCollectiveEthStaking]: ContentType.coverValidators,
-  [ProductTypes.stakewiseEthStaking]: ContentType.coverValidators,
-  [ProductTypes.sherlockQuotaShare]: ContentType.coverQuotaShare,
-  [ProductTypes.unoReQuotaShare]: ContentType.coverQuotaShare,
-  [ProductTypes.deFiPass]: ContentType.defiPassContent,
-  [ProductTypes.nexusMutual]: ContentType.coverWalletAddresses,
-  [ProductTypes.followOn]: ContentType.coverFreeText,
-  [ProductTypes.fundPortfolio]: ContentType.coverAumCoverAmountPercentage,
-  [ProductTypes.generalizedFundPortfolio]: ContentType.coverAumCoverAmountPercentage,
-  // ---------------------------------------------------------
-  [ProductTypes.singleProtocol]: undefined,
-  [ProductTypes.custody]: undefined,
-  [ProductTypes.yieldToken]: undefined,
-  [ProductTypes.sherlockExcess]: undefined,
-  [ProductTypes.nativeProtocol]: undefined,
-  [ProductTypes.theRetailMutual]: undefined,
-  [ProductTypes.multiProtocol]: undefined,
-  [ProductTypes.ethSlashingUmbrella]: undefined,
-  [ProductTypes.openCoverTransaction]: undefined,
-  [ProductTypes.sherlockBugBounty]: undefined,
-  [ProductTypes.immunefiBugBounty]: undefined,
-  [ProductTypes.crypto]: undefined,
-  [ProductTypes.nativeSyndicate]: undefined,
-  [ProductTypes.spearbitCantina]: undefined,
-  [ProductTypes.leveragedLiquidation]: undefined,
-  [ProductTypes.nonEVMProtocol]: undefined,
-  [ProductTypes.kidnapAndRansom]: undefined,
-  [ProductTypes.vault]: undefined,
-};
-
-export interface IPFSContentForProductType {
-  [ProductTypes.ethSlashing]: CoverValidators;
-  [ProductTypes.liquidCollectiveEthStaking]: CoverValidators;
-  [ProductTypes.stakewiseEthStaking]: CoverValidators;
-  [ProductTypes.sherlockQuotaShare]: CoverQuotaShare;
-  [ProductTypes.unoReQuotaShare]: CoverQuotaShare;
-  [ProductTypes.deFiPass]: DefiPassContent;
-  [ProductTypes.nexusMutual]: CoverWalletAddresses;
-  [ProductTypes.followOn]: CoverFreeText;
-  [ProductTypes.fundPortfolio]: CoverAumCoverAmountPercentage;
-  [ProductTypes.generalizedFundPortfolio]: CoverAumCoverAmountPercentage;
-  // ---------------------------------------------------------
-  [ProductTypes.singleProtocol]: undefined;
-  [ProductTypes.custody]: undefined;
-  [ProductTypes.yieldToken]: undefined;
-  [ProductTypes.sherlockExcess]: undefined;
-  [ProductTypes.nativeProtocol]: undefined;
-  [ProductTypes.theRetailMutual]: undefined;
-  [ProductTypes.multiProtocol]: undefined;
-  [ProductTypes.ethSlashingUmbrella]: undefined;
-  [ProductTypes.openCoverTransaction]: undefined;
-  [ProductTypes.sherlockBugBounty]: undefined;
-  [ProductTypes.immunefiBugBounty]: undefined;
-  [ProductTypes.crypto]: undefined;
-  [ProductTypes.nativeSyndicate]: undefined;
-  [ProductTypes.spearbitCantina]: undefined;
-  [ProductTypes.leveragedLiquidation]: undefined;
-  [ProductTypes.nonEVMProtocol]: undefined;
-  [ProductTypes.kidnapAndRansom]: undefined;
-  [ProductTypes.vault]: undefined;
-}
 
 export type IPFSUploadServiceResponse = {
   ipfsHash: string;

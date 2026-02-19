@@ -5,9 +5,6 @@ const path = require('node:path');
 
 const { build } = require('tsup');
 
-const { buildLogos } = require('./build-logos');
-const { buildProducts } = require('./build-products');
-
 const main = async () => {
   // Clean directories
   const dist = path.join(__dirname, '../dist');
@@ -27,10 +24,6 @@ const main = async () => {
   const { version } = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8'));
   fs.writeFileSync(sdkVersionPath, JSON.stringify({ version }, null, 2));
 
-  // Build assets
-  await buildLogos();
-  await buildProducts();
-
   await build({
     entry: ['src/index.ts'],
     format: ['cjs', 'esm'],
@@ -41,19 +34,6 @@ const main = async () => {
     dts: true,
     publicDir: 'public',
   });
-
-  // Copy over all processed logo files to dist
-  const logosOutDir = path.join(dist, 'logos');
-  const logosSrcDir = path.join(__dirname, '../generated/logos');
-  fs.mkdirSync(logosOutDir);
-  const logoDirents = await fs.promises.readdir(logosSrcDir, { withFileTypes: true });
-  for (const dirent of logoDirents) {
-    if (dirent.isFile()) {
-      const source = path.join(logosSrcDir, dirent.name);
-      const dest = path.join(logosOutDir, dirent.name);
-      fs.copyFileSync(source, dest);
-    }
-  }
 
   // Copy addresses from @nexusmutual/deployments package
   const addressesFile = path.join(__dirname, '../node_modules/@nexusmutual/deployments/dist/data/addresses.json');
@@ -74,12 +54,8 @@ const main = async () => {
     }
   }
 
-  // Copy products.json and product-types.json from generated to dist
-  const generatedDir = path.join(__dirname, '../generated');
-  fs.copyFileSync(path.join(generatedDir, 'products.json'), path.join(dist, 'data/products.json'));
-  fs.copyFileSync(path.join(generatedDir, 'product-types.json'), path.join(dist, 'data/product-types.json'));
-
   // Copy version.json from generated to dist
+  const generatedDir = path.join(__dirname, '../generated');
   fs.copyFileSync(path.join(generatedDir, 'version.json'), path.join(dist, 'data/version.json'));
 };
 

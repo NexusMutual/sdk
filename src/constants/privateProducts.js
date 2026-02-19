@@ -96,6 +96,7 @@ const allPrivateProductsIds = [
   402, // PT-cUSD-23JUL2026 (Morpho)
   403, // TermMax
   405, // OpenCover YoUSD
+  406, // Teller
 ];
 
 module.exports = {

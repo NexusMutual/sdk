@@ -12,7 +12,7 @@ This package only exports CommonJS modules. You can import it like this:
 
 ```js
 // Usage with ES6 modules
-import { products, productTypes } from '@nexusmutual/sdk';
+import { NexusSDK } from '@nexusmutual/sdk';
 ```
 
 ## Nexus Mutual contract addresses and abis

@@ -135,7 +135,7 @@ const runWithConcurrency = async (items, concurrency, fn, retries = 2) => {
  * @param {number} startBlock - The starting block number.
  * @param {ethers.providers.Provider} provider - The Ethereum provider to interact with the blockchain.
  * @param {number} [batchSize=5000] - The number of blocks to query per batch (smaller = less timeout risk).
- * @param {number} [concurrency=20] - Max concurrent batch requests (avoids overwhelming the RPC).
+ * @param {number} [concurrency=5] - Max concurrent batch requests (avoids overwhelming the RPC).
  * @param {number} [retries=2] - Retries per batch with exponential backoff on failure.
  * @returns {Promise<ethers.Event[]>} A promise that resolves to an array of events.
  */
@@ -145,7 +145,7 @@ const fetchEventsInBatches = async (
   startBlock,
   provider,
   batchSize = 5000,
-  concurrency = 20,
+  concurrency = 5,
   retries = 2,
 ) => {
   const endBlock = await provider.getBlockNumber();

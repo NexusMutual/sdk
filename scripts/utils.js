@@ -80,17 +80,74 @@ const parseFilePath = filePath => {
 };
 
 /**
- * Fetches events in batches to avoid RPC limitations.
- * All batches are fetched in parallel for better performance.
+ * Runs async tasks with a concurrency limit to avoid overwhelming the RPC.
+ *
+ * @param {Array<{ fromBlock: number, toBlock: number }>} items - Items to process.
+ * @param {number} concurrency - Max number of concurrent tasks.
+ * @param {function} fn - Async function (item) => Promise<ethers.Event[]>
+ * @param {number} [retries=2] - Number of retries per batch on failure.
+ * @returns {Promise<ethers.Event[][]>} Results per batch.
+ */
+const runWithConcurrency = async (items, concurrency, fn, retries = 2) => {
+  const results = [];
+  let index = 0;
+
+  const runNext = async () => {
+    if (index >= items.length) {
+      return;
+    }
+    const currentIndex = index++;
+    const item = items[currentIndex];
+    let lastError;
+    for (let attempt = 0; attempt <= retries; attempt++) {
+      try {
+        const result = await fn(item);
+        results[currentIndex] = result;
+        return;
+      } catch (err) {
+        lastError = err;
+        if (attempt < retries) {
+          const delay = Math.min(1000 * Math.pow(2, attempt), 10000);
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
+      }
+    }
+    throw lastError;
+  };
+
+  const workers = Array.from({ length: Math.min(concurrency, items.length) }, () =>
+    (async () => {
+      while (index < items.length) {
+        await runNext();
+      }
+    })(),
+  );
+  await Promise.all(workers);
+  return results;
+};
+
+/**
+ * Fetches events in batches to avoid RPC limitations and timeouts.
+ * Uses limited concurrency and smaller batches to reduce per-request load and retries on failure.
  *
  * @param {ethers.Contract} contract - The contract to query events from.
  * @param {ethers.EventFilter} eventFilter - The event filter to apply.
  * @param {number} startBlock - The starting block number.
  * @param {ethers.providers.Provider} provider - The Ethereum provider to interact with the blockchain.
- * @param {number} [batchSize=10000] - The number of blocks to query per batch.
+ * @param {number} [batchSize=5000] - The number of blocks to query per batch (smaller = less timeout risk).
+ * @param {number} [concurrency=5] - Max concurrent batch requests (avoids overwhelming the RPC).
+ * @param {number} [retries=2] - Retries per batch with exponential backoff on failure.
  * @returns {Promise<ethers.Event[]>} A promise that resolves to an array of events.
  */
-const fetchEventsInBatches = async (contract, eventFilter, startBlock, provider, batchSize = 10_000) => {
+const fetchEventsInBatches = async (
+  contract,
+  eventFilter,
+  startBlock,
+  provider,
+  batchSize = 5000,
+  concurrency = 5,
+  retries = 2,
+) => {
   const endBlock = await provider.getBlockNumber();
   const batches = [];
 
@@ -99,10 +156,11 @@ const fetchEventsInBatches = async (contract, eventFilter, startBlock, provider,
     batches.push({ fromBlock, toBlock });
   }
 
-  const batchResults = await Promise.all(
-    batches.map(({ fromBlock, toBlock }) => {
-      return contract.queryFilter(eventFilter, fromBlock, toBlock);
-    }),
+  const batchResults = await runWithConcurrency(
+    batches,
+    concurrency,
+    ({ fromBlock, toBlock }) => contract.queryFilter(eventFilter, fromBlock, toBlock),
+    retries,
   );
 
   return batchResults.flat();

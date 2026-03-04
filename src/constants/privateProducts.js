@@ -97,6 +97,11 @@ const allPrivateProductsIds = [
   403, // TermMax
   405, // OpenCover YoUSD
   406, // Teller
+  409, // OpenCover WETH SuperVault
+  410, // OpenCover Base USDC SuperVault
+  411, // OpenCover WBTC SuperVault
+  412, // OpenCover Steakhouse HYI USDC Base
+  413, // OpenCover Steakhouse USDC
 ];
 
 module.exports = {

@@ -161,7 +161,6 @@ export class Quote extends NexusSDKBase {
     }
 
     let ipfsData = ipfsCidOrContent as string;
-    // TODO call DB api to get content type based on productType
     const contentType = productType.ipfsContentType;
 
     // Handle uploading content to IPFS if provided as an object

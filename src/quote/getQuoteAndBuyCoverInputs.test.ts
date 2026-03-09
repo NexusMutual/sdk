@@ -1,5 +1,5 @@
+import { parseEther } from 'ethers/lib/utils';
 import mockAxios from 'jest-mock-axios';
-import { parseEther } from 'viem';
 
 import {
   CoverAsset,

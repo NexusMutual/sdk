@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers';
-import { parseEther } from 'viem';
+import { parseEther } from 'ethers/lib/utils';
 
 import { Reserves } from './reserves.type';
 import { Swap } from './Swap';
@@ -21,7 +21,7 @@ describe('calculateEthForExactNxm', () => {
   ];
 
   test.each(cases)('calculates nxm out for eth in correctly - %s', (_type, nxmOut, expectedEthIn) => {
-    const nxmOutParsed = parseEther(nxmOut.toString());
+    const nxmOutParsed = parseEther(nxmOut.toString()).toBigInt();
     const ethInCalculated = swapApi.calculateEthForExactNxm(nxmOutParsed, reserves);
     expect(ethInCalculated.toString()).toBe(expectedEthIn.toString());
   });
@@ -29,13 +29,13 @@ describe('calculateEthForExactNxm', () => {
   // throws error for invalid nxmOut values
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const invalidCases: Array<[string, any, string]> = [
-    ['large value = nxmA reserve', parseEther('142858.457219554100789497'), 'Not enough NXM in the pool'],
-    ['large value over nxmA reserve', parseEther('150000'), 'Not enough NXM in the pool'],
-    ['larger value over nxmA reserve', parseEther('1000000'), 'Not enough NXM in the pool'],
-    ['zero value', parseEther('0'), 'NXM out value must be greater than 0'],
-    ['unit negative  value', parseEther('-1'), 'NXM out value must be greater than 0'],
-    ['large negative value', parseEther('-1000000'), 'NXM out value must be greater than 0'],
-    ['small negative value', parseEther('-0.000000000000000001'), 'NXM out value must be greater than 0'],
+    ['large value = nxmA reserve', parseEther('142858.457219554100789497').toBigInt(), 'Not enough NXM in the pool'],
+    ['large value over nxmA reserve', parseEther('150000').toBigInt(), 'Not enough NXM in the pool'],
+    ['larger value over nxmA reserve', parseEther('1000000').toBigInt(), 'Not enough NXM in the pool'],
+    ['zero value', parseEther('0').toBigInt(), 'NXM out value must be greater than 0'],
+    ['unit negative  value', parseEther('-1').toBigInt(), 'NXM out value must be greater than 0'],
+    ['large negative value', parseEther('-1000000').toBigInt(), 'NXM out value must be greater than 0'],
+    ['small negative value', parseEther('-0.000000000000000001').toBigInt(), 'NXM out value must be greater than 0'],
     ['null value', null, 'NXM out value must be greater than 0'],
     ['undefined value', undefined, 'Cannot mix BigInt and other types, use explicit conversions'],
     ['string value', '1', 'Cannot mix BigInt and other types, use explicit conversions'],

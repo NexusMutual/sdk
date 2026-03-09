@@ -12,23 +12,31 @@ This package only exports CommonJS modules. You can import it like this:
 
 ```js
 // Usage with ES6 modules
-import { products, productTypes } from '@nexusmutual/sdk';
+import { NexusSDK } from '@nexusmutual/sdk';
 ```
 
 ## Nexus Mutual contract addresses and abis
 
 Source of truth for the latest mainnet addresses. Feeds into https://api.nexusmutual.io/sdk/.
 
-## Listed products and product types metadata
+## Product metadata
 
-The `products` folder contains all protocols listed on Nexus Mutual.
+Product and product type metadata is served by the Nexus Mutual API (default base URL `https://api.nexusmutual.io/v2`).
+Use the `ProductAPI` class to query products and product types instead of local JSON or logo assets.
+For logos, use the URL `https://api.nexusmutual.io/v2/logos/:productId`
 
-If you're a protocol owner and want to update any details (i.e. logo, website, etc), please submit a PR.
-Logos should meet the following criteria:
+### Example
 
-- svg format, with 1:1 ratio
-- no fixed width or height
-- the image should reach the edge of the viewbox
+```typescript
+import { ProductAPI } from '@nexusmutual/sdk';
+
+const productApi = new ProductAPI();
+
+const productTypes = await productApi.getAllProductTypes();
+const product = await productApi.getProductById(247);
+
+console.log(productTypes.length, product.name);
+```
 
 ## Development
 
@@ -250,7 +258,9 @@ Note: The following product types do not require IPFS content:
 - sherlockBugBounty
 - immunefiBugBounty
 
-For a complete list of products and product types, see [products.json](https://sdk.nexusmutual.io/data/products.json) and [product-types.json](https://sdk.nexusmutual.io/data/product-types.json).
+For a complete list of products and product types, use the API endpoints:
+`GET https://api.nexusmutual.io/v2/products` and `GET https://api.nexusmutual.io/v2/product-types`,
+or the `ProductAPI.getAllProducts()` and `ProductAPI.getAllProductTypes()` helpers.
 
 ### Validation Errors
 

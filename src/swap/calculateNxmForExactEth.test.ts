@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers';
-import { parseEther } from 'viem';
+import { parseEther } from 'ethers/lib/utils';
 
 import { Reserves } from './reserves.type';
 import { Swap } from './Swap';
@@ -21,7 +21,7 @@ describe('calculateNxmForExactEth', () => {
   ];
 
   test.each(cases)('calculates nxm out for eth in correctly - %s', (_type, ethOut, expectedNxmIn) => {
-    const ethOutParsed = parseEther(ethOut.toString());
+    const ethOutParsed = parseEther(ethOut.toString()).toBigInt();
     const nxmInCalculated = swapApi.calculateNxmForExactEth(ethOutParsed, reserves);
     expect(nxmInCalculated.toString()).toBe(expectedNxmIn.toString());
   });
@@ -29,13 +29,13 @@ describe('calculateNxmForExactEth', () => {
   // throws error for invalid ethOut values
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const invalidCases: Array<[string, any, string]> = [
-    ['large = ethReserve', parseEther('5000'), 'Not enough ETH in the pool'],
+    ['large = ethReserve', parseEther('5000').toBigInt(), 'Not enough ETH in the pool'],
     ['large value over ethReserve', parseEther('15000'), 'Not enough ETH in the pool'],
-    ['larger value over ethReserve', parseEther('100000'), 'Not enough ETH in the pool'],
-    ['zero value', parseEther('0'), 'ETH out value must be greater than 0'],
-    ['unit negative  value', parseEther('-1'), 'ETH out value must be greater than 0'],
-    ['large negative value', parseEther('-1000000'), 'ETH out value must be greater than 0'],
-    ['small negative value', parseEther('-0.000000000000000001'), 'ETH out value must be greater than 0'],
+    ['larger value over ethReserve', parseEther('100000').toBigInt(), 'Not enough ETH in the pool'],
+    ['zero value', parseEther('0').toBigInt(), 'ETH out value must be greater than 0'],
+    ['unit negative  value', parseEther('-1').toBigInt(), 'ETH out value must be greater than 0'],
+    ['large negative value', parseEther('-1000000').toBigInt(), 'ETH out value must be greater than 0'],
+    ['small negative value', parseEther('-0.000000000000000001').toBigInt(), 'ETH out value must be greater than 0'],
     ['null value', null, 'ETH out value must be greater than 0'],
     ['undefined value', undefined, 'Cannot mix BigInt and other types, use explicit conversions'],
     ['string value', '1', 'Cannot mix BigInt and other types, use explicit conversions'],

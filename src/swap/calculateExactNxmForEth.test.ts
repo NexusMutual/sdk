@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers';
-import { parseEther } from 'viem';
+import { parseEther } from 'ethers/lib/utils';
 
 import { Reserves } from './reserves.type';
 import { Swap } from './Swap';
@@ -22,7 +22,7 @@ describe('calculateExactNxmForEth', () => {
   ];
 
   test.each(cases)('calculates nxm out for eth in correctly - %s', (_type, ethIn, expectedNxmOut) => {
-    const ethInParsed = parseEther(ethIn.toString());
+    const ethInParsed = parseEther(ethIn.toString()).toBigInt();
     const nxmOutCalculated = swapApi.calculateExactNxmForEth(ethInParsed, reserves);
     expect(nxmOutCalculated.toString()).toBe(expectedNxmOut.toString());
   });
@@ -30,10 +30,10 @@ describe('calculateExactNxmForEth', () => {
   // throws error for invalid nxmIn values
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const invalidCases: Array<[string, any, string]> = [
-    ['zero value', parseEther('0'), 'ETH in value must be greater than 0'],
-    ['unit negative  value', parseEther('-1'), 'ETH in value must be greater than 0'],
-    ['large negative value', parseEther('-1000000'), 'ETH in value must be greater than 0'],
-    ['small negative value', parseEther('-0.000000000000000001'), 'ETH in value must be greater than 0'],
+    ['zero value', parseEther('0').toBigInt(), 'ETH in value must be greater than 0'],
+    ['unit negative  value', parseEther('-1').toBigInt(), 'ETH in value must be greater than 0'],
+    ['large negative value', parseEther('-1000000').toBigInt(), 'ETH in value must be greater than 0'],
+    ['small negative value', parseEther('-0.000000000000000001').toBigInt(), 'ETH in value must be greater than 0'],
     ['null value', null, 'ETH in value must be greater than 0'],
     ['undefined value', undefined, 'Cannot mix BigInt and other types, use explicit conversions'],
     ['string value', '1', 'Cannot mix BigInt and other types, use explicit conversions'],

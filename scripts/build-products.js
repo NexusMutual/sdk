@@ -12,7 +12,7 @@ const productMetadata = require('../data/legacy-product-metadata.json');
 
 const { PROVIDER_URL } = process.env;
 
-const ipfsURL = ipfsHash => `https://api.nexusmutual.io/ipfs/${ipfsHash}`;
+const ipfsURL = ipfsHash => `https://api.nexusmutual.io/v2/ipfs/${ipfsHash}`;
 
 const fetchProductTypes = async coverProducts => {
   const productTypesCount = (await coverProducts.getProductTypeCount()).toNumber();

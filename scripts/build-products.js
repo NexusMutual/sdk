@@ -108,7 +108,15 @@ const fetchProducts = async (coverContract, coverProducts, provider) => {
       const name = await coverProducts.getProductName(id);
       console.log(`Processing #${id} (${name})`);
       const { ipfsHash, timestamp } = productMetadata[id];
-      const metadata = ipfsHash === '' ? {} : await fetch(ipfsURL(ipfsHash)).then(res => res.json());
+      const metadata =
+        ipfsHash === ''
+          ? {}
+          : await fetch(ipfsURL(ipfsHash))
+              .then(res => res.json())
+              .catch(_err => {
+                console.error(`Error fetching metadata for product #${id}: ${_err}`);
+                return { annex: ipfsHash };
+              });
 
       if (logos[id] === undefined) {
         logos[id] = 'nexus-mutual.svg';

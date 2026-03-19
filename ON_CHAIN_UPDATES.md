@@ -40,3 +40,4 @@ To update this document, follow the steps below:
 - 2026-01-26: Updated `K&R AAA` && `K&R AA` && `K&R A` && `K&R B` && `K&R C` && `K&R D` listings min price.
 - 2026-02-02: Updated `Kidnap & Ransom Cover`product type grace period
 - 2026-02-05: Updated `OpenCover Morpho Base Vaults` & `Noon DeFi Deployment 1` & `Noon DeFi Deployment 2` listing annex.
+- 2026-03-18: Updated `Vault Cover` cover wording.

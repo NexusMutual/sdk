@@ -102,6 +102,10 @@ const allPrivateProductsIds = [
   411, // OpenCover WBTC SuperVault
   412, // OpenCover Steakhouse HYI USDC Base
   413, // OpenCover Steakhouse USDC
+  414, // OpenCover Origin stETH ARM
+  415, // OpenCover Steakhouse AUSD Turbo
+  416, // OpenCover Savings xDAI
+  417, // Templar
 ];
 
 module.exports = {

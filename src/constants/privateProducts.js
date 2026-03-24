@@ -106,6 +106,8 @@ const allPrivateProductsIds = [
   415, // OpenCover Steakhouse AUSD Turbo
   416, // OpenCover Savings xDAI
   417, // Templar
+  421, // OpenCover Gauntlet USDC P OP
+  422, // OpenCover Gauntlet USDC B OP
 ];
 
 module.exports = {

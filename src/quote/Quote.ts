@@ -139,16 +139,30 @@ export class Quote extends NexusSDKBase {
       }
     }
 
-    const product = await this.productAPI.getProductById(productId);
-    const productTypeId = product?.productType;
-    if (productTypeId === undefined) {
+    let productType: Awaited<ReturnType<ProductAPI['getProductTypeById']>>;
+    try {
+      const product = await this.productAPI.getProductById(productId);
+      const productTypeId = product?.productType;
+      if (productTypeId === undefined) {
+        return {
+          result: undefined,
+          error: { message: `Invalid product` },
+        };
+      }
+
+      productType = await this.productAPI.getProductTypeById(productTypeId);
+      if (!productType) {
+        return {
+          result: undefined,
+          error: { message: 'Invalid product type' },
+        };
+      }
+    } catch (error: unknown) {
       return {
         result: undefined,
-        error: { message: `Invalid product` },
+        error: { message: (error as Error).message || 'Failed to fetch product data' },
       };
     }
-
-    const productType = await this.productAPI.getProductTypeById(productTypeId);
 
     if (productType.ipfsContentType !== undefined && !ipfsCidOrContent) {
       return {
@@ -194,16 +208,18 @@ export class Quote extends NexusSDKBase {
       // Get quote using helper method
       const { quote } = await this.getQuote(quoteParams);
 
+      const resolvedCommissionRatio = commissionRatio ?? Number(productType.commissionRatio);
+
       const premium = paymentAssetEnum === PaymentAsset.NXM ? quote.premiumInNXM : quote.premiumInAsset;
 
       const maxPremiumInAsset = this.calculatePremiumWithCommissionAndSlippage(
         BigInt(premium),
-        commissionRatio || +productType.commissionRatio,
+        resolvedCommissionRatio,
         slippageValue,
       );
       const yearlyCostPerc = this.calculatePremiumWithCommissionAndSlippage(
         BigInt(quote.annualPrice),
-        commissionRatio || +productType.commissionRatio,
+        resolvedCommissionRatio,
         slippageValue,
       );
 
@@ -227,8 +243,8 @@ export class Quote extends NexusSDKBase {
             period: period * 60 * 60 * 24, // seconds
             maxPremiumInAsset: maxPremiumInAsset.toString(),
             paymentAsset: paymentAssetEnum,
-            commissionRatio: commissionRatio || +productType.commissionRatio,
-            commissionDestination: commissionDestination || productType.commissionDestination,
+            commissionRatio: resolvedCommissionRatio,
+            commissionDestination: commissionDestination ?? productType.commissionDestination,
             ipfsData,
           },
           poolAllocationRequests: quote.poolAllocationRequests,

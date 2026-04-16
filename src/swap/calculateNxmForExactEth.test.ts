@@ -30,7 +30,7 @@ describe('calculateNxmForExactEth', () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const invalidCases: Array<[string, any, string]> = [
     ['large = ethReserve', parseEther('5000').toBigInt(), 'Not enough ETH in the pool'],
-    ['large value over ethReserve', parseEther('15000'), 'Not enough ETH in the pool'],
+    ['large value over ethReserve', parseEther('15000').toBigInt(), 'Not enough ETH in the pool'],
     ['larger value over ethReserve', parseEther('100000').toBigInt(), 'Not enough ETH in the pool'],
     ['zero value', parseEther('0').toBigInt(), 'ETH out value must be greater than 0'],
     ['unit negative  value', parseEther('-1').toBigInt(), 'ETH out value must be greater than 0'],

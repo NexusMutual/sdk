@@ -28,14 +28,16 @@ const mockProduct: Product = {
   productType: 1,
   name: 'Test Product',
   minPrice: '100',
-  coverAssets: [CoverAsset.ETH],
-  initialPriceRation: '100',
+  coverAssets: [{ assetId: CoverAsset.ETH, assetSymbol: 'ETH' }],
+  initialPriceRatio: '100',
   capacityReductionRatio: '0',
   isDeprecated: false,
   useFixedPrice: false,
   metadata: '',
   allowedPools: [],
   logo: '',
+  timestamp: 0,
+  isPrivate: false,
 };
 
 const mockProductType: ProductType = {

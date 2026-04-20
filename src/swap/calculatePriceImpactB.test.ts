@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers';
-import { parseEther } from 'viem';
+import { parseEther } from 'ethers/lib/utils';
 
 import { Reserves } from './reserves.type';
 import { Swap } from './Swap';
@@ -22,7 +22,7 @@ describe('calculatePriceImpactB', () => {
   ];
 
   test.each(cases)('calculates price impact B - %s', (_type, nxmIn, expectedPriceImpact) => {
-    const nxmInParsed = parseEther(nxmIn.toString());
+    const nxmInParsed = parseEther(nxmIn.toString()).toBigInt();
     const priceImpact = swapApi.calculatePriceImpactB(nxmInParsed, reserves);
     expect(priceImpact.toString()).toBe(expectedPriceImpact.toString());
   });
@@ -30,12 +30,12 @@ describe('calculatePriceImpactB', () => {
   // throws error for invalid nxmIn values
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const invalidCases: Array<[string, any, string]> = [
-    ['small value = 1e-17', parseEther('0.00000000000000001'), 'Division by zero'],
-    ['small value = 1e-18', parseEther('0.000000000000000001'), 'Division by zero'],
-    ['zero value', parseEther('0'), 'NXM in value must be greater than 0'],
-    ['unit negative  value', parseEther('-1'), 'NXM in value must be greater than 0'],
-    ['large negative value', parseEther('-1000000'), 'NXM in value must be greater than 0'],
-    ['small negative value', parseEther('-0.000000000000000001'), 'NXM in value must be greater than 0'],
+    ['small value = 1e-17', parseEther('0.00000000000000001').toBigInt(), 'Division by zero'],
+    ['small value = 1e-18', parseEther('0.000000000000000001').toBigInt(), 'Division by zero'],
+    ['zero value', parseEther('0').toBigInt(), 'NXM in value must be greater than 0'],
+    ['unit negative  value', parseEther('-1').toBigInt(), 'NXM in value must be greater than 0'],
+    ['large negative value', parseEther('-1000000').toBigInt(), 'NXM in value must be greater than 0'],
+    ['small negative value', parseEther('-0.000000000000000001').toBigInt(), 'NXM in value must be greater than 0'],
     ['null value', null, 'NXM in value must be greater than 0'],
     ['undefined value', undefined, 'Cannot mix BigInt and other types, use explicit conversions'],
     ['string value', '1', 'Cannot mix BigInt and other types, use explicit conversions'],

@@ -1,4 +1,4 @@
-import { formatEther, parseEther } from 'viem';
+import { formatEther, parseEther } from 'ethers/lib/utils';
 
 import { Quote } from './index';
 import { COMMISSION_DENOMINATOR } from '../constants/cover';
@@ -6,7 +6,7 @@ import { COMMISSION_DENOMINATOR } from '../constants/cover';
 const BUY_COVER_COMMISSION_RATIO = 1500;
 
 describe('calculatePremiumWithCommissionAndSlippage', () => {
-  let priceValue = parseEther('0');
+  let priceValue = parseEther('0').toBigInt();
   const quoteApi = new Quote();
 
   const priceWithCommissionFormula = (value: string) =>
@@ -18,11 +18,11 @@ describe('calculatePremiumWithCommissionAndSlippage', () => {
     );
 
   beforeEach(() => {
-    priceValue = parseEther('0');
+    priceValue = parseEther('0').toBigInt();
   });
 
   it('should return 0 BigInt value for 0 price value', () => {
-    const expectedValue = parseEther('0');
+    const expectedValue = parseEther('0').toBigInt();
 
     expect(quoteApi.calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO)).toStrictEqual(
       expectedValue,
@@ -31,7 +31,7 @@ describe('calculatePremiumWithCommissionAndSlippage', () => {
 
   it('should return correct BigInt values for 1 value price - integer value', () => {
     const value = '1';
-    priceValue = parseEther(value);
+    priceValue = parseEther(value).toBigInt();
 
     const expectedValue = priceWithCommissionAndSlippageFormula(value);
 
@@ -43,67 +43,67 @@ describe('calculatePremiumWithCommissionAndSlippage', () => {
 
   it('should return correct BigInt value for 0.1 value price - decimal value < 1', () => {
     const value = '0.1';
-    priceValue = parseEther(value);
+    priceValue = parseEther(value).toBigInt();
 
     const expectedValue = priceWithCommissionAndSlippageFormula(value);
 
     const actualValue = quoteApi.calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO);
-    const actualValueFormatted = formatEther(actualValue);
+    const actualValueFormatted = formatEther(BigInt(actualValue));
 
     expect(parseFloat(actualValueFormatted)).toBeCloseTo(expectedValue, 4);
   });
 
   it('should return correct BigInt value for 1.23456789 value price - decimal value > 1', () => {
     const value = '1.23456789';
-    priceValue = parseEther(value);
+    priceValue = parseEther(value).toBigInt();
 
     const expectedValue = priceWithCommissionAndSlippageFormula(value);
 
     const actualValue = quoteApi.calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO);
-    const actualValueFormatted = formatEther(actualValue);
+    const actualValueFormatted = formatEther(BigInt(actualValue));
 
     expect(parseFloat(actualValueFormatted)).toBeCloseTo(expectedValue, 4);
   });
 
   it('should return correct BigInt values for 1000 value price - integer value', () => {
     const value = '1000';
-    priceValue = parseEther(value);
+    priceValue = parseEther(value).toBigInt();
 
     const expectedValue = priceWithCommissionAndSlippageFormula(value);
 
     const actualValue = quoteApi.calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO);
-    const actualValueFormatted = formatEther(actualValue);
+    const actualValueFormatted = formatEther(BigInt(actualValue));
 
     expect(parseFloat(actualValueFormatted)).toBeCloseTo(expectedValue, 4);
   });
 
   it('should return correct BigInt value for 0.1 value price as BigInt-like object - decimal value < 1', () => {
     const value = '0.1';
-    priceValue = parseEther(value);
+    priceValue = parseEther(value).toBigInt();
 
     const expectedValue = priceWithCommissionAndSlippageFormula(value);
 
     const actualValue = quoteApi.calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO);
-    const actualValueFormatted = formatEther(actualValue);
+    const actualValueFormatted = formatEther(BigInt(actualValue));
 
     expect(parseFloat(actualValueFormatted)).toBeCloseTo(expectedValue, 4);
   });
 
   it('should return correct BigInt value for 1.23456789 value price as BigInt-like object - decimal value > 1', () => {
     const value = '1.23456789';
-    priceValue = parseEther(value);
+    priceValue = parseEther(value).toBigInt();
 
     const expectedValue = priceWithCommissionAndSlippageFormula(value);
 
     const actualValue = quoteApi.calculatePremiumWithCommissionAndSlippage(priceValue, BUY_COVER_COMMISSION_RATIO);
-    const actualValueFormatted = formatEther(actualValue);
+    const actualValueFormatted = formatEther(BigInt(actualValue));
 
     expect(parseFloat(actualValueFormatted)).toBeCloseTo(expectedValue, 4);
   });
 
   it('should return correct BigInt values for 1 value price and 1% slippage', () => {
     const value = '1';
-    priceValue = parseEther(value);
+    priceValue = parseEther(value).toBigInt();
     const slippageValue = 100;
 
     const expectedValue = priceWithCommissionAndSlippageFormula(value, slippageValue);
@@ -113,14 +113,14 @@ describe('calculatePremiumWithCommissionAndSlippage', () => {
       BUY_COVER_COMMISSION_RATIO,
       slippageValue,
     );
-    const actualValueFormatted = formatEther(actualValue);
+    const actualValueFormatted = formatEther(BigInt(actualValue));
 
     expect(parseFloat(actualValueFormatted)).toBeCloseTo(expectedValue, 4);
   });
 
   it('should return correct BigInt values for 1 value price and 0.5% slippage', () => {
     const value = '1';
-    priceValue = parseEther(value);
+    priceValue = parseEther(value).toBigInt();
     const slippageValue = 50;
 
     const expectedValue = priceWithCommissionAndSlippageFormula(value, slippageValue);
@@ -130,7 +130,7 @@ describe('calculatePremiumWithCommissionAndSlippage', () => {
       BUY_COVER_COMMISSION_RATIO,
       slippageValue,
     );
-    const actualValueFormatted = formatEther(actualValue);
+    const actualValueFormatted = formatEther(BigInt(actualValue));
 
     expect(parseFloat(actualValueFormatted)).toBeCloseTo(expectedValue, 4);
   });

@@ -80,7 +80,7 @@ jobs:
           cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --ignore-scripts --prefer-offline
 
       # Run build script to generate `/generated` dir which is needed by ts:check and test scripts
       - name: Build package

@@ -2,22 +2,26 @@
   "name": "@nexusmutual/sdk",
   "version": "1.43.0",
   "description": "Nexus Mutual SDK",
+  "packageManager": "pnpm@10.33.0",
+  "pnpm": {
+    "minimumReleaseAge": "1 day"
+  },
   "scripts": {
-    "build": "npm run clean && node scripts/build.js",
+    "build": "pnpm run clean && node scripts/build.js",
     "clean": "rm -rf dist generated",
     "lint": "NODE_OPTIONS=--no-deprecation eslint --quiet --max-warnings 0 .",
-    "lint:fix": "NODE_OPTIONS=--no-deprecation npm run lint -- --fix --quiet",
+    "lint:fix": "NODE_OPTIONS=--no-deprecation pnpm run lint -- --fix --quiet",
     "format": "prettier --loglevel silent --check 'src/**/*.{js,jsx,ts,tsx}'",
     "format:fix": "prettier --loglevel silent --write 'src/**/*.{js,jsx,ts,tsx}'",
     "test": "jest",
     "test:watch": "jest --watch",
-    "ts:build": "npm run build",
-    "ts:check": "npm run ts:check-types && npm run ts:circular-check",
+    "ts:build": "pnpm run build",
+    "ts:check": "pnpm run ts:check-types && pnpm run ts:circular-check",
     "ts:check-types": "tsc --noEmit",
     "ts:circular-check": "dpdm --no-output --no-tree --no-warning --exit-code circular:1 -T ./src/**/*.ts",
     "list:products": "node scripts/list-products.js",
     "list:product-types": "node scripts/list-product-types.js",
-    "publish:next": "npm publish --access public --tag next",
+    "publish:next": "pnpm publish --access public --tag next",
     "prepare": "husky"
   },
   "typings": "./dist/index.d.ts",
@@ -41,7 +45,7 @@
   },
   "dependencies": {
     "@nexusmutual/deployments": "3.2.0",
-    "axios": "^1.11.0",
+    "axios": "^1.15.0",
     "is-ipfs": "^6.0.2",
     "svgo": "^3.0.2",
     "zod": "^3.24.1"

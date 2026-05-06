@@ -20,24 +20,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: pnpm/action-setup@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
-          cache-dependency-path: package-lock.json
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
-        run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund
+        run: pnpm install --frozen-lockfile
 
       # Run build script to generate `/generated` dir which is needed by ts:check and test scripts
       - name: TypeScript build
-        run: npm run ts:build
+        run: pnpm run ts:build
 
       - name: Run linter
-        run: npm run lint
+        run: pnpm run lint
 
       - name: Check types and typescript
-        run: npm run ts:check
+        run: pnpm run ts:check
 
       - name: Run tests
-        run: npm run test
+        run: pnpm run test

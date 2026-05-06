@@ -39,7 +39,7 @@ jobs:
   # - bump_type: The type of semantic version bump (major, minor, patch)
   # - triggers_bump: 'true' if a version bump is needed, 'false' otherwise
   check-version-bump:
-    uses: NexusMutual/workflows/.github/workflows/check-version-bump.yml@chore/pnpm-setup
+    uses: NexusMutual/workflows/.github/workflows/check-version-bump.yml@53ba182067891aa989814dc23a4b9e945dd799a8
     with:
       ref: dev
       environment: production
@@ -70,7 +70,7 @@ jobs:
   # This ensures master contains all changes from dev before creating the release
   ff-master:
     needs: [check-version-bump, validate-version-bump]
-    uses: NexusMutual/workflows/.github/workflows/fast-forward.yml@chore/pnpm-setup
+    uses: NexusMutual/workflows/.github/workflows/fast-forward.yml@53ba182067891aa989814dc23a4b9e945dd799a8
     with:
       environment: production
       source-ref: dev
@@ -85,7 +85,7 @@ jobs:
   # - bumped_version: The new version number
   bump-version:
     needs: [check-version-bump, ff-master]
-    uses: NexusMutual/workflows/.github/workflows/bump.yml@chore/pnpm-setup
+    uses: NexusMutual/workflows/.github/workflows/bump.yml@53ba182067891aa989814dc23a4b9e945dd799a8
     with:
       environment: production
       ref: master
@@ -174,7 +174,7 @@ jobs:
   # This marks the commit in git history and creates a release on GitHub
   git-tag-release:
     needs: build-and-checks
-    uses: NexusMutual/workflows/.github/workflows/git-tag-github-release.yml@chore/pnpm-setup
+    uses: NexusMutual/workflows/.github/workflows/git-tag-github-release.yml@53ba182067891aa989814dc23a4b9e945dd799a8
     with:
       environment: production
       ref: master
@@ -187,7 +187,7 @@ jobs:
   # The commit includes [skip ci] so release-next.yml won't run on this commit
   rebase-dev:
     needs: build-and-checks
-    uses: NexusMutual/workflows/.github/workflows/rebase.yml@chore/pnpm-setup
+    uses: NexusMutual/workflows/.github/workflows/rebase.yml@53ba182067891aa989814dc23a4b9e945dd799a8
     with:
       environment: production
       source-ref: master
@@ -218,7 +218,7 @@ jobs:
             base-branch: dev
             change-type: build
       fail-fast: false # Allow other matrix jobs to continue even if one fails
-    uses: NexusMutual/workflows/.github/workflows/open-pr.yml@chore/pnpm-setup
+    uses: NexusMutual/workflows/.github/workflows/open-pr.yml@53ba182067891aa989814dc23a4b9e945dd799a8
     with:
       environment: production
       repository: ${{ matrix.repo }}

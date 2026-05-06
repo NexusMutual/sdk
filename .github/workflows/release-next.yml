@@ -76,24 +76,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
-          cache-dependency-path: package-lock.json
+          cache: "pnpm"
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
-        run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund
+        run: pnpm install --frozen-lockfile
 
       # Run build script to generate `/generated` dir which is needed by ts:check and test scripts
       - name: Build package
-        run: npm run build
+        run: pnpm run build
 
       - name: Run linter
-        run: npm run lint
+        run: pnpm run lint
 
       - name: Check types and typescript
-        run: npm run ts:check
+        run: pnpm run ts:check
 
       - name: Run tests
-        run: npm run test
+        run: pnpm run test
 
       # Save the build artifacts for the publish job
       - uses: actions/upload-artifact@v4
@@ -120,18 +120,18 @@ jobs:
           name: sdk-next-${{ needs.rc-version.outputs.rc_version }}
           path: dist
 
-      # Remove the prepare script to avoid running it during npm publish
+      # Remove the prepare script to avoid running it during pnpm publish
       - name: Remove prepare script
-        run: npm pkg delete scripts.prepare
+        run: pnpm pkg delete scripts.prepare
 
       # Set the RC version in package.json for publishing
       # This is an ephemeral change only for publishing and not committed to the repository
       - name: RC version bump
         run: |
-          npm version ${{ needs.rc-version.outputs.rc_version }} --no-git-tag-version
+          pnpm version ${{ needs.rc-version.outputs.rc_version }} --no-git-tag-version
 
       # Publish the package to npm with the '@next' tag
       - name: Publish with next tag
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        run: npm publish --tag next --access public --ignore-scripts
+        run: pnpm publish --tag next --access public --ignore-scripts

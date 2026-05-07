@@ -138,4 +138,4 @@ jobs:
       - name: Publish with next tag
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        run: pnpm publish --tag next --access public --ignore-scripts
+        run: pnpm publish --tag next --access public --ignore-scripts --no-git-checks

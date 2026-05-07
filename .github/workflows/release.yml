@@ -168,7 +168,7 @@ jobs:
       - name: Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        run: pnpm publish --access public --ignore-scripts
+        run: pnpm publish --access public --ignore-scripts --no-git-checks
 
   # Seventh step: Create a git tag and GitHub release
   # This marks the commit in git history and creates a release on GitHub

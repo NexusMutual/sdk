@@ -6,6 +6,10 @@
 npm install @nexusmutual/sdk
 ```
 
+## Requirements
+
+- Node.js 18 or newer
+
 ## Usage
 
 This package only exports CommonJS modules. You can import it like this:

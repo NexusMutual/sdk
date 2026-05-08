@@ -3,6 +3,7 @@ import * as deployments from '@nexusmutual/deployments';
 import * as constants from './constants';
 import * as ipfs from './ipfs';
 import { NexusSDK } from './nexus-sdk';
+import { ApiError } from './nexus-sdk-base';
 import * as productApi from './product-api';
 import * as quote from './quote';
 import * as swap from './swap';
@@ -17,6 +18,7 @@ const nexusSdk = {
   ...productApi,
   ...constants,
   NexusSDK,
+  ApiError,
 };
 
 // Re-export everything from the deployments package (e.g. `addresses` and `abis`)
@@ -35,5 +37,8 @@ export * from './quote';
 export * from './constants';
 
 export { NexusSDK } from './nexus-sdk';
+
+export { ApiError } from './nexus-sdk-base';
+export type { RequestConfig } from './nexus-sdk-base';
 
 export default nexusSdk;

@@ -1,5 +1,5 @@
 import { parseEther } from 'ethers/lib/utils';
-import mockAxios from 'jest-mock-axios';
+import fetchMock from 'jest-fetch-mock';
 
 import {
   CoverAsset,
@@ -20,7 +20,6 @@ import {
   DefiPassContent,
 } from '../types';
 import { Product, ProductType } from '../types/product';
-jest.mock('axios', () => mockAxios);
 jest.setTimeout(10_000);
 
 const mockProduct: Product = {
@@ -104,7 +103,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   beforeEach(() => {
-    mockAxios.reset();
+    fetchMock.resetMocks();
   });
 
   it('uses DEFAULT_NEXUS_API_URL if no API URL is supplied', async () => {
@@ -113,10 +112,10 @@ describe('getQuoteAndBuyCoverInputs', () => {
     const period = 30;
     const coverAsset = CoverAsset.ETH;
 
-    mockAxios.get.mockResolvedValueOnce({ data: mockProduct });
-    mockAxios.get.mockResolvedValueOnce({ data: mockProductType });
-    mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
-    mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
+    fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(mockProductType));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
 
     await quoteApi.getQuoteAndBuyCoverInputs({
       productId,
@@ -127,7 +126,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     });
 
     const defaultGetProductUrl = DEFAULT_NEXUS_API_URL + '/products/1';
-    expect(mockAxios.get).toHaveBeenCalledWith(defaultGetProductUrl, {});
+    expect(fetchMock.mock.calls[0]?.[0]).toBe(defaultGetProductUrl);
   });
 
   it('allows the consumer to override nexusApiUrl param', async () => {
@@ -138,10 +137,10 @@ describe('getQuoteAndBuyCoverInputs', () => {
     const period = 30;
     const coverAsset = CoverAsset.ETH;
 
-    mockAxios.get.mockResolvedValueOnce({ data: mockProduct });
-    mockAxios.get.mockResolvedValueOnce({ data: mockProductType });
-    mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
-    mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
+    fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(mockProductType));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
 
     await quoteApi.getQuoteAndBuyCoverInputs({
       productId,
@@ -154,7 +153,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     });
 
     const overrideGetProductUrl = url + '/products/1';
-    expect(mockAxios.get).toHaveBeenCalledWith(overrideGetProductUrl, {});
+    expect(fetchMock.mock.calls[0]?.[0]).toBe(overrideGetProductUrl);
   });
 
   const invalidProductIds = [-1, 'a', true, {}, [], null, undefined];
@@ -244,7 +243,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
         // @ts-expect-error invalid ipfsCidOrContent
         ipfsCidOrContent: invalidData,
       });
-      mockAxios.get.mockResolvedValue({ data: {} });
+      fetchMock.mockResponse(JSON.stringify({}));
       expect(error?.message).toBe('Invalid ipfsCidOrContent: must be a string CID or content object');
     },
   );
@@ -252,8 +251,8 @@ describe('getQuoteAndBuyCoverInputs', () => {
   it('returns an error if ipfsData is not a valid IPFS content for the product type - ETH Slashing', async () => {
     const ethSlashingProduct = { ...mockProduct, id: 82, productType: 5 };
     const ethSlashingProductType = { ...mockProductType, id: 5, ipfsContentType: 'coverValidators' };
-    mockAxios.get.mockResolvedValueOnce({ data: ethSlashingProduct });
-    mockAxios.get.mockResolvedValueOnce({ data: ethSlashingProductType });
+    fetchMock.mockResponseOnce(JSON.stringify(ethSlashingProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(ethSlashingProductType));
 
     const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
     const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
@@ -275,8 +274,8 @@ describe('getQuoteAndBuyCoverInputs', () => {
   it('returns an error if ipfsData content has an empty validators field for ETH Slashing product type', async () => {
     const ethSlashingProduct = { ...mockProduct, id: 82, productType: 5 };
     const ethSlashingProductType = { ...mockProductType, id: 5, ipfsContentType: 'coverValidators' };
-    mockAxios.get.mockResolvedValueOnce({ data: ethSlashingProduct });
-    mockAxios.get.mockResolvedValueOnce({ data: ethSlashingProductType });
+    fetchMock.mockResponseOnce(JSON.stringify(ethSlashingProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(ethSlashingProductType));
 
     const emptyValidators: CoverValidators = { version: '1.0', validators: [] };
     const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
@@ -300,8 +299,8 @@ describe('getQuoteAndBuyCoverInputs', () => {
   it('returns an error if ipfsData is not a valid IPFS content for the product type - UnoRe Quota Share', async () => {
     const quotaShareProduct = { ...mockProduct, id: 107, productType: 6 };
     const quotaShareProductType = { ...mockProductType, id: 6, ipfsContentType: 'coverQuotaShare' };
-    mockAxios.get.mockResolvedValueOnce({ data: quotaShareProduct });
-    mockAxios.get.mockResolvedValueOnce({ data: quotaShareProductType });
+    fetchMock.mockResponseOnce(JSON.stringify(quotaShareProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(quotaShareProductType));
 
     const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
     const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
@@ -323,8 +322,8 @@ describe('getQuoteAndBuyCoverInputs', () => {
   it('returns an error if ipfsData is not a valid IPFS content for the product type - Fund Portfolio', async () => {
     const fundPortfolioProduct = { ...mockProduct, id: 195, productType: 7 };
     const fundPortfolioProductType = { ...mockProductType, id: 7, ipfsContentType: 'coverAumCoverAmountPercentage' };
-    mockAxios.get.mockResolvedValueOnce({ data: fundPortfolioProduct });
-    mockAxios.get.mockResolvedValueOnce({ data: fundPortfolioProductType });
+    fetchMock.mockResponseOnce(JSON.stringify(fundPortfolioProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(fundPortfolioProductType));
 
     const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
     const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
@@ -346,8 +345,8 @@ describe('getQuoteAndBuyCoverInputs', () => {
   it('returns an error if ipfsData is not a valid IPFS content for the product type - Nexus Mutual Cover', async () => {
     const nexusMutualCoverProduct = { ...mockProduct, id: 247, productType: 8 };
     const nexusMutualCoverProductType = { ...mockProductType, id: 8, ipfsContentType: 'coverWalletAddresses' };
-    mockAxios.get.mockResolvedValueOnce({ data: nexusMutualCoverProduct });
-    mockAxios.get.mockResolvedValueOnce({ data: nexusMutualCoverProductType });
+    fetchMock.mockResponseOnce(JSON.stringify(nexusMutualCoverProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(nexusMutualCoverProductType));
 
     const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
     const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
@@ -369,8 +368,8 @@ describe('getQuoteAndBuyCoverInputs', () => {
   it('returns an error if ipfsData is not a valid IPFS content for Defi Pass', async () => {
     const defiPassProduct = { ...mockProduct, id: 227, productType: 9 };
     const defiPassProductType = { ...mockProductType, id: 9, ipfsContentType: 'defiPassContent' };
-    mockAxios.get.mockResolvedValueOnce({ data: defiPassProduct });
-    mockAxios.get.mockResolvedValueOnce({ data: defiPassProductType });
+    fetchMock.mockResponseOnce(JSON.stringify(defiPassProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(defiPassProductType));
 
     const emptyWalletsContent: DefiPassContent = { version: '1.0', wallets: [] };
     const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
@@ -394,8 +393,8 @@ describe('getQuoteAndBuyCoverInputs', () => {
   it('returns an error if ipfsData is not a valid IPFS content for the Defi Pass - empty address', async () => {
     const defiPassProduct = { ...mockProduct, id: 227, productType: 9 };
     const defiPassProductType = { ...mockProductType, id: 9, ipfsContentType: 'defiPassContent' };
-    mockAxios.get.mockResolvedValueOnce({ data: defiPassProduct });
-    mockAxios.get.mockResolvedValueOnce({ data: defiPassProductType });
+    fetchMock.mockResponseOnce(JSON.stringify(defiPassProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(defiPassProductType));
 
     const emptyWalletString: DefiPassContent = { version: '1.0', walletAddress: '' };
     const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
@@ -435,10 +434,10 @@ describe('getQuoteAndBuyCoverInputs', () => {
       },
       capacities: [{ poolId: '147', capacity: [{ assetId: '1', amount: parseEther('1000').toString() }] }],
     };
-    mockAxios.get.mockResolvedValueOnce({ data: nexusMutualCoverProduct });
-    mockAxios.get.mockResolvedValueOnce({ data: nexusMutualCoverProductType });
-    mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
-    mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
+    fetchMock.mockResponseOnce(JSON.stringify(nexusMutualCoverProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(nexusMutualCoverProductType));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
 
     const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
       ...quoteParams,
@@ -454,14 +453,10 @@ describe('getQuoteAndBuyCoverInputs', () => {
     const nexusMutualCoverProduct = { ...mockProduct, id: 247, productType: 8 };
     const nexusMutualCoverProductType = { ...mockProductType, id: 8, ipfsContentType: 'coverWalletAddresses' };
 
-    mockAxios.get.mockResolvedValueOnce({ data: nexusMutualCoverProduct });
-    mockAxios.get.mockResolvedValueOnce({ data: nexusMutualCoverProductType });
+    fetchMock.mockResponseOnce(JSON.stringify(nexusMutualCoverProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(nexusMutualCoverProductType));
 
-    mockAxios.post.mockResolvedValueOnce({
-      data: {
-        ipfsHash: 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY',
-      },
-    });
+    fetchMock.mockResponseOnce(JSON.stringify({ ipfsHash: 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY' }));
 
     const coverRouterQuoteResponse: CoverRouterQuoteResponse = {
       quote: {
@@ -479,8 +474,8 @@ describe('getQuoteAndBuyCoverInputs', () => {
       },
       capacities: [{ poolId: '147', capacity: [{ assetId: '1', amount: parseEther('1000').toString() }] }],
     };
-    mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
-    mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
 
     const validEthAddress = '0x1234567890123456789012345678901234567890';
     const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
@@ -497,8 +492,8 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   it('returns an object with displayInfo and buyCoverInput parameters', async () => {
-    mockAxios.get.mockResolvedValueOnce({ data: mockProduct });
-    mockAxios.get.mockResolvedValueOnce({ data: mockProductType });
+    fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(mockProductType));
 
     const coverRouterQuoteResponse: CoverRouterQuoteResponse = {
       quote: {
@@ -516,8 +511,8 @@ describe('getQuoteAndBuyCoverInputs', () => {
       },
       capacities: [{ poolId: '147', capacity: [{ assetId: '1', amount: parseEther('1000').toString() }] }],
     };
-    mockAxios.get.mockResolvedValueOnce({ data: coverRouterQuoteResponse });
-    mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
 
     const coverAmount = parseEther('100').toString();
     const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
@@ -552,22 +547,16 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(result?.buyCoverInput.buyCoverParams.commissionRatio).toBe(+mockProductType.commissionRatio);
     expect(result?.buyCoverInput.buyCoverParams.commissionDestination).toBe(mockProductType.commissionDestination);
     expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe('QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY');
-    expect(mockAxios.get).toHaveBeenCalledTimes(4);
+    expect(fetchMock).toHaveBeenCalledTimes(4);
   });
 
   it('should handle "Not enough capacity for the cover amount" error correctly - ETH', async () => {
-    mockAxios.get.mockReset();
+    fetchMock.mockReset();
 
-    mockAxios.get.mockResolvedValueOnce({ data: mockProduct });
-    mockAxios.get.mockResolvedValueOnce({ data: mockProductType });
-    mockAxios.get.mockRejectedValueOnce({
-      isAxiosError: true,
-      response: {
-        status: 400,
-        data: { error: 'Not enough capacity for the cover amount' },
-      },
-    });
-    mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
+    fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(mockProductType));
+    fetchMock.mockResponseOnce(JSON.stringify({ error: 'Not enough capacity for the cover amount' }), { status: 400 });
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
 
     const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs(quoteParams);
 
@@ -577,17 +566,11 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   it('should handle "Not enough capacity for the cover amount" error correctly - DAI', async () => {
-    mockAxios.get.mockResolvedValueOnce({ data: mockProduct });
-    mockAxios.get.mockResolvedValueOnce({ data: mockProductType });
-    mockAxios.get.mockRejectedValueOnce({
-      isAxiosError: true,
-      response: {
-        status: 400,
-        data: { error: 'Not enough capacity for the cover amount' },
-      },
-    });
+    fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(mockProductType));
+    fetchMock.mockResponseOnce(JSON.stringify({ error: 'Not enough capacity for the cover amount' }), { status: 400 });
 
-    mockAxios.get.mockResolvedValueOnce({ data: coverRouterCapacityResponse });
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
 
     const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
       ...quoteParams,

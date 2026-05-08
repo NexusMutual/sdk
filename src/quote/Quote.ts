@@ -1,5 +1,3 @@
-import { AxiosError, AxiosRequestConfig } from 'axios';
-
 import {
   COMMISSION_DENOMINATOR,
   CoverAsset,
@@ -11,7 +9,7 @@ import {
   TARGET_PRICE_DENOMINATOR,
 } from '../constants';
 import { Ipfs } from '../ipfs';
-import { NexusSDKBase } from '../nexus-sdk-base';
+import { ApiError, NexusSDKBase, RequestConfig } from '../nexus-sdk-base';
 import { ProductAPI } from '../product-api/ProductAPI';
 import {
   CoverRouterProductCapacityResponse,
@@ -263,7 +261,7 @@ export class Quote extends NexusSDKBase {
    * @returns Quote response
    */
   private async getQuote(params: QuoteParams): Promise<CoverRouterQuoteResponse> {
-    const options: AxiosRequestConfig = {
+    const options: RequestConfig = {
       method: 'GET',
       params,
     };
@@ -288,7 +286,7 @@ export class Quote extends NexusSDKBase {
     coverAsset: CoverAsset,
   ): Promise<string | undefined> {
     const params = { period: coverPeriod };
-    const options: AxiosRequestConfig = {
+    const options: RequestConfig = {
       method: 'GET',
       params,
     };
@@ -316,25 +314,23 @@ export class Quote extends NexusSDKBase {
     coverPeriod: number,
     coverAsset: CoverAsset,
   ): Promise<ErrorApiResponse> {
-    const axiosError = error as AxiosError<{ error: string }>;
-    if (axiosError.isAxiosError) {
-      if (axiosError.response?.data?.error?.includes('Not enough capacity')) {
+    if (error instanceof ApiError) {
+      const apiErrorMessage = (error.data as { error?: string })?.error;
+      if (apiErrorMessage?.includes('Not enough capacity')) {
         try {
-          // Get product capacity using helper method
           const maxCapacity = await this.getProductCapacity(productId, coverPeriod, coverAsset);
 
           return {
             result: undefined,
             error: {
-              message: axiosError.response?.data.error,
+              message: apiErrorMessage,
               data: maxCapacity ? { maxCapacity } : undefined,
             },
           };
         } catch (capacityError) {
-          // If we can't get capacity, just return the original error
           return {
             result: undefined,
-            error: { message: axiosError.response?.data.error || 'Not enough capacity' },
+            error: { message: apiErrorMessage || 'Not enough capacity' },
           };
         }
       }

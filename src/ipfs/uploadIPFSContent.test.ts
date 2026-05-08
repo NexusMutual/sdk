@@ -1,4 +1,4 @@
-import mockAxios from 'jest-mock-axios';
+import fetchMock from 'jest-fetch-mock';
 
 import { Ipfs } from './Ipfs';
 import { version } from '../../generated/version.json';
@@ -12,12 +12,8 @@ describe('uploadIPFSContent', () => {
   };
   const ipfsApi = new Ipfs({ apiUrl: URL });
 
-  beforeAll(() => {
-    jest.mock('axios');
-  });
-
   beforeEach(() => {
-    mockAxios.reset();
+    fetchMock.resetMocks();
   });
 
   it('should throw an error if content is empty', async () => {
@@ -30,37 +26,28 @@ describe('uploadIPFSContent', () => {
 
   it('should call the ipfs upload endpoint with the correct data', async () => {
     const expectedHash = 'QmZ4w2yH';
-    mockAxios.post.mockResolvedValue({
-      data: { ipfsHash: expectedHash },
-    });
+    fetchMock.mockResponseOnce(JSON.stringify({ ipfsHash: expectedHash }));
 
     await ipfsApi.uploadIPFSContent([ContentType.coverFreeText, coverFreeTextContent]);
 
-    expect(mockAxios.post).toHaveBeenCalledTimes(1);
-    expect(mockAxios.post).toHaveBeenCalledWith(
-      URL + '/ipfs',
-      {
-        type: ContentType.coverFreeText,
-        content: coverFreeTextContent,
-      },
-      {
-        params: { sdk: version },
-      },
-    );
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [calledUrl, calledInit] = fetchMock.mock.calls[0]!;
+    expect(calledUrl).toBe(`${URL}/ipfs?sdk=${version}`);
+    expect(calledInit?.method).toBe('POST');
+    expect(calledInit?.body).toBe(JSON.stringify({ type: ContentType.coverFreeText, content: coverFreeTextContent }));
+    expect(calledInit?.headers).toEqual({ 'Content-Type': 'application/json' });
   });
 
   it('should return the ipfs hash on successful upload', async () => {
     const expectedHash = 'QmZ4w2yH9oF';
-    mockAxios.post.mockResolvedValue({
-      data: { ipfsHash: expectedHash },
-    });
+    fetchMock.mockResponseOnce(JSON.stringify({ ipfsHash: expectedHash }));
 
     const result = await ipfsApi.uploadIPFSContent([ContentType.coverFreeText, coverFreeTextContent]);
     expect(result).toEqual(expectedHash);
   });
 
   it('should throw error if api call fails', async () => {
-    mockAxios.post.mockRejectedValue(new Error('Network error'));
+    fetchMock.mockRejectOnce(new Error('Network error'));
 
     const res = async () => {
       await ipfsApi.uploadIPFSContent([ContentType.coverFreeText, coverFreeTextContent]);

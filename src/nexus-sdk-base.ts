@@ -60,7 +60,12 @@ export class NexusSDKBase {
       init.headers = headers;
     }
 
-    const response = await fetch(url.toString(), init);
+    let response: Response;
+    try {
+      response = await fetch(url.toString(), init);
+    } catch (err) {
+      throw new ApiError(0, undefined, (err as Error).message ?? 'Network Error');
+    }
 
     if (!response.ok) {
       const errorData = await this.parseResponseBody(response);

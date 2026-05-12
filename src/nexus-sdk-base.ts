@@ -1,6 +1,23 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-
 import { NexusSDKConfig } from './types';
+
+export interface RequestConfig {
+  method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+  headers?: Record<string, string>;
+  params?: Record<string, unknown>;
+  data?: unknown;
+}
+
+export class ApiError extends Error {
+  public readonly status: number;
+  public readonly data: unknown;
+
+  constructor(status: number, data: unknown, message: string) {
+    super(message);
+    this.name = 'ApiError';
+    this.status = status;
+    this.data = data;
+  }
+}
 
 /**
  * Base class for the Nexus SDK.
@@ -20,43 +37,62 @@ export class NexusSDKBase {
   /**
    * Sends an HTTP request to the specified endpoint
    * @param endpoint API endpoint to send the request to
-   * @param options Axios request configuration
+   * @param options Request configuration
    * @returns Promise resolving to the response data
    */
-  protected async sendRequest<T>(endpoint: string, options: AxiosRequestConfig = {}): Promise<T> {
-    const url = `${this.apiUrl}${endpoint}`;
-    const requestOptions: AxiosRequestConfig = {};
+  protected async sendRequest<T>(endpoint: string, options: RequestConfig = {}): Promise<T> {
+    const { method = 'GET', headers, params, data } = options;
 
-    if (options.headers) {
-      requestOptions.headers = options.headers;
+    const url = new URL(this.apiUrl + endpoint);
+    if (params) {
+      for (const [key, value] of Object.entries(params)) {
+        if (value != null) {
+          url.searchParams.append(key, String(value));
+        }
+      }
     }
-    if (options.params) {
-      requestOptions.params = options.params;
+
+    const init: RequestInit = { method };
+    if (data !== undefined) {
+      init.body = JSON.stringify(data);
+      init.headers = { 'Content-Type': 'application/json', ...headers };
+    } else if (headers) {
+      init.headers = headers;
+    }
+
+    let response: Response;
+    try {
+      response = await fetch(url.toString(), init);
+    } catch (err) {
+      throw new ApiError(0, undefined, (err as Error).message ?? 'Network Error');
+    }
+
+    if (!response.ok) {
+      const errorData = await this.parseResponseBody(response);
+      const apiErrorMessage = (errorData as { error?: string })?.error || response.statusText || 'Unknown error';
+      const message = apiErrorMessage.includes('Not enough capacity')
+        ? apiErrorMessage
+        : `API request failed: ${response.status} ${apiErrorMessage}`;
+      throw new ApiError(response.status, errorData, message);
+    }
+
+    return (await this.parseResponseBody(response)) as T;
+  }
+
+  private async parseResponseBody(response: Response): Promise<unknown> {
+    if (response.status === 204 || response.status === 205) {
+      return undefined;
+    }
+
+    const text = await response.text();
+    if (!text) {
+      return undefined;
     }
 
     try {
-      let response: AxiosResponse<T>;
-      if (!options.method || options.method.toUpperCase() === 'GET') {
-        response = await axios.get<T>(url, requestOptions);
-      } else if (options.method.toUpperCase() === 'POST') {
-        response = await axios.post<T>(url, options.data, requestOptions);
-      } else {
-        // fallback for PUT, DELETE, etc.
-        response = await axios.request<T>({
-          url,
-          ...options,
-        });
-      }
-
-      return response.data;
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        const errorMessage = error.response.data.error || error.response.statusText;
-        if (!errorMessage.includes('Not enough capacity')) {
-          throw new Error(`API request failed: ${error.response.status} ${errorMessage}`);
-        }
-      }
-      throw error;
+      return JSON.parse(text);
+    } catch {
+      return text;
     }
   }
 }

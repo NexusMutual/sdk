@@ -1,4 +1,3 @@
-import { AxiosRequestConfig } from 'axios';
 import { ethers } from 'ethers';
 import isIPFS from 'is-ipfs';
 
@@ -21,7 +20,7 @@ import {
   stakingPoolDetailsSchema,
 } from './schemas';
 import { version as sdkVersion } from '../../generated/version.json';
-import { NexusSDKBase } from '../nexus-sdk-base';
+import { NexusSDKBase, RequestConfig } from '../nexus-sdk-base';
 import { ContentType, IPFSContentTypes, IPFSTypeContentTuple, IPFSUploadServiceResponse } from '../types/ipfs';
 import { NexusSDKConfig } from '../types/sdk';
 
@@ -53,7 +52,7 @@ export class Ipfs extends NexusSDKBase {
     this.validateIPFSContent(type, content);
 
     const ipfsUploadUrl = '/ipfs';
-    const options: AxiosRequestConfig = {
+    const options: RequestConfig = {
       method: 'POST',
       params: { sdk: sdkVersion },
       data: { type, content },

@@ -43,7 +43,7 @@ jobs:
   # - bump_type: The type of semantic version bump (major, minor, patch)
   # - triggers_bump: 'true' if a version bump is needed, 'false' otherwise
   check-version-bump:
-    uses: NexusMutual/workflows/.github/workflows/check-version-bump.yml@fcc572421c20d3b8f54413187addece4e7abe6a1
+    uses: NexusMutual/workflows/.github/workflows/check-version-bump.yml@5ed397df480d843c42038e86cf9135b04cf2acfc
     with:
       ref: ${{ github.ref_name }}
       environment: production
@@ -61,7 +61,7 @@ jobs:
   rc-version:
     needs: check-version-bump
     if: needs.check-version-bump.outputs.triggers_bump == 'true'
-    uses: NexusMutual/workflows/.github/workflows/determine-rc-version.yml@fcc572421c20d3b8f54413187addece4e7abe6a1
+    uses: NexusMutual/workflows/.github/workflows/determine-rc-version.yml@5ed397df480d843c42038e86cf9135b04cf2acfc
     with:
       package-name: $(jq -r .name package.json)
       bump-type: ${{ needs.check-version-bump.outputs.bump_type }}

@@ -208,9 +208,6 @@ jobs:
           - repo: event-scanner
             base-branch: dev
             change-type: build
-          - repo: notification-processor
-            base-branch: dev
-            change-type: build
           - repo: order-book
             base-branch: dev
             change-type: build

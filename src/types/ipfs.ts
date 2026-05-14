@@ -17,6 +17,7 @@ import {
   fileSchema,
   assessmentReasonSchema,
   productAnnexSchema,
+  coverMetadataRefSchema,
 } from '../ipfs/schemas';
 
 export enum ContentType {
@@ -37,6 +38,7 @@ export enum ContentType {
   governanceCategory = 'governanceCategory',
   file = 'file',
   productAnnex = 'productAnnex',
+  coverMetadataRef = 'coverMetadataRef',
 }
 
 export type CoverValidators = z.infer<typeof coverValidatorsSchema>;
@@ -55,6 +57,7 @@ export type GovernanceCategory = z.infer<typeof governanceCategorySchema>;
 export type File = z.infer<typeof fileSchema>;
 export type AssessmentReason = z.infer<typeof assessmentReasonSchema>;
 export type ProductAnnex = z.infer<typeof productAnnexSchema>;
+export type CoverMetadataRef = z.infer<typeof coverMetadataRefSchema>;
 
 export type IPFSContentTypes =
   | CoverValidators
@@ -73,7 +76,8 @@ export type IPFSContentTypes =
   | GovernanceProposal
   | GovernanceCategory
   | File
-  | ProductAnnex;
+  | ProductAnnex
+  | CoverMetadataRef;
 
 export type IPFSTypeContentTuple =
   | [type: ContentType.coverValidators, content: CoverValidators]
@@ -92,7 +96,8 @@ export type IPFSTypeContentTuple =
   | [type: ContentType.governanceProposal, content: GovernanceProposal]
   | [type: ContentType.governanceCategory, content: GovernanceCategory]
   | [type: ContentType.file, content: File]
-  | [type: ContentType.productAnnex, content: ProductAnnex];
+  | [type: ContentType.productAnnex, content: ProductAnnex]
+  | [type: ContentType.coverMetadataRef, content: CoverMetadataRef];
 
 export type IPFSUploadServiceResponse = {
   ipfsHash: string;

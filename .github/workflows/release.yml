@@ -97,7 +97,7 @@ jobs:
             base-branch: dev
             change-type: build
       fail-fast: false
-    uses: NexusMutual/workflows/.github/workflows/open-pr.yml@e435b0bad0bf007c3537ba6d0324c90315ec5f4a
+    uses: NexusMutual/workflows/.github/workflows/open-pr.yml@chore/pnpm-setup
     with:
       environment: production
       repository: ${{ matrix.repo }}

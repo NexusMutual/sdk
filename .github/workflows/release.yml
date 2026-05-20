@@ -68,15 +68,17 @@ jobs:
           name: ${{ needs.prep-latest.outputs.artifact_name || needs.prep-next.outputs.artifact_name }}
           path: dist
 
-      - name: Remove prepare script
-        run: pnpm pkg delete scripts.prepare
-
       - name: Set RC version
         if: github.event_name == 'push'
-        run: pnpm version ${{ needs.prep-next.outputs.rc_version }} --no-git-tag-version
+        run: pnpm version ${{ needs.prep-next.outputs.rc_version }} --no-git-tag-version --no-git-checks
 
       - name: Publish
-        run: pnpm publish --tag ${{ github.event_name == 'push' && 'next' || 'latest' }} --access public --ignore-scripts --no-git-checks
+        run: >-
+          pnpm publish
+          --tag ${{ github.event_name == 'push' && 'next' || 'latest' }}
+          --access public
+          --ignore-scripts
+          --no-git-checks
 
   sdk-bump-prs:
     if: github.event_name == 'workflow_dispatch' && needs.publish.result == 'success'

@@ -46,7 +46,7 @@ jobs:
     if: needs.check-version-bump.outputs.triggers_bump == 'true'
     uses: NexusMutual/workflows/.github/workflows/determine-rc-version.yml@e435b0bad0bf007c3537ba6d0324c90315ec5f4a
     with:
-      package-name: $(jq -r .name package.json)
+      package-name: "@nexusmutual/sdk"
       bump-type: ${{ needs.check-version-bump.outputs.bump_type }}
 
   build-and-checks:

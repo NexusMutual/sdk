@@ -1,0 +1,86 @@
+# Prep Next Workflow
+#
+# Reusable workflow that prepares an RC (release candidate) version:
+# - Checks if commits since the last tag trigger a version bump using conventional commits
+# - If a version bump is triggered, determines the RC version number
+# - Builds the code and runs all checks
+# - Uploads the build artifact
+#
+# Called by release.yml which handles the actual npm publish step.
+#
+# NOTE: This workflow does NOT commit any changes to git or publish to npm.
+
+name: Prep Next
+
+on:
+  workflow_call:
+    outputs:
+      rc_version:
+        description: "The RC version number (e.g., 1.2.0-rc1)"
+        value: ${{ jobs.rc-version.outputs.rc_version }}
+      artifact_name:
+        description: "Name of the uploaded build artifact"
+        value: ${{ jobs.build-and-checks.outputs.artifact_name }}
+      triggers_bump:
+        description: "Whether a version bump is needed"
+        value: ${{ jobs.check-version-bump.outputs.triggers_bump }}
+
+env:
+  NODE_VERSION: 22
+  PROVIDER_URL: ${{ secrets.PROVIDER_URL }}
+
+jobs:
+  check-version-bump:
+    uses: NexusMutual/workflows/.github/workflows/check-version-bump.yml@e435b0bad0bf007c3537ba6d0324c90315ec5f4a
+    with:
+      ref: dev
+      environment: production
+      bump-command: |
+        timeout 5s npx conventional-recommended-bump --config .github/config/conventional-bump-setup.js
+    secrets:
+      DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
+      DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
+
+  rc-version:
+    needs: check-version-bump
+    if: needs.check-version-bump.outputs.triggers_bump == 'true'
+    uses: NexusMutual/workflows/.github/workflows/determine-rc-version.yml@e435b0bad0bf007c3537ba6d0324c90315ec5f4a
+    with:
+      package-name: $(jq -r .name package.json)
+      bump-type: ${{ needs.check-version-bump.outputs.bump_type }}
+
+  build-and-checks:
+    runs-on: ubuntu-22.04
+    needs: rc-version
+    outputs:
+      artifact_name: sdk-next-${{ needs.rc-version.outputs.rc_version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts --prefer-offline
+
+      - name: Build package
+        run: pnpm run build
+
+      - name: Run linter
+        run: pnpm run lint
+
+      - name: Check types and typescript
+        run: pnpm run ts:check
+
+      - name: Run tests
+        run: pnpm run test
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sdk-next-${{ needs.rc-version.outputs.rc_version }}
+          path: dist

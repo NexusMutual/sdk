@@ -2,10 +2,7 @@
   "name": "@nexusmutual/sdk",
   "version": "2.0.0",
   "description": "Nexus Mutual SDK",
-  "packageManager": "pnpm@10.33.0",
-  "pnpm": {
-    "minimumReleaseAge": "1 day"
-  },
+  "packageManager": "pnpm@11.0.7",
   "scripts": {
     "build": "pnpm run clean && node scripts/build.js",
     "clean": "rm -rf dist generated",
@@ -41,7 +38,7 @@
   },
   "homepage": "https://github.com/NexusMutual/sdk#readme",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "@nexusmutual/deployments": "3.2.0",

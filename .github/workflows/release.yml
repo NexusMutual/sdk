@@ -1,204 +1,86 @@
 # Release Workflow
 #
-# This workflow is responsible for creating official releases:
-# - Verifies that a version bump is needed based on conventional commits
-# - Fast-forwards master branch from dev
-# - Bumps the version in package.json and creates a version commit on master
-# - Publishes to npm with the '@latest' tag
-# - Creates a git tag and GitHub release
-# - Rebases the version bump commit back to dev branch
+# Entry-point for all npm publishing. Handles both production (@latest) and
+# RC (@next) releases through a single workflow registered as the npm trusted publisher.
 #
-# Workflow Behavior:
-# - Triggered manually via workflow_dispatch
-# - Ensures code can only be released if it contains commits that justify a version bump
-# - Creates proper versioning in both npm and git
-# - Maintains synchronization between master and dev branches
+# Triggers:
+# - workflow_dispatch: Production release (bumps version, publishes @latest)
+# - push to dev: RC release (publishes @next with pre-release version)
 #
-# Relationship with release-next.yml:
-# - release-next.yml publishes RC versions with the '@next' tag during development
-# - This workflow publishes final versions with the '@latest' tag
-# - The rebase-dev job ensures the version bump commit is pulled back to dev with [skip ci]
-#   which prevents release-next.yml from running again on this commit
+# Architecture:
+# - Calls prep-latest.yml or prep-next.yml for build/checks/version work
+# - Runs pnpm publish directly in this file (OIDC token is scoped to this workflow)
+# - sdk-bump-prs opens PRs in dependent repos after production publish
 
 name: Release
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - dev
+
+permissions:
+  contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref_name }}
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref_name }}
   cancel-in-progress: true
 
 env:
   NODE_VERSION: 22
-  PROVIDER_URL: ${{ secrets.PROVIDER_URL }}
 
 jobs:
-  # First step: Determine if the commits since last tag require a version bump
-  # Outputs:
-  # - bump_type: The type of semantic version bump (major, minor, patch)
-  # - triggers_bump: 'true' if a version bump is needed, 'false' otherwise
-  check-version-bump:
-    uses: NexusMutual/workflows/.github/workflows/check-version-bump.yml@e435b0bad0bf007c3537ba6d0324c90315ec5f4a
-    with:
-      ref: dev
-      environment: production
-      bump-command: |
-        timeout 5s npx conventional-recommended-bump --config .github/config/conventional-bump-setup.js
-    secrets:
-      DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
-      DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
+  prep-latest:
+    if: github.event_name == 'workflow_dispatch'
+    uses: ./.github/workflows/prep-latest.yml
+    secrets: inherit
 
-  # Second step: Fails the workflow if the commits since last tag does not trigger a version bump
-  # This ensures we don't create releases without meaningful changes
-  validate-version-bump:
-    needs: check-version-bump
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Verify version bump is needed
-        if: needs.check-version-bump.outputs.triggers_bump != 'true'
-        run: |
-          echo "::error::Forbidden to release a version without a version bump"
-          echo "::warning::Commit messages on the dev branch must include changes beyond 'docs', 'style', 'test', or 'ci'"
-          echo "Please ensure your commits reflect meaningful changes to trigger an automatic version bump."
-          exit 1
-      - name: Confirm version bump
-        run: |
-          echo "Version bump of type '${{ needs.check-version-bump.outputs.bump_type }}' will be applied"
+  prep-next:
+    if: github.event_name == 'push'
+    uses: ./.github/workflows/prep-next.yml
+    secrets: inherit
 
-  # Third step: Fast-forward master branch to match dev
-  # This ensures master contains all changes from dev before creating the release
-  ff-master:
-    needs: [check-version-bump, validate-version-bump]
-    uses: NexusMutual/workflows/.github/workflows/fast-forward.yml@e435b0bad0bf007c3537ba6d0324c90315ec5f4a
-    with:
-      environment: production
-      source-ref: dev
-      target-ref: master
-    secrets:
-      DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
-      DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
-
-  # Fourth step: Apply the version bump to package.json and create a commit
-  # This creates the official version bump commit on the master branch
-  # Outputs:
-  # - bumped_version: The new version number
-  bump-version:
-    needs: [check-version-bump, ff-master]
-    uses: NexusMutual/workflows/.github/workflows/bump.yml@e435b0bad0bf007c3537ba6d0324c90315ec5f4a
-    with:
-      environment: production
-      ref: master
-      bump-command: |
-        echo 'Executing pnpm version bump: ${{ needs.check-version-bump.outputs.bump_type }}'
-        pnpm version "${{ needs.check-version-bump.outputs.bump_type }}" --no-git-tag-version
-    secrets:
-      DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
-      DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
-
-  # Fifth step: Build the code and run all checks
-  # Ensures the release is stable before publishing
-  build-and-checks:
-    runs-on: ubuntu-22.04
-    needs: bump-version
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: master
-
-      - uses: pnpm/action-setup@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
-          cache-dependency-path: pnpm-lock.yaml
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile --ignore-scripts --prefer-offline
-
-      # Run build script to generate `/generated` dir which is needed by ts:check and test scripts
-      - name: Build package
-        run: pnpm run build
-
-      - name: Run linter
-        run: pnpm run lint
-
-      - name: Check types and typescript
-        run: pnpm run ts:check
-
-      - name: Run tests
-        run: pnpm run test
-
-      # Save build artifacts for the publish job
-      - uses: actions/upload-artifact@v4
-        with:
-          name: sdk-${{ needs.bump-version.outputs.bumped_version }}
-          path: dist
-
-  # Sixth step: Publish the package to npm with the '@latest' tag
-  # This makes the new version the default when users run `pnpm install`
   publish:
+    needs: [prep-latest, prep-next]
+    if: >-
+      always() &&
+      ((needs.prep-latest.result == 'success' && needs.prep-latest.outputs.artifact_name != '') ||
+       (needs.prep-next.result == 'success' && needs.prep-next.outputs.artifact_name != ''))
     runs-on: ubuntu-22.04
-    needs: [bump-version, build-and-checks]
     environment: production
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: master
+          ref: ${{ github.event_name == 'workflow_dispatch' && 'master' || '' }}
 
       - uses: pnpm/action-setup@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          registry-url: 'https://registry.npmjs.org'
 
-      # Download the build artifacts from the build-and-checks job
       - uses: actions/download-artifact@v4
         with:
-          name: sdk-${{ needs.bump-version.outputs.bumped_version }}
+          name: ${{ needs.prep-latest.outputs.artifact_name || needs.prep-next.outputs.artifact_name }}
           path: dist
 
-      # Remove the prepare script to avoid running it during pnpm publish
       - name: Remove prepare script
         run: pnpm pkg delete scripts.prepare
 
-      # Publish the package to npm with the '@latest' tag (default)
+      - name: Set RC version
+        if: github.event_name == 'push'
+        run: pnpm version ${{ needs.prep-next.outputs.rc_version }} --no-git-tag-version
+
       - name: Publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        run: pnpm publish --access public --ignore-scripts --no-git-checks
+        run: pnpm publish --tag ${{ github.event_name == 'push' && 'next' || 'latest' }} --access public --ignore-scripts --no-git-checks
 
-  # Seventh step: Create a git tag and GitHub release
-  # This marks the commit in git history and creates a release on GitHub
-  git-tag-release:
-    needs: build-and-checks
-    uses: NexusMutual/workflows/.github/workflows/git-tag-github-release.yml@e435b0bad0bf007c3537ba6d0324c90315ec5f4a
-    with:
-      environment: production
-      ref: master
-    secrets:
-      DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
-      DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
-
-  # Eighth step: Rebase the version bump commit back to dev
-  # This ensures dev branch has the version bump commit
-  # The commit includes [skip ci] so release-next.yml won't run on this commit
-  rebase-dev:
-    needs: build-and-checks
-    uses: NexusMutual/workflows/.github/workflows/rebase.yml@e435b0bad0bf007c3537ba6d0324c90315ec5f4a
-    with:
-      environment: production
-      source-ref: master
-      target-ref: dev
-    secrets:
-      DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
-      DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}
-
-  # Final step: Create PRs to update SDK version in dependent repositories
   sdk-bump-prs:
-    needs: [bump-version, publish]
+    if: github.event_name == 'workflow_dispatch' && needs.publish.result == 'success'
+    needs: [prep-latest, publish]
     strategy:
       matrix:
         include:
@@ -214,16 +96,16 @@ jobs:
           - repo: workers
             base-branch: dev
             change-type: build
-      fail-fast: false # Allow other matrix jobs to continue even if one fails
+      fail-fast: false
     uses: NexusMutual/workflows/.github/workflows/open-pr.yml@e435b0bad0bf007c3537ba6d0324c90315ec5f4a
     with:
       environment: production
       repository: ${{ matrix.repo }}
       base-branch: ${{ matrix.base-branch }}
-      branch-name: '${{ matrix.change-type }}/nexusmutual-sdk-version-bump-${{ needs.bump-version.outputs.bumped_version }}-${{ github.run_id }}'
-      change-command: pnpm i --save-exact @nexusmutual/sdk@${{ needs.bump-version.outputs.bumped_version }}
-      commit-message: '${{ matrix.change-type }}: update @nexusmutual/sdk to ${{ needs.bump-version.outputs.bumped_version }}'
-      pr-body: 'updated @nexusmutual/sdk to [${{ needs.bump-version.outputs.bumped_version }}](https://github.com/NexusMutual/sdk/releases/tag/v${{ needs.bump-version.outputs.bumped_version }})'
+      branch-name: '${{ matrix.change-type }}/nexusmutual-sdk-version-bump-${{ needs.prep-latest.outputs.bumped_version }}-${{ github.run_id }}'
+      change-command: pnpm i --save-exact @nexusmutual/sdk@${{ needs.prep-latest.outputs.bumped_version }}
+      commit-message: '${{ matrix.change-type }}: update @nexusmutual/sdk to ${{ needs.prep-latest.outputs.bumped_version }}'
+      pr-body: 'updated @nexusmutual/sdk to [${{ needs.prep-latest.outputs.bumped_version }}](https://github.com/NexusMutual/sdk/releases/tag/v${{ needs.prep-latest.outputs.bumped_version }})'
     secrets:
       DEPLOYER_APP_ID: ${{ secrets.DEPLOYER_APP_ID }}
       DEPLOYER_APP_PK: ${{ secrets.DEPLOYER_APP_PK }}

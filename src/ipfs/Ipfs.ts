@@ -17,6 +17,7 @@ import {
   governanceCategorySchema,
   governanceProposalSchema,
   productAnnexSchema,
+  coverMetadataRefSchema,
   stakingPoolDetailsSchema,
 } from './schemas';
 import { version as sdkVersion } from '../../generated/version.json';
@@ -135,6 +136,9 @@ export class Ipfs extends NexusSDKBase {
 
       case ContentType.productAnnex:
         return productAnnexSchema.parse(content);
+
+      case ContentType.coverMetadataRef:
+        return coverMetadataRefSchema.parse(content);
 
       default:
         throw new Error(`Invalid content type: ${type}`);

@@ -147,3 +147,8 @@ export const productAnnexSchema = z.object({
   version: z.literal(VERSION_1_0),
   annex: z.string(),
 });
+
+export const coverMetadataRefSchema = z.object({
+  version: z.literal(VERSION_1_0),
+  coverMetadata: z.string().uuid(),
+});

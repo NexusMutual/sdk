@@ -17,7 +17,7 @@ export class ProductAPI extends NexusSDKBase {
    * @returns Product type details
    */
   public async getProductTypeById(productTypeId: number): Promise<ProductType> {
-    const productTypeEndpoint = `/product-types/${productTypeId}?withAttributes=ipfsContentType`;
+    const productTypeEndpoint = `/product-types/${productTypeId}`;
     return this.sendRequest<ProductType>(productTypeEndpoint);
   }
 
@@ -26,7 +26,7 @@ export class ProductAPI extends NexusSDKBase {
    * @returns List of product types
    */
   public async getAllProductTypes(): Promise<ProductType[]> {
-    const productTypesEndpoint = '/product-types?withAttributes=ipfsContentType';
+    const productTypesEndpoint = '/product-types';
     return this.sendRequest<ProductType[]>(productTypesEndpoint);
   }
 

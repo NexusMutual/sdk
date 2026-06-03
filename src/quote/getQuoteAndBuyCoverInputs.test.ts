@@ -11,15 +11,10 @@ import {
   TARGET_PRICE_DENOMINATOR,
 } from '../constants/cover';
 import { Quote } from '../quote';
-import {
-  Address,
-  CoverFreeText,
-  CoverRouterProductCapacityResponse,
-  CoverRouterQuoteResponse,
-  CoverValidators,
-  DefiPassContent,
-} from '../types';
+import { Address, CoverRouterProductCapacityResponse, CoverRouterQuoteResponse } from '../types';
+import { CoverMetadataInput } from '../types/cover-metadata';
 import { Product, ProductType } from '../types/product';
+
 jest.setTimeout(10_000);
 
 const mockProduct: Product = {
@@ -86,7 +81,6 @@ const quoteParams = {
   period: 30,
   coverAsset: CoverAsset.ETH,
   slippage: 0,
-  ipfsCidOrContent: '',
   buyerAddress: '',
   paymentAsset: CoverAsset.ETH,
 };
@@ -149,7 +143,6 @@ describe('getQuoteAndBuyCoverInputs', () => {
       coverAsset,
       buyerAddress,
       slippage: 0,
-      ipfsCidOrContent: '',
     });
 
     const overrideGetProductUrl = url + '/products/1';
@@ -234,283 +227,125 @@ describe('getQuoteAndBuyCoverInputs', () => {
     },
   );
 
-  const invalidIpfsData = [123, true];
-  it.each(invalidIpfsData)(
-    'returns an error if ipfsData is not a valid IPFS base32 hash value (%s)',
-    async invalidData => {
-      const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
-        ...quoteParams,
-        // @ts-expect-error invalid ipfsCidOrContent
-        ipfsCidOrContent: invalidData,
-      });
-      fetchMock.mockResponse(JSON.stringify({}));
-      expect(error?.message).toBe('Invalid ipfsCidOrContent: must be a string CID or content object');
-    },
-  );
+  it('returns an error when isProofOfLossRequired is true and coverMetadata is not provided', async () => {
+    const productWithRequiredProof = { ...mockProduct, id: 82, productType: 5 };
+    const productTypeWithRequiredProof: ProductType = {
+      ...mockProductType,
+      id: 5,
+      name: 'ETH Slashing',
+      isProofOfLossRequired: true,
+    };
 
-  it('returns an error if ipfsData is not a valid IPFS content for the product type - ETH Slashing', async () => {
-    const ethSlashingProduct = { ...mockProduct, id: 82, productType: 5 };
-    const ethSlashingProductType = { ...mockProductType, id: 5, ipfsContentType: 'coverValidators' };
-    fetchMock.mockResponseOnce(JSON.stringify(ethSlashingProduct));
-    fetchMock.mockResponseOnce(JSON.stringify(ethSlashingProductType));
+    fetchMock.mockResponseOnce(JSON.stringify(productWithRequiredProof));
+    fetchMock.mockResponseOnce(JSON.stringify(productTypeWithRequiredProof));
 
-    const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
     const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
       ...quoteParams,
       productId: 82,
-      ipfsCidOrContent: invalidContent,
     });
-    expect(JSON.parse(error?.message || '')).toEqual([
-      {
-        code: 'invalid_type',
-        expected: 'array',
-        received: 'undefined',
-        path: ['validators'],
-        message: 'Required',
-      },
-    ]);
+
+    expect(error?.message).toBe('Missing cover metadata. ETH Slashing requires proof of loss data.');
   });
 
-  it('returns an error if ipfsData content has an empty validators field for ETH Slashing product type', async () => {
-    const ethSlashingProduct = { ...mockProduct, id: 82, productType: 5 };
-    const ethSlashingProductType = { ...mockProductType, id: 5, ipfsContentType: 'coverValidators' };
-    fetchMock.mockResponseOnce(JSON.stringify(ethSlashingProduct));
-    fetchMock.mockResponseOnce(JSON.stringify(ethSlashingProductType));
+  it('calls POST /cover-metadata when coverMetadata is provided and uses the returned CID', async () => {
+    const mockCid = 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY';
+    const productWithProof = { ...mockProduct, id: 82, productType: 5 };
+    const productTypeWithProof: ProductType = {
+      ...mockProductType,
+      id: 5,
+      isProofOfLossRequired: true,
+    };
 
-    const emptyValidators: CoverValidators = { version: '1.0', validators: [] };
-    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
+    fetchMock.mockResponseOnce(JSON.stringify(productWithProof));
+    fetchMock.mockResponseOnce(JSON.stringify(productTypeWithProof));
+    fetchMock.mockResponseOnce(JSON.stringify({ cid: mockCid }));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
+
+    const coverMetadata: CoverMetadataInput = {
+      proofOfLoss: [{ type: 'validator', content: [{ value: '0x1234567890123456789012345678901234567890' }] }],
+    };
+
+    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
       ...quoteParams,
       productId: 82,
-      ipfsCidOrContent: emptyValidators,
-    });
-    expect(JSON.parse(error?.message || '')).toEqual([
-      {
-        code: 'too_small',
-        minimum: 1,
-        type: 'array',
-        inclusive: true,
-        exact: false,
-        message: 'At least one validator address is required',
-        path: ['validators'],
-      },
-    ]);
-  });
-
-  it('returns an error if ipfsData is not a valid IPFS content for the product type - UnoRe Quota Share', async () => {
-    const quotaShareProduct = { ...mockProduct, id: 107, productType: 6 };
-    const quotaShareProductType = { ...mockProductType, id: 6, ipfsContentType: 'coverQuotaShare' };
-    fetchMock.mockResponseOnce(JSON.stringify(quotaShareProduct));
-    fetchMock.mockResponseOnce(JSON.stringify(quotaShareProductType));
-
-    const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
-    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
-      ...quoteParams,
-      productId: 107,
-      ipfsCidOrContent: invalidContent,
-    });
-    expect(JSON.parse(error?.message || '')).toEqual([
-      {
-        code: 'invalid_type',
-        expected: 'number',
-        received: 'undefined',
-        path: ['quotaShare'],
-        message: 'Required',
-      },
-    ]);
-  });
-
-  it('returns an error if ipfsData is not a valid IPFS content for the product type - Fund Portfolio', async () => {
-    const fundPortfolioProduct = { ...mockProduct, id: 195, productType: 7 };
-    const fundPortfolioProductType = { ...mockProductType, id: 7, ipfsContentType: 'coverAumCoverAmountPercentage' };
-    fetchMock.mockResponseOnce(JSON.stringify(fundPortfolioProduct));
-    fetchMock.mockResponseOnce(JSON.stringify(fundPortfolioProductType));
-
-    const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
-    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
-      ...quoteParams,
-      productId: 195,
-      ipfsCidOrContent: invalidContent,
-    });
-    expect(JSON.parse(error?.message || '')).toEqual([
-      {
-        code: 'invalid_type',
-        expected: 'number',
-        received: 'undefined',
-        path: ['aumCoverAmountPercentage'],
-        message: 'Required',
-      },
-    ]);
-  });
-
-  it('returns an error if ipfsData is not a valid IPFS content for the product type - Nexus Mutual Cover', async () => {
-    const nexusMutualCoverProduct = { ...mockProduct, id: 247, productType: 8 };
-    const nexusMutualCoverProductType = { ...mockProductType, id: 8, ipfsContentType: 'coverWalletAddresses' };
-    fetchMock.mockResponseOnce(JSON.stringify(nexusMutualCoverProduct));
-    fetchMock.mockResponseOnce(JSON.stringify(nexusMutualCoverProductType));
-
-    const invalidContent: CoverFreeText = { version: '1.0', freeText: 'test' };
-    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
-      ...quoteParams,
-      ipfsCidOrContent: invalidContent,
-      productId: 247,
-    });
-    expect(JSON.parse(error?.message || '')).toEqual([
-      {
-        code: 'invalid_type',
-        expected: 'string',
-        received: 'undefined',
-        path: ['walletAddresses'],
-        message: 'Required',
-      },
-    ]);
-  });
-
-  it('returns an error if ipfsData is not a valid IPFS content for Defi Pass', async () => {
-    const defiPassProduct = { ...mockProduct, id: 227, productType: 9 };
-    const defiPassProductType = { ...mockProductType, id: 9, ipfsContentType: 'defiPassContent' };
-    fetchMock.mockResponseOnce(JSON.stringify(defiPassProduct));
-    fetchMock.mockResponseOnce(JSON.stringify(defiPassProductType));
-
-    const emptyWalletsContent: DefiPassContent = { version: '1.0', wallets: [] };
-    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
-      ...quoteParams,
-      ipfsCidOrContent: emptyWalletsContent,
-      productId: 227,
-    });
-    expect(JSON.parse(error?.message || '')).toEqual([
-      {
-        code: 'too_small',
-        minimum: 1,
-        type: 'array',
-        inclusive: true,
-        exact: false,
-        path: ['wallets'],
-        message: 'At least one wallet object is required',
-      },
-    ]);
-  });
-
-  it('returns an error if ipfsData is not a valid IPFS content for the Defi Pass - empty address', async () => {
-    const defiPassProduct = { ...mockProduct, id: 227, productType: 9 };
-    const defiPassProductType = { ...mockProductType, id: 9, ipfsContentType: 'defiPassContent' };
-    fetchMock.mockResponseOnce(JSON.stringify(defiPassProduct));
-    fetchMock.mockResponseOnce(JSON.stringify(defiPassProductType));
-
-    const emptyWalletString: DefiPassContent = { version: '1.0', walletAddress: '' };
-    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
-      ...quoteParams,
-      productId: 227,
-      ipfsCidOrContent: emptyWalletString,
-    });
-    expect(JSON.parse(error?.message || '')).toEqual([
-      {
-        validation: 'regex',
-        code: 'invalid_string',
-        message: 'Invalid Ethereum address',
-        path: ['walletAddress'],
-      },
-    ]);
-  });
-
-  it('allows the consumer to provide a valid IPFS CID', async () => {
-    const ipfsCid = 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY';
-
-    const nexusMutualCoverProduct = { ...mockProduct, id: 247, productType: 8 };
-    const nexusMutualCoverProductType = { ...mockProductType, id: 8, ipfsContentType: 'coverWalletAddresses' };
-
-    const coverRouterQuoteResponse: CoverRouterQuoteResponse = {
-      quote: {
-        totalCoverAmountInAsset: parseEther('1000').toString(),
-        annualPrice: '287',
-        premiumInNXM: parseEther('10').toString(),
-        premiumInAsset: parseEther('5').toString(),
-        poolAllocationRequests: [
-          {
-            poolId: '147',
-            coverAmountInAsset: parseEther('500').toString(),
-            skip: false,
-          },
-        ],
-      },
-      capacities: [{ poolId: '147', capacity: [{ assetId: '1', amount: parseEther('1000').toString() }] }],
-    };
-    fetchMock.mockResponseOnce(JSON.stringify(nexusMutualCoverProduct));
-    fetchMock.mockResponseOnce(JSON.stringify(nexusMutualCoverProductType));
-    fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
-    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
-
-    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
-      ...quoteParams,
-      productId: 247,
-      ipfsCidOrContent: 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY',
+      coverMetadata,
     });
 
     expect(error).toBeUndefined();
-    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe(ipfsCid);
+    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe(mockCid);
+
+    const coverMetadataCall = fetchMock.mock.calls[2];
+    expect(coverMetadataCall?.[0]).toContain('/cover-metadata');
+    expect(coverMetadataCall?.[1]?.method).toBe('POST');
+    const body = JSON.parse(coverMetadataCall?.[1]?.body as string);
+    expect(body.proofOfLoss).toEqual(coverMetadata.proofOfLoss);
   });
 
-  it('allows the consumer to provide a valid IPFS content', async () => {
-    const nexusMutualCoverProduct = { ...mockProduct, id: 247, productType: 8 };
-    const nexusMutualCoverProductType = { ...mockProductType, id: 8, ipfsContentType: 'coverWalletAddresses' };
+  it('calls POST /cover-metadata when only publicData is provided', async () => {
+    const mockCid = 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY';
 
-    fetchMock.mockResponseOnce(JSON.stringify(nexusMutualCoverProduct));
-    fetchMock.mockResponseOnce(JSON.stringify(nexusMutualCoverProductType));
-
-    fetchMock.mockResponseOnce(JSON.stringify({ ipfsHash: 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY' }));
-
-    const coverRouterQuoteResponse: CoverRouterQuoteResponse = {
-      quote: {
-        totalCoverAmountInAsset: parseEther('1000').toString(),
-        annualPrice: '287',
-        premiumInNXM: parseEther('10').toString(),
-        premiumInAsset: parseEther('5').toString(),
-        poolAllocationRequests: [
-          {
-            poolId: '147',
-            coverAmountInAsset: parseEther('500').toString(),
-            skip: false,
-          },
-        ],
-      },
-      capacities: [{ poolId: '147', capacity: [{ assetId: '1', amount: parseEther('1000').toString() }] }],
-    };
+    fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(mockProductType));
+    fetchMock.mockResponseOnce(JSON.stringify({ cid: mockCid }));
     fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
     fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
 
-    const validEthAddress = '0x1234567890123456789012345678901234567890';
+    const coverMetadata: CoverMetadataInput = {
+      publicData: { quotaShare: 50 },
+    };
+
     const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
       ...quoteParams,
-      productId: 247,
-      ipfsCidOrContent: {
-        version: '2.0',
-        walletAddresses: [validEthAddress],
-      },
+      coverMetadata,
     });
 
     expect(error).toBeUndefined();
-    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe('QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY');
+    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe(mockCid);
+  });
+
+  it('does not call POST /cover-metadata when coverMetadata is not provided', async () => {
+    fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(mockProductType));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
+
+    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs(quoteParams);
+
+    expect(error).toBeUndefined();
+    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe('');
+    expect(fetchMock).toHaveBeenCalledTimes(4);
+  });
+
+  it('returns an error when POST /cover-metadata fails', async () => {
+    const productWithProof = { ...mockProduct, id: 82, productType: 5 };
+    const productTypeWithProof: ProductType = {
+      ...mockProductType,
+      id: 5,
+      isProofOfLossRequired: true,
+    };
+
+    fetchMock.mockResponseOnce(JSON.stringify(productWithProof));
+    fetchMock.mockResponseOnce(JSON.stringify(productTypeWithProof));
+    fetchMock.mockResponseOnce(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
+
+    const coverMetadata: CoverMetadataInput = {
+      proofOfLoss: [{ type: 'address', content: [{ value: '0x1234567890123456789012345678901234567890' }] }],
+    };
+
+    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      productId: 82,
+      coverMetadata,
+    });
+
+    expect(result).toBeUndefined();
+    expect(error?.message).toContain('API request failed');
   });
 
   it('returns an object with displayInfo and buyCoverInput parameters', async () => {
     fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
     fetchMock.mockResponseOnce(JSON.stringify(mockProductType));
-
-    const coverRouterQuoteResponse: CoverRouterQuoteResponse = {
-      quote: {
-        totalCoverAmountInAsset: parseEther('1000').toString(),
-        annualPrice: '287',
-        premiumInNXM: parseEther('10').toString(),
-        premiumInAsset: parseEther('5').toString(),
-        poolAllocationRequests: [
-          {
-            poolId: '147',
-            coverAmountInAsset: parseEther('500').toString(),
-            skip: false,
-          },
-        ],
-      },
-      capacities: [{ poolId: '147', capacity: [{ assetId: '1', amount: parseEther('1000').toString() }] }],
-    };
     fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
     fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
 
@@ -518,7 +353,6 @@ describe('getQuoteAndBuyCoverInputs', () => {
     const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
       ...quoteParams,
       amount: coverAmount,
-      ipfsCidOrContent: 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY',
     });
 
     const { premiumInAsset, annualPrice } = coverRouterQuoteResponse.quote;
@@ -546,7 +380,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(result?.buyCoverInput.buyCoverParams.paymentAsset).toBe(CoverAsset.ETH);
     expect(result?.buyCoverInput.buyCoverParams.commissionRatio).toBe(+mockProductType.commissionRatio);
     expect(result?.buyCoverInput.buyCoverParams.commissionDestination).toBe(mockProductType.commissionDestination);
-    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe('QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY');
+    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe('');
     expect(fetchMock).toHaveBeenCalledTimes(4);
   });
 

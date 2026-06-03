@@ -5,14 +5,6 @@ import {
   assessmentCriteriaAnswersSchema,
   assessmentReasonSchema,
   claimProofSchema,
-  coverAumCoverAmountPercentageSchema,
-  coverDesignatedWalletsSchema,
-  coverFreeTextSchema,
-  coverQuotaShareSchema,
-  coverValidatorsSchema,
-  coverWalletAddressSchema,
-  coverWalletAddressesSchema,
-  defiPassContentSchema,
   fileSchema,
   governanceCategorySchema,
   governanceProposalSchema,
@@ -89,30 +81,6 @@ export class Ipfs extends NexusSDKBase {
     }
 
     switch (type) {
-      case ContentType.coverValidators:
-        return coverValidatorsSchema.parse(content);
-
-      case ContentType.coverQuotaShare:
-        return coverQuotaShareSchema.parse(content);
-
-      case ContentType.coverAumCoverAmountPercentage:
-        return coverAumCoverAmountPercentageSchema.parse(content);
-
-      case ContentType.coverWalletAddress:
-        return coverWalletAddressSchema.parse(content);
-
-      case ContentType.coverWalletAddresses:
-        return coverWalletAddressesSchema.parse(content);
-
-      case ContentType.coverFreeText:
-        return coverFreeTextSchema.parse(content);
-
-      case ContentType.coverDesignatedWallets:
-        return coverDesignatedWalletsSchema.parse(content);
-
-      case ContentType.defiPassContent:
-        return defiPassContentSchema.parse(content);
-
       case ContentType.stakingPoolDetails:
         return stakingPoolDetailsSchema.parse(content);
 

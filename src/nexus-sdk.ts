@@ -16,6 +16,6 @@ export class NexusSDK extends NexusSDKBase {
     super(config);
     this.swap = new Swap();
     this.ipfs = new Ipfs(config);
-    this.quote = new Quote(config, this.ipfs);
+    this.quote = new Quote(config);
   }
 }

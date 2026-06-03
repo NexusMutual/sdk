@@ -1,5 +1,5 @@
+import { ProofOfLossType } from './cover-metadata';
 import { Integer } from './data';
-import { ContentType } from './ipfs';
 import { CoverAsset } from '../constants';
 
 export type ProductType = {
@@ -12,7 +12,7 @@ export type ProductType = {
   payoutRedemptionPeriod: string;
   commissionRatio: string;
   commissionDestination: string;
-  ipfsContentType?: ContentType; // Optional field to specify required IPFS content type for the product
+  isProofOfLossRequired?: boolean; // Optional field to specify if proof of loss is required for the product
 };
 
 export type Product = {
@@ -30,4 +30,5 @@ export type Product = {
   timestamp: number;
   isPrivate: boolean;
   logo?: string;
+  proofOfLossInputTypes?: ProofOfLossType[];
 };

@@ -364,6 +364,72 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(error?.message).toBe('Missing cover metadata. ETH Slashing requires proof of loss data.');
   });
 
+  it('returns an error when required proof of loss types are missing', async () => {
+    const productWithTypes = {
+      ...mockProduct,
+      id: 82,
+      productType: 5,
+      proofOfLossInputTypes: ['address', 'validator'],
+    };
+    const productTypeWithProof: ProductType = {
+      ...mockProductType,
+      id: 5,
+      isProofOfLossRequired: true,
+    };
+
+    fetchMock.mockResponseOnce(JSON.stringify(productWithTypes));
+    fetchMock.mockResponseOnce(JSON.stringify(productTypeWithProof));
+
+    const coverMetadata: CoverMetadataInput = {
+      proofOfLoss: [{ type: 'address', content: [{ value: '0x1234567890123456789012345678901234567890' }] }],
+    };
+
+    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      productId: 82,
+      coverMetadata,
+    });
+
+    expect(error?.message).toBe('Missing required proof of loss types. Required: address, validator');
+  });
+
+  it('succeeds when all required proof of loss types are provided', async () => {
+    const mockCid = 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY';
+    const productWithTypes = {
+      ...mockProduct,
+      id: 82,
+      productType: 5,
+      proofOfLossInputTypes: ['address', 'validator'],
+    };
+    const productTypeWithProof: ProductType = {
+      ...mockProductType,
+      id: 5,
+      isProofOfLossRequired: true,
+    };
+
+    fetchMock.mockResponseOnce(JSON.stringify(productWithTypes));
+    fetchMock.mockResponseOnce(JSON.stringify(productTypeWithProof));
+    fetchMock.mockResponseOnce(JSON.stringify({ cid: mockCid }));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
+
+    const coverMetadata: CoverMetadataInput = {
+      proofOfLoss: [
+        { type: 'address', content: [{ value: '0x1234567890123456789012345678901234567890' }] },
+        { type: 'validator', content: [{ value: '0x1234567890123456789012345678901234567890' }] },
+      ],
+    };
+
+    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      productId: 82,
+      coverMetadata,
+    });
+
+    expect(error).toBeUndefined();
+    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe(mockCid);
+  });
+
   it('does not call POST /cover-metadata when coverMetadata is an empty object', async () => {
     fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
     fetchMock.mockResponseOnce(JSON.stringify(mockProductType));

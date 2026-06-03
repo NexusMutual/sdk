@@ -113,9 +113,10 @@ export class Quote extends NexusSDKBase {
       };
     }
 
+    let product: Awaited<ReturnType<ProductAPI['getProductById']>>;
     let productType: Awaited<ReturnType<ProductAPI['getProductTypeById']>>;
     try {
-      const product = await this.productAPI.getProductById(productId);
+      product = await this.productAPI.getProductById(productId);
       const productTypeId = product?.productType;
       if (productTypeId === undefined) {
         return {
@@ -145,6 +146,18 @@ export class Quote extends NexusSDKBase {
           message: `Missing cover metadata. ${productType.name} requires proof of loss data.`,
         },
       };
+    }
+
+    // Check if the required proof of loss types are provided
+    const requiredTypes = product.proofOfLossInputTypes;
+    if (requiredTypes && requiredTypes.length > 0 && coverMetadata?.proofOfLoss) {
+      const providedTypes = new Set(coverMetadata.proofOfLoss.map(e => e.type));
+      if (!requiredTypes.every(t => providedTypes.has(t))) {
+        return {
+          result: undefined,
+          error: { message: `Missing required proof of loss types. Required: ${requiredTypes.join(', ')}` },
+        };
+      }
     }
 
     let ipfsData = '';

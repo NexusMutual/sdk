@@ -343,6 +343,70 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(error?.message).toContain('API request failed');
   });
 
+  it('returns an error when isProofOfLossRequired is true and coverMetadata has no proofOfLoss', async () => {
+    const productWithRequiredProof = { ...mockProduct, id: 82, productType: 5 };
+    const productTypeWithRequiredProof: ProductType = {
+      ...mockProductType,
+      id: 5,
+      name: 'ETH Slashing',
+      isProofOfLossRequired: true,
+    };
+
+    fetchMock.mockResponseOnce(JSON.stringify(productWithRequiredProof));
+    fetchMock.mockResponseOnce(JSON.stringify(productTypeWithRequiredProof));
+
+    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      productId: 82,
+      coverMetadata: { publicData: { quotaShare: 50 } },
+    });
+
+    expect(error?.message).toBe('Missing cover metadata. ETH Slashing requires proof of loss data.');
+  });
+
+  it('does not call POST /cover-metadata when coverMetadata is an empty object', async () => {
+    fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(mockProductType));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
+
+    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      coverMetadata: {},
+    });
+
+    expect(error).toBeUndefined();
+    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe('');
+    expect(fetchMock).toHaveBeenCalledTimes(4);
+  });
+
+  it('handles cover edit flow with coverId > 0 and coverMetadata', async () => {
+    const mockCid = 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY';
+
+    fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(mockProductType));
+    fetchMock.mockResponseOnce(JSON.stringify({ cid: mockCid }));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
+
+    const coverMetadata: CoverMetadataInput = {
+      proofOfLoss: [{ type: 'address', content: [{ value: '0x1234567890123456789012345678901234567890' }] }],
+    };
+
+    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      coverId: 42,
+      coverMetadata,
+    });
+
+    expect(error).toBeUndefined();
+    expect(result?.buyCoverInput.buyCoverParams.coverId).toBe(42);
+    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe(mockCid);
+
+    const quoteCall = fetchMock.mock.calls[3];
+    expect(quoteCall?.[0]).toContain('coverEditId=42');
+  });
+
   it('returns an object with displayInfo and buyCoverInput parameters', async () => {
     fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
     fetchMock.mockResponseOnce(JSON.stringify(mockProductType));

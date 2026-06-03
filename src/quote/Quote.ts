@@ -138,7 +138,7 @@ export class Quote extends NexusSDKBase {
       };
     }
 
-    if (productType.isProofOfLossRequired && !coverMetadata) {
+    if (productType.isProofOfLossRequired && !coverMetadata?.proofOfLoss) {
       return {
         result: undefined,
         error: {

@@ -1,4 +1,4 @@
-import { ProofOfLossType } from './cover-metadata';
+import { ProofOfLossEntry } from './cover-metadata';
 import { Integer } from './data';
 import { CoverAsset } from '../constants';
 
@@ -30,5 +30,5 @@ export type Product = {
   timestamp: number;
   isPrivate: boolean;
   logo?: string;
-  proofOfLossInputTypes?: ProofOfLossType[];
+  proofOfLossInputTypes?: ProofOfLossEntry['type'][];
 };

@@ -1,5 +1,5 @@
 export interface AddressValue {
-  value: string;
+  address: string;
   label?: string;
 }
 
@@ -9,7 +9,7 @@ export interface FreeTextValue {
 }
 
 export interface ApiKeyValue {
-  value: string;
+  credential: string;
   label: string;
   role: string;
 }
@@ -21,7 +21,7 @@ export interface ValidatorValue {
 }
 
 export interface CsvValue {
-  value: string;
+  address: string;
   amount: string;
   currency: string;
 }

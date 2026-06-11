@@ -1,15 +1,37 @@
-export type ProofOfLossType = 'address' | 'api_key' | 'validator' | 'csv';
-
-export interface ProofOfLossValue {
+export interface AddressValue {
   value: string;
-  amount?: string;
-  currency?: string;
+  label?: string;
 }
 
-export interface ProofOfLossEntry {
-  type: ProofOfLossType;
-  content: ProofOfLossValue[];
+export interface FreeTextValue {
+  value: string;
+  label?: string;
 }
+
+export interface ApiKeyValue {
+  value: string;
+  label: string;
+  role: string;
+}
+
+export interface ValidatorValue {
+  value: string;
+  label?: string;
+  role?: string;
+}
+
+export interface CsvValue {
+  value: string;
+  amount: string;
+  currency: string;
+}
+
+export type ProofOfLossEntry =
+  | { type: 'address'; content: AddressValue[] }
+  | { type: 'api_key'; content: ApiKeyValue[] }
+  | { type: 'validator'; content: ValidatorValue[] }
+  | { type: 'csv'; content: CsvValue[] }
+  | { type: 'free_text'; content: FreeTextValue[] };
 
 export interface CoverPublicData {
   quotaShare?: number;

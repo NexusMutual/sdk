@@ -451,6 +451,22 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe(mockCid);
   });
 
+  it('does not call POST /cover-metadata when publicData is an empty object', async () => {
+    fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(mockProductType));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
+
+    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      coverMetadata: { publicData: {} },
+    });
+
+    expect(error).toBeUndefined();
+    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe('');
+    expect(fetchMock).toHaveBeenCalledTimes(4);
+  });
+
   it('does not call POST /cover-metadata when coverMetadata is an empty object', async () => {
     fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
     fetchMock.mockResponseOnce(JSON.stringify(mockProductType));

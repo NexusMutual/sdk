@@ -161,7 +161,9 @@ export class Quote extends NexusSDKBase {
     }
 
     let ipfsData = '';
-    const hasCoverMetadata = coverMetadata && (coverMetadata.proofOfLoss || coverMetadata.publicData);
+    const hasCoverMetadata =
+      coverMetadata?.proofOfLoss?.length ||
+      (coverMetadata?.publicData && Object.keys(coverMetadata.publicData).length > 0);
 
     if (hasCoverMetadata) {
       try {

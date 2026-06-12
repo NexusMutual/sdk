@@ -364,6 +364,27 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(error?.message).toBe('Missing cover metadata. ETH Slashing requires proof of loss data.');
   });
 
+  it('returns an error when isProofOfLossRequired is true and proofOfLoss is an empty array', async () => {
+    const productWithRequiredProof = { ...mockProduct, id: 82, productType: 5 };
+    const productTypeWithRequiredProof: ProductType = {
+      ...mockProductType,
+      id: 5,
+      name: 'ETH Slashing',
+      isProofOfLossRequired: true,
+    };
+
+    fetchMock.mockResponseOnce(JSON.stringify(productWithRequiredProof));
+    fetchMock.mockResponseOnce(JSON.stringify(productTypeWithRequiredProof));
+
+    const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      productId: 82,
+      coverMetadata: { proofOfLoss: [] },
+    });
+
+    expect(error?.message).toBe('Missing cover metadata. ETH Slashing requires proof of loss data.');
+  });
+
   it('returns an error when required proof of loss types are missing', async () => {
     const productWithTypes = {
       ...mockProduct,

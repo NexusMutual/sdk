@@ -330,7 +330,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     fetchMock.mockResponseOnce(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
 
     const coverMetadata: CoverMetadataInput = {
-      proofOfLoss: [{ type: 'address', content: [{ value: '0x1234567890123456789012345678901234567890' }] }],
+      proofOfLoss: [{ type: 'address', content: [{ address: '0x1234567890123456789012345678901234567890' }] }],
     };
 
     const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
@@ -381,7 +381,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     fetchMock.mockResponseOnce(JSON.stringify(productTypeWithProof));
 
     const coverMetadata: CoverMetadataInput = {
-      proofOfLoss: [{ type: 'address', content: [{ value: '0x1234567890123456789012345678901234567890' }] }],
+      proofOfLoss: [{ type: 'address', content: [{ address: '0x1234567890123456789012345678901234567890' }] }],
     };
 
     const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
@@ -415,7 +415,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
     const coverMetadata: CoverMetadataInput = {
       proofOfLoss: [
-        { type: 'address', content: [{ value: '0x1234567890123456789012345678901234567890' }] },
+        { type: 'address', content: [{ address: '0x1234567890123456789012345678901234567890' }] },
         { type: 'validator', content: [{ value: '0x1234567890123456789012345678901234567890' }] },
       ],
     };
@@ -456,7 +456,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
 
     const coverMetadata: CoverMetadataInput = {
-      proofOfLoss: [{ type: 'address', content: [{ value: '0x1234567890123456789012345678901234567890' }] }],
+      proofOfLoss: [{ type: 'address', content: [{ address: '0x1234567890123456789012345678901234567890' }] }],
     };
 
     const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({

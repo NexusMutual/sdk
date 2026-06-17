@@ -1,6 +1,8 @@
 import { buildAuthTypedData, buildCoverMetadataAuthMessage } from './auth';
 
 describe('buildAuthTypedData', () => {
+  afterEach(() => jest.restoreAllMocks());
+
   it('returns EIP-712 typed data with the provided message', () => {
     const now = 1700000000000;
     jest.spyOn(Date, 'now').mockReturnValue(now);
@@ -17,8 +19,6 @@ describe('buildAuthTypedData', () => {
     expect(result.primaryType).toBe('Authentication');
     expect(result.value.message).toBe('hello world');
     expect(result.value.timestamp).toBe(BigInt(1700000000));
-
-    jest.restoreAllMocks();
   });
 });
 

@@ -4,5 +4,6 @@
 .env
 .env.sample
 dist/index.html
+examples
 scripts
 src

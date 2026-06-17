@@ -10,7 +10,7 @@
     "plugin:@typescript-eslint/recommended", // Uses the recommended rules from the @typescript-eslint/eslint-plugin
     "prettier" // enables eslint-plugin-prettier and displays prettier errors as ESLint errors. (must be the last config in extends array)
   ],
-  "ignorePatterns": ["node_modules/", "artifacts", "dist", "generated"],
+  "ignorePatterns": ["node_modules/", "artifacts", "dist", "generated", "examples"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json",

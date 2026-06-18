@@ -12,7 +12,6 @@ export type ProductType = {
   payoutRedemptionPeriod: string;
   commissionRatio: string;
   commissionDestination: string;
-  isProofOfLossRequired?: boolean; // Optional field to specify if proof of loss is required for the product
 };
 
 export type Product = {

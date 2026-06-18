@@ -139,7 +139,10 @@ export class Quote extends NexusSDKBase {
       };
     }
 
-    if (productType.isProofOfLossRequired && (!coverMetadata?.proofOfLoss || coverMetadata.proofOfLoss.length === 0)) {
+    if (
+      product.proofOfLossInputTypes?.length &&
+      (!coverMetadata?.proofOfLoss || coverMetadata.proofOfLoss.length === 0)
+    ) {
       return {
         result: undefined,
         error: {

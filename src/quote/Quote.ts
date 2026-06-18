@@ -116,7 +116,7 @@ export class Quote extends NexusSDKBase {
     let product: Awaited<ReturnType<ProductAPI['getProductById']>>;
     let productType: Awaited<ReturnType<ProductAPI['getProductTypeById']>>;
     try {
-      product = await this.productAPI.getProductById(productId, ['buyCoverForm']);
+      product = await this.productAPI.getProductById(productId);
       const productTypeId = product?.productType;
       if (productTypeId === undefined) {
         return {
@@ -125,7 +125,7 @@ export class Quote extends NexusSDKBase {
         };
       }
 
-      productType = await this.productAPI.getProductTypeById(productTypeId);
+      productType = await this.productAPI.getProductTypeById(productTypeId, ['buyCoverForm']);
       if (!productType) {
         return {
           result: undefined,
@@ -151,7 +151,7 @@ export class Quote extends NexusSDKBase {
       };
     }
 
-    const contentType = product.buyCoverForm;
+    const contentType = productType.buyCoverForm;
 
     if (contentType === 'withAUM' && !coverMetadata?.publicData?.aumCoverAmountPercentage) {
       return {

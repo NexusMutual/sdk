@@ -12,9 +12,10 @@ export type ProductType = {
   payoutRedemptionPeriod: string;
   commissionRatio: string;
   commissionDestination: string;
+  buyCoverForm?: BuyCoverFormType;
 };
 
-type BuyCoverFormType = 'basic' | 'withQuotaShare' | 'withAUM' | 'unsupported';
+export type BuyCoverFormType = 'basic' | 'withQuotaShare' | 'withAUM' | 'unsupported';
 
 export type Product = {
   id: Integer;
@@ -31,6 +32,5 @@ export type Product = {
   timestamp: number;
   isPrivate: boolean;
   logo?: string;
-  buyCoverForm?: BuyCoverFormType;
   proofOfLossInputTypes?: ProofOfLossEntry['type'][];
 };

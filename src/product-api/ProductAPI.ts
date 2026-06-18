@@ -14,10 +14,13 @@ export class ProductAPI extends NexusSDKBase {
   /**
    * Get product type details by ID
    * @param productTypeId ID of the product type
+   * @param params Optional attributes to include
    * @returns Product type details
    */
-  public async getProductTypeById(productTypeId: number): Promise<ProductType> {
-    const productTypeEndpoint = `/product-types/${productTypeId}`;
+  public async getProductTypeById(productTypeId: number, params?: string[]): Promise<ProductType> {
+    const productTypeEndpoint = `/product-types/${productTypeId}${
+      params ? `?${new URLSearchParams({ withAttributes: params.join(',') }).toString()}` : ''
+    }`;
     return this.sendRequest<ProductType>(productTypeEndpoint);
   }
 
@@ -37,7 +40,7 @@ export class ProductAPI extends NexusSDKBase {
    */
   public async getProductById(productId: number, params?: string[]): Promise<Product> {
     const productEndpoint = `/products/${productId}${
-      params ? `? ${new URLSearchParams({ withAttributes: params.join(',') }).toString()}` : ''
+      params ? `?${new URLSearchParams({ withAttributes: params.join(',') }).toString()}` : ''
     }`;
     return this.sendRequest<Product>(productEndpoint);
   }

@@ -42,22 +42,6 @@ function parseAmount(value: string, decimals: number): string {
   return parseUnits(value, decimals).toString();
 }
 
-function buildCoverMetadata(
-  product: Product,
-  productType: ProductType,
-  quotaShare: string,
-): CoverMetadataInput | undefined {
-  if (productType.buyCoverForm === 'withAUM' && product.aumPercentage) {
-    return { publicData: { aumCoverAmountPercentage: Number(product.aumPercentage) } };
-  }
-
-  if (productType.buyCoverForm === 'withQuotaShare' && quotaShare) {
-    return { publicData: { quotaShare: Number(quotaShare) } };
-  }
-
-  return undefined;
-}
-
 export default function BuyCoverPage() {
   const { address, isConnected } = useConnection();
 
@@ -78,16 +62,12 @@ export default function BuyCoverPage() {
       if (!product || !productType) throw new Error('Product not loaded');
 
       const amountInSmallestUnit = parseAmount(amount, selectedAsset.decimals);
-
-      const coverMetadata = buildCoverMetadata(product, productType, quotaShare);
-
       const response = await sdk.quote.getQuoteAndBuyCoverInputs({
         productId: Number(productId),
         amount: amountInSmallestUnit,
         period: Number(period),
         coverAsset: selectedAsset.value,
         buyerAddress: address,
-        ...(coverMetadata && { coverMetadata }),
       });
 
       if (response.error) {
@@ -103,7 +83,7 @@ export default function BuyCoverPage() {
   const productQuery = useQuery({
     queryKey: ['product', numProductId],
     queryFn: async () => {
-      const product = await productAPI.getProductById(numProductId, ['aumPercentage']);
+      const product = await productAPI.getProductById(numProductId);
       const productType = await productAPI.getProductTypeById(product.productType, ['buyCoverForm']);
       return { product, productType };
     },
@@ -250,21 +230,6 @@ export default function BuyCoverPage() {
                       </span>
                     ))}
                   </div>
-                </div>
-              )}
-
-              {buyCoverForm && buyCoverForm !== 'basic' && (
-                <div className="border-t border-primary/20 pt-3">
-                  <p className="mb-2 text-xs font-medium text-foreground">Public Metadata</p>
-                  {buyCoverForm === 'withAUM' && (
-                    <p className="text-xs text-muted">
-                      AUM percentage: <span className="font-semibold text-foreground">{product.aumPercentage}%</span>{' '}
-                      (auto-included)
-                    </p>
-                  )}
-                  {buyCoverForm === 'withQuotaShare' && (
-                    <p className="text-xs text-muted">Quota share percentage required (see input below)</p>
-                  )}
                 </div>
               )}
 

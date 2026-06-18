@@ -227,13 +227,17 @@ describe('getQuoteAndBuyCoverInputs', () => {
     },
   );
 
-  it('returns an error when isProofOfLossRequired is true and coverMetadata is not provided', async () => {
-    const productWithRequiredProof = { ...mockProduct, id: 82, productType: 5 };
+  it('returns an error when proofOfLossInputTypes is set and coverMetadata is not provided', async () => {
+    const productWithRequiredProof: Product = {
+      ...mockProduct,
+      id: 82,
+      productType: 5,
+      proofOfLossInputTypes: ['validator'],
+    };
     const productTypeWithRequiredProof: ProductType = {
       ...mockProductType,
       id: 5,
       name: 'ETH Slashing',
-      isProofOfLossRequired: true,
     };
 
     fetchMock.mockResponseOnce(JSON.stringify(productWithRequiredProof));
@@ -249,11 +253,15 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
   it('calls POST /cover-metadata when coverMetadata is provided and uses the returned CID', async () => {
     const mockCid = 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY';
-    const productWithProof = { ...mockProduct, id: 82, productType: 5 };
+    const productWithProof: Product = {
+      ...mockProduct,
+      id: 82,
+      productType: 5,
+      proofOfLossInputTypes: ['validator'],
+    };
     const productTypeWithProof: ProductType = {
       ...mockProductType,
       id: 5,
-      isProofOfLossRequired: true,
     };
 
     fetchMock.mockResponseOnce(JSON.stringify(productWithProof));
@@ -318,11 +326,15 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   it('returns an error when POST /cover-metadata fails', async () => {
-    const productWithProof = { ...mockProduct, id: 82, productType: 5 };
+    const productWithProof: Product = {
+      ...mockProduct,
+      id: 82,
+      productType: 5,
+      proofOfLossInputTypes: ['address'],
+    };
     const productTypeWithProof: ProductType = {
       ...mockProductType,
       id: 5,
-      isProofOfLossRequired: true,
     };
 
     fetchMock.mockResponseOnce(JSON.stringify(productWithProof));
@@ -343,13 +355,17 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(error?.message).toContain('API request failed');
   });
 
-  it('returns an error when isProofOfLossRequired is true and coverMetadata has no proofOfLoss', async () => {
-    const productWithRequiredProof = { ...mockProduct, id: 82, productType: 5 };
+  it('returns an error when proofOfLossInputTypes is set and coverMetadata has no proofOfLoss', async () => {
+    const productWithRequiredProof: Product = {
+      ...mockProduct,
+      id: 82,
+      productType: 5,
+      proofOfLossInputTypes: ['validator'],
+    };
     const productTypeWithRequiredProof: ProductType = {
       ...mockProductType,
       id: 5,
       name: 'ETH Slashing',
-      isProofOfLossRequired: true,
     };
 
     fetchMock.mockResponseOnce(JSON.stringify(productWithRequiredProof));
@@ -364,13 +380,17 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(error?.message).toBe('Missing cover metadata. ETH Slashing requires proof of loss data.');
   });
 
-  it('returns an error when isProofOfLossRequired is true and proofOfLoss is an empty array', async () => {
-    const productWithRequiredProof = { ...mockProduct, id: 82, productType: 5 };
+  it('returns an error when proofOfLossInputTypes is set and proofOfLoss is an empty array', async () => {
+    const productWithRequiredProof: Product = {
+      ...mockProduct,
+      id: 82,
+      productType: 5,
+      proofOfLossInputTypes: ['validator'],
+    };
     const productTypeWithRequiredProof: ProductType = {
       ...mockProductType,
       id: 5,
       name: 'ETH Slashing',
-      isProofOfLossRequired: true,
     };
 
     fetchMock.mockResponseOnce(JSON.stringify(productWithRequiredProof));
@@ -386,7 +406,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   it('returns an error when required proof of loss types are missing', async () => {
-    const productWithTypes = {
+    const productWithTypes: Product = {
       ...mockProduct,
       id: 82,
       productType: 5,
@@ -395,7 +415,6 @@ describe('getQuoteAndBuyCoverInputs', () => {
     const productTypeWithProof: ProductType = {
       ...mockProductType,
       id: 5,
-      isProofOfLossRequired: true,
     };
 
     fetchMock.mockResponseOnce(JSON.stringify(productWithTypes));
@@ -416,7 +435,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
   it('succeeds when all required proof of loss types are provided', async () => {
     const mockCid = 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY';
-    const productWithTypes = {
+    const productWithTypes: Product = {
       ...mockProduct,
       id: 82,
       productType: 5,
@@ -425,7 +444,6 @@ describe('getQuoteAndBuyCoverInputs', () => {
     const productTypeWithProof: ProductType = {
       ...mockProductType,
       id: 5,
-      isProofOfLossRequired: true,
     };
 
     fetchMock.mockResponseOnce(JSON.stringify(productWithTypes));

@@ -35,8 +35,10 @@ export class ProductAPI extends NexusSDKBase {
    * @param productId ID of the product
    * @returns Product details
    */
-  public async getProductById(productId: number): Promise<Product> {
-    const productEndpoint = `/products/${productId}`;
+  public async getProductById(productId: number, params?: string[]): Promise<Product> {
+    const productEndpoint = `/products/${productId}${
+      params ? `? ${new URLSearchParams({ withAttributes: params.join(',') }).toString()}` : ''
+    }`;
     return this.sendRequest<Product>(productEndpoint);
   }
 

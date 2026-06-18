@@ -116,7 +116,7 @@ export class Quote extends NexusSDKBase {
     let product: Awaited<ReturnType<ProductAPI['getProductById']>>;
     let productType: Awaited<ReturnType<ProductAPI['getProductTypeById']>>;
     try {
-      product = await this.productAPI.getProductById(productId);
+      product = await this.productAPI.getProductById(productId, ['buyCoverForm']);
       const productTypeId = product?.productType;
       if (productTypeId === undefined) {
         return {
@@ -148,6 +148,22 @@ export class Quote extends NexusSDKBase {
         error: {
           message: `Missing cover metadata. ${productType.name} requires proof of loss data.`,
         },
+      };
+    }
+
+    const contentType = product.buyCoverForm;
+
+    if (contentType === 'withAUM' && !coverMetadata?.publicData?.aumCoverAmountPercentage) {
+      return {
+        result: undefined,
+        error: { message: 'Missing AUM cover amount percentage data' },
+      };
+    }
+
+    if (contentType === 'withQuotaShare' && !coverMetadata?.publicData?.quotaShare) {
+      return {
+        result: undefined,
+        error: { message: 'Missing quota share data' },
       };
     }
 

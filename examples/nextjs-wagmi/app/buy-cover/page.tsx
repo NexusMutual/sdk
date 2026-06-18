@@ -7,7 +7,15 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { parseEther, parseUnits, formatEther, formatUnits } from 'viem';
 import { useConnection, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { productAPI, sdk } from '@/config/sdk';
-import { addresses, CoverBroker, CoverAsset, type GetQuoteResponse } from '@nexusmutual/sdk';
+import {
+  addresses,
+  CoverBroker,
+  CoverAsset,
+  type GetQuoteResponse,
+  type CoverMetadataInput,
+  type Product,
+  type ProductType,
+} from '@nexusmutual/sdk';
 
 const COVER_ASSETS = [
   { label: 'ETH', value: CoverAsset.ETH, decimals: 18 },
@@ -34,6 +42,22 @@ function parseAmount(value: string, decimals: number): string {
   return parseUnits(value, decimals).toString();
 }
 
+function buildCoverMetadata(
+  product: Product,
+  productType: ProductType,
+  quotaShare: string,
+): CoverMetadataInput | undefined {
+  if (productType.buyCoverForm === 'withAUM' && product.aumPercentage) {
+    return { publicData: { aumCoverAmountPercentage: Number(product.aumPercentage) } };
+  }
+
+  if (productType.buyCoverForm === 'withQuotaShare' && quotaShare) {
+    return { publicData: { quotaShare: Number(quotaShare) } };
+  }
+
+  return undefined;
+}
+
 export default function BuyCoverPage() {
   const { address, isConnected } = useConnection();
 
@@ -41,6 +65,7 @@ export default function BuyCoverPage() {
   const [amount, setAmount] = useState('');
   const [period, setPeriod] = useState('30');
   const [coverAssetIndex, setCoverAssetIndex] = useState(0);
+  const [quotaShare, setQuotaShare] = useState('');
 
   const debouncedProductId = useDebounce(productId, 500);
 
@@ -50,8 +75,11 @@ export default function BuyCoverPage() {
   const quoteMutation = useMutation({
     mutationFn: async (): Promise<GetQuoteResponse> => {
       if (!address) throw new Error('Wallet not connected');
+      if (!product || !productType) throw new Error('Product not loaded');
 
       const amountInSmallestUnit = parseAmount(amount, selectedAsset.decimals);
+
+      const coverMetadata = buildCoverMetadata(product, productType, quotaShare);
 
       const response = await sdk.quote.getQuoteAndBuyCoverInputs({
         productId: Number(productId),
@@ -59,6 +87,7 @@ export default function BuyCoverPage() {
         period: Number(period),
         coverAsset: selectedAsset.value,
         buyerAddress: address,
+        ...(coverMetadata && { coverMetadata }),
       });
 
       if (response.error) {
@@ -74,8 +103,8 @@ export default function BuyCoverPage() {
   const productQuery = useQuery({
     queryKey: ['product', numProductId],
     queryFn: async () => {
-      const product = await productAPI.getProductById(numProductId);
-      const productType = await productAPI.getProductTypeById(product.productType);
+      const product = await productAPI.getProductById(numProductId, ['aumPercentage']);
+      const productType = await productAPI.getProductTypeById(product.productType, ['buyCoverForm']);
       return { product, productType };
     },
     enabled: numProductId > 0,
@@ -83,12 +112,14 @@ export default function BuyCoverPage() {
 
   useEffect(() => {
     setCoverAssetIndex(0);
+    setQuotaShare('');
     quoteMutation.reset();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedProductId]);
 
   const product = productQuery.data?.product ?? null;
   const productType = productQuery.data?.productType ?? null;
+  const buyCoverForm = productType?.buyCoverForm;
 
   const availableAssets = product?.coverAssets?.length
     ? COVER_ASSETS.filter(a => product.coverAssets.some(ca => ca.assetId === a.value))
@@ -134,7 +165,12 @@ export default function BuyCoverPage() {
     });
   }
 
-  const isFormValid = isConnected && product && amount && Number(period) >= 28;
+  const isFormValid =
+    isConnected &&
+    product &&
+    amount &&
+    Number(period) >= 28 &&
+    (buyCoverForm !== 'withQuotaShare' || Number(quotaShare) > 0);
 
   return (
     <div className="flex flex-1 flex-col">
@@ -217,6 +253,21 @@ export default function BuyCoverPage() {
                 </div>
               )}
 
+              {buyCoverForm && buyCoverForm !== 'basic' && (
+                <div className="border-t border-primary/20 pt-3">
+                  <p className="mb-2 text-xs font-medium text-foreground">Public Metadata</p>
+                  {buyCoverForm === 'withAUM' && (
+                    <p className="text-xs text-muted">
+                      AUM percentage: <span className="font-semibold text-foreground">{product.aumPercentage}%</span>{' '}
+                      (auto-included)
+                    </p>
+                  )}
+                  {buyCoverForm === 'withQuotaShare' && (
+                    <p className="text-xs text-muted">Quota share percentage required (see input below)</p>
+                  )}
+                </div>
+              )}
+
               {product?.proofOfLossInputTypes?.length && (
                 <p className="text-xs font-medium text-amber-600 dark:text-amber-400">
                   This product type requires proof of loss data when buying cover.
@@ -269,6 +320,21 @@ export default function BuyCoverPage() {
               ))}
             </div>
           </div>
+
+          {buyCoverForm === 'withQuotaShare' && (
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-foreground">Quota Share (%)</label>
+              <input
+                type="number"
+                min="1"
+                max="100"
+                placeholder="e.g. 50"
+                value={quotaShare}
+                onChange={e => setQuotaShare(e.target.value)}
+                className="w-full rounded-xl border border-card-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted/50 focus:border-primary focus:outline-none"
+              />
+            </div>
+          )}
 
           <button
             onClick={() => quoteMutation.mutate()}

@@ -7,15 +7,7 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { parseEther, parseUnits, formatEther, formatUnits } from 'viem';
 import { useConnection, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { productAPI, sdk } from '@/config/sdk';
-import {
-  addresses,
-  CoverBroker,
-  CoverAsset,
-  type GetQuoteResponse,
-  type CoverMetadataInput,
-  type Product,
-  type ProductType,
-} from '@nexusmutual/sdk';
+import { addresses, CoverBroker, CoverAsset, type GetQuoteResponse } from '@nexusmutual/sdk';
 
 const COVER_ASSETS = [
   { label: 'ETH', value: CoverAsset.ETH, decimals: 18 },
@@ -23,14 +15,6 @@ const COVER_ASSETS = [
   { label: 'USDC', value: CoverAsset.USDC, decimals: 6 },
   { label: 'cbBTC', value: CoverAsset.cbBTC, decimals: 8 },
 ] as const;
-
-const PROOF_OF_LOSS_LABELS: Record<string, string> = {
-  address: 'Wallet Address',
-  api_key: 'API Key',
-  validator: 'Validator',
-  csv: 'CSV Data',
-  free_text: 'Free Text',
-};
 
 function formatPremium(weiValue: string, decimals: number): string {
   if (decimals === 18) return formatEther(BigInt(weiValue));
@@ -226,7 +210,7 @@ export default function BuyCoverPage() {
                         key={type}
                         className="inline-flex items-center rounded-lg border border-primary/30 bg-card px-2.5 py-1 text-xs font-medium text-primary"
                       >
-                        {PROOF_OF_LOSS_LABELS[type] ?? type}
+                        {type}
                       </span>
                     ))}
                   </div>

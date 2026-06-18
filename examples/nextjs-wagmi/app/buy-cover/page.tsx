@@ -5,16 +5,9 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useDebounce } from '@/hooks/useDebounce';
 import { parseEther, parseUnits, formatEther, formatUnits } from 'viem';
-import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
+import { useConnection, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { productAPI, sdk } from '@/config/sdk';
-import { addresses, CoverBroker, CoverAsset, type GetQuoteResponse, type ProductAPI } from '@nexusmutual/sdk';
-
-type Product = Awaited<ReturnType<ProductAPI['getProductById']>> & {
-  proofOfLossInputTypes?: string[];
-};
-type ProductType = Awaited<ReturnType<ProductAPI['getProductTypeById']>> & {
-  isProofOfLossRequired?: boolean;
-};
+import { addresses, CoverBroker, CoverAsset, type GetQuoteResponse } from '@nexusmutual/sdk';
 
 const COVER_ASSETS = [
   { label: 'ETH', value: CoverAsset.ETH, decimals: 18 },
@@ -42,7 +35,7 @@ function parseAmount(value: string, decimals: number): string {
 }
 
 export default function BuyCoverPage() {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = useConnection();
 
   const [productId, setProductId] = useState('');
   const [amount, setAmount] = useState('');
@@ -224,7 +217,7 @@ export default function BuyCoverPage() {
                 </div>
               )}
 
-              {productType?.isProofOfLossRequired && (
+              {product?.proofOfLossInputTypes?.length && (
                 <p className="text-xs font-medium text-amber-600 dark:text-amber-400">
                   This product type requires proof of loss data when buying cover.
                 </p>

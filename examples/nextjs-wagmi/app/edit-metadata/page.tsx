@@ -20,7 +20,7 @@ export default function EditMetadataPage() {
   const { isConnected } = useConnection();
   const { mutateAsync: signTypedDataAsync } = useSignTypedData();
 
-  const [coverMetadataId, setCoverMetadataId] = useState('');
+  const [coverId, setCoverId] = useState('');
   const [entryType, setEntryType] = useState<EntryType>('address');
   const [entryValue, setEntryValue] = useState('');
   const [entryLabel, setEntryLabel] = useState('');
@@ -42,6 +42,18 @@ export default function EditMetadataPage() {
 
   const editMetadata = useMutation({
     mutationFn: async () => {
+      const coverResponse = await sdk.cover.getCover(Number(coverId));
+
+      if (coverResponse.error) {
+        throw new Error(coverResponse.error.message);
+      }
+
+      const { coverMetadataId } = coverResponse.result!;
+
+      if (!coverMetadataId) {
+        throw new Error('No metadata found for this cover. It may not have associated metadata.');
+      }
+
       const typedData = buildCoverMetadataAuthMessage();
 
       const signature = await signTypedDataAsync({
@@ -50,9 +62,8 @@ export default function EditMetadataPage() {
         primaryType: typedData.primaryType,
         message: typedData.value,
       });
-      console.log('enters sig', { signature });
+
       const proofOfLoss = [buildProofOfLoss()];
-      console.log('proof of loss', { proofOfLoss });
 
       const response = await sdk.cover.editCoverMetadata({
         coverMetadataId,
@@ -63,16 +74,13 @@ export default function EditMetadataPage() {
         },
       });
 
-      console.log('response', { response });
-
       if (response.error) {
-        console.log('error', { error: response.error });
         throw new Error(response.error.message);
       }
     },
   });
 
-  const isFormValid = isConnected && coverMetadataId && entryValue;
+  const isFormValid = isConnected && coverId && Number(coverId) > 0 && entryValue;
   const placeholder = entryType === 'address' ? '0x...' : entryType === 'api_key' ? 'your-api-key' : 'Enter value';
 
   return (
@@ -96,12 +104,13 @@ export default function EditMetadataPage() {
 
         <div className="space-y-5 rounded-2xl border border-card-border bg-card p-6">
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-foreground">Cover Metadata ID</label>
+            <label className="mb-1.5 block text-sm font-medium text-foreground">Cover ID</label>
             <input
-              type="text"
-              placeholder="e.g. abc123-def456"
-              value={coverMetadataId}
-              onChange={e => setCoverMetadataId(e.target.value)}
+              type="number"
+              min="1"
+              placeholder="e.g. 1234"
+              value={coverId}
+              onChange={e => setCoverId(e.target.value)}
               className="w-full rounded-xl border border-card-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted/50 focus:border-primary focus:outline-none"
             />
           </div>

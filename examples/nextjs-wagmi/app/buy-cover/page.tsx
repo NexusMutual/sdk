@@ -7,7 +7,14 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { parseEther, parseUnits, formatEther, formatUnits } from 'viem';
 import { useConnection, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { productAPI, sdk } from '@/config/sdk';
-import { addresses, CoverBroker, CoverAsset, type GetQuoteResponse } from '@nexusmutual/sdk';
+import {
+  addresses,
+  CoverBroker,
+  CoverAsset,
+  type GetQuoteResponse,
+  type CoverMetadataInput,
+  type ProofOfLossEntry,
+} from '@nexusmutual/sdk';
 
 const COVER_ASSETS = [
   { label: 'ETH', value: CoverAsset.ETH, decimals: 18 },
@@ -26,6 +33,64 @@ function parseAmount(value: string, decimals: number): string {
   return parseUnits(value, decimals).toString();
 }
 
+type ProofOfLossType = ProofOfLossEntry['type'];
+
+function buildProofOfLossEntry(type: ProofOfLossType, raw: string): ProofOfLossEntry {
+  switch (type) {
+    case 'address':
+      return {
+        type,
+        content: raw
+          .split(',')
+          .map(s => s.trim())
+          .filter(Boolean)
+          .map(address => ({ address })),
+      };
+    case 'validator':
+      return {
+        type,
+        content: raw
+          .split(',')
+          .map(s => s.trim())
+          .filter(Boolean)
+          .map(value => ({ value })),
+      };
+    case 'free_text':
+      return { type, content: [{ value: raw }] };
+    case 'api_key':
+      return {
+        type,
+        content: raw
+          .split(',')
+          .map(s => s.trim())
+          .filter(Boolean)
+          .map(credential => ({ credential, label: '', role: '' })),
+      };
+    case 'csv':
+      return {
+        type,
+        content: raw
+          .split('\n')
+          .map(line => line.trim())
+          .filter(Boolean)
+          .map(line => {
+            const [address = '', amount = '', currency = ''] = line.split(',').map(s => s.trim());
+            return { address, amount, currency };
+          }),
+      };
+  }
+}
+
+const PROOF_OF_LOSS_LABELS: Record<ProofOfLossType, { label: string; placeholder: string; multiline?: boolean }> = {
+  address: { label: 'Addresses', placeholder: 'Comma-separated addresses, e.g. 0xabc..., 0xdef...' },
+  validator: { label: 'Validator Keys', placeholder: 'Comma-separated validator public keys' },
+  free_text: { label: 'Description', placeholder: 'Describe your position or relevant details', multiline: true },
+  api_key: { label: 'API Credentials', placeholder: 'Comma-separated credentials' },
+  csv: { label: 'Positions (CSV)', placeholder: 'address, amount, currency (one per line)', multiline: true },
+};
+
+type ProofOfLossFormState = Record<string, string>;
+
 export default function BuyCoverPage() {
   const { address, isConnected } = useConnection();
 
@@ -34,33 +99,12 @@ export default function BuyCoverPage() {
   const [period, setPeriod] = useState('30');
   const [coverAssetIndex, setCoverAssetIndex] = useState(0);
   const [quotaShare, setQuotaShare] = useState('');
+  const [proofOfLoss, setProofOfLoss] = useState<ProofOfLossFormState>({});
 
   const debouncedProductId = useDebounce(productId, 500);
 
   const { data: txHash, writeContract, isPending: isTxPending, error: txError } = useWriteContract();
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash: txHash });
-
-  const quoteMutation = useMutation({
-    mutationFn: async (): Promise<GetQuoteResponse> => {
-      if (!address) throw new Error('Wallet not connected');
-      if (!product || !productType) throw new Error('Product not loaded');
-
-      const amountInSmallestUnit = parseAmount(amount, selectedAsset.decimals);
-      const response = await sdk.quote.getQuoteAndBuyCoverInputs({
-        productId: Number(productId),
-        amount: amountInSmallestUnit,
-        period: Number(period),
-        coverAsset: selectedAsset.value,
-        buyerAddress: address,
-      });
-
-      if (response.error) {
-        throw new Error(response.error.message);
-      }
-
-      return response.result!;
-    },
-  });
 
   const numProductId = Number(debouncedProductId);
 
@@ -74,9 +118,46 @@ export default function BuyCoverPage() {
     enabled: numProductId > 0,
   });
 
+  const quoteMutation = useMutation({
+    mutationFn: async (): Promise<GetQuoteResponse> => {
+      if (!address) throw new Error('Wallet not connected');
+      if (!product || !productType) throw new Error('Product not loaded');
+
+      const coverMetadata: CoverMetadataInput = {};
+
+      if (product.proofOfLossInputTypes?.length) {
+        coverMetadata.proofOfLoss = product.proofOfLossInputTypes.map(type => {
+          const raw = proofOfLoss[type] ?? '';
+          return buildProofOfLossEntry(type, raw);
+        });
+      }
+
+      if (buyCoverForm === 'withQuotaShare' && Number(quotaShare) > 0) {
+        coverMetadata.publicData = { quotaShare: Number(quotaShare) };
+      }
+
+      const amountInSmallestUnit = parseAmount(amount, selectedAsset.decimals);
+      const response = await sdk.quote.getQuoteAndBuyCoverInputs({
+        productId: Number(productId),
+        amount: amountInSmallestUnit,
+        period: Number(period),
+        coverAsset: selectedAsset.value,
+        buyerAddress: address,
+        coverMetadata,
+      });
+
+      if (response.error) {
+        throw new Error(response.error.message);
+      }
+
+      return response.result!;
+    },
+  });
+
   useEffect(() => {
     setCoverAssetIndex(0);
     setQuotaShare('');
+    setProofOfLoss({});
     quoteMutation.reset();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedProductId]);
@@ -129,11 +210,16 @@ export default function BuyCoverPage() {
     });
   }
 
+  const hasRequiredProofOfLoss =
+    !product?.proofOfLossInputTypes?.length ||
+    product.proofOfLossInputTypes.every(type => (proofOfLoss[type] ?? '').trim().length > 0);
+
   const isFormValid =
     isConnected &&
     product &&
     amount &&
     Number(period) >= 28 &&
+    hasRequiredProofOfLoss &&
     (buyCoverForm !== 'withQuotaShare' || Number(quotaShare) > 0);
 
   return (
@@ -216,12 +302,39 @@ export default function BuyCoverPage() {
                   </div>
                 </div>
               )}
+            </div>
+          )}
 
-              {product?.proofOfLossInputTypes?.length && (
-                <p className="text-xs font-medium text-amber-600 dark:text-amber-400">
-                  This product type requires proof of loss data when buying cover.
-                </p>
-              )}
+          {product?.proofOfLossInputTypes && product.proofOfLossInputTypes.length > 0 && (
+            <div className="space-y-4 rounded-xl border border-amber-200 bg-amber-50/50 p-4 dark:border-amber-900 dark:bg-amber-950/30">
+              <p className="text-xs font-semibold text-amber-700 dark:text-amber-400">
+                This product requires proof of loss data when buying cover.
+              </p>
+              {product.proofOfLossInputTypes.map(type => {
+                const config = PROOF_OF_LOSS_LABELS[type];
+                return (
+                  <div key={type}>
+                    <label className="mb-1.5 block text-sm font-medium text-foreground">{config.label}</label>
+                    {config.multiline ? (
+                      <textarea
+                        rows={3}
+                        placeholder={config.placeholder}
+                        value={proofOfLoss[type] ?? ''}
+                        onChange={e => setProofOfLoss(prev => ({ ...prev, [type]: e.target.value }))}
+                        className="w-full rounded-xl border border-card-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted/50 focus:border-primary focus:outline-none"
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        placeholder={config.placeholder}
+                        value={proofOfLoss[type] ?? ''}
+                        onChange={e => setProofOfLoss(prev => ({ ...prev, [type]: e.target.value }))}
+                        className="w-full rounded-xl border border-card-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted/50 focus:border-primary focus:outline-none"
+                      />
+                    )}
+                  </div>
+                );
+              })}
             </div>
           )}
 

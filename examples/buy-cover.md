@@ -10,8 +10,8 @@ Get a quote and purchase cover for a DeFi position using the Nexus Mutual SDK.
 import { NexusSDK, ProductAPI, CoverAsset, addresses, CoverBroker } from '@nexusmutual/sdk';
 import { parseEther } from 'viem';
 
-const sdk = new NexusSDK({ apiUrl: 'https://api.nexusmutual.io/v2' });
-const productAPI = new ProductAPI({ apiUrl: 'https://api.nexusmutual.io/v2' });
+const sdk = new NexusSDK();
+const productAPI = new ProductAPI();
 ```
 
 ## 1. Load Product
@@ -20,7 +20,7 @@ Fetch the product and its product type to discover available cover assets and pr
 
 ```typescript
 const product = await productAPI.getProductById(productId);
-const productType = await productAPI.getProductTypeById(product.productType, ['buyCoverForm']);
+const productType = await productAPI.getProductTypeById(product.productType);
 
 // product.coverAssets — available cover assets for this product
 // product.proofOfLossInputTypes — required proof-of-loss field types (e.g. ['address', 'api_key'])
@@ -82,9 +82,7 @@ const allocations = poolAllocationRequests.map(r => ({
 }));
 
 // Send ETH value when paying with ETH, otherwise 0
-const value = buyCoverParams.coverAsset === CoverAsset.ETH
-  ? BigInt(buyCoverParams.maxPremiumInAsset)
-  : BigInt(0);
+const value = buyCoverParams.coverAsset === CoverAsset.ETH ? BigInt(buyCoverParams.maxPremiumInAsset) : BigInt(0);
 
 // viem walletClient — in React apps, use wagmi's useWriteContract hook instead
 const txHash = await walletClient.writeContract({

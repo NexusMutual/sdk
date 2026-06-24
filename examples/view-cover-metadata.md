@@ -9,7 +9,7 @@ Fetch public and private metadata for an existing cover.
 ```typescript
 import { NexusSDK, buildCoverMetadataAuthMessage } from '@nexusmutual/sdk';
 
-const sdk = new NexusSDK({ apiUrl: 'https://api.nexusmutual.io/v2' });
+const sdk = new NexusSDK();
 ```
 
 ## 1. Get Cover

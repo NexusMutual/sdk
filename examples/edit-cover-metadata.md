@@ -9,7 +9,7 @@ Update proof-of-loss data on an existing cover. Requires an EIP-712 signature fr
 ```typescript
 import { NexusSDK, buildCoverMetadataAuthMessage } from '@nexusmutual/sdk';
 
-const sdk = new NexusSDK({ apiUrl: 'https://api.nexusmutual.io/v2' });
+const sdk = new NexusSDK();
 ```
 
 ## 1. Get Cover

@@ -602,4 +602,103 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(error?.message).toEqual('Not enough capacity for the cover amount');
     expect(error?.data?.maxCapacity).toEqual(coverRouterCapacityResponse.availableCapacity[1]?.amount);
   });
+
+  it('returns an error when buyCoverForm is withAUM and aumCoverAmountPercentage is not provided', async () => {
+    const productTypeWithAUM: ProductType = {
+      ...mockProductType,
+      buyCoverForm: 'withAUM',
+    };
+
+    fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(productTypeWithAUM));
+
+    const { error } = await quoteApi.getQuoteAndBuyCoverInputs(quoteParams);
+
+    expect(error?.message).toBe('Missing AUM cover amount percentage data');
+  });
+
+  it('returns an error when buyCoverForm is withQuotaShare and quotaShare is not provided', async () => {
+    const productTypeWithQuotaShare: ProductType = {
+      ...mockProductType,
+      buyCoverForm: 'withQuotaShare',
+    };
+
+    fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(productTypeWithQuotaShare));
+
+    const { error } = await quoteApi.getQuoteAndBuyCoverInputs(quoteParams);
+
+    expect(error?.message).toBe('Missing quota share data');
+  });
+
+  it('succeeds when buyCoverForm is withAUM and aumCoverAmountPercentage is provided', async () => {
+    const mockCid = 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY';
+    const productTypeWithAUM: ProductType = {
+      ...mockProductType,
+      buyCoverForm: 'withAUM',
+    };
+
+    fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(productTypeWithAUM));
+    fetchMock.mockResponseOnce(JSON.stringify({ cid: mockCid }));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
+
+    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      coverMetadata: { publicData: { aumCoverAmountPercentage: 25 } },
+    });
+
+    expect(error).toBeUndefined();
+    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe(mockCid);
+  });
+
+  it('succeeds when buyCoverForm is withQuotaShare and quotaShare is provided', async () => {
+    const mockCid = 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY';
+    const productTypeWithQuotaShare: ProductType = {
+      ...mockProductType,
+      buyCoverForm: 'withQuotaShare',
+    };
+
+    fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(productTypeWithQuotaShare));
+    fetchMock.mockResponseOnce(JSON.stringify({ cid: mockCid }));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
+
+    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      coverMetadata: { publicData: { quotaShare: 50 } },
+    });
+
+    expect(error).toBeUndefined();
+    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe(mockCid);
+  });
+
+  it('returns an error when product has no productType', async () => {
+    const productWithoutType = { ...mockProduct, productType: undefined };
+
+    fetchMock.mockResponseOnce(JSON.stringify(productWithoutType));
+
+    const { error } = await quoteApi.getQuoteAndBuyCoverInputs(quoteParams);
+
+    expect(error?.message).toBe('Invalid product');
+  });
+
+  it('returns an error when productType is not found', async () => {
+    fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(null));
+
+    const { error } = await quoteApi.getQuoteAndBuyCoverInputs(quoteParams);
+
+    expect(error?.message).toBe('Invalid product type');
+  });
+
+  it('returns an error when product fetch throws', async () => {
+    fetchMock.mockRejectOnce(new Error('Network error'));
+
+    const { error } = await quoteApi.getQuoteAndBuyCoverInputs(quoteParams);
+
+    expect(error?.message).toBe('Network error');
+  });
 });

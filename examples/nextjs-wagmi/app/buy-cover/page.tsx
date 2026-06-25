@@ -35,7 +35,7 @@ function parseAmount(value: string, decimals: number): string {
 
 type ProofOfLossType = ProofOfLossEntry['type'];
 
-function buildProofOfLossEntry(type: ProofOfLossType, raw: string): ProofOfLossEntry {
+function buildProofOfLossEntry(type: ProofOfLossType, raw: string, csv?: CsvFieldState): ProofOfLossEntry {
   switch (type) {
     case 'address':
       return {
@@ -69,27 +69,22 @@ function buildProofOfLossEntry(type: ProofOfLossType, raw: string): ProofOfLossE
     case 'csv':
       return {
         type,
-        content: raw
-          .split('\n')
-          .map(line => line.trim())
-          .filter(Boolean)
-          .map(line => {
-            const [address = '', amount = '', currency = ''] = line.split(',').map(s => s.trim());
-            return { address, amount, currency };
-          }),
+        content: [{ address: csv?.address ?? '', amount: csv?.amount ?? '', currency: csv?.currency ?? '' }],
       };
   }
 }
 
-const PROOF_OF_LOSS_LABELS: Record<ProofOfLossType, { label: string; placeholder: string; multiline?: boolean }> = {
+const PROOF_OF_LOSS_LABELS: Record<ProofOfLossType, { label: string; placeholder: string }> = {
   address: { label: 'Addresses', placeholder: 'Comma-separated addresses, e.g. 0xabc..., 0xdef...' },
   validator: { label: 'Validator Keys', placeholder: 'Comma-separated validator public keys' },
-  free_text: { label: 'Description', placeholder: 'Describe your position or relevant details', multiline: true },
+  free_text: { label: 'Description', placeholder: 'Describe your position or relevant details' },
   api_key: { label: 'API Credentials', placeholder: 'Comma-separated credentials' },
-  csv: { label: 'Positions (CSV)', placeholder: 'address, amount, currency (one per line)', multiline: true },
+  csv: { label: 'Position', placeholder: '' },
 };
 
+type CsvFieldState = { address: string; amount: string; currency: string };
 type ProofOfLossFormState = Record<string, string>;
+type CsvFormState = Record<string, CsvFieldState>;
 
 export default function BuyCoverPage() {
   const { address, isConnected } = useConnection();
@@ -100,6 +95,7 @@ export default function BuyCoverPage() {
   const [coverAssetIndex, setCoverAssetIndex] = useState(0);
   const [quotaShare, setQuotaShare] = useState('');
   const [proofOfLoss, setProofOfLoss] = useState<ProofOfLossFormState>({});
+  const [csvFields, setCsvFields] = useState<CsvFormState>({});
 
   const debouncedProductId = useDebounce(productId, 500);
 
@@ -128,7 +124,7 @@ export default function BuyCoverPage() {
       if (product.proofOfLossInputTypes?.length) {
         coverMetadata.proofOfLoss = product.proofOfLossInputTypes.map(type => {
           const raw = proofOfLoss[type] ?? '';
-          return buildProofOfLossEntry(type, raw);
+          return buildProofOfLossEntry(type, raw, csvFields[type]);
         });
       }
 
@@ -158,6 +154,7 @@ export default function BuyCoverPage() {
     setCoverAssetIndex(0);
     setQuotaShare('');
     setProofOfLoss({});
+    setCsvFields({});
     quoteMutation.reset();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedProductId]);
@@ -212,7 +209,13 @@ export default function BuyCoverPage() {
 
   const hasRequiredProofOfLoss =
     !product?.proofOfLossInputTypes?.length ||
-    product.proofOfLossInputTypes.every(type => (proofOfLoss[type] ?? '').trim().length > 0);
+    product.proofOfLossInputTypes.every(type => {
+      if (type === 'csv') {
+        const csv = csvFields[type];
+        return csv?.address && csv?.amount && csv?.currency;
+      }
+      return (proofOfLoss[type] ?? '').trim().length > 0;
+    });
 
   const isFormValid =
     isConnected &&
@@ -312,26 +315,49 @@ export default function BuyCoverPage() {
               </p>
               {product.proofOfLossInputTypes.map(type => {
                 const config = PROOF_OF_LOSS_LABELS[type];
+                if (type === 'csv') {
+                  const csv = csvFields[type] ?? { address: '', amount: '', currency: '' };
+                  return (
+                    <div key={type}>
+                      <p className="mb-1.5 text-sm font-medium text-foreground">{config.label}</p>
+                      <div className="grid grid-cols-3 gap-3">
+                        <input
+                          type="text"
+                          placeholder="0x..."
+                          value={csv.address}
+                          onChange={e => setCsvFields(prev => ({ ...prev, [type]: { ...csv, address: e.target.value } }))}
+                          className="w-full rounded-xl border border-card-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted/50 focus:border-primary focus:outline-none"
+                        />
+                        <input
+                          type="text"
+                          placeholder="Amount"
+                          value={csv.amount}
+                          onChange={e => setCsvFields(prev => ({ ...prev, [type]: { ...csv, amount: e.target.value } }))}
+                          className="w-full rounded-xl border border-card-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted/50 focus:border-primary focus:outline-none"
+                        />
+                        <input
+                          type="text"
+                          placeholder="Currency"
+                          value={csv.currency}
+                          onChange={e =>
+                            setCsvFields(prev => ({ ...prev, [type]: { ...csv, currency: e.target.value } }))
+                          }
+                          className="w-full rounded-xl border border-card-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted/50 focus:border-primary focus:outline-none"
+                        />
+                      </div>
+                    </div>
+                  );
+                }
                 return (
                   <div key={type}>
                     <label className="mb-1.5 block text-sm font-medium text-foreground">{config.label}</label>
-                    {config.multiline ? (
-                      <textarea
-                        rows={3}
-                        placeholder={config.placeholder}
-                        value={proofOfLoss[type] ?? ''}
-                        onChange={e => setProofOfLoss(prev => ({ ...prev, [type]: e.target.value }))}
-                        className="w-full rounded-xl border border-card-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted/50 focus:border-primary focus:outline-none"
-                      />
-                    ) : (
-                      <input
-                        type="text"
-                        placeholder={config.placeholder}
-                        value={proofOfLoss[type] ?? ''}
-                        onChange={e => setProofOfLoss(prev => ({ ...prev, [type]: e.target.value }))}
-                        className="w-full rounded-xl border border-card-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted/50 focus:border-primary focus:outline-none"
-                      />
-                    )}
+                    <input
+                      type="text"
+                      placeholder={config.placeholder}
+                      value={proofOfLoss[type] ?? ''}
+                      onChange={e => setProofOfLoss(prev => ({ ...prev, [type]: e.target.value }))}
+                      className="w-full rounded-xl border border-card-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted/50 focus:border-primary focus:outline-none"
+                    />
                   </div>
                 );
               })}

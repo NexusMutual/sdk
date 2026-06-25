@@ -10,9 +10,8 @@ import {
 } from '../constants';
 import { ApiError, NexusSDKBase, RequestConfig } from '../nexus-sdk-base';
 import { ProductAPI } from '../product-api/ProductAPI';
+import { CoverData } from '../cover/Cover';
 import {
-  CoverMetadataInput,
-  CoverMetadataResponse,
   CoverRouterProductCapacityResponse,
   CoverRouterQuoteResponse,
   ErrorApiResponse,
@@ -28,6 +27,7 @@ import {
  */
 export class Quote extends NexusSDKBase {
   private productAPI: ProductAPI;
+  private coverData: CoverData;
 
   /**
    * Create a new Quote instance
@@ -36,6 +36,7 @@ export class Quote extends NexusSDKBase {
   constructor(config: NexusSDKConfig = {}) {
     super(config);
     this.productAPI = new ProductAPI(config);
+    this.coverData = new CoverData(config);
   }
 
   /**
@@ -186,7 +187,7 @@ export class Quote extends NexusSDKBase {
 
     if (hasCoverMetadata) {
       try {
-        ipfsData = await this.createCoverMetadata(coverMetadata);
+        ipfsData = await this.coverData.createCoverMetadata(coverMetadata);
       } catch (error: unknown) {
         return {
           result: undefined,
@@ -260,20 +261,6 @@ export class Quote extends NexusSDKBase {
     } catch (error: unknown) {
       return this.handleQuoteError(error, productId, period, coverAssetEnum);
     }
-  }
-
-  /**
-   * Creates cover metadata via the backend and returns the IPFS CID
-   * @param input Cover metadata input
-   * @returns IPFS CID string
-   */
-  private async createCoverMetadata(input: CoverMetadataInput): Promise<string> {
-    const options: RequestConfig = {
-      method: 'POST',
-      data: input,
-    };
-    const response = await this.sendRequest<CoverMetadataResponse>('/cover-metadata', options);
-    return response.cid;
   }
 
   /**

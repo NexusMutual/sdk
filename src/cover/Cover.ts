@@ -1,6 +1,8 @@
 import { NexusSDKBase, RequestConfig } from '../nexus-sdk-base';
 import {
   AuthSignature,
+  CoverMetadataInput,
+  CoverMetadataResponse,
   EditCoverMetadataParams,
   ErrorApiResponse,
   EditCoverMetadataApiResponse,
@@ -82,6 +84,15 @@ export class CoverData extends NexusSDKBase {
     } catch (error: unknown) {
       return { result: undefined, error: { message: (error as Error).message || 'Failed to update cover metadata' } };
     }
+  }
+
+  public async createCoverMetadata(input: CoverMetadataInput): Promise<string> {
+    const options: RequestConfig = {
+      method: 'POST',
+      data: input,
+    };
+    const response = await this.sendRequest<CoverMetadataResponse>('/cover-metadata', options);
+    return response.cid;
   }
 
   private buildAuthHeaders(auth: AuthSignature) {

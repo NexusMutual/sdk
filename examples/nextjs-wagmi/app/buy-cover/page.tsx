@@ -77,7 +77,7 @@ function buildProofOfLossEntry(type: ProofOfLossType, raw: string, csv?: CsvFiel
 const PROOF_OF_LOSS_LABELS: Record<ProofOfLossType, { label: string; placeholder: string }> = {
   address: { label: 'Addresses', placeholder: 'Comma-separated addresses, e.g. 0xabc..., 0xdef...' },
   validator: { label: 'Validator Keys', placeholder: 'Comma-separated validator public keys' },
-  free_text: { label: 'Description', placeholder: 'Describe your position or relevant details' },
+  free_text: { label: 'Customer Id', placeholder: 'Add your customer ID' },
   api_key: { label: 'API Credentials', placeholder: 'Comma-separated credentials' },
   csv: { label: 'Position', placeholder: '' },
 };
@@ -325,14 +325,18 @@ export default function BuyCoverPage() {
                           type="text"
                           placeholder="0x..."
                           value={csv.address}
-                          onChange={e => setCsvFields(prev => ({ ...prev, [type]: { ...csv, address: e.target.value } }))}
+                          onChange={e =>
+                            setCsvFields(prev => ({ ...prev, [type]: { ...csv, address: e.target.value } }))
+                          }
                           className="w-full rounded-xl border border-card-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted/50 focus:border-primary focus:outline-none"
                         />
                         <input
                           type="text"
                           placeholder="Amount"
                           value={csv.amount}
-                          onChange={e => setCsvFields(prev => ({ ...prev, [type]: { ...csv, amount: e.target.value } }))}
+                          onChange={e =>
+                            setCsvFields(prev => ({ ...prev, [type]: { ...csv, amount: e.target.value } }))
+                          }
                           className="w-full rounded-xl border border-card-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted/50 focus:border-primary focus:outline-none"
                         />
                         <input

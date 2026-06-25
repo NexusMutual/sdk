@@ -146,7 +146,11 @@ export default function BuyCoverPage() {
         throw new Error(response.error.message);
       }
 
-      return response.result!;
+      if (!response.result) {
+        throw new Error('Quote failed: no result returned');
+      }
+
+      return response.result;
     },
   });
 

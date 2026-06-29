@@ -8,8 +8,8 @@ import {
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
 } from '../constants';
-import { Ipfs } from '../ipfs';
 import { CoverData } from '../cover/Cover';
+import { Ipfs } from '../ipfs';
 import { ApiError, NexusSDKBase, RequestConfig } from '../nexus-sdk-base';
 import { ProductAPI } from '../product-api/ProductAPI';
 import {

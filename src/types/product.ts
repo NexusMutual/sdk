@@ -1,5 +1,5 @@
+import { ProofOfLossEntry } from './cover-metadata';
 import { Integer } from './data';
-import { ContentType } from './ipfs';
 import { CoverAsset } from '../constants';
 
 export type ProductType = {
@@ -12,8 +12,10 @@ export type ProductType = {
   payoutRedemptionPeriod: string;
   commissionRatio: string;
   commissionDestination: string;
-  ipfsContentType?: ContentType; // Optional field to specify required IPFS content type for the product
+  buyCoverForm?: BuyCoverFormType;
 };
+
+export type BuyCoverFormType = 'basic' | 'withQuotaShare' | 'withAUM' | 'unsupported';
 
 export type Product = {
   id: Integer;
@@ -30,4 +32,5 @@ export type Product = {
   timestamp: number;
   isPrivate: boolean;
   logo?: string;
+  proofOfLossInputTypes?: ProofOfLossEntry['type'][];
 };

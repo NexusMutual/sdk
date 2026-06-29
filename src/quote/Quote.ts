@@ -8,6 +8,7 @@ import {
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
 } from '../constants';
+import { CoverData } from '../cover/Cover';
 import { Ipfs } from '../ipfs';
 import { ApiError, NexusSDKBase, RequestConfig } from '../nexus-sdk-base';
 import { ProductAPI } from '../product-api/ProductAPI';
@@ -20,7 +21,6 @@ import {
   GetQuoteAndBuyCoverInputsParams,
   NexusSDKConfig,
   QuoteParams,
-  IPFSTypeContentTuple,
 } from '../types';
 
 /**
@@ -29,16 +29,17 @@ import {
 export class Quote extends NexusSDKBase {
   private ipfs: Ipfs;
   private productAPI: ProductAPI;
+  private coverData: CoverData;
 
   /**
    * Create a new Quote instance
    * @param config SDK configuration
-   * @param ipfs IPFS instance for content upload and validation
    */
-  constructor(config: NexusSDKConfig = {}, ipfs?: Ipfs) {
+  constructor(config: NexusSDKConfig = {}) {
     super(config);
-    this.ipfs = ipfs || new Ipfs(config);
+    this.ipfs = new Ipfs(config);
     this.productAPI = new ProductAPI(config);
+    this.coverData = new CoverData(config);
   }
 
   /**
@@ -56,7 +57,8 @@ export class Quote extends NexusSDKBase {
       coverAsset,
       buyerAddress,
       slippage = DEFAULT_SLIPPAGE / SLIPPAGE_DENOMINATOR,
-      ipfsCidOrContent = '',
+      ipfsCid,
+      coverMetadata,
       paymentAsset = coverAsset,
       coverId = 0,
       commissionRatio,
@@ -116,30 +118,10 @@ export class Quote extends NexusSDKBase {
       };
     }
 
-    // Handle ipfsCidOrContent validation (either a string CID or a content object)
-    const isString = typeof ipfsCidOrContent === 'string';
-    const isObject = typeof ipfsCidOrContent === 'object' && ipfsCidOrContent !== null;
-
-    if (!isString && !isObject) {
-      return {
-        result: undefined,
-        error: { message: 'Invalid ipfsCidOrContent: must be a string CID or content object' },
-      };
-    }
-
-    if (isString && ipfsCidOrContent !== '') {
-      const isValidCID = this.ipfs.validateIPFSCid(ipfsCidOrContent as string);
-      if (!isValidCID) {
-        return {
-          result: undefined,
-          error: { message: 'Invalid ipfsCid: must be a valid IPFS CID' },
-        };
-      }
-    }
-
+    let product: Awaited<ReturnType<ProductAPI['getProductById']>>;
     let productType: Awaited<ReturnType<ProductAPI['getProductTypeById']>>;
     try {
-      const product = await this.productAPI.getProductById(productId);
+      product = await this.productAPI.getProductById(productId);
       const productTypeId = product?.productType;
       if (productTypeId === undefined) {
         return {
@@ -148,7 +130,7 @@ export class Quote extends NexusSDKBase {
         };
       }
 
-      productType = await this.productAPI.getProductTypeById(productTypeId);
+      productType = await this.productAPI.getProductTypeById(productTypeId, ['buyCoverForm']);
       if (!productType) {
         return {
           result: undefined,
@@ -162,29 +144,70 @@ export class Quote extends NexusSDKBase {
       };
     }
 
-    if (productType.ipfsContentType !== undefined && !ipfsCidOrContent) {
-      return {
-        result: undefined,
-        error: {
-          message: `Missing IPFS content. \n
-          ${productType.name} requires ${productType.ipfsContentType} content type.`,
-        },
-      };
-    }
+    let ipfsData = '';
 
-    let ipfsData = ipfsCidOrContent as string;
-    const contentType = productType.ipfsContentType;
-
-    // Handle uploading content to IPFS if provided as an object
-    if (!isString && contentType !== undefined && ipfsCidOrContent) {
-      try {
-        // Use the IPFS instance to upload content
-        ipfsData = await this.ipfs.uploadIPFSContent([contentType, ipfsCidOrContent] as IPFSTypeContentTuple);
-      } catch (error: unknown) {
+    if (ipfsCid) {
+      const isValidCID = this.ipfs.validateIPFSCid(ipfsCid);
+      if (!isValidCID) {
         return {
           result: undefined,
-          error: { message: (error as Error).message || 'Failed to upload IPFS content' },
+          error: { message: 'Invalid ipfsCid: must be a valid IPFS CID' },
         };
+      }
+      ipfsData = ipfsCid;
+    } else {
+      if (
+        product.proofOfLossInputTypes?.length &&
+        (!coverMetadata?.proofOfLoss || coverMetadata.proofOfLoss.length === 0)
+      ) {
+        return {
+          result: undefined,
+          error: {
+            message: `Missing cover metadata. ${productType.name} requires proof of loss data.`,
+          },
+        };
+      }
+
+      const contentType = productType.buyCoverForm;
+
+      if (contentType === 'withAUM' && !coverMetadata?.publicData?.aumCoverAmountPercentage) {
+        return {
+          result: undefined,
+          error: { message: 'Missing AUM cover amount percentage data' },
+        };
+      }
+
+      if (contentType === 'withQuotaShare' && !coverMetadata?.publicData?.quotaShare) {
+        return {
+          result: undefined,
+          error: { message: 'Missing quota share data' },
+        };
+      }
+
+      const requiredTypes = product.proofOfLossInputTypes;
+      if (requiredTypes && requiredTypes.length > 0 && coverMetadata?.proofOfLoss) {
+        const providedTypes = new Set(coverMetadata.proofOfLoss.map(e => e.type));
+        if (!requiredTypes.every(t => providedTypes.has(t))) {
+          return {
+            result: undefined,
+            error: { message: `Missing required proof of loss types. Required: ${requiredTypes.join(', ')}` },
+          };
+        }
+      }
+
+      const hasCoverMetadata =
+        coverMetadata?.proofOfLoss?.length ||
+        (coverMetadata?.publicData && Object.keys(coverMetadata.publicData).length > 0);
+
+      if (hasCoverMetadata) {
+        try {
+          ipfsData = await this.coverData.createCoverMetadata(coverMetadata);
+        } catch (error: unknown) {
+          return {
+            result: undefined,
+            error: { message: (error as Error).message || 'Failed to create cover metadata' },
+          };
+        }
       }
     }
 

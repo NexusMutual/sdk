@@ -1,3 +1,5 @@
+import { CoverMetadataInput } from './cover-metadata';
+
 /**
  * Configuration options for the Nexus SDK
  */
@@ -51,9 +53,14 @@ export interface GetQuoteAndBuyCoverInputsParams {
   slippage?: number;
 
   /**
-   * Optional IPFS CID string or content object to upload
+   * Optional IPFS CID string
    */
-  ipfsCidOrContent?: string | Record<string, unknown>;
+  ipfsCid?: string;
+
+  /**
+   * Optional cover metadata (proof of loss and/or public data)
+   */
+  coverMetadata?: CoverMetadataInput;
 
   /**
    * Optional commission ratio

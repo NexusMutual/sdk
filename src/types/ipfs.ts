@@ -1,14 +1,6 @@
 import { z } from 'zod';
 
 import {
-  coverValidatorsSchema,
-  coverQuotaShareSchema,
-  coverAumCoverAmountPercentageSchema,
-  coverWalletAddressSchema,
-  coverWalletAddressesSchema,
-  coverFreeTextSchema,
-  coverDesignatedWalletsSchema,
-  defiPassContentSchema,
   stakingPoolDetailsSchema,
   claimProofSchema,
   assessmentCriteriaAnswersSchema,
@@ -21,15 +13,6 @@ import {
 } from '../ipfs/schemas';
 
 export enum ContentType {
-  coverValidators = 'coverValidators',
-  coverQuotaShare = 'coverQuotaShare',
-  coverAumCoverAmountPercentage = 'coverAumCoverAmountPercentage',
-  coverWalletAddress = 'coverWalletAddress',
-  coverWalletAddresses = 'coverWalletAddresses',
-  coverFreeText = 'coverFreeText',
-  coverDesignatedWallets = 'coverDesignatedWallets',
-  defiPassContent = 'defiPassContent',
-  // ---------------------------------------------------------
   stakingPoolDetails = 'stakingPoolDetails',
   claimProof = 'claimProof',
   assessmentCriteriaAnswers = 'assessmentCriteriaAnswers',
@@ -41,14 +24,6 @@ export enum ContentType {
   coverMetadataRef = 'coverMetadataRef',
 }
 
-export type CoverValidators = z.infer<typeof coverValidatorsSchema>;
-export type CoverQuotaShare = z.infer<typeof coverQuotaShareSchema>;
-export type CoverAumCoverAmountPercentage = z.infer<typeof coverAumCoverAmountPercentageSchema>;
-export type CoverWalletAddress = z.infer<typeof coverWalletAddressSchema>;
-export type CoverWalletAddresses = z.infer<typeof coverWalletAddressesSchema>;
-export type CoverFreeText = z.infer<typeof coverFreeTextSchema>;
-export type CoverDesignatedWallets = z.infer<typeof coverDesignatedWalletsSchema>;
-export type DefiPassContent = z.infer<typeof defiPassContentSchema>;
 export type StakingPoolDetails = z.infer<typeof stakingPoolDetailsSchema>;
 export type ClaimProof = z.infer<typeof claimProofSchema>;
 export type AssessmentCriteriaAnswers = z.infer<typeof assessmentCriteriaAnswersSchema>;
@@ -60,15 +35,6 @@ export type ProductAnnex = z.infer<typeof productAnnexSchema>;
 export type CoverMetadataRef = z.infer<typeof coverMetadataRefSchema>;
 
 export type IPFSContentTypes =
-  | CoverValidators
-  | CoverQuotaShare
-  | CoverAumCoverAmountPercentage
-  | CoverWalletAddress
-  | CoverWalletAddresses
-  | CoverFreeText
-  | CoverDesignatedWallets
-  | DefiPassContent
-  // ---------------------------------------------------------
   | StakingPoolDetails
   | ClaimProof
   | AssessmentCriteriaAnswers
@@ -80,15 +46,6 @@ export type IPFSContentTypes =
   | CoverMetadataRef;
 
 export type IPFSTypeContentTuple =
-  | [type: ContentType.coverValidators, content: CoverValidators]
-  | [type: ContentType.coverQuotaShare, content: CoverQuotaShare]
-  | [type: ContentType.coverAumCoverAmountPercentage, content: CoverAumCoverAmountPercentage]
-  | [type: ContentType.coverWalletAddress, content: CoverWalletAddress]
-  | [type: ContentType.coverWalletAddresses, content: CoverWalletAddresses]
-  | [type: ContentType.coverFreeText, content: CoverFreeText]
-  | [type: ContentType.coverDesignatedWallets, content: CoverDesignatedWallets]
-  | [type: ContentType.defiPassContent, content: DefiPassContent]
-  // ---------------------------------------------------------
   | [type: ContentType.stakingPoolDetails, content: StakingPoolDetails]
   | [type: ContentType.claimProof, content: ClaimProof]
   | [type: ContentType.assessmentCriteriaAnswers, content: AssessmentCriteriaAnswers]

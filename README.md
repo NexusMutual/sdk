@@ -8,7 +8,7 @@ npm install @nexusmutual/sdk
 
 ## Requirements
 
-- Node.js 18 or newer
+- Node.js 22 or newer
 
 ## Usage
 
@@ -42,49 +42,11 @@ const product = await productApi.getProductById(247);
 console.log(productTypes.length, product.name);
 ```
 
-## Development
-
-### Install dependencies
-
-```
-npm ci
-```
-
-### ENV variables setup
-
-Copy the `.env.example` file into `.env` and populate with the required values.
-
-### Build locally
-
-```
-npm build
-```
-
-## IPFS Upload
-
-Use the `uploadIPFSContent` method in `Ipfs` class to upload the content to IPFS. The function takes the following parameters:
-
-- `type`: The type of the content. Based on ContentType enum.
-- `content`: The content to be uploaded to IPFS as IPFSContentTypes.
-
-The function returns the IPFS hash of the uploaded content.
-
-For claims submission and assessment IPFS data, use the `get32BytesIPFSHash` method in `Ipfs` class to convert the IPFS hash you get from `uploadIPFSContent` to 32 bytes format. Use the `getIPFSCidFromHexBytes` method to convert back to standard IPFS hash.
-
-### Example
+`getProductById` and `getProductTypeById` accept an optional `params` array to include additional attributes:
 
 ```typescript
-import { Ipfs } from '@nexusmutual/sdk';
-
-const content: IPFSContentTypes = {
-  version: '2.0',
-  walletAddresses: ['0x1234567890'],
-};
-
-const ipfs = new Ipfs(config: NexusSDKConfig = {});
-const ipfsHash = await ipfs.uploadIPFSContent([ContentType.coverWalletAddresses, content]);
-
-console.log(ipfsHash);
+const product = await productApi.getProductById(247, ['proofOfLossInputTypes']);
+const productType = await productApi.getProductTypeById(1, ['buyCoverForm']);
 ```
 
 ## Quote
@@ -98,11 +60,11 @@ interface NexusSDKConfig {
 ```
 
 ```typescript
-const nexusSDK = new NexusSDK(config: NexusSDKConfig = {}, ipfs?: Ipfs)
+const nexusSDK = new NexusSDK(config: NexusSDKConfig = {})
 ```
 
 ```typescript
-const quote = new Quote(config: NexusSDKConfig = {}, ipfs?: Ipfs)
+const quote = new Quote(config: NexusSDKConfig = {})
 ```
 
 ### Params
@@ -148,9 +110,14 @@ export interface GetQuoteAndBuyCoverInputsParams {
   slippage?: number;
 
   /**
-   * Optional IPFS CID string or content object to upload
+   * Optional IPFS CID string
    */
-  ipfsCidOrContent?: string | Record<string, unknown>;
+  ipfsCid?: string;
+
+  /**
+   * Optional cover metadata (proof of loss and/or public data)
+   */
+  coverMetadata?: CoverMetadataInput;
 
   /**
    * Optional commission ratio
@@ -170,18 +137,48 @@ export interface GetQuoteAndBuyCoverInputsParams {
 }
 ```
 
-### Example 1
+### Cover metadata
+
+Products may require cover metadata (proof of loss data and/or public data like quota share or AUM percentage).
+The SDK validates the required metadata based on the product's `proofOfLossInputTypes` and the product type's `buyCoverForm` field,
+then uploads it via the cover metadata API automatically.
+
+You can also pass an existing IPFS CID directly via the `ipfsCid` param if you've already uploaded metadata.
+
+#### Proof of loss types
+
+Each product may require one or more proof-of-loss entry types, specified in `product.proofOfLossInputTypes`.
+The available types and their content structures are:
+
+| Type        | Content Structure                                       |
+| ----------- | ------------------------------------------------------- |
+| `address`   | `{ address: string, label?: string }`                   |
+| `validator` | `{ value: string, label?: string, role?: string }`      |
+| `free_text` | `{ value: string, label?: string }`                     |
+| `api_key`   | `{ credential: string, label: string, role: string }`   |
+| `csv`       | `{ address: string, amount: string, currency: string }` |
+
+#### Public data
+
+Some product types require public data to be set via the `coverMetadata.publicData` field:
+
+| `buyCoverForm` value | Required field                                |
+| -------------------- | --------------------------------------------- |
+| `withQuotaShare`     | `publicData.quotaShare` (0-100)               |
+| `withAUM`            | `publicData.aumCoverAmountPercentage` (0-100) |
+| `basic`              | No public data required                       |
+
+### Example
 
 ```typescript
-import { NexusSDK } from '@nexusmutual/sdk';
+import { NexusSDK, CoverAsset } from '@nexusmutual/sdk';
 
-const productId = 247; // Elite Cover Product - Nexus Mutual Cover Product Type
+const productId = 247;
 const amount = '100';
 const period = 30;
 const coverAsset = CoverAsset.ETH;
 const paymentAsset = CoverAsset.ETH;
 const buyerAddress = '0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5';
-const ipfsCidOrContent = 'QmXUzXDMbeKSCewUie34vPD7mCAGnshi4ULRy4h7DLmoRS';
 
 const nexusSDK = new NexusSDK();
 
@@ -192,81 +189,95 @@ const { result, error } = await nexusSDK.quote.getQuoteAndBuyCoverInputs({
   coverAsset,
   paymentAsset,
   buyerAddress,
-  ipfsCidOrContent,
+  ipfsCid,
+  coverMetadata: {
+    proofOfLoss: [{ type: 'address', content: [{ address: '0x...' }] }],
+  },
 });
 
 console.log(result);
 ```
 
-### Example 2
+See [examples/buy-cover.md](examples/buy-cover.md) for a full end-to-end example including on-chain transaction submission.
+
+## Cover Metadata
+
+Use the `CoverData` class (or `nexusSDK.cover`) to fetch covers, view cover metadata, and edit proof-of-loss data.
+
+- **Get cover** — `sdk.cover.getCover(coverId)` returns cover details including `coverMetadataId`.
+- **View metadata** — `sdk.cover.viewCoverMetadata({ coverMetadataId })` returns public data. Pass an EIP-712 signature to also retrieve private proof-of-loss data.
+- **Edit metadata** — `sdk.cover.editCoverMetadata({ coverMetadataId, proofOfLoss, signature })` updates proof-of-loss entries. Requires an EIP-712 signature from the cover owner.
+
+See the full walkthroughs:
+
+- [examples/buy-cover.md](examples/buy-cover.md) — get a quote and submit a buy cover transaction
+- [examples/view-cover-metadata.md](examples/view-cover-metadata.md) — view public and private metadata
+- [examples/edit-cover-metadata.md](examples/edit-cover-metadata.md) — edit proof-of-loss data
+
+## Authentication
+
+The SDK exports EIP-712 helpers for building typed data objects used to authenticate with the Nexus Mutual API.
 
 ```typescript
-import { Quote } from '@nexusmutual/sdk';
+import { buildAuthTypedData, buildCoverMetadataAuthMessage } from '@nexusmutual/sdk';
 
-const productId = 247; // Elite Cover Product - Nexus Mutual Cover Product Type
-const amount = '100';
-const period = 30;
-const coverAsset = CoverAsset.ETH;
-const paymentAsset = CoverAsset.ETH;
-const buyerAddress = '0x95222290dd7278aa3ddd389cc1e1d165cc4bafe5';
-const ipfsCidOrContent = 'QmXUzXDMbeKSCewUie34vPD7mCAGnshi4ULRy4h7DLmoRS';
+// Generic auth typed data
+const typedData = buildAuthTypedData('Custom message');
 
-const quote = new Quote();
-
-const { result, error } = await quote.getQuoteAndBuyCoverInputs({
-  productId,
-  amount,
-  period,
-  coverAsset,
-  paymentAsset,
-  buyerAddress,
-  ipfsCidOrContent,
-});
-
-console.log(result);
+// Cover metadata specific auth
+const coverAuthTypedData = buildCoverMetadataAuthMessage();
 ```
 
-If the productId's type needs an IPFS upload, you can pass the `ipfsCidOrContent` param and the function will upload the content to IPFS and use the IPFS hash returned or you can pass the hash if you manually uploaded.
+Pass the returned object to your wallet's `signTypedData` method (viem, ethers, etc.).
 
-The `ipfsCidOrContent` param must be a valid IPFS Cid or a valid `IPFSContentTypes` - the allowed types can be found in `src/types/ipfs.ts`.
+## IPFS Upload
 
-### Product Types and IPFS Content Mapping
+Use the `uploadIPFSContent` method in `Ipfs` class to upload content to IPFS. The function takes the following parameters:
 
-The following table shows the mapping between product types and their required IPFS content types:
+- `type`: The type of the content. Based on ContentType enum.
+- `content`: The content to be uploaded to IPFS as IPFSContentTypes.
 
-| Product Type               | Content Type                  | Content Structure                                               | Description                  |
-| -------------------------- | ----------------------------- | --------------------------------------------------------------- | ---------------------------- |
-| ethSlashing                | coverValidators               | <pre>{ version: '1.0', validators: string[] }</pre>             | Array of validator addresses |
-| liquidCollectiveEthStaking | coverValidators               | <pre>{ version: '1.0', validators: string[] }</pre>             | Array of validator addresses |
-| stakewiseEthStaking        | coverValidators               | <pre>{ version: '1.0', validators: string[] }</pre>             | Array of validator addresses |
-| sherlockQuotaShare         | coverQuotaShare               | <pre>{ version: '1.0', quotaShare: number }</pre>               | Percentage value, 0 to 100   |
-| unoReQuotaShare            | coverQuotaShare               | <pre>{ version: '1.0', quotaShare: number }</pre>               | Percentage value, 0 to 100   |
-| deFiPass                   | coverWalletAddress            | <pre>{ version: '1.0', walletAddress: string }</pre>            | Single wallet address        |
-| nexusMutual                | coverWalletAddresses          | <pre>{ version: '1.0', walletAddresses: string }</pre>          | Single wallet address        |
-| nexusMutual                | coverWalletAddresses          | <pre>{ version: '2.0', walletAddresses: string[] }</pre>        | Array of wallet addresses    |
-| followOn                   | coverFreeText                 | <pre>{ version: '1.0', freeText: string }</pre>                 | Free text description        |
-| fundPortfolio              | coverAumCoverAmountPercentage | <pre>{ version: '1.0', aumCoverAmountPercentage: number }</pre> | Percentage value, 0 to 100   |
-| generalizedFundPortfolio   | coverAumCoverAmountPercentage | <pre>{ version: '1.0', aumCoverAmountPercentage: number }</pre> | Percentage value, 0 to 100   |
+The function returns the IPFS hash of the uploaded content.
 
-Note: The following product types do not require IPFS content:
+For claims submission and assessment IPFS data, use the `get32BytesIPFSHash` method in `Ipfs` class to convert the IPFS hash you get from `uploadIPFSContent` to 32 bytes format. Use the `getIPFSCidFromHexBytes` method to convert back to standard IPFS hash.
 
-- singleProtocol
-- custody
-- yieldToken
-- sherlockExcess
-- nativeProtocol
-- theRetailMutual
-- multiProtocol
-- ethSlashingUmbrella
-- openCoverTransaction
-- sherlockBugBounty
-- immunefiBugBounty
+> **Note:** Cover-related content types (validators, quota share, wallet addresses, etc.) have been removed from the IPFS module.
+> Cover metadata is now managed through the `CoverData` class and the cover metadata API. See the [Cover Metadata](#cover-metadata) section.
 
-For a complete list of products and product types, use the API endpoints:
-`GET https://api.nexusmutual.io/v2/products` and `GET https://api.nexusmutual.io/v2/product-types`,
-or the `ProductAPI.getAllProducts()` and `ProductAPI.getAllProductTypes()` helpers.
+### Example
 
-### Validation Errors
+```typescript
+import { Ipfs, ContentType } from '@nexusmutual/sdk';
+
+const ipfs = new Ipfs();
+
+const ipfsHash = await ipfs.uploadIPFSContent([
+  ContentType.stakingPoolDetails,
+  { version: '1.0', poolName: 'My Pool' },
+]);
+
+console.log(ipfsHash);
+```
+
+## Development
+
+### Install dependencies
+
+```
+npm ci
+```
+
+### ENV variables setup
+
+Copy the `.env.example` file into `.env` and populate with the required values.
+
+### Build locally
+
+```
+npm build
+```
+
+## Validation Errors
 
 IPFS content is validated using [Zod schemas](https://www.npmjs.com/package/zod), if validation fails, the error response will contain a stringified array of Zod validation errors in the `error.message` field. These errors provide detailed information about what went wrong during validation.
 

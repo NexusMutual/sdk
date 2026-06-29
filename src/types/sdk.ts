@@ -53,6 +53,11 @@ export interface GetQuoteAndBuyCoverInputsParams {
   slippage?: number;
 
   /**
+   * Optional IPFS CID string
+   */
+  ipfsCid?: string;
+
+  /**
    * Optional cover metadata (proof of loss and/or public data)
    */
   coverMetadata?: CoverMetadataInput;

@@ -8,6 +8,7 @@ import {
   SLIPPAGE_DENOMINATOR,
   TARGET_PRICE_DENOMINATOR,
 } from '../constants';
+import { Ipfs } from '../ipfs';
 import { CoverData } from '../cover/Cover';
 import { ApiError, NexusSDKBase, RequestConfig } from '../nexus-sdk-base';
 import { ProductAPI } from '../product-api/ProductAPI';
@@ -26,6 +27,7 @@ import {
  * Class for handling quote-related functionality
  */
 export class Quote extends NexusSDKBase {
+  private ipfs: Ipfs;
   private productAPI: ProductAPI;
   private coverData: CoverData;
 
@@ -35,6 +37,7 @@ export class Quote extends NexusSDKBase {
    */
   constructor(config: NexusSDKConfig = {}) {
     super(config);
+    this.ipfs = new Ipfs(config);
     this.productAPI = new ProductAPI(config);
     this.coverData = new CoverData(config);
   }
@@ -54,6 +57,7 @@ export class Quote extends NexusSDKBase {
       coverAsset,
       buyerAddress,
       slippage = DEFAULT_SLIPPAGE / SLIPPAGE_DENOMINATOR,
+      ipfsCid,
       coverMetadata,
       paymentAsset = coverAsset,
       coverId = 0,
@@ -140,59 +144,70 @@ export class Quote extends NexusSDKBase {
       };
     }
 
-    if (
-      product.proofOfLossInputTypes?.length &&
-      (!coverMetadata?.proofOfLoss || coverMetadata.proofOfLoss.length === 0)
-    ) {
-      return {
-        result: undefined,
-        error: {
-          message: `Missing cover metadata. ${productType.name} requires proof of loss data.`,
-        },
-      };
-    }
+    let ipfsData = '';
 
-    const contentType = productType.buyCoverForm;
-
-    if (contentType === 'withAUM' && !coverMetadata?.publicData?.aumCoverAmountPercentage) {
-      return {
-        result: undefined,
-        error: { message: 'Missing AUM cover amount percentage data' },
-      };
-    }
-
-    if (contentType === 'withQuotaShare' && !coverMetadata?.publicData?.quotaShare) {
-      return {
-        result: undefined,
-        error: { message: 'Missing quota share data' },
-      };
-    }
-
-    // Check if the required proof of loss types are provided
-    const requiredTypes = product.proofOfLossInputTypes;
-    if (requiredTypes && requiredTypes.length > 0 && coverMetadata?.proofOfLoss) {
-      const providedTypes = new Set(coverMetadata.proofOfLoss.map(e => e.type));
-      if (!requiredTypes.every(t => providedTypes.has(t))) {
+    if (ipfsCid) {
+      const isValidCID = this.ipfs.validateIPFSCid(ipfsCid);
+      if (!isValidCID) {
         return {
           result: undefined,
-          error: { message: `Missing required proof of loss types. Required: ${requiredTypes.join(', ')}` },
+          error: { message: 'Invalid ipfsCid: must be a valid IPFS CID' },
         };
       }
-    }
-
-    let ipfsData = '';
-    const hasCoverMetadata =
-      coverMetadata?.proofOfLoss?.length ||
-      (coverMetadata?.publicData && Object.keys(coverMetadata.publicData).length > 0);
-
-    if (hasCoverMetadata) {
-      try {
-        ipfsData = await this.coverData.createCoverMetadata(coverMetadata);
-      } catch (error: unknown) {
+      ipfsData = ipfsCid;
+    } else {
+      if (
+        product.proofOfLossInputTypes?.length &&
+        (!coverMetadata?.proofOfLoss || coverMetadata.proofOfLoss.length === 0)
+      ) {
         return {
           result: undefined,
-          error: { message: (error as Error).message || 'Failed to create cover metadata' },
+          error: {
+            message: `Missing cover metadata. ${productType.name} requires proof of loss data.`,
+          },
         };
+      }
+
+      const contentType = productType.buyCoverForm;
+
+      if (contentType === 'withAUM' && !coverMetadata?.publicData?.aumCoverAmountPercentage) {
+        return {
+          result: undefined,
+          error: { message: 'Missing AUM cover amount percentage data' },
+        };
+      }
+
+      if (contentType === 'withQuotaShare' && !coverMetadata?.publicData?.quotaShare) {
+        return {
+          result: undefined,
+          error: { message: 'Missing quota share data' },
+        };
+      }
+
+      const requiredTypes = product.proofOfLossInputTypes;
+      if (requiredTypes && requiredTypes.length > 0 && coverMetadata?.proofOfLoss) {
+        const providedTypes = new Set(coverMetadata.proofOfLoss.map(e => e.type));
+        if (!requiredTypes.every(t => providedTypes.has(t))) {
+          return {
+            result: undefined,
+            error: { message: `Missing required proof of loss types. Required: ${requiredTypes.join(', ')}` },
+          };
+        }
+      }
+
+      const hasCoverMetadata =
+        coverMetadata?.proofOfLoss?.length ||
+        (coverMetadata?.publicData && Object.keys(coverMetadata.publicData).length > 0);
+
+      if (hasCoverMetadata) {
+        try {
+          ipfsData = await this.coverData.createCoverMetadata(coverMetadata);
+        } catch (error: unknown) {
+          return {
+            result: undefined,
+            error: { message: (error as Error).message || 'Failed to create cover metadata' },
+          };
+        }
       }
     }
 

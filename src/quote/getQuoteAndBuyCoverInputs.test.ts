@@ -325,6 +325,78 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(fetchMock).toHaveBeenCalledTimes(4);
   });
 
+  it('uses ipfsCid directly without calling POST /cover-metadata', async () => {
+    const existingCid = 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY';
+
+    fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(mockProductType));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
+
+    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      ipfsCid: existingCid,
+    });
+
+    expect(error).toBeUndefined();
+    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe(existingCid);
+    // 4 calls: getProduct, getProductType, getQuote, getCapacity (no cover-metadata call)
+    expect(fetchMock).toHaveBeenCalledTimes(4);
+  });
+
+  it('skips coverMetadata validation when ipfsCid is provided', async () => {
+    const existingCid = 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY';
+    const productWithRequiredProof: Product = {
+      ...mockProduct,
+      id: 82,
+      productType: 5,
+      proofOfLossInputTypes: ['validator'],
+    };
+    const productTypeWithRequiredProof: ProductType = {
+      ...mockProductType,
+      id: 5,
+      name: 'ETH Slashing',
+    };
+
+    fetchMock.mockResponseOnce(JSON.stringify(productWithRequiredProof));
+    fetchMock.mockResponseOnce(JSON.stringify(productTypeWithRequiredProof));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
+
+    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      productId: 82,
+      ipfsCid: existingCid,
+    });
+
+    expect(error).toBeUndefined();
+    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe(existingCid);
+    expect(fetchMock).toHaveBeenCalledTimes(4);
+  });
+
+  it('handles cover edit flow with ipfsCid and coverId > 0', async () => {
+    const existingCid = 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY';
+
+    fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(mockProductType));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
+
+    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      coverId: 42,
+      ipfsCid: existingCid,
+    });
+
+    expect(error).toBeUndefined();
+    expect(result?.buyCoverInput.buyCoverParams.coverId).toBe(42);
+    expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe(existingCid);
+
+    const quoteCall = fetchMock.mock.calls[2];
+    expect(quoteCall?.[0]).toContain('coverEditId=42');
+    expect(fetchMock).toHaveBeenCalledTimes(4);
+  });
+
   it('returns an error when POST /cover-metadata fails', async () => {
     const productWithProof: Product = {
       ...mockProduct,

@@ -8,7 +8,7 @@ npm install @nexusmutual/sdk
 
 ## Requirements
 
-- Node.js 18 or newer
+- Node.js 22 or newer
 
 ## Usage
 

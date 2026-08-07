@@ -28,7 +28,7 @@ env:
 
 jobs:
   check-version-bump:
-    uses: NexusMutual/workflows/.github/workflows/check-version-bump.yml@chore/pnpm-setup
+    uses: NexusMutual/workflows/.github/workflows/check-version-bump.yml@master
     with:
       ref: dev
       environment: production
@@ -55,7 +55,7 @@ jobs:
 
   ff-master:
     needs: [check-version-bump, validate-version-bump]
-    uses: NexusMutual/workflows/.github/workflows/fast-forward.yml@chore/pnpm-setup
+    uses: NexusMutual/workflows/.github/workflows/fast-forward.yml@master
     with:
       environment: production
       source-ref: dev
@@ -66,7 +66,7 @@ jobs:
 
   bump-version:
     needs: [check-version-bump, ff-master]
-    uses: NexusMutual/workflows/.github/workflows/bump.yml@chore/pnpm-setup
+    uses: NexusMutual/workflows/.github/workflows/bump.yml@master
     with:
       environment: production
       ref: master
@@ -117,7 +117,7 @@ jobs:
 
   git-tag-release:
     needs: build-and-checks
-    uses: NexusMutual/workflows/.github/workflows/git-tag-github-release.yml@chore/pnpm-setup
+    uses: NexusMutual/workflows/.github/workflows/git-tag-github-release.yml@master
     with:
       environment: production
       ref: master
@@ -127,7 +127,7 @@ jobs:
 
   rebase-dev:
     needs: build-and-checks
-    uses: NexusMutual/workflows/.github/workflows/rebase.yml@chore/pnpm-setup
+    uses: NexusMutual/workflows/.github/workflows/rebase.yml@master
     with:
       environment: production
       source-ref: master

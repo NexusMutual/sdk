@@ -31,7 +31,7 @@ env:
 
 jobs:
   check-version-bump:
-    uses: NexusMutual/workflows/.github/workflows/check-version-bump.yml@chore/pnpm-setup
+    uses: NexusMutual/workflows/.github/workflows/check-version-bump.yml@master
     with:
       ref: dev
       environment: production
@@ -44,7 +44,7 @@ jobs:
   rc-version:
     needs: check-version-bump
     if: needs.check-version-bump.outputs.triggers_bump == 'true'
-    uses: NexusMutual/workflows/.github/workflows/determine-rc-version.yml@chore/pnpm-setup
+    uses: NexusMutual/workflows/.github/workflows/determine-rc-version.yml@master
     with:
       package-name: "@nexusmutual/sdk"
       bump-type: ${{ needs.check-version-bump.outputs.bump_type }}

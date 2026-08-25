@@ -59,6 +59,7 @@ export interface GetQuoteAndBuyCoverInputsParams {
 
   /**
    * Optional cover metadata (proof of loss and/or public data)
+   * Requires `creatorAddress` — the wallet authorized to view and edit the metadata later
    */
   coverMetadata?: CoverMetadataInput;
 

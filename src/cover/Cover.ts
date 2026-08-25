@@ -1,3 +1,5 @@
+import { isAddress } from 'ethers/lib/utils';
+
 import { NexusSDKBase, RequestConfig } from '../nexus-sdk-base';
 import {
   AuthSignature,
@@ -87,9 +89,13 @@ export class CoverData extends NexusSDKBase {
   }
 
   public async createCoverMetadata(input: CoverMetadataInput): Promise<string> {
+    if (!isAddress(input.creatorAddress) || !input.creatorAddress.startsWith('0x')) {
+      throw new Error('Invalid creatorAddress: must be a valid EVM address');
+    }
+
     const options: RequestConfig = {
       method: 'POST',
-      data: input,
+      data: { ...input, creatorAddress: input.creatorAddress.toLowerCase() },
     };
     const response = await this.sendRequest<CoverMetadataResponse>('/cover-metadata', options);
     return response.cid;

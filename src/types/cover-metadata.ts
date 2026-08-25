@@ -39,6 +39,7 @@ export interface CoverPublicData {
 }
 
 export interface CoverMetadataInput {
+  creatorAddress: string;
   proofOfLoss?: ProofOfLossEntry[];
   publicData?: CoverPublicData;
 }
@@ -84,11 +85,16 @@ export interface ViewCoverMetadataParams {
 export interface PrivateMetadata {
   proofOfLoss: ProofOfLossEntry[] | null;
   createdAt: string | null;
+  history: {
+    proofOfLoss: ProofOfLossEntry[];
+    createdAt: string | null;
+  }[];
 }
 
 export interface ViewCoverMetadataResponse {
   id: string;
-  coverId: number;
+  cid: string;
+  creatorAddress: string;
   createdAt: string;
   updatedAt: string | null;
   publicData: CoverPublicData | null;

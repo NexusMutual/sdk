@@ -116,6 +116,7 @@ export interface GetQuoteAndBuyCoverInputsParams {
 
   /**
    * Optional cover metadata (proof of loss and/or public data)
+   * Requires `creatorAddress` — the wallet authorized to view and edit the metadata later
    */
   coverMetadata?: CoverMetadataInput;
 
@@ -144,6 +145,13 @@ The SDK validates the required metadata based on the product's `proofOfLossInput
 then uploads it via the cover metadata API automatically.
 
 You can also pass an existing IPFS CID directly via the `ipfsCid` param if you've already uploaded metadata.
+
+#### Creator address
+
+`coverMetadata.creatorAddress` is required whenever `coverMetadata` is passed. It should be the wallet creating the metadata,
+usually the same wallet as `buyerAddress`. It must be a valid EVM address. The API records it against the metadata and
+authorizes later `viewCoverMetadata` / `editCoverMetadata` calls against it, so a signature from any other wallet
+(other than a Safe owned by that address) is rejected.
 
 #### Proof of loss types
 
@@ -191,6 +199,7 @@ const { result, error } = await nexusSDK.quote.getQuoteAndBuyCoverInputs({
   buyerAddress,
   ipfsCid,
   coverMetadata: {
+    creatorAddress: buyerAddress,
     proofOfLoss: [{ type: 'address', content: [{ address: '0x...' }] }],
   },
 });
@@ -206,7 +215,7 @@ Use the `CoverData` class (or `nexusSDK.cover`) to fetch covers, view cover meta
 
 - **Get cover** — `sdk.cover.getCover(coverId)` returns cover details including `coverMetadataId`.
 - **View metadata** — `sdk.cover.viewCoverMetadata({ coverMetadataId })` returns public data. Pass an EIP-712 signature to also retrieve private proof-of-loss data.
-- **Edit metadata** — `sdk.cover.editCoverMetadata({ coverMetadataId, proofOfLoss, signature })` updates proof-of-loss entries. Requires an EIP-712 signature from the cover owner.
+- **Edit metadata** — `sdk.cover.editCoverMetadata({ coverMetadataId, proofOfLoss, signature })` updates proof-of-loss entries. Requires an EIP-712 signature from the `creatorAddress` the metadata was created with.
 
 See the full walkthroughs:
 

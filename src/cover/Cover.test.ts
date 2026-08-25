@@ -1,7 +1,7 @@
 import fetchMock from 'jest-fetch-mock';
 
 import { CoverData } from './Cover';
-import { AuthSignature, EditCoverMetadataParams, ViewCoverMetadataParams } from '../types';
+import { AuthSignature, CoverMetadataInput, EditCoverMetadataParams, ViewCoverMetadataParams } from '../types';
 
 describe('CoverData', () => {
   const URL = 'https://api.test.io/upload/v2';
@@ -236,6 +236,78 @@ describe('CoverData', () => {
 
       expect(result).toBeUndefined();
       expect(error?.message).toContain('API request failed');
+    });
+  });
+  describe('createCoverMetadata', () => {
+    const creatorAddress = '0xc0ffee254729296a45a3885639ac7e10f9d54979';
+    const validInput: CoverMetadataInput = {
+      creatorAddress,
+      proofOfLoss: [{ type: 'address', content: [{ address: '0x1234567890123456789012345678901234567890' }] }],
+    };
+
+    it.each([
+      ['empty', ''],
+      ['malformed', '0x123'],
+      ['not 0x-prefixed', 'c0ffee254729296a45a3885639ac7e10f9d54979'],
+      ['not a string', undefined as unknown as string],
+      ['too long', `${creatorAddress}00`],
+      // isAddress accepts ICAP addresses, the `0x` guard rejects them.
+      ['an ICAP address', 'XE65GB6LDNXYOFTX0NSV3FUWKOWIXAMJK36'],
+      // Mixed case must carry a valid EIP-55 checksum; this one is a byte off.
+      ['a bad EIP-55 checksum', '0xC0ffEe254729296a45a3885639AC7E10F9d54979'],
+    ])('throws if creatorAddress is %s', async (_label, invalidCreatorAddress) => {
+      await expect(
+        coverApi.createCoverMetadata({ ...validInput, creatorAddress: invalidCreatorAddress }),
+      ).rejects.toThrow('Invalid creatorAddress: must be a valid EVM address');
+
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('sends POST request with creatorAddress and returns the cid', async () => {
+      const mockCid = 'QmYfSDbuQLqJ2MAG3ATRjUPVFQubAhAM5oiYuuu9Kfs8RY';
+      fetchMock.mockResponseOnce(JSON.stringify({ cid: mockCid }));
+
+      const cid = await coverApi.createCoverMetadata(validInput);
+
+      expect(cid).toBe(mockCid);
+
+      const [calledUrl, requestInit] = fetchMock.mock.calls[0]!;
+      expect(calledUrl).toContain('/cover-metadata');
+      expect(requestInit?.method).toBe('POST');
+
+      const body = JSON.parse(requestInit?.body as string);
+      expect(body.creatorAddress).toBe(creatorAddress);
+      expect(body.proofOfLoss).toEqual(validInput.proofOfLoss);
+    });
+
+    it('accepts an EIP-55 checksummed creatorAddress and normalizes it to lowercase', async () => {
+      fetchMock.mockResponseOnce(JSON.stringify({ cid: 'QmTest' }));
+
+      await coverApi.createCoverMetadata({
+        ...validInput,
+        creatorAddress: '0xc0ffee254729296a45a3885639AC7E10F9d54979',
+      });
+
+      const body = JSON.parse(fetchMock.mock.calls[0]![1]?.body as string);
+      expect(body.creatorAddress).toBe(creatorAddress);
+    });
+
+    it('accepts an all-uppercase-hex creatorAddress', async () => {
+      fetchMock.mockResponseOnce(JSON.stringify({ cid: 'QmTest' }));
+
+      await coverApi.createCoverMetadata({
+        ...validInput,
+        creatorAddress: `0x${creatorAddress.slice(2).toUpperCase()}`,
+      });
+
+      const body = JSON.parse(fetchMock.mock.calls[0]![1]?.body as string);
+      expect(body.creatorAddress).toBe(creatorAddress);
+    });
+
+    it('throws when the API request fails', async () => {
+      fetchMock.mockResponseOnce(JSON.stringify({ error: 'Bad request' }), { status: 400 });
+
+      await expect(coverApi.createCoverMetadata(validInput)).rejects.toThrow('API request failed');
     });
   });
 });

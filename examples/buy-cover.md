@@ -42,6 +42,7 @@ const response = await sdk.quote.getQuoteAndBuyCoverInputs({
   coverAsset: CoverAsset.ETH,
   buyerAddress: '0x...', // buyer's wallet address
   coverMetadata: {
+    creatorAddress: '0x...', // wallet authorized to view/edit this metadata later
     proofOfLoss: product.proofOfLossInputTypes?.map(type => buildEntry(type)),
   },
 });

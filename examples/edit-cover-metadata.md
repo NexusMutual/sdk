@@ -1,6 +1,6 @@
 # Edit Cover Metadata
 
-Update proof-of-loss data on an existing cover. Requires an EIP-712 signature from the cover owner.
+Update proof-of-loss data on an existing cover. Requires an EIP-712 signature from the `creatorAddress` the metadata was created with (or from an owner of that Safe).
 
 > All SDK methods return `{ result, error }`. Check `error` before using `result`.
 
@@ -27,7 +27,7 @@ const product = await productAPI.getProductById(productId);
 
 ## 2. Sign Auth Message
 
-Build the EIP-712 typed data and sign it with the cover owner's wallet.
+Build the EIP-712 typed data and sign it with the creator's wallet.
 
 ```typescript
 const typedData = buildCoverMetadataAuthMessage();

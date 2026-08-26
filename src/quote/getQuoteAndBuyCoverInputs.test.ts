@@ -75,6 +75,9 @@ const coverRouterQuoteResponse: CoverRouterQuoteResponse = {
   capacities: [{ poolId: '147', capacity: [{ assetId: '1', amount: parseEther('1000').toString() }] }],
 };
 
+// Distinct from buyerAddress so tests prove the field is forwarded rather than inferred.
+const creatorAddress = '0xc0ffee254729296a45a3885639ac7e10f9d54979';
+
 const quoteParams = {
   productId: 1,
   amount: '100',
@@ -204,6 +207,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
   });
 
   const invalidAddresses = ['0x123', '', true, {}, [], null, undefined];
+
   it.each(invalidAddresses)(
     'returns an error if coverBuyerAddress is not a valid Ethereum address (%s)',
     async invalidAddress => {
@@ -271,6 +275,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
 
     const coverMetadata: CoverMetadataInput = {
+      creatorAddress,
       proofOfLoss: [{ type: 'validator', content: [{ value: '0x1234567890123456789012345678901234567890' }] }],
     };
 
@@ -287,6 +292,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(coverMetadataCall?.[0]).toContain('/cover-metadata');
     expect(coverMetadataCall?.[1]?.method).toBe('POST');
     const body = JSON.parse(coverMetadataCall?.[1]?.body as string);
+    expect(body.creatorAddress).toBe(creatorAddress);
     expect(body.proofOfLoss).toEqual(coverMetadata.proofOfLoss);
   });
 
@@ -300,6 +306,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
 
     const coverMetadata: CoverMetadataInput = {
+      creatorAddress,
       publicData: { quotaShare: 50 },
     };
 
@@ -310,6 +317,27 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
     expect(error).toBeUndefined();
     expect(result?.buyCoverInput.buyCoverParams.ipfsData).toBe(mockCid);
+  });
+
+  it.each([
+    ['an empty string', ''],
+    ['a malformed address', '0x123'],
+    ['a non-string value', undefined as unknown as string],
+  ])('returns an error when creatorAddress is %s', async (_label, invalidCreatorAddress) => {
+    fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(mockProductType));
+
+    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
+      ...quoteParams,
+      coverMetadata: {
+        creatorAddress: invalidCreatorAddress,
+        publicData: { quotaShare: 50 },
+      },
+    });
+
+    expect(result).toBeUndefined();
+    expect(error?.message).toBe('Invalid creatorAddress: must be a valid EVM address');
+    expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
   it('does not call POST /cover-metadata when coverMetadata is not provided', async () => {
@@ -414,6 +442,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     fetchMock.mockResponseOnce(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
 
     const coverMetadata: CoverMetadataInput = {
+      creatorAddress,
       proofOfLoss: [{ type: 'address', content: [{ address: '0x1234567890123456789012345678901234567890' }] }],
     };
 
@@ -446,7 +475,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
       ...quoteParams,
       productId: 82,
-      coverMetadata: { publicData: { quotaShare: 50 } },
+      coverMetadata: { creatorAddress, publicData: { quotaShare: 50 } },
     });
 
     expect(error?.message).toBe('Missing cover metadata. ETH Slashing requires proof of loss data.');
@@ -471,7 +500,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     const { error } = await quoteApi.getQuoteAndBuyCoverInputs({
       ...quoteParams,
       productId: 82,
-      coverMetadata: { proofOfLoss: [] },
+      coverMetadata: { creatorAddress, proofOfLoss: [] },
     });
 
     expect(error?.message).toBe('Missing cover metadata. ETH Slashing requires proof of loss data.');
@@ -493,6 +522,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     fetchMock.mockResponseOnce(JSON.stringify(productTypeWithProof));
 
     const coverMetadata: CoverMetadataInput = {
+      creatorAddress,
       proofOfLoss: [{ type: 'address', content: [{ address: '0x1234567890123456789012345678901234567890' }] }],
     };
 
@@ -525,6 +555,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
 
     const coverMetadata: CoverMetadataInput = {
+      creatorAddress,
       proofOfLoss: [
         { type: 'address', content: [{ address: '0x1234567890123456789012345678901234567890' }] },
         { type: 'validator', content: [{ value: '0x1234567890123456789012345678901234567890' }] },
@@ -549,7 +580,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
     const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
       ...quoteParams,
-      coverMetadata: { publicData: {} },
+      coverMetadata: { creatorAddress, publicData: {} },
     });
 
     expect(error).toBeUndefined();
@@ -557,7 +588,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(fetchMock).toHaveBeenCalledTimes(4);
   });
 
-  it('does not call POST /cover-metadata when coverMetadata is an empty object', async () => {
+  it('does not call POST /cover-metadata when coverMetadata has only creatorAddress', async () => {
     fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
     fetchMock.mockResponseOnce(JSON.stringify(mockProductType));
     fetchMock.mockResponseOnce(JSON.stringify(coverRouterQuoteResponse));
@@ -565,7 +596,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
     const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
       ...quoteParams,
-      coverMetadata: {},
+      coverMetadata: { creatorAddress },
     });
 
     expect(error).toBeUndefined();
@@ -583,6 +614,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
     fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
 
     const coverMetadata: CoverMetadataInput = {
+      creatorAddress,
       proofOfLoss: [{ type: 'address', content: [{ address: '0x1234567890123456789012345678901234567890' }] }],
     };
 
@@ -718,7 +750,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
     const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
       ...quoteParams,
-      coverMetadata: { publicData: { aumCoverAmountPercentage: 25 } },
+      coverMetadata: { creatorAddress, publicData: { aumCoverAmountPercentage: 25 } },
     });
 
     expect(error).toBeUndefined();
@@ -740,7 +772,7 @@ describe('getQuoteAndBuyCoverInputs', () => {
 
     const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs({
       ...quoteParams,
-      coverMetadata: { publicData: { quotaShare: 50 } },
+      coverMetadata: { creatorAddress, publicData: { quotaShare: 50 } },
     });
 
     expect(error).toBeUndefined();

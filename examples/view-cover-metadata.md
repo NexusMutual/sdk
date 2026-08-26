@@ -37,7 +37,7 @@ const metadata = response.result;
 
 ## 3. View Private Metadata
 
-Private data (proof-of-loss entries) requires an EIP-712 signature from the cover owner.
+Private data (proof-of-loss entries) requires an EIP-712 signature from the `creatorAddress` the metadata was created with (or from an owner of that Safe).
 
 ```typescript
 const typedData = buildCoverMetadataAuthMessage();

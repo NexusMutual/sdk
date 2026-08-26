@@ -49,6 +49,36 @@ const product = await productApi.getProductById(247, ['proofOfLossInputTypes']);
 const productType = await productApi.getProductTypeById(1, ['buyCoverForm']);
 ```
 
+`getAllProducts` returns every product when called with no arguments:
+
+```typescript
+const allProducts = await productApi.getAllProducts();
+```
+
+It also accepts optional filters, so the API narrows the list instead of the caller filtering the full response:
+
+```typescript
+const dexProducts = await productApi.getAllProducts({
+  filters: {
+    category: [ProductCategoryEnum.Dex, ProductCategoryEnum.Lending],
+    productType: [2],
+    name: 'aave',
+    isPrivate: false,
+    isDeprecated: false,
+  },
+});
+```
+
+`name` matches any part of the product name, case-insensitively. The other filters combine as an intersection.
+
+Passing `ids` looks up specific products instead:
+
+```typescript
+const products = await productApi.getAllProducts({ ids: [1, 6, 9] });
+```
+
+`ids` is a lookup rather than a filter. An unknown id fails the whole request with a 404 `ApiError`, and any `filters` sent alongside it are ignored.
+
 ## Quote
 
 Use the `NexusSDK` or `Quote` class directly to get the inputs required to get a quote and buy cover.

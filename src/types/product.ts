@@ -1,6 +1,6 @@
 import { ProofOfLossEntry } from './cover-metadata';
 import { Integer } from './data';
-import { CoverAsset } from '../constants';
+import { CoverAsset, ProductCategoryEnum } from '../constants';
 
 export type ProductType = {
   id: Integer;
@@ -31,6 +31,20 @@ export type Product = {
   allowedPools: Integer[];
   timestamp: number;
   isPrivate: boolean;
+  category?: ProductCategoryEnum;
   logo?: string;
   proofOfLossInputTypes?: ProofOfLossEntry['type'][];
+};
+
+export type ProductFilters = {
+  name?: string;
+  productType?: Integer[];
+  category?: ProductCategoryEnum[];
+  isPrivate?: boolean;
+  isDeprecated?: boolean;
+};
+
+export type GetProductsOptions = {
+  ids?: Integer[];
+  filters?: ProductFilters;
 };

@@ -1,6 +1,25 @@
 import { NexusSDKBase } from '../nexus-sdk-base';
-import { Product, ProductType } from '../types/product';
+import { GetProductsOptions, Product, ProductType } from '../types/product';
 import { NexusSDKConfig } from '../types/sdk';
+
+const buildProductsQuery = ({ ids, filters }: GetProductsOptions): string => {
+  const query = new URLSearchParams();
+
+  if (ids?.length) {
+    query.set('ids', ids.join(','));
+  }
+
+  for (const [key, value] of Object.entries(filters ?? {})) {
+    if (Array.isArray(value)) {
+      // A repeated key is a list to the API, while one comma-joined value would be a single filter value.
+      value.forEach(entry => query.append(`filters[${key}][]`, String(entry)));
+    } else if (value !== undefined) {
+      query.set(`filters[${key}]`, String(value));
+    }
+  }
+
+  return query.toString();
+};
 
 export class ProductAPI extends NexusSDKBase {
   /**
@@ -46,11 +65,13 @@ export class ProductAPI extends NexusSDKBase {
   }
 
   /**
-   * Get all products
+   * Get all products, optionally narrowed by filters or ids
+   * @param options Product ids to look up, or filters to narrow the list. Ids take precedence over filters.
    * @returns List of products
    */
-  public async getAllProducts(): Promise<Product[]> {
-    const productsEndpoint = '/products';
+  public async getAllProducts(options: GetProductsOptions = {}): Promise<Product[]> {
+    const query = buildProductsQuery(options);
+    const productsEndpoint = `/products${query ? `?${query}` : ''}`;
     return this.sendRequest<Product[]>(productsEndpoint);
   }
 }

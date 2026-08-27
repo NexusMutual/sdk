@@ -38,7 +38,7 @@ const mockProductType: ProductType = {
   id: 1,
   name: 'Protocol',
   metadata: '',
-  claimMethod: 0,
+  claimMethod: '0',
   gracePeriod: '30',
   assessmentCooldownPeriod: '0',
   payoutRedemptionPeriod: '0',

@@ -12,11 +12,17 @@ npm install @nexusmutual/sdk
 
 ## Usage
 
-This package only exports CommonJS modules. You can import it like this:
+This package ships two builds with shared type declarations (`dist/index.d.ts`):
+
+- CommonJS: `dist/index.js`, referenced by `main`. Node.js loads this build for both `require` and `import`.
+- ES modules: `dist/index.mjs`, referenced by `module`. Bundlers that read `module` use this build.
 
 ```js
-// Usage with ES6 modules
+// ES modules
 import { NexusSDK } from '@nexusmutual/sdk';
+
+// CommonJS
+const { NexusSDK } = require('@nexusmutual/sdk');
 ```
 
 ## Nexus Mutual contract addresses and abis
@@ -303,7 +309,7 @@ console.log(ipfsHash);
 ### Install dependencies
 
 ```
-npm ci
+pnpm install --frozen-lockfile
 ```
 
 ### ENV variables setup
@@ -313,7 +319,7 @@ Copy the `.env.example` file into `.env` and populate with the required values.
 ### Build locally
 
 ```
-npm build
+pnpm build
 ```
 
 ## Validation Errors

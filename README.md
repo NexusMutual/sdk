@@ -12,17 +12,11 @@ npm install @nexusmutual/sdk
 
 ## Usage
 
-This package ships two builds with shared type declarations (`dist/index.d.ts`):
-
-- CommonJS: `dist/index.js`, referenced by `main`. Node.js loads this build for both `require` and `import`.
-- ES modules: `dist/index.mjs`, referenced by `module`. Bundlers that read `module` use this build.
+This package ships CommonJS (`dist/index.js`) and ES module (`dist/index.mjs`) builds. You can import it like this:
 
 ```js
-// ES modules
+// Usage with ES6 modules
 import { NexusSDK } from '@nexusmutual/sdk';
-
-// CommonJS
-const { NexusSDK } = require('@nexusmutual/sdk');
 ```
 
 ## Nexus Mutual contract addresses and abis

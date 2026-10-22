@@ -26,7 +26,6 @@ on:
         value: ${{ jobs.check-version-bump.outputs.triggers_bump }}
 
 env:
-  NODE_VERSION: 22
   PROVIDER_URL: ${{ secrets.PROVIDER_URL }}
 
 jobs:
@@ -61,7 +60,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version-file: .nvmrc
           cache: "pnpm"
           cache-dependency-path: pnpm-lock.yaml
 

@@ -23,7 +23,6 @@ on:
         value: ${{ jobs.build-and-checks.outputs.artifact_name }}
 
 env:
-  NODE_VERSION: 22
   PROVIDER_URL: ${{ secrets.PROVIDER_URL }}
 
 jobs:
@@ -91,7 +90,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version-file: .nvmrc
           cache: 'pnpm'
           cache-dependency-path: pnpm-lock.yaml
 

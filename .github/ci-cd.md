@@ -19,8 +19,8 @@ flowchart TD
     C[**master**]
 
     PR[pull-request.yml]
-    RN[release-next.yml]
-    REL[release.yml]
+    RN[release.yml + prep-next.yml]
+    REL[release.yml + prep-latest.yml]
 
     NPM1[npm @next]
     NPM2[npm @latest]
@@ -55,7 +55,7 @@ flowchart TD
 ### 1. Pull Request Workflow (`pull-request.yml`)
 
 **Triggered by:**
-- Pull request events (`opened`, `synchronized`, `reopened`, `ready_for_review`)
+- Pull request events (`opened`, `synchronize`, `reopened`, `ready_for_review`)
 
 **Steps:**
 - **(1) Open Pull Request**: Developer creates PR from `feature`/`fix` branch to dev
@@ -72,7 +72,7 @@ flowchart TD
 - Skipped for draft PRs
 - Fails if any check fails, preventing merge
 
-### 2. Release Next Workflow (`release-next.yml`)
+### 2. Release Next Workflow (`release.yml` + `prep-next.yml`)
 
 **Triggered by:**
 - Push to `dev` branch (typically after PR merge)
@@ -93,8 +93,9 @@ flowchart TD
 - `rc` version is ephemeral and not committed to the repository, to prevent polluting the git history
 - Only publishes if conventional commits indicate a version bump is needed
 - Uses semantic versioning based on semantic commit messages
+- `release.yml` calls `prep-next.yml` to check the bump, calculate the `rc` version, build and test. `release.yml` then publishes
 
-### 3. Release Workflow (`release.yml`)
+### 3. Release Workflow (`release.yml` + `prep-latest.yml`)
 
 **Triggered by:**
 - Manual workflow dispatch (via GitHub Actions UI)
@@ -120,6 +121,7 @@ flowchart TD
 - The version bump is committed to the repository
 - Fails if no version bump is needed (prevents unnecessary releases)
 - Requires manual trigger after validation in development environments
+- `release.yml` calls `prep-latest.yml` for the fast-forward, version bump, build, tag and dev rebase. `release.yml` then publishes to npm, after the tag and rebase
 
 ## Version Bumping Logic
 

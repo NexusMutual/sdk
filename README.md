@@ -12,7 +12,7 @@ npm install @nexusmutual/sdk
 
 ## Usage
 
-This package only exports CommonJS modules. You can import it like this:
+This package ships CommonJS (`dist/index.js`) and ES module (`dist/index.mjs`) builds. You can import it like this:
 
 ```js
 // Usage with ES6 modules
@@ -303,7 +303,7 @@ console.log(ipfsHash);
 ### Install dependencies
 
 ```
-npm ci
+pnpm install --frozen-lockfile
 ```
 
 ### ENV variables setup
@@ -313,7 +313,7 @@ Copy the `.env.example` file into `.env` and populate with the required values.
 ### Build locally
 
 ```
-npm build
+pnpm build
 ```
 
 ## Validation Errors

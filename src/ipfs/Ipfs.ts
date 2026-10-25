@@ -123,8 +123,18 @@ export class Ipfs extends NexusSDKBase {
       throw new Error('Invalid IPFS hash');
     }
 
-    const bytes = ethers.utils.hexlify(ethers.utils.base58.decode(ipfsCid).slice(2));
-    return bytes;
+    // Only a CIDv0 (base58 sha2-256 multihash, 0x1220 + 32 bytes) fits in 32 bytes.
+    let multihash: Uint8Array;
+    try {
+      multihash = ethers.utils.base58.decode(ipfsCid);
+    } catch {
+      throw new Error('Only CIDv0 (Qm...) IPFS hashes can be converted to 32 bytes');
+    }
+    if (multihash.length !== 34 || multihash[0] !== 0x12 || multihash[1] !== 0x20) {
+      throw new Error('Only CIDv0 (Qm...) IPFS hashes can be converted to 32 bytes');
+    }
+
+    return ethers.utils.hexlify(multihash.slice(2));
   }
 
   /**

@@ -25,6 +25,15 @@ describe('get32BytesIPFSHash & getIPFSCidFromHexBytes', () => {
     expect(() => ipfsApi.getIPFSCidFromHexBytes(invalidHex)).toThrow();
   });
 
+  it('should throw for a valid CIDv1, which does not fit in 32 bytes', () => {
+    expect(() => ipfsApi.get32BytesIPFSHash('bafkreihdwdcefgh4dqkjv67uzcmw7ojee6xedzdetojuzjevtenxquvyku')).toThrow(
+      'Only CIDv0',
+    );
+    expect(() => ipfsApi.get32BytesIPFSHash('bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi')).toThrow(
+      'Only CIDv0',
+    );
+  });
+
   it('should throw an error for an empty string', () => {
     expect(() => ipfsApi.get32BytesIPFSHash('')).toThrow('Invalid IPFS hash');
     expect(() => ipfsApi.getIPFSCidFromHexBytes('')).toThrow('Input must be a 32-byte hex string');

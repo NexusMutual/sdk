@@ -10,7 +10,7 @@ import {
 } from '../constants';
 import { CoverData } from '../cover/Cover';
 import { Ipfs } from '../ipfs';
-import { ApiError, NexusSDKBase, RequestConfig } from '../nexus-sdk-base';
+import { ApiError, getApiErrorMessage, NexusSDKBase, RequestConfig } from '../nexus-sdk-base';
 import { ProductAPI } from '../product-api/ProductAPI';
 import {
   CoverRouterProductCapacityResponse,
@@ -338,7 +338,7 @@ export class Quote extends NexusSDKBase {
     coverAsset: CoverAsset,
   ): Promise<ErrorApiResponse> {
     if (error instanceof ApiError) {
-      const apiErrorMessage = (error.data as { error?: string })?.error;
+      const apiErrorMessage = getApiErrorMessage(error.data);
       if (apiErrorMessage?.includes('Not enough capacity')) {
         try {
           const maxCapacity = await this.getProductCapacity(productId, coverPeriod, coverAsset);

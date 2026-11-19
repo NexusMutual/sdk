@@ -707,6 +707,21 @@ describe('getQuoteAndBuyCoverInputs', () => {
     expect(error?.data?.maxCapacity).toEqual(coverRouterCapacityResponse.availableCapacity[1]?.amount);
   });
 
+  it('should handle "Not enough capacity" error returned in the message field', async () => {
+    fetchMock.mockResponseOnce(JSON.stringify(mockProduct));
+    fetchMock.mockResponseOnce(JSON.stringify(mockProductType));
+    fetchMock.mockResponseOnce(JSON.stringify({ message: 'Not enough capacity for the cover amount' }), {
+      status: 400,
+    });
+    fetchMock.mockResponseOnce(JSON.stringify(coverRouterCapacityResponse));
+
+    const { result, error } = await quoteApi.getQuoteAndBuyCoverInputs(quoteParams);
+
+    expect(result).toBeUndefined();
+    expect(error?.message).toEqual('Not enough capacity for the cover amount');
+    expect(error?.data?.maxCapacity).toEqual(coverRouterCapacityResponse.availableCapacity[0]?.amount);
+  });
+
   it('returns an error when buyCoverForm is withAUM and aumCoverAmountPercentage is not provided', async () => {
     const productTypeWithAUM: ProductType = {
       ...mockProductType,

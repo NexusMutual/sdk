@@ -88,6 +88,25 @@ describe('NexusSDKBase.sendRequest', () => {
     expect(error.message).toBe('Not enough capacity for the cover amount');
   });
 
+  it('throws ApiError with the raw message when "Not enough capacity" is in the message field', async () => {
+    const errorBody = { message: 'Not enough capacity for the cover amount' };
+    fetchMock.mockResponseOnce(JSON.stringify(errorBody), { status: 400 });
+
+    const error = await captureError(sdkBase.request('/quote'));
+    expect(error).toBeInstanceOf(ApiError);
+    expect(error.status).toBe(400);
+    expect(error.data).toEqual(errorBody);
+    expect(error.message).toBe('Not enough capacity for the cover amount');
+  });
+
+  it('uses the message field in the formatted message on other non-OK responses', async () => {
+    fetchMock.mockResponseOnce(JSON.stringify({ message: 'Invalid Product Id' }), { status: 400 });
+
+    const error = await captureError(sdkBase.request('/quote'));
+    expect(error).toBeInstanceOf(ApiError);
+    expect(error.message).toBe('API request failed: 400 Invalid Product Id');
+  });
+
   it('throws ApiError with a formatted message on other non-OK responses', async () => {
     const errorBody = { error: 'Internal failure' };
     fetchMock.mockResponseOnce(JSON.stringify(errorBody), { status: 500 });

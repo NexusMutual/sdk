@@ -7,6 +7,18 @@ export interface RequestConfig {
   data?: unknown;
 }
 
+/**
+ * Extracts the error message from an API error response body.
+ * Reads `error` (legacy shape) and falls back to `message`.
+ * @param data Parsed error response body
+ * @returns The error message, if present
+ */
+export const getApiErrorMessage = (data: unknown): string | undefined => {
+  const body = data as { error?: unknown; message?: unknown } | undefined;
+  const message = body?.error || body?.message;
+  return typeof message === 'string' ? message : undefined;
+};
+
 export class ApiError extends Error {
   public readonly status: number;
   public readonly data: unknown;
@@ -69,7 +81,7 @@ export class NexusSDKBase {
 
     if (!response.ok) {
       const errorData = await this.parseResponseBody(response);
-      const apiErrorMessage = (errorData as { error?: string })?.error || response.statusText || 'Unknown error';
+      const apiErrorMessage = getApiErrorMessage(errorData) || response.statusText || 'Unknown error';
       const message = apiErrorMessage.includes('Not enough capacity')
         ? apiErrorMessage
         : `API request failed: ${response.status} ${apiErrorMessage}`;
